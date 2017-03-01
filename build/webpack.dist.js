@@ -10,7 +10,7 @@ const base = require('./webpack.base.js');
 
 const config = merge(base, {
     entry: [
-        options.paths.resolve('public-src/index.js')
+        options.paths.resolve('src/index.js')
     ],
 
     output: {

@@ -4,7 +4,11 @@ import VueRouter from 'vue-router';
 import VueI18n from 'vue-i18n';
 import KeenUI from 'keen-ui';
 import Vuex from 'vuex';
-import { BS, Util, _ } from 'dovemaxsdk';
+import {
+  BS,
+  Util,
+  _
+} from 'dovemaxsdk';
 
 // /----------- Extern
 import './extern.js';
@@ -19,17 +23,30 @@ Vue.config.devtools = true;
 // Use VueI18n
 Vue.use(VueI18n);
 
-let self = this;
+const self = this;
 const lang = 'zh-CN';
-Vue.locale(lang, () =>  {
-    self.loading = true;
-    return fetch('/locale/' + lang, {
-        method: 'get',
-        headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json'
-        }
-    });
+Vue.locale(lang, () => {
+  self.loading = true;
+  return fetch('/locale/' + lang, {
+    method: 'get',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json'
+    }
+  }).then(res => {
+    return res.json();
+  }).then(json => {
+    self.loading = false;
+    if (Object.keys(json).length === 0) {
+      return Promise.reject(new Error('locale empty !!'));
+    }
+    return Promise.resolve(json);
+  }).catch(err => {
+    self.error = err.message;
+    return Promise.reject();
+  });
+}, () => {
+  Vue.config.lang = lang;
 });
 
 // Use KeenUI
@@ -38,16 +55,16 @@ Vue.use(KeenUI);
 // Use router
 Vue.use(VueRouter);
 const router = new VueRouter({
-    routes: Routes.routes,
-    linkActiveClass: 'is-active'
+  routes: Routes.routes,
+  linkActiveClass: 'is-active'
 });
 
 // App
 const app = new Vue({
-    router,
-    render(h) {
-        return h(App);
-    }
+  router,
+  render(h) {
+    return h(App);
+  }
 });
 
 app.$mount('#app');
