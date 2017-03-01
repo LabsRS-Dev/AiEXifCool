@@ -1,0 +1,29 @@
+@import './define/imports.scss';
+//
+//
+$link-color: $md-blue-700;
+$toolbar-color: $md-grey-900;
+$toolbar__header-color: white;
+$toolbar-border: 2px solid rgba(130,15,15, 1);
+
+$sider-section-font-color: #868686;
+$sider-menu-item-font-color: rgba(white, 0.75);
+$sider-menu-item__active-font-color: rgba(white, 1);
+$sider-background-color: rgba(25, 27, 31, 1);
+
+$page-content-backgroud-color:rgba(22,24,28, 1);
+
+$mobile-sidebar-z-index: 10;
+$mobile-breakpoint: 720px;
+
+
+//
+//
+@import 'code';
+@import 'tables';
+@import 'helpers';
+@import 'globals';
+@import 'sidebar';
+@import 'content';
+@import 'page';
+@import 'page-aiexifcool-repair.scss';

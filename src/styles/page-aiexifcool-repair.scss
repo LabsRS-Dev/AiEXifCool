@@ -1,0 +1,28 @@
+.page__examples--aiexifcool-repair{
+    margin: auto;
+    max-height: rem-calc(440px);
+    overflow-y: auto;
+
+    .ui-alert--type-success {
+        .ui-alert__body {
+            background-color: #2b2b2b;
+            color: $md-grey-400;
+            font-size: rem-calc(13px);
+            border-radius: rem-calc(4px);
+        }
+    }
+
+    .ui-toolbar__left__fileName{
+        margin-left: rem-calc(4px);
+    }
+
+    .ui-toolbar__left__fileSize{
+        margin-left: rem-calc(4px);
+        font-size: rem-calc(11px);
+        color: $md-grey-700;
+    }
+
+    .ui-toolbar__body__filePath{
+        padding: rem-calc(4px);
+    }
+}

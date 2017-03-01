@@ -1,0 +1,37 @@
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    font-size: $base-font-size;
+}
+
+body {
+    color: rgba(black, 0.87);
+    font-family: $font-stack;
+    font-size: rem-calc(15px);
+}
+
+a {
+    color: $link-color;
+    cursor: pointer;
+    text-decoration: none;
+    &:hover,
+    &:focus {
+        text-decoration: underline;
+    }
+}
+
+.dove-docs {
+    display: flex;
+    height: 100%;
+    width: 100%;
+    position: relative;
+    user-select: none;
+}

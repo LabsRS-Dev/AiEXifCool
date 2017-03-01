@@ -1,0 +1,56 @@
+.page {
+    margin: 0 auto;
+    max-width: rem-calc(1092px);
+    padding-top: rem-calc(16px);
+    padding-bottom: rem-calc(32px);
+    padding-left: rem-calc(32px);
+    padding-right: rem-calc(32px);
+    line-height: 1.6;
+    &>p:first-child,
+    &>h1:first-child,
+    &>h2:first-child,
+    &>h3:first-child,
+    &>h4:first-child {
+        margin-top: 0;
+    }
+    .page__section-title {
+        margin-top: rem-calc(32px);
+        font-weight: 400;
+        font-size: rem-calc(24px);
+        line-height: 1.33em;
+        a {
+            font-size: 0.6em;
+            padding-left: rem-calc(4px);
+        }
+    }
+    .page__demo-title {
+        font-size: rem-calc(18px);
+    }
+    .table {
+        margin-bottom: 0;
+    }
+
+    .ui-tabs__body {
+        background-color: $page-content-backgroud-color;
+        border: 0px;
+    }
+}
+
+.page__title {
+    font-size: rem-calc(34px);
+    font-weight: 400;
+    line-height: 1.176em;
+}
+
+.page__toolbar {
+    padding-bottom: rem-calc(12px);
+    .ui-button {
+        margin-right: rem-calc(4px);
+
+        .ui-button__content {
+            text-transform: capitalize;
+        }
+        
+    }
+}
+
