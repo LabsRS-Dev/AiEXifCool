@@ -1,10 +1,10 @@
 # AiEXifCool
 AiEXifCool  高级图像EXIF处理工具
 
-**【LabsRS 产品筑梦实验室】**QQ交流 **34314687**
-
+**【LabsRS 产品筑梦实验室】
 ------------
 
+<p><a href="//wpa.qq.com/msgrd?v=3&uin=34314687&site=qq&menu=yes">QQ交流 <strong> 34314687 </strong></a></p>
 
 主旨如下：
 - ① 行业及相关技术交流
