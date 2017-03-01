@@ -6,6 +6,7 @@
                 :type="item.type"
                 :size="item.size" 
                 :color="item.color"
+                :key="item.id"
                 v-for="item, index in actionList"
                 >
                     <span :class="item.icon" :title="item.tooltip"></span>
@@ -13,7 +14,7 @@
         </div>        
 
         <div class="page__examples page__examples--aiexifcool-repair">
-            <ui-alert @dismiss="item.style.show = false" removeIcon :type="item.style.type" v-show="item.style.show" v-for="item in taskList">
+            <ui-alert @dismiss="item.style.show = false" removeIcon :type="item.style.type" v-show="item.style.show" :key="item" v-for="item in taskList">
                 <div>
                     <div class="ui-toolbar__left">
                         <img src="Images/picture.svg" width="48" height="48" viewBox="0 0 48 48" /> 
@@ -41,10 +42,13 @@ import { BS, Util, _ } from 'dovemaxsdk'
 import {UiIcon, UiTabs, UiTab, UiButton, UiIconButton, UiAlert, UiToolbar, UiProgressLinear} from 'keen-ui';
 
 
+var baseID = "__page__repair__action__"
+var baseIDIndex = -1
+
 const actionList = [
-    {color:"white", icon:"fa fa-folder-open-o fa-lg fa-fw", size:"small", type:"secondary", tooltip:"导入损坏的图像文件"},
-    {color:"white", icon:"fa fa-trash-o fa-lg fa-fw", size:"small", type:"secondary", tooltip:"清空导入"},
-    {color:"green", icon:"fa fa-legal fa-lg fa-fw", size:"small", type:"secondary",  tooltip:"执行修复"}
+    {id:baseID + ++baseIDIndex, color:"white", icon:"fa fa-folder-open-o fa-lg fa-fw", size:"small", type:"secondary", tooltip:"导入损坏的图像文件"},
+    {id:baseID + ++baseIDIndex, color:"white", icon:"fa fa-trash-o fa-lg fa-fw", size:"small", type:"secondary", tooltip:"清空导入"},
+    {id:baseID + ++baseIDIndex, color:"green", icon:"fa fa-legal fa-lg fa-fw", size:"small", type:"secondary",  tooltip:"执行修复"}
 ]
 
 
@@ -52,6 +56,7 @@ let taskList = [];
 
 class Task {
     constructor(name, path, size){
+        this.id = "__ID__" + Date.now();
         this.name = name;
         this.path = path;
         this.size = size;

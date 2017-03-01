@@ -4,7 +4,7 @@
   "description": "A process image exif info tool.",
   
   "scripts": {
-    "dev": "cross-env NODE_ENV=development webpack-dev-server --config build/webpack.dev.js --open --inline --hot",
+    "dev": "cross-env NODE_ENV=development webpack-dev-server --config ./build/webpack.dev.js --open --inline --hot",
     "compile": "webpack --config ./build/webpack.dist.js --display-error-details --watch",
     "build": "webpack --config ./build/webpack.dist.js",
     "build:all": "npm run build",

@@ -24636,7 +24636,7 @@ const self = this;
 const lang = 'zh-CN';
 __WEBPACK_IMPORTED_MODULE_0_vue___default.a.locale(lang, () => {
   self.loading = true;
-  return fetch('/locale/' + lang, {
+  return fetch('./locale/' + lang, {
     method: 'get',
     headers: {
       Accept: 'application/json',
@@ -24677,6 +24677,7 @@ const app = new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
 });
 
 app.$mount('#app');
+
 
 /***/ }),
 /* 6 */
@@ -37708,13 +37709,17 @@ var _keenUi = __webpack_require__(0);
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var actionList = [{ color: "white", icon: "fa fa-folder-open-o fa-lg fa-fw", size: "small", type: "secondary", tooltip: "导入损坏的图像文件" }, { color: "white", icon: "fa fa-trash-o fa-lg fa-fw", size: "small", type: "secondary", tooltip: "清空导入" }, { color: "green", icon: "fa fa-legal fa-lg fa-fw", size: "small", type: "secondary", tooltip: "执行修复" }];
+var baseID = "__page__repair__action__";
+var baseIDIndex = -1;
+
+var actionList = [{ id: baseID + ++baseIDIndex, color: "white", icon: "fa fa-folder-open-o fa-lg fa-fw", size: "small", type: "secondary", tooltip: "导入损坏的图像文件" }, { id: baseID + ++baseIDIndex, color: "white", icon: "fa fa-trash-o fa-lg fa-fw", size: "small", type: "secondary", tooltip: "清空导入" }, { id: baseID + ++baseIDIndex, color: "green", icon: "fa fa-legal fa-lg fa-fw", size: "small", type: "secondary", tooltip: "执行修复" }];
 
 var taskList = [];
 
 var Task = function Task(name, path, size) {
     _classCallCheck(this, Task);
 
+    this.id = "__ID__" + Date.now();
     this.name = name;
     this.path = path;
     this.size = size;
@@ -38013,6 +38018,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "page__toolbar page__toolbar--aiexifcool-repair"
   }, _vm._l((_vm.actionList), function(item, index) {
     return _c('ui-icon-button', {
+      key: item.id,
       attrs: {
         "type": item.type,
         "size": item.size,
@@ -38039,6 +38045,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         value: (item.style.show),
         expression: "item.style.show"
       }],
+      key: item,
       attrs: {
         "removeIcon": "",
         "type": item.style.type
@@ -38166,21 +38173,20 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
 
 "use strict";
 
-// defined iconset 
+// defined iconset
 const iconSet = {
-    'discover':'images/plier.svg',
-    'repair': 'images/plier.svg',
-    'adjust': 'images/controls.svg',
-    'remove': 'images/eraser.svg',
-    'compare': 'images/compare.svg',
-    'report': 'images/report.svg'
+  discover: 'images/plier.svg',
+  repair: 'images/plier.svg',
+  adjust: 'images/controls.svg',
+  remove: 'images/eraser.svg',
+  compare: 'images/compare.svg',
+  report: 'images/report.svg'
 
-}
-
+};
 
 // export
 /* harmony default export */ __webpack_exports__["a"] = {
-    iconSet: iconSet
+  iconSet
 };
 
 
@@ -38193,11 +38199,11 @@ const iconSet = {
  * @author Ian
  * @created 2017-2-25 21:48:21
  */
-const sysConfig  = {
-    appName: 'AiEXifCool',
-    version: '1.0.0',
-    homepage: 'https://github.com/JosephusPaye/Keen-UI'
-}
+const sysConfig = {
+  appName: 'AiEXifCool',
+  version: '1.0.0',
+  homepage: 'https://github.com/LabsRS-Dev/AiEXifCool'
+};
 
 // export
 /* harmony default export */ __webpack_exports__["a"] = { sysConfig };
@@ -38215,15 +38221,15 @@ const sysConfig  = {
  * @author ian sun
  */
 
-///-----------------------------------------------------------
-///CSS
+// /-----------------------------------------------------------
+// /CSS
 
 
-
-///JS
+// /JS
 /* unused harmony default export */ var _unused_webpack_default_export = {
 
 };
+
 
 /***/ }),
 /* 29 */

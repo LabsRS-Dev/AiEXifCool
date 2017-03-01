@@ -27,7 +27,7 @@ const self = this;
 const lang = 'zh-CN';
 Vue.locale(lang, () => {
   self.loading = true;
-  return fetch('/locale/' + lang, {
+  return fetch('./locale/' + lang, {
     method: 'get',
     headers: {
       Accept: 'application/json',
