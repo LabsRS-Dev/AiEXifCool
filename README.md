@@ -1,7 +1,7 @@
 # AiEXifCool
 AiEXifCool  高级图像EXIF处理工具
 
-**【LabsRS 产品筑梦实验室】**QQ交流群 **595495041**
+**【LabsRS 产品筑梦实验室】**QQ交流 **34314687**
 
 ------------
 
