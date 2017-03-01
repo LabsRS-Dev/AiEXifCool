@@ -1,26 +1,39 @@
-///----------- Base
-import Vue from 'vue'
-import VueRouter from 'vue-router'
-import VueI18n from 'vue-i18n'
-import KeenUI from 'keen-ui'
-import Vuex from 'vuex'
-import { BS, Util, _ } from 'dovemaxsdk'
+// /----------- Base
+import Vue from 'vue';
+import VueRouter from 'vue-router';
+import VueI18n from 'vue-i18n';
+import KeenUI from 'keen-ui';
+import Vuex from 'vuex';
+import { BS, Util, _ } from 'dovemaxsdk';
 
-///----------- Extern
-import './extern.js'
+// /----------- Extern
+import './extern.js';
 
-///----------- Components
-import App from './App.vue'
-import Routes from './routes.js'
+// /----------- Components
+import App from './App.vue';
+import Routes from './routes.js';
 
 // Allow inspection, even in production mode
 Vue.config.devtools = true;
 
 // Use VueI18n
-Vue.use(VueI18n)
+Vue.use(VueI18n);
+
+let self = this;
+const lang = 'zh-CN';
+Vue.locale(lang, () =>  {
+    self.loading = true;
+    return fetch('/locale/' + lang, {
+        method: 'get',
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json'
+        }
+    });
+});
 
 // Use KeenUI
-Vue.use(KeenUI)
+Vue.use(KeenUI);
 
 // Use router
 Vue.use(VueRouter);
@@ -37,5 +50,4 @@ const app = new Vue({
     }
 });
 
-
-app.$mount('#app')
+app.$mount('#app');
