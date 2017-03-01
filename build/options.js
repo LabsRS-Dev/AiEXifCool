@@ -7,8 +7,8 @@ const version = require('../config/app.json');
 
 const banner =
     '/*!\n' +
-    ' * ' + appName + ' v' + version + ' (https://github.com/JosephusPaye/keen-ui)\n' +
-    ' * (c) ' + new Date().getFullYear() + ' Ian sun\n' +
+    ' * ' + appName + ' v' + version + ' (https://github.com/LabsRS-Dev/AiEXifCool)\n' +
+    ' * (c) ' + new Date().getFullYear() + ' Romanysoft LAB.\n' +
     ' * Released under the MIT License.\n' +
     ' */';
 

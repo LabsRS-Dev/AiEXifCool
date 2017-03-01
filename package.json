@@ -2,9 +2,9 @@
   "name": "aiexifcool",
   "version": "1.0.0",
   "description": "A process image exif info tool.",
-  
+  "main": "dist/bundle.js",
   "scripts": {
-    "dev": "cross-env NODE_ENV=development webpack-dev-server --config ./build/webpack.dev.js --open --inline --hot",
+    "dev": "cross-env NODE_ENV=development webpack-dev-server --config ./build/webpack.dev.js --open --no-inline --hot",
     "compile": "webpack --config ./build/webpack.dist.js --display-error-details --watch",
     "build": "webpack --config ./build/webpack.dist.js",
     "build:all": "npm run build",
@@ -46,6 +46,7 @@
     "tether-tooltip": "^1.2.0"
   },
   "devDependencies": {
+    "ansi-html": "^0.0.7",
     "autoprefixer": "^6.5.4",
     "babel-core": "^6.0.0",
     "babel-loader": "^6.0.0",
@@ -61,17 +62,22 @@
     "eslint-plugin-no-use-extend-native": "^0.3.12",
     "eslint-plugin-promise": "^3.4.0",
     "eslint-plugin-unicorn": "^1.0.0",
-    "extract-text-webpack-plugin": "2.0.0-beta.5",
-    "node-sass": "^3.13.0",
+    "extract-text-webpack-plugin": "^2.0.0",
+    "html-entities": "^1.2.0",
+    "node-sass": "^4.5.0",
     "prismjs": "^1.5.1",
     "rimraf": "^2.5.4",
     "sass-loader": "^4.0.2",
+    "sockjs-client": "^1.1.2",
+    "strip-ansi": "^3.0.1",
     "vue": "^2.1.7",
+    "vue-hot-reload-api": "^2.0.11",
     "vue-loader": "^10.0.2",
     "vue-router": "^2.1.0",
     "vue-style-loader": "^1.0.0",
     "vue-template-compiler": "^2.1.7",
-    "webpack": "^2.2.0",
+    "webpack": "^2.2.1",
+    "webpack-dev-middleware": "^1.10.1",
     "webpack-dev-server": "^2.2.0"
   }
 }

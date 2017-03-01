@@ -8,6 +8,7 @@
 import 'keen-ui-css';
 
 // /JS
+const obj = {};
 export default {
-
+  obj
 };

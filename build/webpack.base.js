@@ -10,8 +10,7 @@ const dir_vue =  dir_nACommonJS + '/common/vue.js'
 module.exports = {
     resolve: {
         modules: [
-            options.paths.root,
-            //options.paths.resolve('node_modules')
+            options.paths.root
         ],
 
         alias: {
