@@ -1,0 +1,10 @@
+_del
+_deprecated
+_older
+._reminder
+/node_modules
+/docs/node_modules
+/docs/_book
+Thumbs.db
+npm-debug.log
+debug.log

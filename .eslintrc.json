@@ -1,0 +1,19 @@
+{
+  "root": true,
+  "env":{
+    "browser": true,  
+    "node": true,  
+    "commonjs": true ,
+    "amd": true
+  },
+  "parser": "babel-eslint",
+  "parserOptions": {
+    "sourceType": "module"
+  },
+  "extends":"vue",
+  "rules": {
+    "camelcase": 1,
+    "no-eval": 1,
+    "no-extend-native": 1
+  }
+}
