@@ -37,6 +37,10 @@
         "import":"导入损坏的图像文件",
         "remove":"清空导入",
         "fix":"执行修复"
+      },
+      "dialog-import-images":{
+        "title":"请选择要导入的图像文件",
+        "prompt":"导入"
       }
     }
   }

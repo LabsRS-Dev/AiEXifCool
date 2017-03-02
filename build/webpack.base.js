@@ -10,7 +10,8 @@ const dir_vue =  dir_nACommonJS + '/common/vue.js'
 module.exports = {
     resolve: {
         modules: [
-            options.paths.root
+            options.paths.root,
+            options.paths.resolve('node_modules')
         ],
 
         alias: {
@@ -50,7 +51,7 @@ module.exports = {
                 }
             },
             {
-                test: /\.js[x]$/,
+                test: /\.j(s|sx)$/,
                 exclude: /node_modules/,
                 loader: 'babel-loader'
 

@@ -22,7 +22,7 @@ const config = merge(base, {
 
     devServer: {
         contentBase: options.paths.output.main,
-        host: '127.0.0.1',
+        host: '0.0.0.0',
         port: 9090,
         historyApiFallback: true,
         noInfo: false

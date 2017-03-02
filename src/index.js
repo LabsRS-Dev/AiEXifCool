@@ -23,33 +23,58 @@ Vue.config.devtools = true;
 // Use VueI18n
 Vue.use(VueI18n);
 
-const self = this;
 const lang = 'zh-CN';
-Vue.locale(lang, () => {
-  self.loading = true;
-  return fetch('./locale/' + lang + '.json', {
-    method: 'get',
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json'
-    }
-  }).then(res => {
-    return res.json();
-  }).then(json => {
-    self.loading = false;
-    if (Object.keys(json).length === 0) {
-      return Promise.reject(new Error('locale empty !!'));
-    }
-    return Promise.resolve(json);
-  }).catch(err => {
-    self.error = err.message;
-    return Promise.reject();
+const langJsonFile = './locale/' + lang + '.json';
+/**
+ * 由于ES6 中的Fetch函数，暂时还不能使用Babel转换成ES5标准的，所以统一使用jQuery来处理
+ * 参考：
+ * 1. https://www.npmjs.com/package/isomorphic-fetch
+ * 2. https://www.npmjs.com/package/fetch-polyfill
+ */
+function ___useES6Fetch(lang, cb) {
+  Vue.locale(lang, () => {
+    return fetch(langJsonFile, {
+      method: 'get',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      }
+    }).then(res => {
+      return res.json();
+    }).then(json => {
+      if (Object.keys(json).length === 0) {
+        return Promise.reject(new Error('locale empty !!'));
+      }
+      return Promise.resolve(json);
+    }).catch(err => {
+      console.error(err);
+      return Promise.reject();
+    });
+  }, () => {
+    console.log('set lang....');
+    Vue.config.lang = lang;
+    cb();
   });
-}, () => {
-  console.log('set lang....');
-  Vue.config.lang = lang;
-  startApp();
-});
+}
+
+function ___useJQueryGet(lang, cb) {
+  const $ = Util.util.getJQuery$();
+  $.getJSON(langJsonFile, json => {
+    Vue.locale(lang, json);
+    console.log('set lang....');
+    Vue.config.lang = lang;
+    cb();
+  }).fail(err => {
+    console.error(err);
+  });
+}
+
+const bUseES6Fetch = false;
+if (bUseES6Fetch) {
+  ___useES6Fetch(lang, startApp);
+} else {
+  ___useJQueryGet(lang, startApp);
+}
 
 function startApp() {
   // Use KeenUI
@@ -71,6 +96,7 @@ function startApp() {
     }
   });
 
+  document.title = Routes.sysConfig.appName;
   app.$mount('#app');
 }
 

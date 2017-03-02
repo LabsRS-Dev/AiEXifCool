@@ -107,7 +107,8 @@ export default {
 
             // call bs 
             BS.b$.importFiles({
-                
+                title: this.$t('pages.repair.dialog-import-images.title'),
+                prompt: this.$t('pages.repair.dialog-import-images.prompt')
             }, function(){
                 for(let i =0; i < 100; ++i){
                     var taskObj = new Task("Images" + i, "/url/image" + i, i + '.2MB')
