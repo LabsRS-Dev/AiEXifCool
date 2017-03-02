@@ -48,25 +48,29 @@ Vue.locale(lang, () => {
 }, () => {
   console.log('set lang....');
   Vue.config.lang = lang;
+  startApp();
 });
 
-// Use KeenUI
-Vue.use(KeenUI);
+function startApp() {
+  // Use KeenUI
+  Vue.use(KeenUI);
 
-// Use router
-Vue.use(VueRouter);
-const router = new VueRouter({
-  routes: Routes.routes,
-  linkActiveClass: 'is-active'
-});
+  // Use router
+  Vue.use(VueRouter);
+  const router = new VueRouter({
+    routes: Routes.routes,
+    linkActiveClass: 'is-active'
+  });
 
-// App
-const app = new Vue({
-  router,
-  render(h) {
-    console.log('start app render ....');
-    return h(App);
-  }
-});
+  // App
+  const app = new Vue({
+    router,
+    render(h) {
+      console.log('start app render ....');
+      return h(App);
+    }
+  });
 
-app.$mount('#app');
+  app.$mount('#app');
+}
+

@@ -9,7 +9,7 @@
                 :key="item.id"
                 v-for="item, index in actionList"
                 >
-                    <span :class="item.icon" :title="item.tooltip"></span>
+                    <span :class="item.icon" :title="$t(item.tooltip)"></span>
             </ui-icon-button>
         </div>        
 
@@ -46,9 +46,9 @@ var baseID = "__page__repair__action__"
 var baseIDIndex = -1
 
 const actionList = [
-    {id:baseID + ++baseIDIndex, color:"white", icon:"fa fa-folder-open-o fa-lg fa-fw", size:"small", type:"secondary", tooltip:"导入损坏的图像文件"},
-    {id:baseID + ++baseIDIndex, color:"white", icon:"fa fa-trash-o fa-lg fa-fw", size:"small", type:"secondary", tooltip:"清空导入"},
-    {id:baseID + ++baseIDIndex, color:"green", icon:"fa fa-legal fa-lg fa-fw", size:"small", type:"secondary",  tooltip:"执行修复"}
+    {id:baseID + ++baseIDIndex, color:"white", icon:"fa fa-folder-open-o fa-lg fa-fw", size:"small", type:"secondary", tooltip:"pages.repair.toolbar.import"},
+    {id:baseID + ++baseIDIndex, color:"white", icon:"fa fa-trash-o fa-lg fa-fw", size:"small", type:"secondary", tooltip:"pages.repair.toolbar.remove"},
+    {id:baseID + ++baseIDIndex, color:"green", icon:"fa fa-legal fa-lg fa-fw", size:"small", type:"secondary",  tooltip:"pages.repair.toolbar.fix"}
 ]
 
 
