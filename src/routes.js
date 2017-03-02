@@ -15,48 +15,49 @@ const rootPath = '/' + sysConfig.appName;
 
 // Config menu
 const menu = [{
-  title: 'COMMON',
+  title: 'routes.common.title',
   isExpand: true,
   enableExpand: false,
   visible: true,
   menu: [{
     path: rootPath + '/repair',
+    // path: '',
     show: true,
     component: RepairPage,
-    title: 'routes.repair.title',
-    tip: 'routes.repair.tip',
+    title: 'routes.common.menu.repair.title',
+    tip: 'routes.common.menu.repair.tip',
     icon: icons.repair,
     sourceUrl: ''
   }, {
     path: rootPath + '/adjust',
     show: true,
     component: AboutPage,
-    title: 'Adjust',
-    tip: 'Adjust image\'s exif information',
+    title: 'routes.common.menu.adjust.title',
+    tip: 'routes.common.menu.adjust.tip',
     icon: icons.adjust,
     sourceUrl: ''
   }, {
-    path: '/recommend/course',
+    path: rootPath + '/remove',
     show: true,
     component: AboutPage,
-    title: 'Remove',
-    tip: 'Remove image\'s exif information',
+    title: 'routes.common.menu.remove.title',
+    tip: 'routes.common.menu.remove.tip',
     icon: icons.remove,
     sourceUrl: ''
   }, {
-    path: '/recommend/course',
+    path: rootPath + '/compare',
     show: true,
     component: AboutPage,
-    title: 'Compare',
-    tip: 'Compare Image Exif info',
+    title: 'routes.common.menu.compare.title',
+    tip: 'routes.common.menu.compare.tip',
     icon: icons.compare,
     sourceUrl: ''
   }, {
-    path: '/recommend/course',
+    path: rootPath + '/report',
     show: true,
     component: AboutPage,
-    title: 'Report',
-    tip: 'Batch Export Exif info',
+    title: 'routes.common.menu.report.title',
+    tip: 'routes.common.menu.report.tip',
     icon: icons.report,
     sourceUrl: ''
   }]

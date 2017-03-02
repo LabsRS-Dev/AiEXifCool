@@ -34,7 +34,7 @@
 
                     <ui-collapsible class="dove-docs-sidebar__menu-section-header"
                         v-if="section.visible"
-                        :title="section.title" 
+                        :title="$t(section.title)" 
                         :open="section.isExpand"
                         :removeIcon="!section.enableExpand" 
                         :disabled="!section.enableExpand">

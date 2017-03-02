@@ -64,6 +64,7 @@ const router = new VueRouter({
 const app = new Vue({
   router,
   render(h) {
+    console.log('start app render ....');
     return h(App);
   }
 });

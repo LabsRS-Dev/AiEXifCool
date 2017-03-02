@@ -1,8 +1,34 @@
 {
   "routes":{
-    "repair":{
-      "title": "修复图像",
-      "tip": "修复错误的图像文件"
+    "common":{
+      "title":"常用操作",
+      "menu":{
+        "welcome":{
+          "title": "欢迎使用",
+          "tip": ""
+        },
+        "repair":{
+          "title": "修复",
+          "tip": "修复错误的图像文件"
+        },
+        "adjust":{
+          "title": "调整",
+          "tip": "调整图像的EXIF信息"
+        },
+        "remove":{
+          "title": "移除",
+          "tip": "移除图像的EXIF信息"
+        },
+        "compare":{
+          "title": "比较",
+          "tip": "比较图像间EXIF信息的差异"
+        },
+        "report":{
+          "title": "报告",
+          "tip": "输出图像EXIF信息报告，方便存档"
+        }
+      }
     }
+
   }
 }

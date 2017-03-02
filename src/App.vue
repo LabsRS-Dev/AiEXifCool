@@ -27,15 +27,15 @@
                         @click="showSidebar = true"
                     ></ui-icon-button>
 
-                    <h1 class="dove-docs-content__toolbar-title">{{ $route.meta.title }}</h1>
-                    <h3 class="dove-docs-content__toolbar-title__sub">{{ $route.meta.tip }}</h3>
+                    <h1 class="dove-docs-content__toolbar-title">{{ $t($route.meta.title) }}</h1>
+                    <h3 class="dove-docs-content__toolbar-title__sub">{{ $t($route.meta.tip) }}</h3>
 
                     <a
                         class="dove-docs-content__toolbar-action"
                         rel="noopener"
                         target="_blank"
                         :href="'https://github.com/JosephusPaye/Keen-UI/blob/master/' + $route.meta.sourceUrl"
-                        v1-if="$route.meta.sourceUrl"
+                        v-if="$route.meta.sourceUrl"
                     >View Source</a>
                 </div>
             </div>
@@ -49,6 +49,7 @@
 
 <script>
     import {UiIcon} from 'keen-ui'
+    import VueI18n from 'vue-i18n'
     import Sidebar from './pages/Sidebar.vue'
 
 
@@ -60,10 +61,10 @@
         },
 
         components: {
+            VueI18n,
             UiIcon,
             Sidebar
         }
-
 
     }
 </script>
