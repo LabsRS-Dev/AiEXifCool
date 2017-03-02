@@ -17,7 +17,8 @@ const config = merge(base, {
 
     output: {
         filename: 'bundle.js',
-        path: options.paths.output.main
+        path: options.paths.output.main,
+        publicPath: options.paths.output.main
     },    
 
     devServer: {

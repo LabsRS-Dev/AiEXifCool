@@ -17,7 +17,7 @@
             <ui-alert @dismiss="item.style.show = false" removeIcon :type="item.style.type" v-show="item.style.show" :key="item" v-for="item in taskList">
                 <div>
                     <div class="ui-toolbar__left">
-                        <img src="Images/picture.svg" width="48" height="48" viewBox="0 0 48 48" /> 
+                        <img :src="item.thumb" width="48" height="48" viewBox="0 0 48 48" /> 
                         <strong class="ui-toolbar__left__fileName"> {{ item.name }} <sup class="ui-toolbar__left__fileSize">({{ item.size }})</sup></strong>
                     </div>
                     <div class="ui-toolbar__body">
@@ -55,8 +55,9 @@ const actionList = [
 let taskList = [];
 
 class Task {
-    constructor(name, path, size){
+    constructor(thumb, name, path, size){
         this.id = "__ID__" + Date.now() + Math.random();
+        this.thumb = thumb;
         this.name = name;
         this.path = path;
         this.size = size;
@@ -105,15 +106,26 @@ export default {
         importFiles(){
             var that = this
 
+            console.log("-------------------- call import files")
             // call bs 
             BS.b$.importFiles({
                 title: this.$t('pages.repair.dialog-import-images.title'),
-                prompt: this.$t('pages.repair.dialog-import-images.prompt')
+                prompt: this.$t('pages.repair.dialog-import-images.prompt'),
+                allowMulSelection: true,
+                types:['png','jpg','gif','*']
             }, function(){
                 for(let i =0; i < 100; ++i){
-                    var taskObj = new Task("Images" + i, "/url/image" + i, i + '.2MB')
+                    var taskObj = new Task("images/picture.svg", "Images" + i, "/url/image" + i, i + '.2MB')
                     that.taskList.push(taskObj)
                 }  
+            }, function(data){
+                if(data.success) {
+                    var imageFiles = data.filesArray
+                    imageFiles.forEach((fileObj, dinx) => {
+                        let taskObj = new Task("images/picture.svg", fileObj.fileName, fileObj.filePath, fileObj.fileSizeStr)
+                        that.taskList.push(taskObj)
+                    })
+                }
             })       
         },
 

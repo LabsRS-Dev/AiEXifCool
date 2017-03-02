@@ -48,8 +48,8 @@
 </template>
 
 <script>
-    import {UiIcon} from 'keen-ui'
     import VueI18n from 'vue-i18n'
+    import {UiIcon} from 'keen-ui'
     import Sidebar from './pages/Sidebar.vue'
 
 

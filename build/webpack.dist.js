@@ -35,11 +35,11 @@ const config = merge(base, {
         }),
 
         // Minify with dead-code elimination
-        // new webpack.optimize.UglifyJsPlugin({
-        //     compress: {
-        //         warnings: false
-        //     }
-        // })
+        new webpack.optimize.UglifyJsPlugin({
+            compress: {
+                warnings: false
+            }
+        })
     ]
 });
 
