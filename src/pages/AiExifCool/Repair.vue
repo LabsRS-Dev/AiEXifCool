@@ -56,7 +56,7 @@ let taskList = [];
 
 class Task {
     constructor(name, path, size){
-        this.id = "__ID__" + Date.now();
+        this.id = "__ID__" + Date.now() + Math.random();
         this.name = name;
         this.path = path;
         this.size = size;

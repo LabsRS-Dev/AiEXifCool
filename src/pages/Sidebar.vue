@@ -45,12 +45,12 @@
                                     class="dove-docs-sidebar__menu-item" exact
                                     :to="item.path"
                                     v-if="item.show"
-                                    :title="item.tip"
+                                    :title="$t(item.tip)"
                                 >
                                     <ui-icon>
                                         <img :src="item.icon" width="16" height="16" viewBox="0 0 16 16" />
                                     </ui-icon>  
-                                    <span class="dove-docs-sidebar__menu-item__caption" >{{ item.title }}</span>  
+                                    <span class="dove-docs-sidebar__menu-item__caption" >{{ $t(item.title) }}</span>  
                                     
                                 </router-link>
                             </li>

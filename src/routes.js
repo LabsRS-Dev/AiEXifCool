@@ -23,8 +23,8 @@ const menu = [{
     path: rootPath + '/repair',
     show: true,
     component: RepairPage,
-    title: 'Repair',
-    tip: 'Fix Image file',
+    title: 'routes.repair.title',
+    tip: 'routes.repair.tip',
     icon: icons.repair,
     sourceUrl: ''
   }, {
