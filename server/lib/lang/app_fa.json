@@ -1,0 +1,14 @@
+{
+    "app": {
+        "invalid_parameters": "پارامترهای نامعتبر است",
+        "unknown_input_format": "فرمت های ورودی ناشناخته",
+        "unknown_output_format": "فرمت خروجی نامعلوم",
+        "invalid_input_file": "فایل ورودی نامعتبر",
+        "invalid_output_dir": "دایرکتوری خروجی نامعتبر است",
+        "read_input_file_fail": "قادر به خواندن فایل ورودی",
+        "write_output_file_fail": "قادر به ارسال فایل خروجی",
+        "encode_fail": "رمز شکست، فرمت داده نامعتبر است",
+        "decode_fail": "رمزگشایی شکست، فرمت داده نامعتبر است",
+        "error": "تبدیل شکست"
+    }
+}

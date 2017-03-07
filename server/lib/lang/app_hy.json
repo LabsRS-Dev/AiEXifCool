@@ -1,0 +1,14 @@
+{
+    "app": {
+        "invalid_parameters": "Անվավեր պարամետրերի",
+        "unknown_input_format": "Անհայտ մուտքագրում ձեւաչափն",
+        "unknown_output_format": "Անհայտ արտադրանքի ձեւաչափը",
+        "invalid_input_file": "Անվավեր ներածում ֆայլի",
+        "invalid_output_dir": "Սխալ արտադրանքը ցուցակում",
+        "read_input_file_fail": "Անհնար է կարդալ մուտքագրման ֆայլը",
+        "write_output_file_fail": "Անհնար է գրել ելքային ֆայլի",
+        "encode_fail": "Ծածկագրել հաջողվում, Invalid տվյալների ձեւաչափ",
+        "decode_fail": "Վերծանել չի հաջողվում, Invalid տվյալների ձեւաչափ",
+        "error": "Փոխակերպել ձախողել"
+    }
+}

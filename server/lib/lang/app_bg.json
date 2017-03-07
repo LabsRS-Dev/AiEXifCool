@@ -1,0 +1,14 @@
+{
+    "app": {
+        "invalid_parameters": "Невалидни параметри",
+        "unknown_input_format": "Unknown вход формат",
+        "unknown_output_format": "Unknown изходен формат",
+        "invalid_input_file": "Невалиден входен файл",
+        "invalid_output_dir": "Невалиден изходна директория",
+        "read_input_file_fail": "Не може да се прочете входен файл",
+        "write_output_file_fail": "Не може да пишете на изходния файл",
+        "encode_fail": "Възхвала провали, Невалиден формат на данните",
+        "decode_fail": "Decode се провали, Невалиден формат на данните",
+        "error": "Конвертиране провали"
+    }
+}

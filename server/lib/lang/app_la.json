@@ -1,0 +1,14 @@
+{
+    "app": {
+        "invalid_parameters": "Aliquam et lacus pede",
+        "unknown_input_format": "Input format Unknown",
+        "unknown_output_format": "Unknown format output",
+        "invalid_input_file": "Aliquam input file",
+        "invalid_output_dir": "Aliquam et output presul",
+        "read_input_file_fail": "Peropportuna mors Philippi fuit ad legere input file",
+        "write_output_file_fail": "Peropportuna mors Philippi fuit ad output file scribere",
+        "encode_fail": "Encode deficiat, laoreet data format",
+        "decode_fail": "Decode deficiat, laoreet data format",
+        "error": "Convert deficient"
+    }
+}

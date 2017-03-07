@@ -1,0 +1,14 @@
+{
+    "app": {
+        "invalid_parameters": "Neplatné parametry",
+        "unknown_input_format": "Neznámý formát vstup",
+        "unknown_output_format": "Neznámý výstupní formát",
+        "invalid_input_file": "Neplatný vstupní soubor",
+        "invalid_output_dir": "Neplatný výstupní adresář",
+        "read_input_file_fail": "Nelze číst vstupní soubor",
+        "write_output_file_fail": "Nelze zapsat výstupní soubor",
+        "encode_fail": "Kódování selhání, Neplatný formát dat",
+        "decode_fail": "Decode selhání, Neplatný formát dat",
+        "error": "Převod selhání"
+    }
+}

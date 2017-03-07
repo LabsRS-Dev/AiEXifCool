@@ -1,0 +1,14 @@
+{
+    "app": {
+        "invalid_parameters": "Ongeldig parameters",
+        "unknown_input_format": "Onbekend insette formaat",
+        "unknown_output_format": "Onbekend uitvoer formaat",
+        "invalid_input_file": "Ongeldig insette lêer",
+        "invalid_output_dir": "Ongeldig uitset gids",
+        "read_input_file_fail": "Kan nie insette lêer te lees",
+        "write_output_file_fail": "Kan nie uitvoer lêer te skryf",
+        "encode_fail": "Encode misluk, Ongeldige data formaat",
+        "decode_fail": "Dekodeer misluk, Ongeldige data formaat",
+        "error": "Omskep misluk"
+    }
+}

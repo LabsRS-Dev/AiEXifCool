@@ -1,14 +1,10 @@
 // /----------- Base
 import Vue from 'vue';
-import VueRouter from 'vue-router';
 import VueI18n from 'vue-i18n';
+import VueRouter from 'vue-router';
 import KeenUI from 'keen-ui';
 import Vuex from 'vuex';
-import {
-  BS,
-  Util,
-  _
-} from 'dovemaxsdk';
+import { BS, Util, _ } from 'dovemaxsdk';
 
 // /----------- Extern
 import './extern.js';
@@ -21,7 +17,12 @@ import Routes from './routes.js';
 Vue.config.devtools = true;
 
 // Use VueI18n
-Vue.use(VueI18n);
+Vue.use(VueI18n, {});
+
+window.Vue = Vue;
+window.VueI8n = VueI18n;
+
+const $ = Util.util.getJQuery$();
 
 const lang = 'zh-CN';
 const langJsonFile = './locale/' + lang + '.json';
@@ -58,25 +59,35 @@ function ___useES6Fetch(lang, cb) {
 }
 
 function ___useJQueryGet(lang, cb) {
-  const $ = Util.util.getJQuery$();
   $.getJSON(langJsonFile, json => {
-    Vue.locale(lang, json);
     console.log('set lang....');
     Vue.config.lang = lang;
-    cb();
+    const locales = {};
+    locales[lang] = json;
+
+    cb(new VueI18n({
+      locale: lang,
+      messages: locales
+    }));
   }).fail(err => {
     console.error(err);
+    cb(new VueI18n({
+      locale: 'en-us',
+      messages: {}
+    }));
   });
 }
 
-const bUseES6Fetch = false;
-if (bUseES6Fetch) {
-  ___useES6Fetch(lang, startApp);
-} else {
-  ___useJQueryGet(lang, startApp);
+function main() {
+  const bUseES6Fetch = false;
+  if (bUseES6Fetch) {
+    ___useES6Fetch(lang, startApp);
+  } else {
+    ___useJQueryGet(lang, startApp);
+  }
 }
 
-function startApp() {
+function startApp(i18nObj) {
   // Use KeenUI
   Vue.use(KeenUI);
 
@@ -89,7 +100,11 @@ function startApp() {
 
   // App
   const app = new Vue({
+    i18n: i18nObj,
     router,
+    components: {
+      App
+    },
     render(h) {
       console.log('start app render ....');
       return h(App);
@@ -100,3 +115,6 @@ function startApp() {
   app.$mount('#app');
 }
 
+$(document).ready(() => {
+  main();
+});

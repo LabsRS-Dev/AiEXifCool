@@ -1,0 +1,14 @@
+{
+    "app":{
+        "invalid_parameters":"参数错误",
+        "unknown_input_format":"未知的输入格式",
+        "unknown_output_format":"未知的输出格式",
+        "invalid_input_file":"输入文件格式不正确",
+        "invalid_output_dir":"输出目录无法写入",
+        "read_input_file_fail":"输入文件读取失败",
+        "write_output_file_fail":"写入目标文件失败",
+        "encode_fail":"编码失败,数据格式不正确",
+        "decode_fail":"解码失败,数据格式不正确",
+        "error":"转换失败"
+    }
+}

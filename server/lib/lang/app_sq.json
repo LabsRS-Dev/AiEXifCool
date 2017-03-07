@@ -1,0 +1,14 @@
+{
+    "app": {
+        "invalid_parameters": "Parametrat e pavlefshme",
+        "unknown_input_format": "Unknown format input",
+        "unknown_output_format": "Unknown format e prodhimit",
+        "invalid_input_file": "Fotografi input i pavlefshëm",
+        "invalid_output_dir": "Lista output Invalid",
+        "read_input_file_fail": "Në pamundësi për të lexuar dosjen input",
+        "write_output_file_fail": "Në pamundësi për të shkruar dosjen output",
+        "encode_fail": "Encode dështojnë, format e të dhënave Invalid",
+        "decode_fail": "Decode dështojnë, format e të dhënave Invalid",
+        "error": "Convert dështojnë"
+    }
+}

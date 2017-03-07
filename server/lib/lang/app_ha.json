@@ -1,0 +1,14 @@
+{
+    "app": {
+        "invalid_parameters": "Daidai ba sigogi",
+        "unknown_input_format": "Unknown labari format",
+        "unknown_output_format": "Unknown fitarwa format",
+        "invalid_input_file": "Daidai ba labari fayil",
+        "invalid_output_dir": "Daidai ba fitarwa shugabanci",
+        "read_input_file_fail": "Iya karanta labari fayil",
+        "write_output_file_fail": "Iya rubuta fitarwa fayil",
+        "encode_fail": "Encode kasa, mara aiki data format",
+        "decode_fail": "Karanta kasa, mara aiki data format",
+        "error": "Maida kasa"
+    }
+}

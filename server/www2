@@ -1,0 +1,20 @@
+#!/usr/bin/env node
+
+var arguments = process.argv.splice(2);
+var http_port = 8888;
+if(arguments.length > 0){
+    try{
+        http_port = parseInt(arguments[0]);
+    }catch(e){
+        console.log(e);
+    }
+}
+
+var app = require('./lib/server');
+app.set('port', process.env.PORT || http_port);
+
+var server = app.listen(app.get('port'), 'localhost', function() {
+    var host = server.address().address;
+    var port = server.address().port;
+    console.log('app server listening at http://%s:%s', host, port)
+});

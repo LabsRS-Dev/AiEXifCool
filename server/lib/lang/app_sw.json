@@ -1,0 +1,14 @@
+{
+    "app": {
+        "invalid_parameters": "Vigezo batili",
+        "unknown_input_format": "Unknown pembejeo format",
+        "unknown_output_format": "Unknown pato format",
+        "invalid_input_file": "Faili batili pembejeo",
+        "invalid_output_dir": "Directory batili pato",
+        "read_input_file_fail": "Hawawezi kusoma faili ingizo",
+        "write_output_file_fail": "Haiwezi kuandika faili pato",
+        "encode_fail": "Encode kushindwa, format batili data",
+        "decode_fail": "Decode kushindwa, format batili data",
+        "error": "Kubadilisha kushindwa"
+    }
+}

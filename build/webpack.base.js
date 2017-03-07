@@ -26,9 +26,8 @@ module.exports = {
             'keen-ui-css$': options.paths.resolveEx(dir_vue, '/plugins/Keen-UI/git_source/Keen-UI/dist/keen-ui.css'),
 
             'vue-i18n$': options.paths.resolveEx(dir_vue, '/plugins/vue-i18n/git_source/vue-i18n/dist/vue-i18n.js'),
-
-            'vue$': options.paths.resolveEx(dir_vue, '/git_source/dist/vue.js'),
-            'vuex$': options.paths.resolveEx(dir_vue, '/plugins/vuex/git_source/vuex/dist/vuex.js'),
+            //'vue$': options.paths.resolveEx(dir_vue, '/git_source/dist/vue.js'),
+            //'vuex$': options.paths.resolveEx(dir_vue, '/plugins/vuex/git_source/vuex/dist/vuex.js'),
             'vue-router$': options.paths.resolveEx(dir_vue, '/plugins/vue-router.js/git_source/vue-router/dist/vue-router.js')
         },
 

@@ -1,0 +1,14 @@
+{
+    "app": {
+        "invalid_parameters": "Yanlış parametrləri",
+        "unknown_input_format": "Naməlum giriş format",
+        "unknown_output_format": "Naməlum output format",
+        "invalid_input_file": "Yanlış giriş file",
+        "invalid_output_dir": "Yanlış çıxış kataloq",
+        "read_input_file_fail": "Giriş fayl oxumaq bilmir",
+        "write_output_file_fail": "Çıxış fayl yazmaq bilmir",
+        "encode_fail": "Kodlar, Invalid data format uğursuz",
+        "decode_fail": "Deşifre, Invalid data format uğursuz",
+        "error": "Uğursuz çevirmək"
+    }
+}

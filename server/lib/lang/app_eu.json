@@ -1,0 +1,14 @@
+{
+    "app": {
+        "invalid_parameters": "Parametro baliogabea",
+        "unknown_input_format": "Sarrerako formatua ezezaguna",
+        "unknown_output_format": "Irteerako formatu ezezaguna",
+        "invalid_input_file": "Sarrerako fitxategia baliogabea",
+        "invalid_output_dir": "Irteerako direktorioa baliogabea",
+        "read_input_file_fail": "Ezin da sarrerako fitxategia irakurtzeko",
+        "write_output_file_fail": "Ezin da irteera fitxategia idatzi",
+        "encode_fail": "Encode huts egin, datuak formatu okerra",
+        "decode_fail": "Deskodetzea huts egin, datuak formatu okerra",
+        "error": "Bihurtu huts"
+    }
+}

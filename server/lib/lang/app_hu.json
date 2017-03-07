@@ -1,0 +1,14 @@
+{
+    "app": {
+        "invalid_parameters": "Érvénytelen paraméterek",
+        "unknown_input_format": "Ismeretlen bemeneti formátum",
+        "unknown_output_format": "Ismeretlen kimeneti formátum",
+        "invalid_input_file": "Érvénytelen bemeneti fájl",
+        "invalid_output_dir": "Érvénytelen kimeneti könyvtár",
+        "read_input_file_fail": "Nem olvasható a bemeneti fájl",
+        "write_output_file_fail": "Nem lehet írni a kimeneti fájl",
+        "encode_fail": "Kódolást nem, Érvénytelen adat formátum",
+        "decode_fail": "Decode nem, Érvénytelen adat formátum",
+        "error": "Átalakítja nem"
+    }
+}

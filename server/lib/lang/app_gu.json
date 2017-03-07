@@ -1,0 +1,14 @@
+{
+    "app": {
+        "invalid_parameters": "અમાન્ય પરિમાણો",
+        "unknown_input_format": "અજ્ઞાત ઇનપુટ ફોર્મેટ",
+        "unknown_output_format": "અજ્ઞાત આઉટપુટ ફોર્મેટ",
+        "invalid_input_file": "અમાન્ય ઇનપુટ ફાઇલ",
+        "invalid_output_dir": "અમાન્ય આઉટપુટ ડિરેક્ટરી",
+        "read_input_file_fail": "ઇનપુટ ફાઇલ વાંચવામાં અસમર્થ",
+        "write_output_file_fail": "આઉટપુટ ફાઈલ લખવા માટે અસમર્થ",
+        "encode_fail": "સાંકેતિક લિપિમાં સંદેશ, અમાન્ય ડેટા ફોર્મેટ નિષ્ફળ",
+        "decode_fail": "લિપિને ઉકેલવાના, અમાન્ય ડેટા ફોર્મેટ નિષ્ફળ",
+        "error": "નિષ્ફળ રૂપાંતરિત"
+    }
+}

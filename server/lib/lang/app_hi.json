@@ -1,0 +1,14 @@
+{
+    "app": {
+        "invalid_parameters": "अमान्य पैरामीटर",
+        "unknown_input_format": "अज्ञात इनपुट प्रारूप",
+        "unknown_output_format": "अज्ञात आउटपुट स्वरूप",
+        "invalid_input_file": "अमान्य इनपुट फ़ाइल",
+        "invalid_output_dir": "अवैध उत्पादन निर्देशिका",
+        "read_input_file_fail": "इनपुट फ़ाइल को पढ़ने में असमर्थ",
+        "write_output_file_fail": "आउटपुट फ़ाइल लिखने में असमर्थ",
+        "encode_fail": "एनकोड, अमान्य डेटा स्वरूप असफल",
+        "decode_fail": "व्याख्या करना, अवैध डेटा स्वरूप असफल",
+        "error": "असफल कन्वर्ट"
+    }
+}

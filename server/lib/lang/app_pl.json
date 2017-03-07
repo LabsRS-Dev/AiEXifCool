@@ -1,0 +1,14 @@
+{
+    "app": {
+        "invalid_parameters": "Nieprawidłowe parametry",
+        "unknown_input_format": "Format wejściowy nieznane",
+        "unknown_output_format": "Nieznany format wyjściowy",
+        "invalid_input_file": "Nieprawidłowy plik wejściowy",
+        "invalid_output_dir": "Nieprawidłowy katalog wyjściowy",
+        "read_input_file_fail": "Nie można odczytać pliku wejściowego",
+        "write_output_file_fail": "Nie można zapisać pliku wyjściowego",
+        "encode_fail": "Kodowanie nie, Niepoprawny format danych",
+        "decode_fail": "Decode nie, Niepoprawny format danych",
+        "error": "Konwersja nie"
+    }
+}

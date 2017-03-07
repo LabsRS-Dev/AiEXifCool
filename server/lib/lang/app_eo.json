@@ -1,0 +1,14 @@
+{
+    "app": {
+        "invalid_parameters": "Nevalidaj parametroj",
+        "unknown_input_format": "Nekonata eniga formato",
+        "unknown_output_format": "Nekonata eligo formato",
+        "invalid_input_file": "Nevalida eniga dosiero",
+        "invalid_output_dir": "Nevalida eligan dosierujon",
+        "read_input_file_fail": "Ne eblas legi eniga dosiero",
+        "write_output_file_fail": "Ne eblas skribi Eligdosiero",
+        "encode_fail": "Kodi malsukcesos, Nevalidaj datumoj formato",
+        "decode_fail": "Decode malsukcesos, Nevalidaj datumoj formato",
+        "error": "Konverti malsukcesos"
+    }
+}

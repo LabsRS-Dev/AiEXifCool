@@ -112,7 +112,7 @@ export default {
                 title: this.$t('pages.repair.dialog-import-images.title'),
                 prompt: this.$t('pages.repair.dialog-import-images.prompt'),
                 allowMulSelection: true,
-                types:['png','jpg','gif','*']
+                types:[] // Note: too many formats
             }, function(){
                 for(let i =0; i < 100; ++i){
                     var taskObj = new Task("images/picture.svg", "Images" + i, "/url/image" + i, i + '.2MB')

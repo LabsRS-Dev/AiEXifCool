@@ -38,6 +38,13 @@ const config = merge(base, {
             minimize: true
         })
 
+        // Set the production environment
+        // new webpack.DefinePlugin({
+        //     'process.env': {
+        //         NODE_ENV: '"production"'
+        //     }
+        // }),
+
         // Minify with dead-code elimination
         // new webpack.optimize.UglifyJsPlugin({
         //     compress: {
@@ -48,7 +55,7 @@ const config = merge(base, {
 });
 
 // Fix /// <reference path="" />
-config.resolve.modules.push(options.paths.resolve('node_modules'))
+// config.resolve.modules.push(options.paths.resolve('node_modules'))
 
 // First item in module.rules array is Vue
 // config.module.rules[0].options.loaders = {

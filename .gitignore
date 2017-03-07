@@ -8,3 +8,4 @@ _older
 Thumbs.db
 npm-debug.log
 debug.log
+/server/node_modules

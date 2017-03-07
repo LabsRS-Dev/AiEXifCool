@@ -1,0 +1,14 @@
+{
+    "app": {
+        "invalid_parameters": "Paramèter sing ora sah",
+        "unknown_input_format": "Format input Unknown",
+        "unknown_output_format": "Format output sing ora dingerteni",
+        "invalid_input_file": "Berkas input bener",
+        "invalid_output_dir": "Dirèktori paweton bener",
+        "read_input_file_fail": "Ora kanggo maca file input",
+        "write_output_file_fail": "Ora bisa nulis berkas output",
+        "encode_fail": "Encode gagal, format data salah",
+        "decode_fail": "Decode gagal, format data salah",
+        "error": "Convert gagal"
+    }
+}

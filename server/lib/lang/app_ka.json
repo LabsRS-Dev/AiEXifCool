@@ -1,0 +1,14 @@
+{
+    "app": {
+        "invalid_parameters": "არასწორი პარამეტრების",
+        "unknown_input_format": "უცნობი შეყვანის ფორმატი",
+        "unknown_output_format": "უცნობი გამოტანის ფორმატი",
+        "invalid_input_file": "არასწორი შეყვანის ფაილი",
+        "invalid_output_dir": "არასწორი გამომავალი დირექტორია",
+        "read_input_file_fail": "ვერ წაიკითხა შეყვანის ფაილი",
+        "write_output_file_fail": "ვერ ვწერ გამომავალი ფაილი",
+        "encode_fail": "Encode ვერ, არასწორი მონაცემების ფორმატი",
+        "decode_fail": "Decode ვერ, არასწორი მონაცემების ფორმატი",
+        "error": "კონვერტაციის ვერ"
+    }
+}

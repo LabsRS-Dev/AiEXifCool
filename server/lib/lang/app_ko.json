@@ -1,0 +1,14 @@
+{
+    "app": {
+        "invalid_parameters": "잘못된 매개 변수",
+        "unknown_input_format": "알 입력 형식",
+        "unknown_output_format": "알 수없는 출력 형식",
+        "invalid_input_file": "잘못된 입력 파일",
+        "invalid_output_dir": "잘못된 출력 디렉토리",
+        "read_input_file_fail": "입력 파일을 읽을 수 없습니다",
+        "write_output_file_fail": "출력 파일을 쓸 수 없습니다",
+        "encode_fail": "인코딩은, 잘못된 데이터 형식을 실패",
+        "decode_fail": "디코드, 잘못된 데이터 형식을 실패",
+        "error": "실패 변환"
+    }
+}

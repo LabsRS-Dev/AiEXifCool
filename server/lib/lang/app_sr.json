@@ -1,0 +1,14 @@
+{
+    "app": {
+        "invalid_parameters": "Неважећи параметри",
+        "unknown_input_format": "Непозната улаз формату",
+        "unknown_output_format": "Непознат излазни формат",
+        "invalid_input_file": "Неисправан унос фајл",
+        "invalid_output_dir": "Неважећи излаз директоријум",
+        "read_input_file_fail": "Није могуће прочитати улазни фајл",
+        "write_output_file_fail": "Није могуће писати излазне датотеке",
+        "encode_fail": "Енцоде фаил, неправилном формату",
+        "decode_fail": "Децоде фаил, неправилном формату",
+        "error": "Цонверт фаил"
+    }
+}

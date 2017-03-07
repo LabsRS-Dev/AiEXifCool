@@ -1,0 +1,14 @@
+{
+    "app": {
+        "invalid_parameters": "Tawhā muhu",
+        "unknown_input_format": "Hōputu tāuru Unknown",
+        "unknown_output_format": "Hōputu putanga Unknown",
+        "invalid_input_file": "Kōnae tāuru muhu",
+        "invalid_output_dir": "Whaiaronga putanga muhu",
+        "read_input_file_fail": "Kāore e taea te pānui i te kōnae tāuru",
+        "write_output_file_fail": "Kāore e taea te ki te tuhituhi kōnae huaputa",
+        "encode_fail": "Whakamuna kore, hōputu raraunga muhu",
+        "decode_fail": "Wetewaehere kore, hōputu raraunga muhu",
+        "error": "Tahuri kore"
+    }
+}

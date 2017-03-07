@@ -1,0 +1,14 @@
+{
+    "app": {
+        "invalid_parameters": "Ugyldige parametre",
+        "unknown_input_format": "Ukjent input format",
+        "unknown_output_format": "Ukjent output format",
+        "invalid_input_file": "Ugyldig input filen",
+        "invalid_output_dir": "Ugyldig utgang katalog",
+        "read_input_file_fail": "Kan ikke lese inndatafilen",
+        "write_output_file_fail": "Kan ikke skrive output file",
+        "encode_fail": "Encode mislykkes, Ugyldig dataformat",
+        "decode_fail": "Decode mislykkes, Ugyldig dataformat",
+        "error": "Konvertere mislykkes"
+    }
+}

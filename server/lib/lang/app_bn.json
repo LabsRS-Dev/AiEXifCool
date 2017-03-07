@@ -1,0 +1,14 @@
+{
+    "app": {
+        "invalid_parameters": "অবৈধ পরামিতি",
+        "unknown_input_format": "অজানা ইনপুট ফরম্যাট",
+        "unknown_output_format": "অজানা আউটপুট ফরম্যাট",
+        "invalid_input_file": "অবৈধ ইনপুট ফাইল",
+        "invalid_output_dir": "অবৈধ আউটপুট ডিরেক্টরি",
+        "read_input_file_fail": "ইনপুট ফাইল পড়তে অক্ষম",
+        "write_output_file_fail": "আউটপুট ফাইলটি লিখতে অক্ষম",
+        "encode_fail": "সঙ্কেতাক্ষরে লিখা, অবৈধ তথ্য বিন্যাস ব্যর্থ",
+        "decode_fail": "ডিকোড, অবৈধ তথ্য বিন্যাস ব্যর্থ",
+        "error": "ব্যর্থ রূপান্তর"
+    }
+}

@@ -1,0 +1,26 @@
+#!/usr/bin/env node
+
+require('epipebomb')()
+var argv = require('minimist')(process.argv.slice(2));
+
+if (argv.help || argv.h) return usage();
+
+var csv = require('csv-parse');
+var record = require('csv-record-parser-stream');
+var parser = require('tableize-csv-parser');
+var json = require('JSONStream');
+var fs = require('fs');
+
+var delim = argv.d || argv.delim || ","
+var source = argv._[0]? fs.createReadStream(argv._[0]) : process.stdin;
+
+var s = source
+.pipe(csv({ delimiter: delim }))
+.pipe(record(parser()))
+.pipe(json.stringify(false))
+.pipe(process.stdout);
+
+function usage() {
+  console.log('usage: csv2json [-d "|"] [file]');
+  process.exit(1);
+}

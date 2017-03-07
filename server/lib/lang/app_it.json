@@ -1,0 +1,14 @@
+{
+    "app": {
+        "invalid_parameters": "Parametri non validi",
+        "unknown_input_format": "Formato di input sconosciuto",
+        "unknown_output_format": "Formato di output sconosciuto",
+        "invalid_input_file": "File di input non valido",
+        "invalid_output_dir": "Directory di output non valido",
+        "read_input_file_fail": "Impossibile leggere il file di input",
+        "write_output_file_fail": "Impossibile scrivere il file di output",
+        "encode_fail": "Encode fallire, il formato dei dati non valido",
+        "decode_fail": "Decode fallire, il formato dei dati non valido",
+        "error": "Conversione fail"
+    }
+}

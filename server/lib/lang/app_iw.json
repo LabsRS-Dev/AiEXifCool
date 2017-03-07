@@ -1,0 +1,14 @@
+{
+    "app": {
+        "invalid_parameters": "פרמטרים לא חוקיים",
+        "unknown_input_format": "תבנית קלט לא ידועה",
+        "unknown_output_format": "פלט בפורמט לא ידוע",
+        "invalid_input_file": "קובץ קלט לא חוקי",
+        "invalid_output_dir": "ספריית פלט לא חוקית",
+        "read_input_file_fail": "לא ניתן לקרוא את קובץ קלט",
+        "write_output_file_fail": "אין אפשרות לכתוב קובץ פלט",
+        "encode_fail": "לקודד להיכשל, נתונים בפורמט לא חוקי",
+        "decode_fail": "Decode להיכשל, נתונים בפורמט לא חוקי",
+        "error": "המרת ייכשל"
+    }
+}
