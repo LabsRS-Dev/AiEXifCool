@@ -8,9 +8,9 @@ const iconSet = {
   compare: 'images/compare.svg',
   report: 'images/report.svg'
 
-};
+}
 
 // export
 export default {
   iconSet
-};
+}

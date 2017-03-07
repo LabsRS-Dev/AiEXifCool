@@ -1,38 +1,38 @@
 // /----------- Base
-import Vue from 'vue';
-import VueI18n from 'vue-i18n';
-import VueRouter from 'vue-router';
-import KeenUI from 'keen-ui';
-import Vuex from 'vuex';
-import { BS, Util, _ } from 'dovemaxsdk';
+import Vue from 'vue'
+import VueI18n from 'vue-i18n'
+import VueRouter from 'vue-router'
+import KeenUI from 'keen-ui'
+import Vuex from 'vuex'
+import { BS, Util, _ } from 'dovemaxsdk'
 
 // /----------- Extern
-import './extern.js';
+import './extern.js'
 
 // /----------- Components
-import App from './App.vue';
-import Routes from './routes.js';
+import App from './App.vue'
+import Routes from './routes.js'
 
 // Allow inspection, even in production mode
-Vue.config.devtools = true;
+Vue.config.devtools = true
 
 // Use VueI18n
-Vue.use(VueI18n, {});
+Vue.use(VueI18n, {})
 
-window.Vue = Vue;
-window.VueI8n = VueI18n;
+window.Vue = Vue
+window.VueI8n = VueI18n
 
-const $ = Util.util.getJQuery$();
+const $ = Util.util.getJQuery$()
 
-const lang = 'zh-CN';
-const langJsonFile = './locale/' + lang + '.json';
+const lang = 'zh-CN'
+const langJsonFile = './locale/' + lang + '.json'
 /**
  * 由于ES6 中的Fetch函数，暂时还不能使用Babel转换成ES5标准的，所以统一使用jQuery来处理
  * 参考：
  * 1. https://www.npmjs.com/package/isomorphic-fetch
  * 2. https://www.npmjs.com/package/fetch-polyfill
  */
-function ___useES6Fetch(lang, cb) {
+function ___useES6Fetch (lang, cb) {
   Vue.locale(lang, () => {
     return fetch(langJsonFile, {
       method: 'get',
@@ -41,62 +41,62 @@ function ___useES6Fetch(lang, cb) {
         'Content-Type': 'application/json'
       }
     }).then(res => {
-      return res.json();
+      return res.json()
     }).then(json => {
       if (Object.keys(json).length === 0) {
-        return Promise.reject(new Error('locale empty !!'));
+        return Promise.reject(new Error('locale empty !!'))
       }
-      return Promise.resolve(json);
+      return Promise.resolve(json)
     }).catch(err => {
-      console.error(err);
-      return Promise.reject();
-    });
+      console.error(err)
+      return Promise.reject()
+    })
   }, () => {
-    console.log('set lang....');
-    Vue.config.lang = lang;
-    cb();
-  });
+    console.log('set lang....')
+    Vue.config.lang = lang
+    cb()
+  })
 }
 
-function ___useJQueryGet(lang, cb) {
+function ___useJQueryGet (lang, cb) {
   $.getJSON(langJsonFile, json => {
-    console.log('set lang....');
-    Vue.config.lang = lang;
-    const locales = {};
-    locales[lang] = json;
+    console.log('set lang....')
+    Vue.config.lang = lang
+    const locales = {}
+    locales[lang] = json
 
     cb(new VueI18n({
       locale: lang,
       messages: locales
-    }));
+    }))
   }).fail(err => {
-    console.error(err);
+    console.error(err)
     cb(new VueI18n({
       locale: 'en-us',
       messages: {}
-    }));
-  });
+    }))
+  })
 }
 
-function main() {
-  const bUseES6Fetch = false;
+function main () {
+  const bUseES6Fetch = false
   if (bUseES6Fetch) {
-    ___useES6Fetch(lang, startApp);
+    ___useES6Fetch(lang, startApp)
   } else {
-    ___useJQueryGet(lang, startApp);
+    ___useJQueryGet(lang, startApp)
   }
 }
 
-function startApp(i18nObj) {
+function startApp (i18nObj) {
   // Use KeenUI
-  Vue.use(KeenUI);
+  Vue.use(KeenUI)
 
   // Use router
-  Vue.use(VueRouter);
+  Vue.use(VueRouter)
   const router = new VueRouter({
     routes: Routes.routes,
     linkActiveClass: 'is-active'
-  });
+  })
 
   // App
   const app = new Vue({
@@ -105,16 +105,16 @@ function startApp(i18nObj) {
     components: {
       App
     },
-    render(h) {
-      console.log('start app render ....');
-      return h(App);
+    render (h) {
+      console.log('start app render ....')
+      return h(App)
     }
-  });
+  })
 
-  document.title = Routes.sysConfig.appName;
-  app.$mount('#app');
+  document.title = Routes.sysConfig.appName
+  app.$mount('#app')
 }
 
 $(document).ready(() => {
-  main();
-});
+  main()
+})

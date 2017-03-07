@@ -12,10 +12,14 @@
   },
   "extends":"vue",
   "rules": {
+    "no-inner-declarations":"warn",
     "new-cap":"off",
     "one-var": 0,
-    "camelcase": 1,
+    "camelcase": 0,
     "no-eval": 1,
-    "no-extend-native": 1
+    "no-extend-native": 1,
+    "no-prototype-builtins":"off",
+    "object-curly-spacing": ["error", "always"],
+    "no-multiple-empty-lines": ["error", { "max": 2, "maxBOF": 1 }]
   }
 }

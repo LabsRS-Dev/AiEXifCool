@@ -1,17 +1,17 @@
-import IconsRef from './data/icon.js';
-import sysConfigRef from './data/sys-config.js';
+import IconsRef from './data/icon.js'
+import sysConfigRef from './data/sys-config.js'
 
 // /AiExifCool
-import RepairPage from './pages/AiExifCool/Repair.vue';
+import RepairPage from './pages/AiExifCool/Repair.vue'
 
 // /
-import AboutPage from './pages/About.vue';
+import AboutPage from './pages/About.vue'
 
 // Config SystemConfig
-const icons = IconsRef.iconSet;
-const sysConfig = sysConfigRef.sysConfig;
+const icons = IconsRef.iconSet
+const sysConfig = sysConfigRef.sysConfig
 
-const rootPath = '/' + sysConfig.appName;
+const rootPath = '/' + sysConfig.appName
 
 // Config menu
 const menu = [{
@@ -122,7 +122,7 @@ const menu = [{
     sourceUrl: ''
   }]
 }
-];
+]
 
 // Generate a Vue Router compatible routes map from the menu
 const routes = menu.reduce((paths, section) => {
@@ -138,11 +138,11 @@ const routes = menu.reduce((paths, section) => {
         show: menuItem.show,
         sourceUrl: menuItem.sourceUrl
       }
-    };
-  });
+    }
+  })
 
-  return paths.concat(sectionPaths);
-}, []);
+  return paths.concat(sectionPaths)
+}, [])
 
 // export
 export default {
@@ -150,4 +150,4 @@ export default {
   icons,
   menu,
   routes
-};
+}

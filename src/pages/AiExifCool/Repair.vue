@@ -34,12 +34,17 @@
                 
             </ui-alert>   
         </div>
+
+        <div class="page__footbar page__footbar--aiexifcool-repair" v-if="taskList.length > 0">
+            <span>{{ $t('pages.repair.footbar.count') }} : {{ taskList.length }} </span>
+        </div>
     </section>
 </template>    
 
 <script>
 import { BS, Util, _ } from 'dovemaxsdk'
 import {UiIcon, UiTabs, UiTab, UiButton, UiIconButton, UiAlert, UiToolbar, UiProgressLinear} from 'keen-ui';
+import {Transfer} from '../../bridge/transfer'
 
 
 var baseID = "__page__repair__action__"
@@ -56,7 +61,7 @@ let taskList = [];
 
 class Task {
     constructor(thumb, name, path, size){
-        this.id = "__ID__" + Date.now() + Math.random();
+        this.id = "__ID__" + Date.now() + _.random(1000, 9999) + '__ID__';
         this.thumb = thumb;
         this.name = name;
         this.path = path;
@@ -130,21 +135,38 @@ export default {
         },
 
         removeAll(){
-            this.taskList.splice(0, this.taskList.length);
+            var that = this
+            that.taskList.splice(0, that.taskList.length);
         },
 
         fix(){
-            var taskObj = this.taskList[2];
-            taskObj.isworking = true;
-            this.progressInterval = setInterval(() => {
-                if (taskObj.progress >= 100) {
-                    taskObj.progress = 0;
-                    taskObj.isworking = false;
-                } else {
-                    taskObj.isworking = true;
-                    taskObj.progress += 5;
+            var that = this
+            console.log("---------------------- call export dir")
+            BS.b$.selectOutDir({
+                title: that.$t('pages.repair.dialog-select-outdir.title'),
+                prompt: that.$t('pages.repair.dialog-select-outdir.prompt'),
+                canCreateDir: true
+            },()=>{
+                startFix()
+            },(data)=>{
+                if(data.success) {
+                    var outDir = data.filePath
+                    startFix(outDir)
                 }
-            }, 600);
+            })
+
+            function startFix(outDir){
+                _.each(that.taskList, (taskObj, index) => {
+                    Transfer.Tools.Fix.Image.run({
+                        taskID: taskObj.id,
+                        src: taskObj.filePath,
+                        outDir: outDir || BS.b$.App.getTempDir()
+                    }, () =>{
+                        taskObj.isworking = true;
+                        taskObj.progress = _.random(30, 100);
+                    })
+                })
+            }
         }
     },
 

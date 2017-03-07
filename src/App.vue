@@ -51,8 +51,7 @@
     import VueI18n from 'vue-i18n'
     import {UiIcon} from 'keen-ui'
     import Sidebar from './pages/Sidebar.vue'
-    import {Transfer} from './bridge/transfer'
-
+    
 
     export default {
         data() {
@@ -69,7 +68,6 @@
 
         beforeCreate(){
             console.log('App.Vue');
-            Transfer.run(false);
         }
 
     }

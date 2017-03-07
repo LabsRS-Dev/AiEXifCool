@@ -38,9 +38,16 @@
         "remove":"清空导入",
         "fix":"执行修复"
       },
+      "footbar": {
+        "count": "图像文件数量"
+      },
       "dialog-import-images":{
         "title":"请选择要导入的图像文件",
         "prompt":"导入"
+      },
+      "dialog-select-outdir":{
+        "title":"请选择输出目录",
+        "prompt":"选择"
       }
     }
   }

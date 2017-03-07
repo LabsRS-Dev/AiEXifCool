@@ -6,7 +6,7 @@ const sysConfig = {
   appName: 'AiEXifCool',
   version: '1.0.0',
   homepage: 'https://github.com/LabsRS-Dev/AiEXifCool'
-};
+}
 
 // export
-export default { sysConfig };
+export default { sysConfig }

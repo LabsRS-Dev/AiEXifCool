@@ -5,10 +5,10 @@
 
 // /-----------------------------------------------------------
 // /CSS
-import 'keen-ui-css';
+import 'keen-ui-css'
 
 // /JS
-const obj = {};
+const obj = {}
 export default {
   obj
-};
+}
