@@ -36,7 +36,16 @@
       "toolbar":{
         "import":"导入损坏的图像文件",
         "remove":"清空导入",
-        "fix":"执行修复"
+        "fix":"执行修复",
+        "chancel":"取消修复"
+      },
+      "task-item":{
+         "file-name": "文件名称：",
+         "file-path": "文件路径：",
+         "file-size": "文件大小：",
+         "fix-progress": "修复进度：",
+         "open-parent-dir": "打开所在目录",
+         "review-in-file": "点击查看文件"
       },
       "footbar": {
         "count": "图像文件数量"

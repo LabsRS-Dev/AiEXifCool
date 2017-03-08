@@ -226,15 +226,17 @@ function Singleton () {
    * CLI调用Agent
    */
   const CLICallAgent = (function () {
-    function CLICallAgent (taskInfo, user_id, cb, service) {
+    function CLICallAgent (taskInfo, user_id, cb, event, service) {
       this.taskInfo = taskInfo
       this.user_id = user_id
       this.cb = cb
+      this.event = event
       this.service = service
       this.baseInfo = {
         task_id: taskInfo.task_id,
         task_cli: taskInfo.cli,
-        cb: taskInfo.callback
+        cb: taskInfo.callback,
+        event: event
       }
       this.result = null
     }
@@ -270,7 +272,7 @@ function Singleton () {
         var jsonStr = self.service.getJSONMessage(info)
 
         // / 返回调用的信息
-        fnSendMessageToClient(self.user_id, jsonStr)
+        fnSendMessageToClient(self.user_id, self.event, jsonStr)
 
         // / 定义反馈函数
         function sendFeedback (user_id, baseInfo, content) {
@@ -278,7 +280,7 @@ function Singleton () {
           info.msg_type = ServerTaskMsgTypes.RealTimeFeedback
           info.content = content
           const jsonStr = self.service.getJSONMessage(info)
-          fnSendMessageToClient(self.user_id, jsonStr) // 返回调用的信息
+          fnSendMessageToClient(self.user_id, self.event, jsonStr) // 返回调用的信息
         }
 
         function fncSendFeedbackMessage (content) {
@@ -335,11 +337,11 @@ function Singleton () {
    * @param user_id 标识与谁的连接
    * @param cb  调用方传过来的回调函数
    */
-  that.callCommonCLI = function (taskInfo, user_id, cb) {
+  that.callCommonCLI = function (taskInfo, user_id, cb, event) {
     const that = this
 
     console.log('callCommonCLI: %s', obj2str(taskInfo))
-    const agent = new CLICallAgent(taskInfo, user_id, cb, that)
+    const agent = new CLICallAgent(taskInfo, user_id, cb, event, that)
     agent.start()
   }
 }

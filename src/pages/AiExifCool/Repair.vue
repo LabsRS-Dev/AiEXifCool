@@ -7,6 +7,7 @@
                 :size="item.size" 
                 :color="item.color"
                 :key="item.id"
+                v-if="item.visiable"
                 v-for="item, index in actionList"
                 >
                     <span :class="item.icon" :title="$t(item.tooltip)"></span>
@@ -18,21 +19,51 @@
                 <div>
                     <div class="ui-toolbar__left">
                         <img :src="item.thumb" width="48" height="48" viewBox="0 0 48 48" /> 
-                        <strong class="ui-toolbar__left__fileName"> {{ item.name }} <sup class="ui-toolbar__left__fileSize">({{ item.size }})</sup></strong>
+                        <strong class="ui-toolbar__left__fileName" :title=" $t('pages.repair.task-item.file-name') +  item.name"> 
+                            {{ item.name }} 
+                            <sup class="ui-toolbar__left__fileSize" :title=" $t('pages.repair.task-item.file-size') +  item.size ">
+                            ({{ item.size }})
+                            </sup>
+                        </strong>
+
+                        <div class="">
+                            <ui-icon-button 
+                                @click="onOpenParentDir(item.fixOutDir)"
+                                type="secondary"
+                                color="black"
+                                size="small"
+                                v-if="item.fixState.state > 0"
+                                >
+                                <span class="fa fa-folder-open-o fa-lg fa-fw" :title=" $t('pages.repair.task-item.open-parent-dir') "></span>
+                            </ui-icon-button>
+
+                            <ui-icon-button 
+                                @click="onReviewInFile(item.fixpath)"
+                                type="secondary"
+                                color="black"
+                                size="small"
+                                v-if="item.fixState.state > 0"
+                                >
+                                <span class="fa fa-eye fa-lg fa-fw" :title=" $t('pages.repair.task-item.review-in-file') "></span>
+                            </ui-icon-button>
+                        </div>
+
+
                     </div>
                     <div class="ui-toolbar__body">
-                        <span class="ui-toolbar__body__filePath">{{ item.path }}</span>                       
+                        <span class="ui-toolbar__body__filePath" :title=" $t('pages.repair.task-item.file-path') + item.path">{{ item.path }}</span>
                     </div>
                     <div class="ui-toolbar__right"></div>
                     <ui-progress-linear
-                        :color=" !item.runState.hasErr? 'primary' : 'accent'"
+                        :color=" item.fixState.state >=0 ? 'primary' : 'accent'"
                         type="determinate"
                         :progress="item.progress"
                         v-show="item.isworking"
-                    ></ui-progress-linear>                      
+                        :title=" $t('pages.repair.task-item.fix-progress') + item.progress"
+                    ></ui-progress-linear>
                 </div>
                 
-            </ui-alert>   
+            </ui-alert>
         </div>
 
         <div class="page__footbar page__footbar--aiexifcool-repair" v-if="taskList.length > 0">
@@ -50,34 +81,30 @@ import {Transfer} from '../../bridge/transfer'
 var baseID = "__page__repair__action__"
 var baseIDIndex = -1
 
-const actionList = [
-    {id:baseID + ++baseIDIndex, color:"white", icon:"fa fa-folder-open-o fa-lg fa-fw", size:"small", type:"secondary", tooltip:"pages.repair.toolbar.import"},
-    {id:baseID + ++baseIDIndex, color:"white", icon:"fa fa-trash-o fa-lg fa-fw", size:"small", type:"secondary", tooltip:"pages.repair.toolbar.remove"},
-    {id:baseID + ++baseIDIndex, color:"green", icon:"fa fa-legal fa-lg fa-fw", size:"small", type:"secondary",  tooltip:"pages.repair.toolbar.fix"}
-]
-
-
 let taskList = [];
-
+const taskPrefix = 'fixpage-image-id-' + _.now()
 class Task {
     constructor(thumb, name, path, size){
-        this.id = "__ID__" + Date.now() + _.random(1000, 9999) + '__ID__';
-        this.thumb = thumb;
-        this.name = name;
-        this.path = path;
-        this.size = size;
+        this.id = _.uniqueId(taskPrefix);
+        this.thumb = thumb;   // 缩略图
+        this.name = name;     // 图像文件名称
+        this.path = path;     // 图像文件的路径
+        this.size = size;     // 图像文件的存储大小
 
-        this.style = {
+        /// ----- 展示样式相关
+        this.style = {         
             show: true, 
             type: "success"
-        }
+        };
 
-        this.isworking = false;
-        this.progress = 0;
-
-        this.runState = {
-            hasErr: false,
-            success: false
+        /// ----- 修复工作的情况
+        this.isworking = false;     // 是否正在修复中
+        this.progress = 0;          // 修复进度(100为单位)
+        this.fixOutDir = "";        // 指定的修复输出目录
+        this.fixpath = "";          // 修复成功的文件路径
+        this.fixState = {           // 修复运行状态
+            state: 0,               // 修复是否成功 0. 没有修复， 1，修复成功， -1修复失败
+            message: ""             // 修复结果的描述，如果是错误，描述错误，如果是成功，描述其定义内容
         }
     }
 
@@ -89,8 +116,9 @@ export default {
     
     data() {
         return {
-            actionList: actionList,
             taskList: taskList,
+            taskID2taskObj: {},
+            isFixworking: false,
             progressInterval: null
         }
     },
@@ -99,13 +127,31 @@ export default {
         clearInterval(this.progressInterval);
     },
 
+    computed:{
+        actionList() {
+            var that = this
+            return _.values(that.getActionsMap())
+        }
+    },
+
     methods:{
+        getActionsMap(){
+            var that = this
+            return {
+                'import': {id:_.uniqueId(baseID), visiable:true, color:"white", icon:"fa fa-folder-open-o fa-lg fa-fw", size:"small", type:"secondary", tooltip:"pages.repair.toolbar.import"},
+                'remove': {id:_.uniqueId(baseID), visiable:true, color:"white", icon:"fa fa-trash-o fa-lg fa-fw", size:"small", type:"secondary", tooltip:"pages.repair.toolbar.remove"},
+                'fix': {id:_.uniqueId(baseID), visiable:!that.isFixworking, color:"green", icon:"fa fa-legal fa-lg fa-fw", size:"small", type:"secondary",  tooltip:"pages.repair.toolbar.fix"},
+                'stopFix':{id:_.uniqueId(baseID), visiable:that.isFixworking, color:"red", icon:"fa fa-stop fa-lg fa-fw", size:"small", type:"secondary",  tooltip:"pages.repair.toolbar.chancel"}
+            }
+        },
+
         onToolBtnClick(index){
             console.log('onToolBtnClick', index)
             
             if (index === 0) this.importFiles()
             if (index === 1) this.removeAll()
             if (index === 2) this.fix()
+            if (index === 3) this.stopFix()
         },
 
         importFiles(){
@@ -119,9 +165,10 @@ export default {
                 allowMulSelection: true,
                 types:[] // Note: too many formats
             }, function(){
-                for(let i =0; i < 100; ++i){
+                for(let i =0; i < 50; ++i){
                     var taskObj = new Task("images/picture.svg", "Images" + i, "/url/image" + i, i + '.2MB')
                     that.taskList.push(taskObj)
+                    that.taskID2taskObj[taskObj.id] = taskObj
                 }  
             }, function(data){
                 if(data.success) {
@@ -129,6 +176,7 @@ export default {
                     imageFiles.forEach((fileObj, dinx) => {
                         let taskObj = new Task("images/picture.svg", fileObj.fileName, fileObj.filePath, fileObj.fileSizeStr)
                         that.taskList.push(taskObj)
+                        that.taskID2taskObj[taskObj.id] = taskObj
                     })
                 }
             })       
@@ -136,7 +184,8 @@ export default {
 
         removeAll(){
             var that = this
-            that.taskList.splice(0, that.taskList.length);
+            that.taskList.splice(0, that.taskList.length)
+            that.isFixworking = true
         },
 
         fix(){
@@ -156,17 +205,46 @@ export default {
             })
 
             function startFix(outDir){
+                var sourceImages = []
                 _.each(that.taskList, (taskObj, index) => {
-                    Transfer.Tools.Fix.Image.run({
-                        taskID: taskObj.id,
-                        src: taskObj.filePath,
-                        outDir: outDir || BS.b$.App.getTempDir()
-                    }, () =>{
-                        taskObj.isworking = true;
-                        taskObj.progress = _.random(30, 100);
+                    sourceImages.push({
+                        id: taskObj.id,
+                        path: taskObj.path
                     })
                 })
+                let count = 0;
+                Transfer.Tools.Fix.Image.run({
+                    taskID: _.uniqueId(taskPrefix + 'task-'),
+                    data:{
+                        src: sourceImages,
+                        outDir: outDir || BS.b$.App.getTempDir()
+                    }
+                }, (data) =>{
+                    let dataList = data.content
+
+                    _.each(dataList, (ele) => {
+                        let curImageTaskObj = that.taskID2taskObj[ele.id]
+                        if (curImageTaskObj) {
+                            curImageTaskObj.isworking = true
+                            curImageTaskObj.progress = ele.progress
+                        }
+                    })
+
+                    ++count
+                    console.log('count :', count)
+
+                })
             }
+        },
+
+        stopFix(){
+            var that = this
+            that.isFixworking = false
+        },
+
+        // -----------------------------------------
+        onOpenParentDir(dir){
+
         }
     },
 

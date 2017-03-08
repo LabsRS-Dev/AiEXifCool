@@ -10,6 +10,9 @@
   "parserOptions": {
     "sourceType": "module"
   },
+  "plugins": [
+    "vue"
+  ],
   "extends":"vue",
   "rules": {
     "no-inner-declarations":"warn",

@@ -52,7 +52,7 @@ const __$p$ = {
 
 //  绑定工具
 __$p$.Tools = {
-  Hello: (handler, one = false) => {
+  Hello: (handler, one = true) => {
     __$p$.send({ data: 'Hello' }, data => {
       handler(data)
     }, one)
@@ -60,19 +60,26 @@ __$p$.Tools = {
   Fix: {
     Image: {
       run: (options = {}, handler, one = false) => {
-        const debugMode = true
+        const debugMode = false
         if (debugMode === false) {
-          const info = {
-            taskID: options.taskID, // 任务ID
-            cli: '',                // 动态调用的模块
-            reload: false,          // 默认是false, 支持热部署, 是否重新加载动态模块
-            command: [              // 命令
-              { action: '' }
+          const taskInfo = {
+            task_id: options.taskID,                    // 任务ID
+            cli: 'aiexifcool/fix.image/index',          // 动态调用的模块
+            reload: false,                              // 默认是false, 支持热部署, 是否重新加载动态模块
+            command: [                                  // 命令
+              { action: 'startFix', data: options.data }
             ]
           }
 
+          const info = {
+            taskInfo: taskInfo,
+            msg_type: 'c_task_exec'
+          }
+
           __$p$.send(info, data => {
-            handler(data)
+            if (data.task_id === options.taskID) { // 只处理本任务的返回数据
+              handler(data)
+            }
           }, one)
         } else {
           handler()

@@ -52,10 +52,6 @@ function startServer (options) {
           return
         }
 
-        client.send(event, {
-          data: 'Hi'
-        })
-
         // 信息处理{服务器使用s_作为前缀，客户端使用c_作为前缀}
         const msg_type = dictInfo.msg_type
         const user_id = dictInfo.user_id
@@ -66,7 +62,7 @@ function startServer (options) {
 
         } else if (msg_type === 'c_task_exec') {
           const taskInfo = dictInfo.taskInfo
-          RTYCommon.call_common_cli(taskInfo, user_id, send_updateWithId)
+          RTYCommon.callCommonCLI(taskInfo, user_id, send_updateWithId, event)
         }
       }
     })
