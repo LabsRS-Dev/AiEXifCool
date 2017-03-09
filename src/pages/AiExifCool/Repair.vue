@@ -15,7 +15,7 @@
         </div>        
 
         <div class="page__examples page__examples--aiexifcool-repair">
-            <ui-alert @dismiss="item.style.show = false" removeIcon :type="item.style.type" v-show="item.style.show" :key="item" v-for="item in taskList">
+            <ui-alert @dismiss="onRemoveTaskItem(item, index)" removeIcon :type="item.style.type" v-show="item.style.show" :key="item" v-for="item, index in taskList">
                 <div>
                     <div class="ui-toolbar__left">
                         <img :src="item.thumb" width="48" height="48" viewBox="0 0 48 48" /> 
@@ -38,7 +38,7 @@
                             </ui-icon-button>
 
                             <ui-icon-button 
-                                @click="onReviewInFile(item.fixpath)"
+                                @click="onPreviewFile(item.fixpath)"
                                 type="secondary"
                                 color="black"
                                 size="small"
@@ -243,8 +243,34 @@ export default {
         },
 
         // -----------------------------------------
-        onOpenParentDir(dir){
+        // for task item
+        __removeTaskItem(item, index) {
+            var that = this
+            item.isworking = false;
+            // TODO：remove it from taskList
+            item.progress = 0
+            item.fixState = 0
+            that.taskID2taskObj[item.id] = null
+            that.taskList.splice(index, 1)
+        },
+        onRemoveTaskItem(item, index) {
+            console.log('item: ', item, 'index: ', index)
+            var that = this
+            
+            if(item.isworking) {
+                // TODO: stop fix and remove info
 
+            }else {
+                that.__removeTaskItem(item, index)
+            }
+
+        },
+        onOpenParentDir(dir){
+            var that = this
+            BS.b$.revealInFinder(dir)
+        },
+        onPreviewFile(file){
+            BS.b$.previewFile(dir)
         }
     },
 
