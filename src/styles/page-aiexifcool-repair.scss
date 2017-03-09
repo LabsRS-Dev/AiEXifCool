@@ -1,3 +1,20 @@
+.page__toolbar--aiexifcool-repair{
+    .ui-confirm {
+        background-color: #2b2b2b;
+        font-size: rem-calc(13px);
+        border-radius: rem-calc(4px);
+
+        .ui-modal__header {
+            background-color: $md-grey-600;
+        }
+        .ui-modal__container {
+            background-color: #2b2b2b;
+            color: $md-grey-400;
+        }
+    }
+}
+
+
 .page__examples--aiexifcool-repair{
     margin: auto;
     height: 76vh;

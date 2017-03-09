@@ -12,7 +12,20 @@
                 >
                     <span :class="item.icon" :title="$t(item.tooltip)"></span>
             </ui-icon-button>
-        </div>        
+
+            <ui-confirm
+                :autofocus="confirmDialog.autofocus"
+                :confirm-button-text="confirmDialog.confirmButtonText"
+                :deny-button-text="confirmDialog.denyButtonText"
+                :ref="confirmDialog.ref"
+                :title="confirmDialog.title"
+
+                @confirm="onConfirmDialogConfirm"
+                @deny="onConfirmDialogDeny"
+            >
+                {{ confirmDialog.content }}
+            </ui-confirm>
+        </div>
 
         <div class="page__examples page__examples--aiexifcool-repair">
             <ui-alert @dismiss="onRemoveTaskItem(item, index)" removeIcon :type="item.style.type" v-show="item.style.show" :key="item" v-for="item, index in taskList">
@@ -74,7 +87,7 @@
 
 <script>
 import { BS, Util, _ } from 'dovemaxsdk'
-import {UiIcon, UiTabs, UiTab, UiButton, UiIconButton, UiAlert, UiToolbar, UiProgressLinear} from 'keen-ui';
+import {UiIcon, UiTabs, UiTab, UiConfirm, UiButton, UiIconButton, UiAlert, UiToolbar, UiProgressLinear} from 'keen-ui';
 import {Transfer} from '../../bridge/transfer'
 
 
@@ -119,8 +132,18 @@ export default {
             taskList: taskList,
             taskID2taskObj: {},
             isFixworking: false,
-            progressInterval: null,
-            curFixTaskID: null
+            progressInterval: null,  // 进度条轮询
+            confirmDialog:{
+                ref: 'default',
+                autofocus: 'confirm-button',
+                confirmButtonText: 'Confirm',
+                denyButtonText: 'Deny',
+                title: '',
+                content: '',
+                callbackConfirm: ()=>{},
+                callbackDeny: ()=>{}
+            }, 
+            curFixTaskID: null       // 当前正在执行修复的整体任务ID
         }
     },
 
@@ -146,16 +169,29 @@ export default {
             }
         },
 
+        // ------------------------- Confirm dialog
+        onConfirmDialogConfirm(){
+            var that = this
+            const  fn = that.confirmDialog.callbackConfirm
+            fn && fn()
+        },
+        onConfirmDialogDeny(){
+            var that = this
+            const  fn = that.confirmDialog.callbackDeny
+            fn && fn()
+        },
+
+        // -------------------------- Tool bar
         onToolBtnClick(index){
             console.log('onToolBtnClick', index)
             
-            if (index === 0) this.importFiles()
-            if (index === 1) this.removeAll()
-            if (index === 2) this.fix()
-            if (index === 3) this.stopFix()
+            if (index === 0) this.onBtnImportFilesClick()
+            if (index === 1) this.onBtnRemoveAllClick()
+            if (index === 2) this.onBtnFixClick()
+            if (index === 3) this.onBtnStopFixClick()
         },
 
-        importFiles(){
+        onBtnImportFilesClick(){
             var that = this
 
             console.log("-------------------- call import files")
@@ -183,13 +219,26 @@ export default {
             })       
         },
 
-        removeAll(){
+        onBtnRemoveAllClick(){
             var that = this
-            that.stopFix()
-            that.taskList.splice(0, that.taskList.length)
+
+            if(that.taskList.length > 0) {
+                const cdg = that.confirmDialog
+                cdg.title = that.$t('pages.repair.dialog-confirm-remove-all.title')
+                cdg.content = that.$t('pages.repair.dialog-confirm-remove-all.message')
+                cdg.confirmButtonText = that.$t('pages.repair.dialog-confirm-remove-all.btnConfirm')
+                cdg.denyButtonText = that.$t('pages.repair.dialog-confirm-remove-all.btnDeny')
+
+                var dialog = that.$refs[cdg.ref]
+                cdg.callbackConfirm = () =>{
+                    that.stopFix()
+                    that.taskList.splice(0, that.taskList.length)
+                }
+                dialog.open()
+            }
         },
 
-        fix(){
+        onBtnFixClick(){
             var that = this
             console.log("---------------------- call export dir")
             BS.b$.selectOutDir({
@@ -197,47 +246,67 @@ export default {
                 prompt: that.$t('pages.repair.dialog-select-outdir.prompt'),
                 canCreateDir: true
             },()=>{
-                startFix()
+                that.startFix()
             },(data)=>{
                 if(data.success) {
                     var outDir = data.filePath
-                    startFix(outDir)
+                    that.startFix(outDir)
                 }
             })
+        },
 
-            function startFix(outDir){
-                var srcImagesMap = {}
-                _.each(that.taskList, (taskObj, index) => {
-                    srcImagesMap[taskObj.id] = taskObj.path
-                })
+        onBtnStopFixClick(){
+            var that = this
 
-                that.curFixTaskID = _.uniqueId(taskPrefix + 'task-')
-                Transfer.Tools.Fix.Image.run({
-                    taskID: that.curFixTaskID,
-                    data:{
-                        src: srcImagesMap,
-                        outDir: outDir || BS.b$.App.getTempDir()
-                    }
-                }, (data) =>{
-                    if (data.msg_type === 's_task_exec_running') {
+            if(that.isFixworking) {
+                const cdg = that.confirmDialog
+                cdg.title = that.$t('pages.repair.dialog-confirm-stop-fix.title')
+                cdg.content = that.$t('pages.repair.dialog-confirm-stop-fix.message')
+                cdg.confirmButtonText = that.$t('pages.repair.dialog-confirm-stop-fix.btnConfirm')
+                cdg.denyButtonText = that.$t('pages.repair.dialog-confirm-stop-fix.btnDeny')
 
-                    }else if (data.msg_type === 's_task_exec_feedback') {
-                        let dataList = data.content
-                        that.isFixworking = (dataList.length > 0)
-                        _.each(dataList, (ele) => {
-                            let curImageTaskObj = that.taskID2taskObj[ele.id]
-                            if (curImageTaskObj) {
-                                curImageTaskObj.isworking = true
-                                curImageTaskObj.progress = ele.progress >= 100 ? 100: ele.progress
-                                curImageTaskObj.fixState.state = ele.state
-                                // TODO
-                            }
-                        })
-                    }else if (data.msg_type === 's_task_exec_result') {
+                var dialog = that.$refs[cdg.ref]
+                cdg.callbackConfirm = () =>{
+                    that.stopFix()
+                }
+                dialog.open()
+            }            
+        },
 
-                    }
-                })
-            }
+        startFix(outDir){
+            var that = this
+
+            var srcImagesMap = {}
+            _.each(that.taskList, (taskObj, index) => {
+                srcImagesMap[taskObj.id] = taskObj.path
+            })
+
+            that.curFixTaskID = _.uniqueId(taskPrefix + 'task-')
+            Transfer.Tools.Fix.Image.run({
+                taskID: that.curFixTaskID,
+                data:{
+                    src: srcImagesMap,
+                    outDir: outDir || BS.b$.App.getTempDir()
+                }
+            }, (data) =>{
+                if (data.msg_type === 's_task_exec_running') {
+                    that.isFixworking = true
+                }else if (data.msg_type === 's_task_exec_feedback') {
+                    let dataList = data.content
+                    that.isFixworking = (dataList.length > 0)
+                    _.each(dataList, (ele) => {
+                        let curImageTaskObj = that.taskID2taskObj[ele.id]
+                        if (curImageTaskObj) {
+                            curImageTaskObj.isworking = true
+                            curImageTaskObj.progress = ele.progress >= 100 ? 100: ele.progress
+                            curImageTaskObj.fixState.state = ele.state
+                            // TODO
+                        }
+                    })
+                }else if (data.msg_type === 's_task_exec_result') {
+
+                }
+            })
         },
 
         stopFix(){
@@ -250,12 +319,16 @@ export default {
                 // prepare
                 srcImagesMap[taskObj.id] = taskObj.path
             })
-            Transfer.Tools.Fix.Image.chancel({
-                taskID: that.curFixTaskID,
-                data:{
-                    src: srcImagesMap
-                }
-            })
+
+            if(_.keys(srcImagesMap).length > 0 && that.isFixworking) {
+                Transfer.Tools.Fix.Image.chancel({
+                    taskID: that.curFixTaskID,
+                    data:{
+                        src: srcImagesMap
+                    }
+                })
+            }
+
             that.isFixworking = false
         },
 
@@ -299,6 +372,7 @@ export default {
         onPreviewFile(file){
             BS.b$.previewFile(dir)
         }
+        // -------------------------------------------
     },
 
     components: {
@@ -309,6 +383,7 @@ export default {
         UiIconButton,
         UiAlert,
         UiToolbar,
+        UiConfirm,
         UiProgressLinear
     }
 }

@@ -61,12 +61,13 @@ function Singleton () {
 
   t$.stopFix = (taskID, removeData) => {
     const curData = t$.taskMap[taskID]
-    const sourceImageMap = curData.src
-
-    const removeImageMap = removeData.src
-    Object.keys(removeImageMap).forEach((imgId) => {
-      delete sourceImageMap[imgId]
-    })
+    if (curData) {
+      const sourceImageMap = curData.src
+      const removeImageMap = removeData.src
+      Object.keys(removeImageMap).forEach((imgId) => {
+        delete sourceImageMap[imgId]
+      })
+    }
   }
 
 

@@ -57,7 +57,19 @@
       "dialog-select-outdir":{
         "title":"请选择输出目录",
         "prompt":"选择"
-      }
+      },
+      "dialog-confirm-remove-all":{
+        "title":"确认操作",
+        "btnConfirm": "确定",
+        "btnDeny": "取消",
+        "message": "确定要清空导入的图片信息吗？"
+      },
+      "dialog-confirm-stop-fix":{
+        "title":"确认操作",
+        "btnConfirm": "确定",
+        "btnDeny": "取消",
+        "message": "确定要终止所有修复操作吗？"
+      }      
     }
   }
 }
