@@ -185,8 +185,8 @@ export default {
 
         removeAll(){
             var that = this
+            that.stopFix()
             that.taskList.splice(0, that.taskList.length)
-            that.isFixworking = true
         },
 
         fix(){
