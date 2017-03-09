@@ -37,7 +37,7 @@
         "import":"导入损坏的图像文件",
         "remove":"清空导入",
         "fix":"执行修复",
-        "chancel":"取消修复"
+        "chancel":"停止修复"
       },
       "task-item":{
          "file-name": "文件名称：",

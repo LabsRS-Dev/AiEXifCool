@@ -299,7 +299,7 @@ function Singleton () {
 
         const cliMain = self.service.getFunc(cli, 'MainRTYCLI', reload)
         if (cliMain) {
-          data = cliMain(fncSendFeedbackMessage, command)
+          data = cliMain(fncSendFeedbackMessage, command, self.baseInfo)
         } else {
           console.log('no found cliMain.......')
         }

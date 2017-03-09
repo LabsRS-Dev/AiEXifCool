@@ -1,4 +1,4 @@
-import { BS, Util, _, SelfClass } from 'dovemaxsdk'
+import { BS, SelfClass, Util, _ } from 'dovemaxsdk'
 
 // -----------------------------------------------------------------
 // 交互处理
@@ -44,7 +44,7 @@ const __$p$ = {
   },
 
   send: (message, handler, one = true) => {
-    __$p$.frontAgent.registerOnReceiveFromServer(handler, one)
+    handler && __$p$.frontAgent.registerOnReceiveFromServer(handler, one)
     __$p$.frontAgent.noticeToServer(message)
     return __$p$
   }
@@ -78,22 +78,29 @@ __$p$.Tools = {
 
           __$p$.send(info, data => {
             if (data.task_id === options.taskID) { // 只处理本任务的返回数据
-              handler(data)
+              handler && handler(data)
             }
           }, one)
         } else {
-          handler()
+          handler && handler()
         }
       },
-      chancel: (options = {}, handler, one = false) => {
-        const debugMode = true
-        if (debugMode === false) {
-          __$p$.send({ data: options }, data => {
-            handler(data)
-          }, one)
-        } else {
-          handler()
+      chancel: (options = {}) => {
+        const taskInfo = {
+          task_id: options.taskID,                    // 任务ID
+          cli: 'aiexifcool/fix.image/index',          // 动态调用的模块
+          reload: false,                              // 默认是false, 支持热部署, 是否重新加载动态模块
+          command: [                                  // 命令
+            { action: 'stopFix', data: options.data }
+          ]
         }
+
+        const info = {
+          taskInfo: taskInfo,
+          msg_type: 'c_task_exec'
+        }
+
+        __$p$.send(info) // 不需要监视结果
       }
     }
   }

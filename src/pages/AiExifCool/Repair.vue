@@ -119,7 +119,8 @@ export default {
             taskList: taskList,
             taskID2taskObj: {},
             isFixworking: false,
-            progressInterval: null
+            progressInterval: null,
+            curFixTaskID: null
         }
     },
 
@@ -141,7 +142,7 @@ export default {
                 'import': {id:_.uniqueId(baseID), visiable:true, color:"white", icon:"fa fa-folder-open-o fa-lg fa-fw", size:"small", type:"secondary", tooltip:"pages.repair.toolbar.import"},
                 'remove': {id:_.uniqueId(baseID), visiable:true, color:"white", icon:"fa fa-trash-o fa-lg fa-fw", size:"small", type:"secondary", tooltip:"pages.repair.toolbar.remove"},
                 'fix': {id:_.uniqueId(baseID), visiable:!that.isFixworking, color:"green", icon:"fa fa-legal fa-lg fa-fw", size:"small", type:"secondary",  tooltip:"pages.repair.toolbar.fix"},
-                'stopFix':{id:_.uniqueId(baseID), visiable:that.isFixworking, color:"red", icon:"fa fa-stop fa-lg fa-fw", size:"small", type:"secondary",  tooltip:"pages.repair.toolbar.chancel"}
+                'stopFix':{id:_.uniqueId(baseID), visiable:that.isFixworking, color:"red", icon:"fa fa-hand-paper-o fa-lg fa-fw", size:"small", type:"secondary",  tooltip:"pages.repair.toolbar.chancel"}
             }
         },
 
@@ -205,40 +206,56 @@ export default {
             })
 
             function startFix(outDir){
-                var sourceImages = []
+                var srcImagesMap = {}
                 _.each(that.taskList, (taskObj, index) => {
-                    sourceImages.push({
-                        id: taskObj.id,
-                        path: taskObj.path
-                    })
+                    srcImagesMap[taskObj.id] = taskObj.path
                 })
-                let count = 0;
+
+                that.curFixTaskID = _.uniqueId(taskPrefix + 'task-')
                 Transfer.Tools.Fix.Image.run({
-                    taskID: _.uniqueId(taskPrefix + 'task-'),
+                    taskID: that.curFixTaskID,
                     data:{
-                        src: sourceImages,
+                        src: srcImagesMap,
                         outDir: outDir || BS.b$.App.getTempDir()
                     }
                 }, (data) =>{
-                    let dataList = data.content
+                    if (data.msg_type === 's_task_exec_running') {
 
-                    _.each(dataList, (ele) => {
-                        let curImageTaskObj = that.taskID2taskObj[ele.id]
-                        if (curImageTaskObj) {
-                            curImageTaskObj.isworking = true
-                            curImageTaskObj.progress = ele.progress
-                        }
-                    })
+                    }else if (data.msg_type === 's_task_exec_feedback') {
+                        let dataList = data.content
+                        that.isFixworking = (dataList.length > 0)
+                        _.each(dataList, (ele) => {
+                            let curImageTaskObj = that.taskID2taskObj[ele.id]
+                            if (curImageTaskObj) {
+                                curImageTaskObj.isworking = true
+                                curImageTaskObj.progress = ele.progress >= 100 ? 100: ele.progress
+                                curImageTaskObj.fixState.state = ele.state
+                                // TODO
+                            }
+                        })
+                    }else if (data.msg_type === 's_task_exec_result') {
 
-                    ++count
-                    console.log('count :', count)
-
+                    }
                 })
             }
         },
 
         stopFix(){
             var that = this
+            // send stop message to server
+            var srcImagesMap = {}
+            _.each(that.taskList, (taskObj, index) => {
+                // change all item state
+                taskObj.isworking = false
+                // prepare
+                srcImagesMap[taskObj.id] = taskObj.path
+            })
+            Transfer.Tools.Fix.Image.chancel({
+                taskID: that.curFixTaskID,
+                data:{
+                    src: srcImagesMap
+                }
+            })
             that.isFixworking = false
         },
 
@@ -251,6 +268,8 @@ export default {
             item.progress = 0
             item.fixState = 0
             that.taskID2taskObj[item.id] = null
+
+            // remove from taskList
             that.taskList.splice(index, 1)
         },
         onRemoveTaskItem(item, index) {
@@ -258,8 +277,16 @@ export default {
             var that = this
             
             if(item.isworking) {
-                // TODO: stop fix and remove info
-
+                // notice to server 
+                let srcImagesMap = {}
+                srcImagesMap[item.id] = item.path
+                Transfer.Tools.Fix.Image.chancel({
+                    taskID: that.curFixTaskID,
+                    data:{
+                        src: srcImagesMap
+                    }
+                })
+                that.__removeTaskItem(item, index)
             }else {
                 that.__removeTaskItem(item, index)
             }

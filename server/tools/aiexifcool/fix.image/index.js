@@ -22,9 +22,56 @@ function _toStr (obj) {
 function Singleton () {
   var t$ = this
 
-  t$.MainRTYCLI = function (fnc_cb, command) {
-    console.log("Hi I'm here!")
-    console.log("Hi I'm here!.....")
+  t$.feedbackCallback = null
+  t$.feedbackIntervalHandler = null
+  t$.feedbackIntervalSec = 8
+  t$.taskMap = {
+    '___eg.taskID': {}   // 任务对应数据
+  }
+
+
+  t$.fix = (taskID) => {
+    const data = t$.taskMap[taskID]
+    const sourceImageMap = data.src
+    const outputDir = data.outputDir
+
+    // 以下是模拟数据处理方式
+    t$.feedbackIntervalHandler = setInterval(() => {
+      const dataList = []
+      Object.keys(sourceImageMap).forEach((imgId) => {
+        const step = parseInt(Math.random() * 200 + 1)
+        const state = Math.random() * 1 > 0.5 ? 1 : -1
+
+        dataList.push({
+          id: imgId,
+          progress: step,
+          state: state
+        })
+      })
+
+      console.log('processing image data count: ', dataList.length)
+      if (dataList.length === 0) {
+        clearInterval(t$.feedbackIntervalHandler)
+        t$.feedbackIntervalHandler = null
+      }
+      t$.feedbackCallback(dataList)
+    }, t$.feedbackIntervalSec * 1000)
+    // -----
+  }
+
+  t$.stopFix = (taskID, removeData) => {
+    const curData = t$.taskMap[taskID]
+    const sourceImageMap = curData.src
+
+    const removeImageMap = removeData.src
+    Object.keys(removeImageMap).forEach((imgId) => {
+      delete sourceImageMap[imgId]
+    })
+  }
+
+
+  t$.MainRTYCLI = function (fnc_cb, command, baseInfo, ...args) {
+    t$.feedbackCallback = fnc_cb
     console.log('command: %s', _toStr(command))
 
     command.forEach((oneCommand) => {
@@ -32,21 +79,16 @@ function Singleton () {
       const data = oneCommand.data
 
       if (action === 'startFix') {
-        setInterval(function () {
-          const list = []
-          data.src.forEach((fileObj) => {
-            const step = Math.random() * 100 + 1
-            list.push({
-              id: fileObj.id,
-              progress: step
-            })
-          })
+        const taskID = baseInfo.task_id
+        t$.taskMap[taskID] = data
 
-          fnc_cb(list)
-          list.length = 0
-        }, 3000)
+        // 以下可以派发到真正运行的处理程序中，进行轮询汇报
+        t$.fix(taskID)
       } else if (action === 'stopFix') {
+        const taskID = baseInfo.task_id
 
+        // 以下派发给自己，要清除这些运行的数据
+        t$.stopFix(taskID, data)
       }
     })
   }
