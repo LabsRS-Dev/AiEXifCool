@@ -5,6 +5,7 @@
 // / 来源于NodejS系统内置的
 const sysUtil = require('util')
 const sysPath = require('path')
+const fixTool = require('./fix_tool')
 
 
 function _toStr (obj) {
@@ -24,13 +25,16 @@ function Singleton () {
 
   t$.feedbackCallback = null
   t$.feedbackIntervalHandler = null
-  t$.feedbackIntervalSec = 8
+  t$.feedbackIntervalSec = 2
   t$.taskMap = {
     '___eg.taskID': {}   // 任务对应数据
   }
 
 
   t$.fix = (taskID) => {
+    var oneFixTool = fixTool()
+    oneFixTool.log('1212121212121')
+
     const data = t$.taskMap[taskID]
     const sourceImageMap = data.src
     const outputDir = data.outputDir

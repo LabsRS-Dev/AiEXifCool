@@ -79,8 +79,11 @@
             </ui-alert>
         </div>
 
-        <div class="page__footbar page__footbar--aiexifcool-repair" v-if="taskList.length > 0">
-            <span>{{ $t('pages.repair.footbar.count') }} : {{ taskList.length }} </span>
+        <div :class=" ['page__footbar page__footbar--aiexifcool-repair', {transferNormal: transferIsNormal}, {fixWorking: isFixworking}]" v-if="taskList.length >= 0">
+            <span>{{ $t('pages.repair.footbar.fileCount') }} : {{ taskList.length }} </span>
+            <span>{{ $t('pages.repair.footbar.state') }} : {{ isFixworking ? $t('pages.repair.footbar.isFixWorking') : $t('pages.repair.footbar.isWaiting') }} </span>
+            <i :class="[isFixworking ? 'fa fa-spinner fa-spin fa-lg fa-fw':'fa fa-lg fa-fw' ]"/></i>
+            <span>{{ $t('pages.repair.footbar.transferState') }} : {{ transferIsNormal ? $t('pages.repair.footbar.transferIsNormal') : $t('pages.repair.footbar.transferIsFault') }} </span>
         </div>
     </section>
 </template>    
@@ -132,10 +135,11 @@ export default {
             taskList: taskList,
             taskID2taskObj: {},
             isFixworking: false,
+            transferIsNormal: Transfer.isRunning,  // Is transfer is working normal?
             progressInterval: null,  // 进度条轮询
             confirmDialog:{
                 ref: 'default',
-                autofocus: 'confirm-button',
+                autofocus: 'none',
                 confirmButtonText: 'Confirm',
                 denyButtonText: 'Deny',
                 title: '',
@@ -147,6 +151,17 @@ export default {
         }
     },
 
+    beforeCreate(){
+        var that = this
+
+        Transfer.frontAgent.registerOnChannelFault(() => {
+            that.onTransferIsFault()
+        })
+
+        Transfer.frontAgent.registerOnFinishBuildChannel(() => {
+            that.onTransferIsNoraml()
+        })
+    },
     beforeDestroy() {
         clearInterval(this.progressInterval);
     },
@@ -167,6 +182,20 @@ export default {
                 'fix': {id:_.uniqueId(baseID), visiable:!that.isFixworking, color:"green", icon:"fa fa-legal fa-lg fa-fw", size:"small", type:"secondary",  tooltip:"pages.repair.toolbar.fix"},
                 'stopFix':{id:_.uniqueId(baseID), visiable:that.isFixworking, color:"red", icon:"fa fa-hand-paper-o fa-lg fa-fw", size:"small", type:"secondary",  tooltip:"pages.repair.toolbar.chancel"}
             }
+        },
+        // ------------------------- on Transfer Events
+        onTransferIsNoraml() {
+            var that = this
+            that.transferIsNormal = true
+        },
+        onTransferIsFault(){
+            var that = this
+            that.transferIsNormal = false
+            that.isFixworking = false
+
+            // All task list run working
+            that.stopFix()
+
         },
 
         // ------------------------- Confirm dialog
@@ -240,6 +269,13 @@ export default {
 
         onBtnFixClick(){
             var that = this
+            
+            if(that.taskList.length === 0) {
+                return BS.b$.Notice.alert({
+                    message: that.$t('pages.repair.notice-no-items.message')
+                })
+            }
+
             console.log("---------------------- call export dir")
             BS.b$.selectOutDir({
                 title: that.$t('pages.repair.dialog-select-outdir.title'),
@@ -309,7 +345,7 @@ export default {
             })
         },
 
-        stopFix(){
+        stopFix(notice = true){
             var that = this
             // send stop message to server
             var srcImagesMap = {}
@@ -320,6 +356,7 @@ export default {
                 srcImagesMap[taskObj.id] = taskObj.path
             })
 
+            if(!notice) return
             if(_.keys(srcImagesMap).length > 0 && that.isFixworking) {
                 Transfer.Tools.Fix.Image.chancel({
                     taskID: that.curFixTaskID,
@@ -328,8 +365,6 @@ export default {
                     }
                 })
             }
-
-            that.isFixworking = false
         },
 
         // -----------------------------------------

@@ -45,11 +45,22 @@
     }
 }
 
+
 .page__footbar--aiexifcool-repair{
+    background-color: #e20f00;
+    margin-top: rem-calc(4px);
     span {
-        color: $md-grey-400;
-        font-size: rem-calc(11px);
-        padding:  rem-calc(2px);
+        color: $md-grey-300;
+        font-size: rem-calc(9px);
+        padding:  rem-calc(4px);
     }
 
+}
+
+.transferNormal {
+    background-color: #164196;
+}
+
+.fixWorking {
+    background-color: #209129;
 }

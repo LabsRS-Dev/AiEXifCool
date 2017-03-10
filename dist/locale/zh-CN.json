@@ -48,7 +48,13 @@
          "review-in-file": "点击查看文件"
       },
       "footbar": {
-        "count": "图像文件数量"
+        "fileCount": "文件数量",
+        "state": "当前修复状态",
+        "isFixWorking": "正在执行修复",
+        "isWaiting":"等待执行修复",
+        "transferState": "修复引擎状态",
+        "transferIsNormal": "连接正常",
+        "transferIsFault": "无法连接"
       },
       "dialog-import-images":{
         "title":"请选择要导入的图像文件",
@@ -69,6 +75,9 @@
         "btnConfirm": "确定",
         "btnDeny": "取消",
         "message": "确定要终止所有修复操作吗？"
+      },
+      "notice-no-items":{
+        "message": "请先导入损坏的图像文件，然后在执行修复操作！"
       }      
     }
   }
