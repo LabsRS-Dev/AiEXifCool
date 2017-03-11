@@ -131,6 +131,7 @@ class Task {
 export default {
     
     data() {
+        console.log("Repair.vue call data()")
         return {
             taskList: taskList,
             taskID2taskObj: {},
@@ -153,12 +154,14 @@ export default {
 
     beforeCreate(){
         var that = this
+        console.log('Repair.vue beforeCreate')
+        console.log(Transfer)
 
-        Transfer.frontAgent.registerOnChannelFault(() => {
+        Transfer.frontAgent.registerOnChannelFault(function () {
             that.onTransferIsFault()
         })
 
-        Transfer.frontAgent.registerOnFinishBuildChannel(() => {
+        Transfer.frontAgent.registerOnFinishBuildChannel(function (){
             that.onTransferIsNoraml()
         })
     },

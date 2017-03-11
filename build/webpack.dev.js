@@ -9,7 +9,8 @@ const base = require('./webpack.base.js');
 const config = merge(base, {
 
     watch: true,
-    devtool: '#eval-source-map',
+    //devtool: '#eval-source-map',
+    devtool: 'source-map',
 
     entry: [
         options.paths.resolve('src/index.js')
@@ -35,6 +36,7 @@ const config = merge(base, {
         }),
 
         new webpack.LoaderOptionsPlugin({
+            debug: true,
             minimize: true
         })
 

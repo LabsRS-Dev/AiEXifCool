@@ -1,4 +1,4 @@
-import { BS, SelfClass, Util, _ } from 'dovemaxsdk'
+import { BS, Observable, Util, _ } from 'dovemaxsdk'
 
 // -----------------------------------------------------------------
 // 交互处理
@@ -8,16 +8,16 @@ const AgentServer = BS.b$.AgentServer
 const __$p$ = {
   // 针对前端使用者，我要启动后端服务 {启动后，所有数据信息都转向后端服务编码来处理}
   backAgent: new AgentServer(),
-  startBackAgent: () => {
-    const agent = __$p$.backAgent
-    agent.active({
-
-    })
+  startBackAgent: function () {
+    const agent = this.backAgent
+    agent.active({})
   },
   // 针对前端使用者，我要启动前端服务，{启动后，可以根据发送信息、接收信息方式与后端服务来交互}
+  isRunning: false,
   frontAgent: new AgentClient(),
-  startFrontAgent: () => {
-    const agent = __$p$.frontAgent
+  startFrontAgent: function () {
+    var that = this
+    const agent = that.frontAgent
     const wsSocketIO = new agent.Chancel()
     wsSocketIO.build({
       type: agent.ChancelType.websocketForNode,
@@ -27,33 +27,33 @@ const __$p$ = {
       reqUrl: '',
       clientIOType: 'Socket.io.client'
     })
-    agent.registerOnFinishBuildChannel(() => {
-      __$p$.isRunning = true
+    agent.registerOnFinishBuildChannel(function () {
+      console.log('frontAgent is finish build')
+      that.isRunning = true
+      console.log('__$p$.isRunning = ', that.isRunning)
     })
     agent.appendChancel(wsSocketIO)
   },
-
-  isRunning: false,
-  run: (startBackAgent = true) => {
+  run: function (startBackAgent = false) {
     console.log('start transfer.js ....')
     if (startBackAgent) {
-      __$p$.startBackAgent()
+      this.startBackAgent()
     }
-    __$p$.startFrontAgent()
-    return __$p$
+    this.startFrontAgent()
+    return this
   },
 
-  send: (message, handler, one = true) => {
-    handler && __$p$.frontAgent.registerOnReceiveFromServer(handler, one)
-    __$p$.frontAgent.noticeToServer(message)
-    return __$p$
+  send: function (message, handler, one = true) {
+    handler && this.frontAgent.registerOnReceiveFromServer(handler, one)
+    this.frontAgent.noticeToServer(message)
+    return this
   }
 }
 
 //  绑定工具
 __$p$.Tools = {
-  Hello: (handler, one = true) => {
-    __$p$.send({ data: 'Hello' }, data => {
+  Hello: function (handler, one = true) {
+    __$p$.send({ data: 'Hello' }, function (data) {
       handler(data)
     }, one)
   },
@@ -107,11 +107,10 @@ __$p$.Tools = {
 
 }
 
-const TransferClass = SelfClass.extend(__$p$)
-const Transfer = new TransferClass()
-Transfer.run(false)
+var TransferClass = Observable.extend(__$p$)
+var Transfer = new TransferClass()
+Transfer.run()
 
-window.RomanysoftClient = Transfer
 export {
   Transfer
 }
