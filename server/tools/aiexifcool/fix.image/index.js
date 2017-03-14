@@ -76,9 +76,10 @@ function Singleton () {
        * outDir: 输出目录
        * distPath: 最后生成的修复的文件存放路径
        */
+      var curProgress = 1
       resultDataMap[imgId] = {
         id: imgId,
-        progress: 1,
+        progress: curProgress,
         state: 0,
         __isProcessOver: false
       }
@@ -88,9 +89,10 @@ function Singleton () {
         outputDir: outputDir,
         lang: options.lang || 'en'
       }, (data) => {
+        curProgress++
         resultDataMap[imgId] = {
           id: imgId,
-          progress: Math.random() * 100 - 1,
+          progress: curProgress > 99 ? 99 : curProgress,
           state: 0
         }
       }, (info) => {

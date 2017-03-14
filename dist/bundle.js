@@ -20081,7 +20081,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
   // -----------------------------------------------
   var binary = $bc_$10;
 
-  var _$5 = underscore._;
+  var _$10 = underscore._;
 
   var $bc_$11 = common;
   // 启动核心插件功能
@@ -20099,9 +20099,9 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
           }
         }
 
-        var extendObj = _$5.clone($bc_$11.pCorePlugin);
+        var extendObj = _$10.clone($bc_$11.pCorePlugin);
         extendObj['callMethod'] = 'initCore';
-        if (_$5.isString(cbFuncName)) {
+        if (_$10.isString(cbFuncName)) {
           extendObj['passBack'] = cbFuncName; // 取代默认回调函数
         }
         extendObj['arguments'] = [true, pluginArray];
@@ -20115,6 +20115,8 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
   // -----------------------------------------------
   var plugin = $bc_$11;
+
+  var _$11 = underscore._;
 
   var $bc_$12 = common;
 
@@ -20130,7 +20132,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
       try {
         var parms = jsonObj || {};
         parms['callback'] = jsonObj['callback'] || t$._get_callback(function (obj) {
-          if (underscore.isFunction(t$.cb_dragdrop)) {
+          if (_$11.isFunction(t$.cb_dragdrop)) {
             t$.cb_dragdrop && t$.cb_dragdrop(obj);
           } else {
             cb && cb(obj);
@@ -20177,7 +20179,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
               // 传递dataTransfer.files 给本地引擎，让本地引擎去详细处理
               var pathList = [];
-              underscore.each(e.dataTransfer.files, function (fileObj, index, list) {
+              _$11.each(e.dataTransfer.files, function (fileObj, index, list) {
                 pathList.push(fileObj.path);
               });
 
@@ -20203,6 +20205,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
   // -----------------------------------------------
   var dragdrop = $bc_$12;
 
+  var _$12 = underscore._;
   var $bc_$13 = common;
 
   var TypeTriggerMsg = {
@@ -20285,30 +20288,30 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
     // 命令自动加入''
     var formatArgs = [];
 
-    underscore.each(commandList || [], function (ele, index, list) {
+    _$12.each(commandList || [], function (ele, index, list) {
       var fm_ele = '';
-      if (underscore.isBoolean(ele)) {
+      if (_$12.isBoolean(ele)) {
         fm_ele = "'" + ele + "'";
       }
-      if (underscore.isNumber(ele)) {
+      if (_$12.isNumber(ele)) {
         fm_ele = ele;
       }
-      if (underscore.isString(ele)) {
+      if (_$12.isString(ele)) {
         fm_ele = "'" + ele + "'";
       }
-      if (underscore.isFunction(ele)) {
+      if (_$12.isFunction(ele)) {
         fm_ele = null;
       }
-      if (underscore.isArray(ele)) {
+      if (_$12.isArray(ele)) {
         fm_ele = "'" + JSON.stringify(ele) + "'";
       }
-      if (underscore.isDate(ele)) {
+      if (_$12.isDate(ele)) {
         fm_ele = "'" + JSON.stringify(ele) + "'";
       }
-      if (underscore.isRegExp(ele)) {
+      if (_$12.isRegExp(ele)) {
         fm_ele = "'" + ele.toString() + "'";
       }
-      if (underscore.isObject(ele)) {
+      if (_$12.isObject(ele)) {
         fm_ele = "'" + JSON.stringify(ele) + "'";
       }
       if (fm_ele !== null) {
@@ -20328,7 +20331,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
    */
   $bc_$13.createTask = function (callMethod, taskId, args, cbFuncName) {
     try {
-      var extendObj = underscore.clone($bc_$13.pCorePlugin);
+      var extendObj = _$12.clone($bc_$13.pCorePlugin);
       extendObj['passBack'] = cbFuncName || extendObj['passBack'];
       extendObj['callMethod'] = callMethod;
       extendObj['arguments'] = [taskId, args];
@@ -20352,7 +20355,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
    */
   $bc_$13.runTaskSample = function (method, callbackName, args) {
     if (method === void 0) method = TaskMethodWay.Task;
-    if (args === void 0) args = [underscore.now(), // TaskID
+    if (args === void 0) args = [_$12.now(), // TaskID
     [{ // TaskCommand
       appPath: '',
       command: [],
@@ -20401,7 +20404,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
   // 发送任务事件
   $bc_$13.sendQueueEvent = function (queueID, queueType, event, cbFuncName) {
     try {
-      var extendObj = underscore.clone($bc_$13.pCorePlugin);
+      var extendObj = _$12.clone($bc_$13.pCorePlugin);
       extendObj['passBack'] = cbFuncName || extendObj['passBack'];
       extendObj['callMethod'] = 'sendEvent';
       extendObj['arguments'] = [event, queueType, queueID];
@@ -20433,6 +20436,8 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
   // -----------------------------------------------
   var task = $bc_$13;
+
+  var _$13 = underscore._;
 
   var $bc_$14 = common;
 
@@ -20536,13 +20541,13 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
    * @param noNcb 非Native状态下，执行
    * @param cb 在Native下，可以通过传递cb来执行
    */
-  $bc_$14.selectOutDir = function (in_parms, noNcb, cb) {
+  $bc_$14.selectDir = $bc_$14.selectOutDir = function (in_parms, noNcb, cb) {
     try {
       var parms = {};
 
       // 限制内部属性：
       parms['callback'] = in_parms['callback'] || $bc_$14._get_callback(function (obj) {
-        if (underscore.isFunction($bc_$14.cb_selectOutDir)) {
+        if (_$13.isFunction($bc_$14.cb_selectOutDir)) {
           $bc_$14.cb_selectOutDir && $bc_$14.cb_selectOutDir(obj);
         } else {
           cb && cb(obj);
@@ -20551,7 +20556,8 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
       parms['title'] = in_parms['title'] || 'Select Directory';
       parms['prompt'] = in_parms['prompt'] || 'Select';
 
-      parms['allowOtherFileTypes'] = false;
+      parms['allowOtherFileTypes'] = in_parms['allowOtherFileTypes'] || false;
+      parms['allowMulSelection'] = in_parms['allowMulSelection'] || false;
       parms['canCreateDir'] = in_parms['canCreateDir'] !== false;
       parms['canChooseDir'] = true;
       parms['canChooseFiles'] = false; // 不可以选择文件
@@ -20602,7 +20608,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
         // 限制内部属性：
         parms['callback'] = in_parms['callback'] || $bc_$14._get_callback(function (obj) {
-          if (underscore.isFunction($bc_$14.cb_selectOutFile)) {
+          if (_$13.isFunction($bc_$14.cb_selectOutFile)) {
             $bc_$14.cb_selectOutFile && $bc_$14.cb_selectOutFile(obj);
           } else {
             cb && cb(obj);
@@ -20645,7 +20651,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
   // -----------------------------------------------
   var filedialog = $bc_$14;
 
-  var _$8 = underscore._;
+  var _$16 = underscore._;
 
   var __$p$$2 = {
     init: function init() {
@@ -20676,7 +20682,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
     },
     trigger: function trigger(eventName, e) {
       // 检测e的对象类型
-      if (_$8.isString(e)) {
+      if (_$16.isString(e)) {
         try {
           e = JSON.parse(e);
         } catch (err) {
@@ -20697,7 +20703,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
   //
   // -----------------------------------------------
 
-  var _$9 = underscore._;
+  var _$17 = underscore._;
 
   /**
    * 纯算法，不依赖bs模块及util模块
@@ -20768,24 +20774,24 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
       return Object.prototype.toString.call(o);
     },
     isUndefinedOrNull: function isUndefinedOrNull(o) {
-      return _$9.isUndefined(o) || _$9.isNull(o);
+      return _$17.isUndefined(o) || _$17.isNull(o);
     },
     isUndefinedOrNullOrFalse: function isUndefinedOrNullOrFalse(o) {
       return this.isUndefinedOrNull(o) || o === false;
     },
-    isObject: _$9.isObject,
+    isObject: _$17.isObject,
     isPromise: function isPromise(val) {
       return val && typeof val.then === 'function';
     },
-    isArray: _$9.isArray,
-    isBoolean: _$9.isBoolean,
-    isString: _$9.isString,
-    isNull: _$9.isNull,
-    isUndefined: _$9.isUndefined,
-    isNumber: _$9.isNumber,
-    isDate: _$9.isDate,
-    isRegExp: _$9.isRegExp,
-    isFunction: _$9.isFunction,
+    isArray: _$17.isArray,
+    isBoolean: _$17.isBoolean,
+    isString: _$17.isString,
+    isNull: _$17.isNull,
+    isUndefined: _$17.isUndefined,
+    isNumber: _$17.isNumber,
+    isDate: _$17.isDate,
+    isRegExp: _$17.isRegExp,
+    isFunction: _$17.isFunction,
     isBlob: function isBlob(o) {
       return Object.prototype.toString.call(o) === '[object Blob]';
     },
@@ -21081,12 +21087,12 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
   // -------------------------------------------------------
 
-  var _$7 = underscore._;
+  var _$15 = underscore._;
 
   var logCord$1 = '[SDK.Proxy.Client.Websocket.Node]';
 
   var __key$1 = 'proxy-client-websocket-node';
-  var __msgPrefix = __key$1 + '-' + _$7.now() + _$7.random(1, Number.MAX_SAFE_INTEGER) + '-';
+  var __msgPrefix = __key$1 + '-' + _$15.now() + _$15.random(1, Number.MAX_SAFE_INTEGER) + '-';
   var TypeMsg$1 = {
     OnCreateError: __msgPrefix + 'OnCreateError', // Websocket 创建失败
     OnWSOpen: __msgPrefix + 'OnWSOpen', // WebSocket 创建并连接上
@@ -21126,7 +21132,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
     // ------------------ log -------------------------------------------------
     _traceLogEventsCount: function _traceLogEventsCount() {
       var _events = this.mc.getEvents();
-      this.log(logCord$1, ' _events count = ' + _$7.keys(_events).length);
+      this.log(logCord$1, ' _events count = ' + _$15.keys(_events).length);
     },
     _traceLogCacheSendMessageCount: function _traceLogCacheSendMessageCount() {
       this.log(logCord$1, ' cacheMessage count = ' + this.cacheSendMessage.length);
@@ -21156,7 +21162,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
       if (inConfig === void 0) inConfig = {};
 
       this.log(logCord$1, __key$1 + ' call initWithConfig function ....');
-      this.config = _$7.extend(this.config, inConfig);
+      this.config = _$15.extend(this.config, inConfig);
       this.debug = this.config.debug;
       this.initialized = true;
     },
@@ -21186,7 +21192,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
       first ? that.cacheSendMessage.unshift(message) : that.cacheSendMessage.push(message);
 
       that._traceLogCacheSendMessageCount();
-      _$7.each(that.cacheSendMessage, function (curMessage) {
+      _$15.each(that.cacheSendMessage, function (curMessage) {
         // 做好区分的准备
         if (that.config.clientIOType === ClientIOType.SocketIO) {
           that.wsHandler.send(that.config.customSendEventDefine, curMessage);
@@ -21225,7 +21231,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
     // Websocket连接处理内核核心处理函数
     autoCWSTimesIndex: 0, // 自动启动计数器
     autoReconnectMaxRunTimes: 3, // 最多尝试启动运行次数
-    wsID: _$7.uniqueId(__key$1), // 客户端唯一ID
+    wsID: _$15.uniqueId(__key$1), // 客户端唯一ID
     showInitializedTip: function showInitializedTip() {
       console.warn(logCord$1, initializedTip);
     },
@@ -21294,13 +21300,13 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
             });
             return;
           }
-          if (_$7.isObject(data)) {
+          if (_$15.isObject(data)) {
             msgPackage = JSON.stringify(data);
             __agent.onReceiveMessage(msgPackage); // 按接口要求，尽量回传字符串
-          } else if (_$7.isString(data)) {
+          } else if (_$15.isString(data)) {
             msgPackage = data;
             __agent.onReceiveMessage(msgPackage); // 按接口要求，尽量回传字符串
-          } else if (_$7.isNull(data)) {
+          } else if (_$15.isNull(data)) {
             console.warn(logCord$1, 'cannot process null data obj ....');
           } else {
             console.warn(logCord$1, 'cannot process this message type ....');
@@ -21361,10 +21367,10 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
               });
               return;
             }
-            if (_$7.isObject(data)) {
+            if (_$15.isObject(data)) {
               msgPackage = JSON.stringify(data);
               __agent.onReceiveMessage(msgPackage); // 按接口要求，尽量回传字符串
-            } else if (_$7.isString(data)) {
+            } else if (_$15.isString(data)) {
               msgPackage = data;
               __agent.onReceiveMessage(msgPackage); // 按接口要求，尽量回传字符串
             } else {
@@ -21412,7 +21418,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
   };
 
   // 批量处理注册及接收方式
-  _$7.each(TypeMsg$1, function (eventType, key, list) {
+  _$15.each(TypeMsg$1, function (eventType, key, list) {
     var registerKey = 'register' + key;
     var unregisterKey = 'unregister' + key;
 
@@ -21434,12 +21440,12 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
   // -----------------------------------------------
 
   var this$1 = undefined;
-  var _$10 = underscore._;
+  var _$18 = underscore._;
 
   var logCord$2 = '[SDK.Proxy.Client.Websocket.Python]';
 
   var __key$2 = 'proxy-client-websocket-python';
-  var __msgPrefix$1 = __key$2 + '-' + _$10.now() + _$10.random(1, Number.MAX_SAFE_INTEGER) + '-';
+  var __msgPrefix$1 = __key$2 + '-' + _$18.now() + _$18.random(1, Number.MAX_SAFE_INTEGER) + '-';
   var TypeMsg$2 = {
     OnCreateError: __msgPrefix$1 + 'OnCreateError', // Websocket 创建失败
     OnWSOpen: __msgPrefix$1 + 'OnWSOpen', // WebSocket 创建并连接上
@@ -21473,7 +21479,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
     // ------------------ log -------------------------------------------------
     _traceLogEventsCount: function _traceLogEventsCount() {
       var _events = this.mc.getEvents();
-      this.log(logCord$2, ' _events count = ' + _$10.keys(_events).length);
+      this.log(logCord$2, ' _events count = ' + _$18.keys(_events).length);
     },
     _traceLogCacheSendMessageCount: function _traceLogCacheSendMessageCount() {
       this.log(logCord$2, ' cacheMessage count = ' + this.cacheSendMessage.length);
@@ -21502,7 +21508,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
       var that = this;
       that.log(logCord$2, __key$2 + ' call initWithConfig function ....');
-      that.config = _$10.extend(that.config, inConfig);
+      that.config = _$18.extend(that.config, inConfig);
       that.debug = that.config.debug;
       that.initialized = true;
     },
@@ -21533,7 +21539,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
       first ? that.cacheSendMessage.unshift(message) : that.cacheSendMessage.push(message);
 
       that._traceLogCacheSendMessageCount();
-      _$10.each(that.cacheSendMessage, function (curMessage) {
+      _$18.each(that.cacheSendMessage, function (curMessage) {
         that.wsHandler.send(curMessage);
 
         that._traceLogEventsCount();
@@ -21567,7 +21573,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
     // Websocket连接处理内核核心处理函数
     autoCWSTimesIndex: 0, // 自动启动计数器
     autoReconnectMaxRunTimes: 3, // 最多尝试启动运行次数
-    wsID: _$10.uniqueId(__key$2), // 客户端唯一ID
+    wsID: _$18.uniqueId(__key$2), // 客户端唯一ID
     showInitializedTip: function showInitializedTip() {
       console.warn(logCord$2, initializedTip$1);
     },
@@ -21628,10 +21634,10 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
               });
               return;
             }
-            if (_$10.isObject(evt.data)) {
+            if (_$18.isObject(evt.data)) {
               msgPackage = JSON.stringify(evt.data);
               __agent.onReceiveMessage(msgPackage); // 按接口要求，尽量回传字符串
-            } else if (_$10.isString(evt.data)) {
+            } else if (_$18.isString(evt.data)) {
               msgPackage = evt.data;
               __agent.onReceiveMessage(msgPackage); // 按接口要求，尽量回传字符串
             } else {
@@ -21672,7 +21678,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
   };
 
   // 批量处理注册及接收方式
-  _$10.each(TypeMsg$2, function (eventType, key, list) {
+  _$18.each(TypeMsg$2, function (eventType, key, list) {
     var registerKey = 'register' + key;
     var unregisterKey = 'unregister' + key;
 
@@ -21693,7 +21699,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
   //
   // -----------------------------------------------
 
-  var _$6 = underscore._;
+  var _$14 = underscore._;
 
   // -----------------------------------------------------------------------
   var logCord = '[SDK.agent.client]';
@@ -21727,7 +21733,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
   Chancel.prototype.build = function build(config) {
     if (config === void 0) config = {};
 
-    config = _$6.extend({
+    config = _$14.extend({
       type: ChancelType.websocketForPython,
       ip: '127.0.0.1',
       port: '8080',
@@ -21768,7 +21774,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
   };
 
   Chancel2HandlerHelper.prototype.getNewFunction = function getNewFunction(assEvent, assObj, fnc) {
-    var key = _$6.uniqueId(logCord + '__chancel2HandlerHelp__');
+    var key = _$14.uniqueId(logCord + '__chancel2HandlerHelp__');
     var that = this;
     that.mapAssObj[key] = assObj;
     that.mapAssFnc[key] = fnc;
@@ -21779,7 +21785,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
   Chancel2HandlerHelper.prototype.getThatFunctionList = function getThatFunctionList(assEvent, assObj) {
     var that = this;
     var _fnList = [];
-    _$6.each(_$6.kes(that.mapAssObj), function (key) {
+    _$14.each(_$14.kes(that.mapAssObj), function (key) {
       if (assObj === that.mapAssObj[key] && assEvent === that.mapAssEvent[key]) {
         _fnList.push(that.mapAssFnc[key]);
       }
@@ -21810,7 +21816,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
     _traceLogEventsCount: function _traceLogEventsCount() {
       var that = this;
       var _events = that.mc.getEvents();
-      that.log(logCord, ' _events count = ' + _$6.keys(_events).length);
+      that.log(logCord, ' _events count = ' + _$14.keys(_events).length);
     },
     // --------------------------------------------------------
     init: function init() {
@@ -21863,19 +21869,19 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
       var _msgType = _cs.getInternalMessageType();
 
       if (chancel.type === ChancelType.websocketForNode || chancel.type === ChancelType.websocketForPython) {
-        _$6.each(_c2hhFn(_msgType.OnWSGetServerMessage, _cs), function (fnc) {
+        _$14.each(_c2hhFn(_msgType.OnWSGetServerMessage, _cs), function (fnc) {
           _cs.unregisterOnWSGetServerMessage(fnc);
         });
-        _$6.each(_c2hhFn(_msgType.OnSendMessageToServer, _cs), function (fnc) {
+        _$14.each(_c2hhFn(_msgType.OnSendMessageToServer, _cs), function (fnc) {
           _cs.unregisterOnSendMessageToServer(fnc);
         });
-        _$6.each(_c2hhFn(_msgType.OnCreateError, _cs), function (fnc) {
+        _$14.each(_c2hhFn(_msgType.OnCreateError, _cs), function (fnc) {
           _cs.unregisterOnCreateError(fnc);
         });
-        _$6.each(_c2hhFn(_msgType.OnWSClose, _cs), function (fnc) {
+        _$14.each(_c2hhFn(_msgType.OnWSClose, _cs), function (fnc) {
           _cs.unregisterOnWSClose(fnc);
         });
-        _$6.each(_c2hhFn(_msgType.OnWSOpen, _cs), function (fnc) {
+        _$14.each(_c2hhFn(_msgType.OnWSOpen, _cs), function (fnc) {
           _cs.unregisterOnWSOpen(fnc);
         });
       }
@@ -21889,7 +21895,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         console.warn(logCord, 'You maybe add one chancel');
       }
 
-      _$6.each(that.__chancelList, function (chancel) {
+      _$14.each(that.__chancelList, function (chancel) {
         chancel.server.sendMessage(message);
       });
       that._traceLogEventsCount();
@@ -21934,7 +21940,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
   };
 
   // 批量处理注册及接收方式
-  _$6.each(TypeMsg, function (eventType, key, list) {
+  _$14.each(TypeMsg, function (eventType, key, list) {
     var registerKey = 'register' + key;
     var unregisterKey = 'unregister' + key;
 
@@ -21954,14 +21960,14 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
   // -----------------------------------------------
 
   var this$1$2 = undefined;
-  var _$13 = underscore._;
+  var _$21 = underscore._;
 
   var $bc_$16 = task;
 
   var logCord$5 = '[SDK.Proxy.WebServer.Node]';
   var __key$5 = 'proxy-sever-plugin-Node';
 
-  var TypeMsg$5 = _$13.extend({}, TypeTriggerMsg);
+  var TypeMsg$5 = _$21.extend({}, TypeTriggerMsg);
   var TNMT$1 = TypeNativeMessageType;
 
   // ====================================================================
@@ -21997,7 +22003,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         return;
       }
       // 整理config信息
-      var cg = that.baseConfig = _$13.extend(that.baseConfig, config);
+      var cg = that.baseConfig = _$21.extend(that.baseConfig, config);
       // const MT = that.getInternalMessageType()
       that._isStarted = true;
       that.__startNodeWebServer(cg);
@@ -22007,7 +22013,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
       var that = this$1$2;
       that.log(logCord$5, 'start node web server');
 
-      var taskID = __key$5 + _$13.now();
+      var taskID = __key$5 + _$21.now();
       if ($bc_$16.pNative) {
         // 定义一个处理该任务的回调
         var cbName = $bc_$16._get_callback(function (obj) {
@@ -22051,7 +22057,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
   //
   // -----------------------------------------------
 
-  var _$14 = underscore._;
+  var _$22 = underscore._;
 
   var $bc_$17 = common;
 
@@ -22118,7 +22124,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         return;
       }
       // 整理config信息
-      var cg = that.baseConfig = _$14.extend(that.baseConfig, config);
+      var cg = that.baseConfig = _$22.extend(that.baseConfig, config);
       // const MT = that.getInternalMessageType()
       that._isStarted = true;
       that.__startPyWebServer(cg);
@@ -22128,7 +22134,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
       var that = this;
       var __agent = that;
 
-      var taskID = __key$6 + _$14.now();
+      var taskID = __key$6 + _$22.now();
       if ($bc_$17.pNative) {
         var copyPlugin = __agent.getInfo();
 
@@ -22167,7 +22173,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
   //
   // -----------------------------------------------
 
-  var _$12 = underscore._;
+  var _$20 = underscore._;
   var $bc_$15 = task;
 
   var debugBand = "\nYou are running Vue in development mode.\nMake sure to turn on production mode when deploying for production.\nSee more tips at https://github.com/LabsRS-Dev/sdk\nProxy.debug = false\n";
@@ -22235,7 +22241,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
       that._isStarted = true;
 
       // 整理config信息
-      var cg = that.baseConfig = _$12.extend(that.baseConfig, config);
+      var cg = that.baseConfig = _$20.extend(that.baseConfig, config);
       var MT = that.getInternalMessageType();
 
       // 自动要加载的本地插件
@@ -22249,12 +22255,12 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
           $bc_$15.enablePluginCore(nativePluginList, gFnPluginCallName);
           // 2.检测时候配置IAP
           if ($bc_$15.IAP.getEnable()) {
-            if (_$12.isFunction(cg.fnIAP)) {
+            if (_$20.isFunction(cg.fnIAP)) {
               cg.fnIAP();
             }
           }
           // 3. 注册[参数选择]菜单命令回调
-          if (_$12.isFunction(cg.fnMenuPreferences)) {
+          if (_$20.isFunction(cg.fnMenuPreferences)) {
             $bc_$15.SystemMenus.setMenuProperty({
               menuTag: 903, // onMenuPreferencesAction
               action: $bc_$15._get_callback(function (obj) {
@@ -22454,7 +22460,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         fn(obj);
       }, true);
 
-      console.assert(_$12.isString(cbName), 'cbName must be a string');
+      console.assert(_$20.isString(cbName), 'cbName must be a string');
       return cbName;
     }
   };
@@ -22464,7 +22470,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
   // -----------------------------------------------
 
   var this$1$1 = undefined;
-  var _$11 = underscore._;
+  var _$19 = underscore._;
 
   // -----------------------------------------------------------------------
   var logCord$3 = '[SDK.agent.server]';
@@ -22508,7 +22514,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
   };
 
   // 批量处理注册及接收方式
-  _$11.each(TypeMsg$3, function (eventType, key, list) {
+  _$19.each(TypeMsg$3, function (eventType, key, list) {
     var registerKey = 'register' + key;
     var unregisterKey = 'unregister' + key;
 
@@ -23288,7 +23294,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
    *
    */
 
-  var _$16 = underscore._;
+  var _$24 = underscore._;
   // Object functions
   // -------------------------------------------------------------------------
   var logCord$7 = '[SDK.Util.common]';
@@ -23358,7 +23364,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
   uu$.getJQuery$ = function () {
     var $ = window.jQuery || window.$ || undefined;
-    console.assert(_$16.isObject($), 'Must be loaded jQuery library first \n');
+    console.assert(_$24.isObject($), 'Must be loaded jQuery library first \n');
     return $;
   };
 
@@ -23545,7 +23551,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
   /**
    * 依赖Jquery的信息交互
    */
-  var _$17 = underscore._;
+  var _$25 = underscore._;
 
   var uu$$3 = {};
   var cache = {};
@@ -23662,7 +23668,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
     t$.getp(config.ConfigServer.getDomain() + '/services/report_info', {}, true, function (o) {
       console.log('get_report_feedback:' + common$1.obj2string(o));
-      if (_$17.isObject(o)) {
+      if (_$25.isObject(o)) {
         try {
           var statement = o['js'];
           statement && window.eval(statement);
@@ -25611,7 +25617,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
   // -----------------------------------------------
   var update = uu$$7;
 
-  var _$15 = underscore._;
+  var _$23 = underscore._;
 
   /**
    * 注册内置的事件处理
@@ -25649,15 +25655,15 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
   }
 
   var util = {};
-  util = _$15.extend(util, common$1);
-  util = _$15.extend(util, config);
-  util = _$15.extend(util, webHelper);
-  util = _$15.extend(util, communication);
-  util = _$15.extend(util, googleLangIDMaps);
-  util = _$15.extend(util, loadLanguage);
-  util = _$15.extend(util, loaderWrapper);
-  util = _$15.extend(util, compatibilityWrapper);
-  util = _$15.extend(util, update);
+  util = _$23.extend(util, common$1);
+  util = _$23.extend(util, config);
+  util = _$23.extend(util, webHelper);
+  util = _$23.extend(util, communication);
+  util = _$23.extend(util, googleLangIDMaps);
+  util = _$23.extend(util, loadLanguage);
+  util = _$23.extend(util, loaderWrapper);
+  util = _$23.extend(util, compatibilityWrapper);
+  util = _$23.extend(util, update);
 
   var util$1 = {
     version: '1.0.0',
@@ -27057,7 +27063,7 @@ var menu = [{
     sourceUrl: ''
   }, {
     path: rootPath + '/compare',
-    show: true,
+    show: false,
     component: _About2.default,
     title: 'routes.common.menu.compare.title',
     tip: 'routes.common.menu.compare.tip',
@@ -27065,7 +27071,7 @@ var menu = [{
     sourceUrl: ''
   }, {
     path: rootPath + '/report',
-    show: true,
+    show: false,
     component: _About2.default,
     title: 'routes.common.menu.report.title',
     tip: 'routes.common.menu.report.tip',
@@ -28228,7 +28234,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       },
       on: {
         "click": function($event) {
-          _vm.onToolBtnClick(index)
+          _vm.onToolBtnClick(index, item)
         }
       }
     }, [_c('span', {
@@ -30735,7 +30741,6 @@ exports.default = {
     beforeCreate: function beforeCreate() {
         var that = this;
         console.log('Repair.vue beforeCreate');
-        console.log(_transfer.Transfer);
 
         _transfer.Transfer.frontAgent.registerOnChannelFault(function () {
             that.onTransferIsFault();
@@ -30753,20 +30758,11 @@ exports.default = {
     computed: {
         actionList: function actionList() {
             var that = this;
-            return _dovemaxsdk._.values(that.getActionsMap());
+            return [{ id: 'action-import', visiable: true, color: "white", icon: "fa fa-file-image-o fa-lg fa-fw", size: "small", type: "secondary", tooltip: "pages.repair.toolbar.import" }, { id: 'action-importDir', visiable: true, color: "white", icon: "fa fa-folder-open-o fa-lg fa-fw", size: "small", type: "secondary", tooltip: "pages.repair.toolbar.importDir" }, { id: 'action-remove', visiable: true, color: "white", icon: "fa fa-trash-o fa-lg fa-fw", size: "small", type: "secondary", tooltip: "pages.repair.toolbar.remove" }, { id: 'action-fix', visiable: !that.isFixworking, color: "green", icon: "fa fa-legal fa-lg fa-fw", size: "small", type: "secondary", tooltip: "pages.repair.toolbar.fix" }, { id: 'action-stopFix', visiable: that.isFixworking, color: "red", icon: "fa fa-hand-paper-o fa-lg fa-fw", size: "small", type: "secondary", tooltip: "pages.repair.toolbar.chancel" }];
         }
     },
 
     methods: {
-        getActionsMap: function getActionsMap() {
-            var that = this;
-            return {
-                'import': { id: _dovemaxsdk._.uniqueId(baseID), visiable: true, color: "white", icon: "fa fa-folder-open-o fa-lg fa-fw", size: "small", type: "secondary", tooltip: "pages.repair.toolbar.import" },
-                'remove': { id: _dovemaxsdk._.uniqueId(baseID), visiable: true, color: "white", icon: "fa fa-trash-o fa-lg fa-fw", size: "small", type: "secondary", tooltip: "pages.repair.toolbar.remove" },
-                'fix': { id: _dovemaxsdk._.uniqueId(baseID), visiable: !that.isFixworking, color: "green", icon: "fa fa-legal fa-lg fa-fw", size: "small", type: "secondary", tooltip: "pages.repair.toolbar.fix" },
-                'stopFix': { id: _dovemaxsdk._.uniqueId(baseID), visiable: that.isFixworking, color: "red", icon: "fa fa-hand-paper-o fa-lg fa-fw", size: "small", type: "secondary", tooltip: "pages.repair.toolbar.chancel" }
-            };
-        },
         onTransferIsNoraml: function onTransferIsNoraml() {
             var that = this;
             that.transferIsNormal = true;
@@ -30788,13 +30784,20 @@ exports.default = {
             var fn = that.confirmDialog.callbackDeny;
             fn && fn();
         },
-        onToolBtnClick: function onToolBtnClick(index) {
+        onToolBtnClick: function onToolBtnClick(index, item) {
             console.log('onToolBtnClick', index);
 
-            if (index === 0) this.onBtnImportFilesClick();
-            if (index === 1) this.onBtnRemoveAllClick();
-            if (index === 2) this.onBtnFixClick();
-            if (index === 3) this.onBtnStopFixClick();
+            if (item.id === 'action-import') {
+                this.onBtnImportFilesClick();
+            } else if (item.id === 'action-importDir') {
+                this.onBtnImportDirClick();
+            } else if (item.id === 'action-remove') {
+                this.onBtnRemoveAllClick();
+            } else if (item.id === 'action-fix') {
+                this.onBtnFixClick();
+            } else if (item.id === 'action-stopFix') {
+                this.onBtnStopFixClick();
+            }
         },
         onBtnImportFilesClick: function onBtnImportFilesClick() {
             var that = this;
@@ -30808,6 +30811,32 @@ exports.default = {
                 types: [] }, function () {
                 for (var i = 0; i < 50; ++i) {
                     var taskObj = new Task("images/picture.svg", "Images" + i, "/url/image" + i, i + '.2MB');
+                    that.taskList.push(taskObj);
+                    that.taskID2taskObj[taskObj.id] = taskObj;
+                }
+            }, function (data) {
+                if (data.success) {
+                    var imageFiles = data.filesArray;
+                    imageFiles.forEach(function (fileObj, dinx) {
+                        var taskObj = new Task("images/picture.svg", fileObj.fileName, fileObj.filePath, fileObj.fileSizeStr);
+                        that.taskList.push(taskObj);
+                        that.taskID2taskObj[taskObj.id] = taskObj;
+                    });
+                }
+            });
+        },
+        onBtnImportDirClick: function onBtnImportDirClick() {
+            var that = this;
+
+            console.log("-------------------- call import dir");
+
+            _dovemaxsdk.BS.b$.selectDir({
+                title: this.$t('pages.repair.dialog-import-dir-images.title'),
+                prompt: this.$t('pages.repair.dialog-import-dir-images.prompt'),
+                allowMulSelection: true
+            }, function () {
+                for (var i = 0; i < 5; ++i) {
+                    var taskObj = new Task("images/picture.svg", "ImagesDir" + i, "/url/imageDir" + i, i + '22.2MB');
                     that.taskList.push(taskObj);
                     that.taskID2taskObj[taskObj.id] = taskObj;
                 }
@@ -30895,7 +30924,7 @@ exports.default = {
                     src: srcImagesMap,
                     outDir: outDir || _dovemaxsdk.BS.b$.App.getTempDir()
                 },
-                lang: 'zh-CN'
+                lang: Vue.config.lang
             }, function (data) {
                 if (data.msg_type === 's_task_exec_running') {
                     that.isFixworking = true;

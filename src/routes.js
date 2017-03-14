@@ -44,7 +44,7 @@ const menu = [{
     sourceUrl: ''
   }, {
     path: rootPath + '/compare',
-    show: true,
+    show: false,
     component: AboutPage,
     title: 'routes.common.menu.compare.title',
     tip: 'routes.common.menu.compare.tip',
@@ -52,7 +52,7 @@ const menu = [{
     sourceUrl: ''
   }, {
     path: rootPath + '/report',
-    show: true,
+    show: false,
     component: AboutPage,
     title: 'routes.common.menu.report.title',
     tip: 'routes.common.menu.report.tip',

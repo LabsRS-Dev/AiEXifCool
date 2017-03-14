@@ -35,20 +35,21 @@
     "repair":{
       "toolbar":{
         "import":"导入损坏的图像文件",
+        "importDir":"导入损坏的图像目录",
         "remove":"清空导入",
         "fix":"执行修复",
         "chancel":"停止修复"
       },
       "task-item":{
-         "file-name": "文件名称：",
-         "file-path": "文件路径：",
-         "file-size": "文件大小：",
+         "file-name": "名称：",
+         "file-path": "路径：",
+         "file-size": "大小：",
          "fix-progress": "修复进度：",
          "open-parent-dir": "打开所在目录",
-         "review-in-file": "点击查看文件"
+         "review-in-file": "点击查看"
       },
       "footbar": {
-        "fileCount": "文件数量",
+        "fileCount": "任务数量",
         "state": "当前修复状态",
         "isFixWorking": "正在执行修复",
         "isWaiting":"等待执行修复",
@@ -60,6 +61,10 @@
         "title":"请选择要导入的图像文件",
         "prompt":"导入"
       },
+      "dialog-import-dir-images":{
+        "title":"请选择要导入的图像文件目录",
+        "prompt":"导入"
+      },      
       "dialog-select-outdir":{
         "title":"请选择输出目录",
         "prompt":"选择"

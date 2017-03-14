@@ -17,7 +17,7 @@
 
 .page__examples--aiexifcool-repair{
     margin: auto;
-    height: 76vh;
+    height: 75vh;
     overflow-y: auto;
     user-select: auto;
 
@@ -56,20 +56,22 @@
 
 
 .page__footbar--aiexifcool-repair{
-    background-color: #e20f00;
+    background-color: #2f0303;
+    border-radius:8px;
     margin-top: rem-calc(4px);
+    padding: rem-calc(4px);
     span {
         color: $md-grey-300;
-        font-size: rem-calc(9px);
+        font-size: rem-calc(10px);
         padding:  rem-calc(4px);
     }
 
 }
 
 .transferNormal {
-    background-color: #164196;
+    background-color: #081838;
 }
 
 .fixWorking {
-    background-color: #209129;
+    background-color: #083a0c;
 }

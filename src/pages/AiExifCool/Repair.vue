@@ -2,7 +2,7 @@
     <section class="page page--aiexifcool-repair">
         <div class="page__toolbar page__toolbar--aiexifcool-repair">
             <ui-icon-button 
-                @click="onToolBtnClick(index)"
+                @click="onToolBtnClick(index, item)"
                 :type="item.type"
                 :size="item.size" 
                 :color="item.color"
@@ -162,7 +162,6 @@ export default {
     beforeCreate(){
         var that = this
         console.log('Repair.vue beforeCreate')
-        console.log(Transfer)
 
         Transfer.frontAgent.registerOnChannelFault(function () {
             that.onTransferIsFault()
@@ -179,20 +178,17 @@ export default {
     computed:{
         actionList() {
             var that = this
-            return _.values(that.getActionsMap())
+           return [
+                {id:'action-import', visiable:true, color:"white", icon:"fa fa-file-image-o fa-lg fa-fw", size:"small", type:"secondary", tooltip:"pages.repair.toolbar.import"},
+                {id:'action-importDir', visiable:true, color:"white", icon:"fa fa-folder-open-o fa-lg fa-fw", size:"small", type:"secondary", tooltip:"pages.repair.toolbar.importDir"},
+                {id:'action-remove', visiable:true, color:"white", icon:"fa fa-trash-o fa-lg fa-fw", size:"small", type:"secondary", tooltip:"pages.repair.toolbar.remove"},
+                {id:'action-fix', visiable:!that.isFixworking, color:"green", icon:"fa fa-legal fa-lg fa-fw", size:"small", type:"secondary",  tooltip:"pages.repair.toolbar.fix"},
+                {id:'action-stopFix', visiable:that.isFixworking, color:"red", icon:"fa fa-hand-paper-o fa-lg fa-fw", size:"small", type:"secondary",  tooltip:"pages.repair.toolbar.chancel"}
+           ]
         }
     },
 
     methods:{
-        getActionsMap(){
-            var that = this
-            return {
-                'import': {id:_.uniqueId(baseID), visiable:true, color:"white", icon:"fa fa-folder-open-o fa-lg fa-fw", size:"small", type:"secondary", tooltip:"pages.repair.toolbar.import"},
-                'remove': {id:_.uniqueId(baseID), visiable:true, color:"white", icon:"fa fa-trash-o fa-lg fa-fw", size:"small", type:"secondary", tooltip:"pages.repair.toolbar.remove"},
-                'fix': {id:_.uniqueId(baseID), visiable:!that.isFixworking, color:"green", icon:"fa fa-legal fa-lg fa-fw", size:"small", type:"secondary",  tooltip:"pages.repair.toolbar.fix"},
-                'stopFix':{id:_.uniqueId(baseID), visiable:that.isFixworking, color:"red", icon:"fa fa-hand-paper-o fa-lg fa-fw", size:"small", type:"secondary",  tooltip:"pages.repair.toolbar.chancel"}
-            }
-        },
         // ------------------------- on Transfer Events
         onTransferIsNoraml() {
             var that = this
@@ -221,13 +217,20 @@ export default {
         },
 
         // -------------------------- Tool bar
-        onToolBtnClick(index){
+        onToolBtnClick(index, item){
             console.log('onToolBtnClick', index)
-            
-            if (index === 0) this.onBtnImportFilesClick()
-            if (index === 1) this.onBtnRemoveAllClick()
-            if (index === 2) this.onBtnFixClick()
-            if (index === 3) this.onBtnStopFixClick()
+
+            if(item.id === 'action-import') {
+                this.onBtnImportFilesClick()
+            }else if (item.id === 'action-importDir') {
+                this.onBtnImportDirClick()
+            }else if (item.id === 'action-remove') {
+                this.onBtnRemoveAllClick()
+            }else if (item.id === 'action-fix') {
+                this.onBtnFixClick()
+            }else if (item.id === 'action-stopFix') {
+                this.onBtnStopFixClick()
+            }
         },
 
         onBtnImportFilesClick(){
@@ -255,7 +258,34 @@ export default {
                         that.taskID2taskObj[taskObj.id] = taskObj
                     })
                 }
-            })       
+            })
+        },
+
+        onBtnImportDirClick(){
+            var that = this
+
+            console.log("-------------------- call import dir")
+            // call bs 
+            BS.b$.selectDir({
+                title: this.$t('pages.repair.dialog-import-dir-images.title'),
+                prompt: this.$t('pages.repair.dialog-import-dir-images.prompt'),
+                allowMulSelection: true
+            }, function(){
+                for(let i =0; i < 5; ++i){
+                    var taskObj = new Task("images/picture.svg", "ImagesDir" + i, "/url/imageDir" + i, i + '22.2MB')
+                    that.taskList.push(taskObj)
+                    that.taskID2taskObj[taskObj.id] = taskObj
+                }  
+            }, function(data){
+                if(data.success) {
+                    var imageFiles = data.filesArray
+                    imageFiles.forEach((fileObj, dinx) => {
+                        let taskObj = new Task("images/picture.svg", fileObj.fileName, fileObj.filePath, fileObj.fileSizeStr)
+                        that.taskList.push(taskObj)
+                        that.taskID2taskObj[taskObj.id] = taskObj
+                    })
+                }
+            })
         },
 
         onBtnRemoveAllClick(){
@@ -334,7 +364,7 @@ export default {
                     src: srcImagesMap,
                     outDir: outDir || BS.b$.App.getTempDir()
                 },
-                lang: 'zh-CN'
+                lang: Vue.config.lang
             }, (data) =>{
                 if (data.msg_type === 's_task_exec_running') {
                     that.isFixworking = true
