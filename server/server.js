@@ -4,6 +4,7 @@
 // 引入需要的模块：http和socket.io
 const http = require('http')
 const io = require('socket.io')
+const sysPath = require('path')
 
 const RTYCommon = require('./tools/RTYCommon')
 
@@ -11,8 +12,34 @@ const _gH = RTYCommon.debugHandler //
 
 // /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+var userId2ClientList = {}
+function __addToUserId2ClientList (userId, client) {
+  var clientList = userId2ClientList[userId] || []
+  if (clientList.indexOf(client) === -1) {
+    clientList.push(client)
+  }
+}
+
+function __removeFromUserId2ClientList (userId, client) {
+  var clientList = userId2ClientList[userId] || []
+  clientList.forEach(function (ele, index, list) {
+    if (ele === client) {
+      clientList.splice(index, 1)
+    }
+  })
+}
+
+function __updateEnvPATH () {
+  const binDir = sysPath.join(__dirname, './bin')
+  process.env.PATH = process.env.PATH + ';' + binDir
+  console.log(binDir)
+}
+
+const userIdKey = '_ass_user_id'
+const userClientKey = '_ass_client'
 
 function startServer (options) {
+  __updateEnvPATH()
   // 创建server
   const server = http.createServer((req, res) => {
     // Send HTML headers and message
@@ -57,7 +84,9 @@ function startServer (options) {
         const user_id = dictInfo.user_id
 
         if (msg_type === 'c_notice_id_Info') {
-
+          client[userIdKey] = user_id
+          client[userClientKey] = client
+          __addToUserId2ClientList(user_id, client)
         } else if (msg_type === 'c_normal_msg') {
 
         } else if (msg_type === 'c_task_exec') {
@@ -70,6 +99,7 @@ function startServer (options) {
     // 断开连接callback
     client.on('disconnect', () => {
       console.log('Server has disconnected')
+      __removeFromUserId2ClientList(client[userIdKey], client)
     })
   })
 

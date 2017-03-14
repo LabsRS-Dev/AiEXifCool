@@ -40,6 +40,15 @@
         color: $md-grey-700;
     }
 
+    .ui-toolbar__left__taskMessage{
+        margin-left: rem-calc(8px);
+        color: $md-grey-600;
+    }
+
+    .task-item-has-error{
+        color: $md-deep-orange-a700;
+    }
+
     .ui-toolbar__body__filePath{
         padding: rem-calc(4px);
     }

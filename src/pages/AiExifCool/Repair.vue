@@ -38,6 +38,13 @@
                             ({{ item.size }})
                             </sup>
                         </strong>
+                        <span
+                            :class="['ui-toolbar__left__taskMessage', item.fixState.state < 0 ? 'task-item-has-error': '']"
+                            :title="item.fixState.message"
+                            v-if="item.fixState.message.length > 0"
+                            >
+                            {{ item.fixState.message }}
+                        </span>
 
                         <div class="">
                             <ui-icon-button 
@@ -326,7 +333,8 @@ export default {
                 data:{
                     src: srcImagesMap,
                     outDir: outDir || BS.b$.App.getTempDir()
-                }
+                },
+                lang: 'zh-CN'
             }, (data) =>{
                 if (data.msg_type === 's_task_exec_running') {
                     that.isFixworking = true
@@ -339,7 +347,7 @@ export default {
                             curImageTaskObj.isworking = true
                             curImageTaskObj.progress = ele.progress >= 100 ? 100: ele.progress
                             curImageTaskObj.fixState.state = ele.state
-                            // TODO
+                            curImageTaskObj.fixState.message = ele.message || ''
                         }
                     })
                 }else if (data.msg_type === 's_task_exec_result') {

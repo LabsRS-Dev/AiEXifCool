@@ -67,7 +67,7 @@ __$p$.Tools = {
             cli: 'aiexifcool/fix.image/index',          // 动态调用的模块
             reload: false,                              // 默认是false, 支持热部署, 是否重新加载动态模块
             command: [                                  // 命令
-              { action: 'startFix', data: options.data }
+              { action: 'startFix', data: options.data, lang: options.lang || 'en' }
             ]
           }
 
@@ -91,7 +91,7 @@ __$p$.Tools = {
           cli: 'aiexifcool/fix.image/index',          // 动态调用的模块
           reload: false,                              // 默认是false, 支持热部署, 是否重新加载动态模块
           command: [                                  // 命令
-            { action: 'stopFix', data: options.data }
+            { action: 'stopFix', data: options.data, lang: options.lang || 'en' }
           ]
         }
 

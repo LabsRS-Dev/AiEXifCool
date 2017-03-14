@@ -1,11 +1,9 @@
-import IconsRef from './data/icon.js'
-import sysConfigRef from './data/sys-config.js'
-
-// /AiExifCool
-import RepairPage from './pages/AiExifCool/Repair.vue'
-
 // /
 import AboutPage from './pages/About.vue'
+import IconsRef from './data/icon.js'
+// /AiExifCool
+import RepairPage from './pages/AiExifCool/Repair.vue'
+import sysConfigRef from './data/sys-config.js'
 
 // Config SystemConfig
 const icons = IconsRef.iconSet
@@ -20,15 +18,6 @@ const menu = [{
   enableExpand: false,
   visible: true,
   menu: [{
-    path: rootPath + '/repair',
-    // path: '',
-    show: true,
-    component: RepairPage,
-    title: 'routes.common.menu.repair.title',
-    tip: 'routes.common.menu.repair.tip',
-    icon: icons.repair,
-    sourceUrl: ''
-  }, {
     path: rootPath + '/adjust',
     show: true,
     component: AboutPage,
@@ -43,6 +32,15 @@ const menu = [{
     title: 'routes.common.menu.remove.title',
     tip: 'routes.common.menu.remove.tip',
     icon: icons.remove,
+    sourceUrl: ''
+  }, {
+    path: rootPath + '/repair',
+    // path: '',
+    show: true,
+    component: RepairPage,
+    title: 'routes.common.menu.repair.title',
+    tip: 'routes.common.menu.repair.tip',
+    icon: icons.repair,
     sourceUrl: ''
   }, {
     path: rootPath + '/compare',

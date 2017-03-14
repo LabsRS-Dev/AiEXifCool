@@ -13,6 +13,7 @@
   "license": "ISC",
   "dependencies": {
     "babel-runtime": "^6.23.0",
-    "socket.io": "^1.7.3"
+    "socket.io": "^1.7.3",
+    "spawncommand": "^1.0.1"
   }
 }
