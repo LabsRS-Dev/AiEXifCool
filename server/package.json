@@ -13,7 +13,9 @@
   "license": "ISC",
   "dependencies": {
     "babel-runtime": "^6.23.0",
+    "fs-extra": "^2.0.0",
     "socket.io": "^1.7.3",
-    "spawncommand": "^1.0.1"
+    "spawncommand": "^1.0.1",
+    "tmp": "0.0.31"
   }
 }

@@ -28297,7 +28297,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
           _vm.onRemoveTaskItem(item, index)
         }
       }
-    }, [_c('div', [_c('div', {
+    }, [_c('div', {
+      staticClass: "page__examples--aiexifcool-repair__item"
+    }, [_c('div', {
       staticClass: "ui-toolbar__top"
     }, [_c('div', {
       staticClass: "ui-toolbar__top__metainfo"
@@ -28318,13 +28320,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       attrs: {
         "title": _vm.$t('pages.repair.task-item.file-size') + item.size
       }
-    }, [_vm._v("\n                            (" + _vm._s(item.size) + ")\n                            ")])]), _vm._v(" "), (item.fixState.message.length > 0) ? _c('span', {
-      class: ['ui-toolbar__top__taskMessage', item.fixState.state < 0 ? 'task-item-has-error' : ''],
-      attrs: {
-        "title": item.fixState.message
-      }
-    }, [_vm._v("\n                            " + _vm._s(item.fixState.message) + "\n                        ")]) : _vm._e()]), _vm._v(" "), _c('div', {
-      staticClass: "ui-toolbar__top__metainfo"
+    }, [_vm._v("\n                            (" + _vm._s(item.size) + ")\n                            ")])])]), _vm._v(" "), _c('div', {
+      staticClass: "ui-toolbar__top__metainfo__toolbar"
     }, [(item.fixState.state > 0) ? _c('ui-icon-button', {
       attrs: {
         "type": "secondary",
@@ -28375,14 +28372,19 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     })])], 1)]), _vm._v(" "), _c('div', {
       staticClass: "ui-toolbar__body"
-    }, [_c('span', {
+    }, [(item.fixState.message.length > 0) ? _c('span', {
+      class: ['ui-toolbar__top__taskMessage', item.fixState.state < 0 ? 'task-item-has-error' : ''],
+      attrs: {
+        "title": item.fixState.message
+      }
+    }, [_vm._v("\n                        " + _vm._s(item.fixState.message) + "\n                    ")]) : _vm._e(), _vm._v(" "), _c('span', {
       staticClass: "ui-toolbar__body__filePath",
       attrs: {
         "title": _vm.$t('pages.repair.task-item.file-path') + item.path
       }
     }, [_vm._v(_vm._s(item.path))])]), _vm._v(" "), _c('div', {
       staticClass: "ui-toolbar__bottom"
-    }), _vm._v(" "), _c('ui-progress-linear', {
+    }, [_c('ui-progress-linear', {
       directives: [{
         name: "show",
         rawName: "v-show",
@@ -28395,7 +28397,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         "progress": item.progress,
         "title": _vm.$t('pages.repair.task-item.fix-progress') + item.progress
       }
-    })], 1)])
+    })], 1)])])
   })), _vm._v(" "), (_vm.taskList.length >= 0) ? _c('div', {
     class: ['page__footbar page__footbar--aiexifcool-repair', {
       transferNormal: _vm.transferIsNormal
@@ -28680,8 +28682,10 @@ exports.default = {
                 prompt: this.$t('pages.repair.dialog-import-images.prompt'),
                 allowMulSelection: true,
                 types: [] }, function () {
-                var taskObj = new Task("images/picture.svg", "RAW_NIKON_D7100.NEF", "D:/TestResource/exif_sample_images/Nikon/RAW_NIKON_D7100.NEF", '27.5MB');
+                var taskObj = new Task("images/picture.svg", "RAW_NIKON_D7100.NEF", "D:\\TestResource\\exif_sample_images\\Nikon\\corrupted\\RAW_NIKON_D7100.NEF", '27.5MB');
+                that.taskList.push(taskObj);
                 that.taskID2taskObj[taskObj.id] = taskObj;
+                return;
 
                 for (var i = 0; i < 50; ++i) {
                     var _taskObj = new Task("images/picture.svg", "Images" + i, "/url/image" + i, i + '.2MB');
@@ -28758,7 +28762,7 @@ exports.default = {
                 prompt: that.$t('pages.repair.dialog-select-outdir.prompt'),
                 canCreateDir: true
             }, function () {
-                that.startFix();
+                that.startFix('D:\\TestResource\\exif_sample_images\\Nikon\\corrupted_output');
             }, function (data) {
                 if (data.success) {
                     var outDir = data.filePath;
@@ -28796,7 +28800,7 @@ exports.default = {
                 taskID: that.curFixTaskID,
                 data: {
                     src: srcImagesMap,
-                    outDir: outDir || _dovemaxsdk.BS.b$.App.getTempDir()
+                    outputDir: outDir || _dovemaxsdk.BS.b$.App.getTempDir()
                 },
                 lang: Vue.config.lang
             }, function (data) {

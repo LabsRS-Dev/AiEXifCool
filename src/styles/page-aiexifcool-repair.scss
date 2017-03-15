@@ -30,36 +30,68 @@
         }
     }
 
-    .ui-toolbar__top {
+    .page__examples--aiexifcool-repair__item {
         display: flex;
-        .ui-toolbar__top__fileName{
-            margin-left: rem-calc(4px);
+        flex-direction: column;
+        width: 100%;
+
+        .ui-toolbar__top {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+
+            width: 100%;
+
+            .ui-toolbar__top__metainfo{
+                flex-grow: 2;
+                width: 100%;
+
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+
+                .ui-toolbar__top__fileName{
+                    margin-left: rem-calc(4px);
+                }
+
+                .ui-toolbar__top__fileSize{
+                    margin-left: rem-calc(4px);
+                    font-size: rem-calc(11px);
+                    color: $md-grey-700;
+                }
+            }
+
+            .ui-toolbar__top__metainfo__toolbar{
+                flex-grow: 1;
+                align-self: flex-start;
+                flex-shrink: 0;
+            }
         }
 
-        .ui-toolbar__top__fileSize{
-            margin-left: rem-calc(4px);
-            font-size: rem-calc(11px);
-            color: $md-grey-700;
+        .ui-toolbar__body{
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+
+            .ui-toolbar__top__taskMessage{
+                margin-left: rem-calc(8px);
+                color: $md-grey-600;
+            }
+
+            .task-item-has-error{
+                color: $md-deep-orange-a700;
+            }
+
+            .ui-toolbar__body__filePath{
+                padding: rem-calc(4px);
+            }
         }
 
-        .ui-toolbar__top__taskMessage{
-            margin-left: rem-calc(8px);
-            color: $md-grey-600;
+        .ui-toolbar__bottom{
+            display: block;
+            flex-shrink: 1
         }
-
-        .task-item-has-error{
-            color: $md-deep-orange-a700;
-        }
-
     }
-
-    .ui-toolbar__body{
-        .ui-toolbar__body__filePath{
-            padding: rem-calc(4px);
-        }
-    }
-
-
 }
 
 

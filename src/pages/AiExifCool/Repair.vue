@@ -29,7 +29,7 @@
 
         <div class="page__examples page__examples--aiexifcool-repair">
             <ui-alert @dismiss="onRemoveTaskItem(item, index)" removeIcon :type="item.style.type" v-show="item.style.show" :key="item" v-for="item, index in taskList">
-                <div>
+                <div class="page__examples--aiexifcool-repair__item">
                     <div class="ui-toolbar__top">
                         <div class="ui-toolbar__top__metainfo">
                             <img :src="item.thumb" width="48" height="48" viewBox="0 0 48 48" /> 
@@ -39,15 +39,8 @@
                                 ({{ item.size }})
                                 </sup>
                             </strong>
-                            <span
-                                :class="['ui-toolbar__top__taskMessage', item.fixState.state < 0 ? 'task-item-has-error': '']"
-                                :title="item.fixState.message"
-                                v-if="item.fixState.message.length > 0"
-                                >
-                                {{ item.fixState.message }}
-                            </span>
                         </div>
-                        <div class="ui-toolbar__top__metainfo">
+                        <div class="ui-toolbar__top__metainfo__toolbar">
                             <ui-icon-button 
                                 @click="onOpenParentDir(item.fixOutDir)"
                                 type="secondary"
@@ -81,16 +74,24 @@
 
                     </div>
                     <div class="ui-toolbar__body">
+                        <span
+                            :class="['ui-toolbar__top__taskMessage', item.fixState.state < 0 ? 'task-item-has-error': '']"
+                            :title="item.fixState.message"
+                            v-if="item.fixState.message.length > 0"
+                            >
+                            {{ item.fixState.message }}
+                        </span>
                         <span class="ui-toolbar__body__filePath" :title=" $t('pages.repair.task-item.file-path') + item.path">{{ item.path }}</span>
                     </div>
-                    <div class="ui-toolbar__bottom"></div>
-                    <ui-progress-linear
-                        :color=" item.fixState.state >=0 ? 'primary' : 'accent'"
-                        type="determinate"
-                        :progress="item.progress"
-                        v-show="item.isworking"
-                        :title=" $t('pages.repair.task-item.fix-progress') + item.progress"
-                    ></ui-progress-linear>
+                    <div class="ui-toolbar__bottom">
+                        <ui-progress-linear
+                            :color=" item.fixState.state >=0 ? 'primary' : 'accent'"
+                            type="determinate"
+                            :progress="item.progress"
+                            v-show="item.isworking"
+                            :title=" $t('pages.repair.task-item.fix-progress') + item.progress"
+                        ></ui-progress-linear>
+                    </div>
                 </div>
                 
             </ui-alert>
@@ -255,8 +256,10 @@ export default {
                 types:[] // Note: too many formats
             }, function(){ // Test code
                 // Test[1]: Windows 本地实际数据
-                let taskObj = new Task("images/picture.svg", "RAW_NIKON_D7100.NEF", "D:/TestResource/exif_sample_images/Nikon/RAW_NIKON_D7100.NEF", '27.5MB')
+                let taskObj = new Task("images/picture.svg", "RAW_NIKON_D7100.NEF", "D:\\TestResource\\exif_sample_images\\Nikon\\corrupted\\RAW_NIKON_D7100.NEF", '27.5MB')
+                that.taskList.push(taskObj)
                 that.taskID2taskObj[taskObj.id] = taskObj
+                return
 
                 // Test[2]: 测试很多的情况下的列表展示
                 for(let i =0; i < 50; ++i){
@@ -337,7 +340,7 @@ export default {
                 prompt: that.$t('pages.repair.dialog-select-outdir.prompt'),
                 canCreateDir: true
             },()=>{
-                that.startFix()
+                that.startFix('D:\\TestResource\\exif_sample_images\\Nikon\\corrupted_output')
             },(data)=>{
                 if(data.success) {
                     var outDir = data.filePath
@@ -377,7 +380,7 @@ export default {
                 taskID: that.curFixTaskID,
                 data:{
                     src: srcImagesMap,
-                    outDir: outDir || BS.b$.App.getTempDir()
+                    outputDir: outDir || BS.b$.App.getTempDir()
                 },
                 lang: Vue.config.lang
             }, (data) =>{
