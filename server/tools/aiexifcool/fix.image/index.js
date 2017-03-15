@@ -85,7 +85,7 @@ function Singleton () {
       }
 
       oneFixTool.run({
-        imgPath: imgPath,
+        inputPath: imgPath,
         outputDir: outputDir,
         lang: options.lang || 'en'
       }, (data) => {

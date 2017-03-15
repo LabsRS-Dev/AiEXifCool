@@ -30,28 +30,36 @@
         }
     }
 
-    .ui-toolbar__left__fileName{
-        margin-left: rem-calc(4px);
+    .ui-toolbar__top {
+        display: flex;
+        .ui-toolbar__top__fileName{
+            margin-left: rem-calc(4px);
+        }
+
+        .ui-toolbar__top__fileSize{
+            margin-left: rem-calc(4px);
+            font-size: rem-calc(11px);
+            color: $md-grey-700;
+        }
+
+        .ui-toolbar__top__taskMessage{
+            margin-left: rem-calc(8px);
+            color: $md-grey-600;
+        }
+
+        .task-item-has-error{
+            color: $md-deep-orange-a700;
+        }
+
     }
 
-    .ui-toolbar__left__fileSize{
-        margin-left: rem-calc(4px);
-        font-size: rem-calc(11px);
-        color: $md-grey-700;
+    .ui-toolbar__body{
+        .ui-toolbar__body__filePath{
+            padding: rem-calc(4px);
+        }
     }
 
-    .ui-toolbar__left__taskMessage{
-        margin-left: rem-calc(8px);
-        color: $md-grey-600;
-    }
 
-    .task-item-has-error{
-        color: $md-deep-orange-a700;
-    }
-
-    .ui-toolbar__body__filePath{
-        padding: rem-calc(4px);
-    }
 }
 
 

@@ -30,23 +30,24 @@
         <div class="page__examples page__examples--aiexifcool-repair">
             <ui-alert @dismiss="onRemoveTaskItem(item, index)" removeIcon :type="item.style.type" v-show="item.style.show" :key="item" v-for="item, index in taskList">
                 <div>
-                    <div class="ui-toolbar__left">
-                        <img :src="item.thumb" width="48" height="48" viewBox="0 0 48 48" /> 
-                        <strong class="ui-toolbar__left__fileName" :title=" $t('pages.repair.task-item.file-name') +  item.name"> 
-                            {{ item.name }} 
-                            <sup class="ui-toolbar__left__fileSize" :title=" $t('pages.repair.task-item.file-size') +  item.size ">
-                            ({{ item.size }})
-                            </sup>
-                        </strong>
-                        <span
-                            :class="['ui-toolbar__left__taskMessage', item.fixState.state < 0 ? 'task-item-has-error': '']"
-                            :title="item.fixState.message"
-                            v-if="item.fixState.message.length > 0"
-                            >
-                            {{ item.fixState.message }}
-                        </span>
-
-                        <div class="">
+                    <div class="ui-toolbar__top">
+                        <div class="ui-toolbar__top__metainfo">
+                            <img :src="item.thumb" width="48" height="48" viewBox="0 0 48 48" /> 
+                            <strong class="ui-toolbar__top__fileName" :title=" $t('pages.repair.task-item.file-name') +  item.name"> 
+                                {{ item.name }} 
+                                <sup class="ui-toolbar__top__fileSize" :title=" $t('pages.repair.task-item.file-size') +  item.size ">
+                                ({{ item.size }})
+                                </sup>
+                            </strong>
+                            <span
+                                :class="['ui-toolbar__top__taskMessage', item.fixState.state < 0 ? 'task-item-has-error': '']"
+                                :title="item.fixState.message"
+                                v-if="item.fixState.message.length > 0"
+                                >
+                                {{ item.fixState.message }}
+                            </span>
+                        </div>
+                        <div class="ui-toolbar__top__metainfo">
                             <ui-icon-button 
                                 @click="onOpenParentDir(item.fixOutDir)"
                                 type="secondary"
@@ -66,6 +67,15 @@
                                 >
                                 <span class="fa fa-eye fa-lg fa-fw" :title=" $t('pages.repair.task-item.review-in-file') "></span>
                             </ui-icon-button>
+
+                            <ui-icon-button 
+                                @click="onPreviewFile(item.fixpath)"
+                                type="secondary"
+                                color="black"
+                                size="small"
+                                >
+                                <span class="fa fa-eye fa-lg fa-fw" :title=" $t('pages.repair.task-item.review-in-file') "></span>
+                            </ui-icon-button>
                         </div>
 
 
@@ -73,7 +83,7 @@
                     <div class="ui-toolbar__body">
                         <span class="ui-toolbar__body__filePath" :title=" $t('pages.repair.task-item.file-path') + item.path">{{ item.path }}</span>
                     </div>
-                    <div class="ui-toolbar__right"></div>
+                    <div class="ui-toolbar__bottom"></div>
                     <ui-progress-linear
                         :color=" item.fixState.state >=0 ? 'primary' : 'accent'"
                         type="determinate"
@@ -243,13 +253,18 @@ export default {
                 prompt: this.$t('pages.repair.dialog-import-images.prompt'),
                 allowMulSelection: true,
                 types:[] // Note: too many formats
-            }, function(){
+            }, function(){ // Test code
+                // Test[1]: Windows 本地实际数据
+                let taskObj = new Task("images/picture.svg", "RAW_NIKON_D7100.NEF", "D:/TestResource/exif_sample_images/Nikon/RAW_NIKON_D7100.NEF", '27.5MB')
+                that.taskID2taskObj[taskObj.id] = taskObj
+
+                // Test[2]: 测试很多的情况下的列表展示
                 for(let i =0; i < 50; ++i){
-                    var taskObj = new Task("images/picture.svg", "Images" + i, "/url/image" + i, i + '.2MB')
+                    let taskObj = new Task("images/picture.svg", "Images" + i, "/url/image" + i, i + '.2MB')
                     that.taskList.push(taskObj)
                     that.taskID2taskObj[taskObj.id] = taskObj
                 }  
-            }, function(data){
+            }, function(data){ // Normal code
                 if(data.success) {
                     var imageFiles = data.filesArray
                     imageFiles.forEach((fileObj, dinx) => {
@@ -272,7 +287,7 @@ export default {
                 allowMulSelection: true
             }, function(){
                 for(let i =0; i < 5; ++i){
-                    var taskObj = new Task("images/picture.svg", "ImagesDir" + i, "/url/imageDir" + i, i + '22.2MB')
+                    var taskObj = new Task("images/folder.svg", "ImagesDir" + i, "/url/imageDir" + i, i + '22.2MB')
                     that.taskList.push(taskObj)
                     that.taskID2taskObj[taskObj.id] = taskObj
                 }  
