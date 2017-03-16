@@ -28,7 +28,13 @@
         </div>
 
         <div class="page__examples page__examples--aiexifcool-repair">
-            <ui-alert @dismiss="onRemoveTaskItem(item, index)" removeIcon :type="item.style.type" v-show="item.style.show" :key="item" v-for="item, index in taskList">
+            <ui-alert 
+                :class="getItemStyleClass(item)"
+                @dismiss="onRemoveTaskItem(item, index)" removeIcon 
+                :type="item.style.type" 
+                v-show="item.style.show" 
+                :key="item" 
+                v-for="item, index in taskList">
                 <div class="page__examples--aiexifcool-repair__item">
                     <div class="ui-toolbar__top">
                         <div class="ui-toolbar__top__metainfo">
@@ -44,7 +50,7 @@
                             <ui-icon-button 
                                 @click="onOpenParentDir(item.fixOutDir)"
                                 type="secondary"
-                                color="black"
+                                color="white"
                                 size="small"
                                 v-if="item.fixState.state > 0"
                                 >
@@ -54,18 +60,9 @@
                             <ui-icon-button 
                                 @click="onPreviewFile(item.fixpath)"
                                 type="secondary"
-                                color="black"
+                                color="white"
                                 size="small"
                                 v-if="item.fixState.state > 0"
-                                >
-                                <span class="fa fa-eye fa-lg fa-fw" :title=" $t('pages.repair.task-item.review-in-file') "></span>
-                            </ui-icon-button>
-
-                            <ui-icon-button 
-                                @click="onPreviewFile(item.fixpath)"
-                                type="secondary"
-                                color="black"
-                                size="small"
                                 >
                                 <span class="fa fa-eye fa-lg fa-fw" :title=" $t('pages.repair.task-item.review-in-file') "></span>
                             </ui-icon-button>
@@ -85,10 +82,10 @@
                     </div>
                     <div class="ui-toolbar__bottom">
                         <ui-progress-linear
-                            :color=" item.fixState.state >=0 ? 'primary' : 'accent'"
+                            :color="getItemProgressStyle(item)"
                             type="determinate"
                             :progress="item.progress"
-                            v-show="item.isworking"
+                            v-show="getImageProgressShow(item)"
                             :title=" $t('pages.repair.task-item.fix-progress') + item.progress"
                         ></ui-progress-linear>
                     </div>
@@ -188,7 +185,7 @@ export default {
 
     computed:{
         actionList() {
-            var that = this
+           var that = this
            return [
                 {id:'action-import', visiable:true, color:"white", icon:"fa fa-file-image-o fa-lg fa-fw", size:"small", type:"secondary", tooltip:"pages.repair.toolbar.import"},
                 {id:'action-importDir', visiable:true, color:"white", icon:"fa fa-folder-open-o fa-lg fa-fw", size:"small", type:"secondary", tooltip:"pages.repair.toolbar.importDir"},
@@ -213,6 +210,37 @@ export default {
             // All task list run working
             that.stopFix()
 
+        },
+
+        // ------------------------- Style
+        getItemStyleClass(item){
+            var _styleClass = ['']
+            if (item.fixState) {
+                
+                if (item.fixState.state < 0) {
+                    _styleClass = ['isFixFailed']
+                }
+                if (item.fixState.state > 0) {
+                    _styleClass = ['isFixedSuccess']
+                }
+            }
+
+            return _styleClass
+        },
+
+        getItemProgressStyle(item){
+            var that = this
+            var progressStyle = 'black' // item.fixState.state === 0
+            if (item.fixState) {
+                if (item.fixState.state < 0) progressStyle = 'accent'
+                if (item.fixState.state > 0) progressStyle = 'primary'
+            }
+
+            return progressStyle
+        },
+
+        getImageProgressShow(item) {
+            return item.isworking
         },
 
         // ------------------------- Confirm dialog
@@ -256,9 +284,15 @@ export default {
                 types:[] // Note: too many formats
             }, function(){ // Test code
                 // Test[1]: Windows 本地实际数据
-                let taskObj = new Task("images/picture.svg", "RAW_NIKON_D7100.NEF", "D:\\TestResource\\exif_sample_images\\Nikon\\corrupted\\RAW_NIKON_D7100.NEF", '27.5MB')
-                that.taskList.push(taskObj)
-                that.taskID2taskObj[taskObj.id] = taskObj
+                _.each([
+                    {fileName: 'RAW_NIKON_D7100.NEF', filePath:'D:\\TestResource\\exif_sample_images\\Nikon\\corrupted\\RAW_NIKON_D7100.NEF', fileSize: '27.5MB'},
+                    {fileName: '00000009.nef', filePath:'D:\\TestResource\\exif_sample_images\\Nikon\\corrupted\\00000009.nef', fileSize: '10.7MB'}
+                ], function(ele){
+                    let taskObj = new Task("images/picture.svg", ele.fileName, ele.filePath, ele.fileSize)
+                    that.taskList.push(taskObj)
+                    that.taskID2taskObj[taskObj.id] = taskObj
+                })
+
                 return
 
                 // Test[2]: 测试很多的情况下的列表展示
@@ -392,7 +426,7 @@ export default {
                     _.each(dataList, (ele) => {
                         let curImageTaskObj = that.taskID2taskObj[ele.id]
                         if (curImageTaskObj) {
-                            curImageTaskObj.isworking = true
+                            curImageTaskObj.isworking = ele.progress >= 100 ? false : true
                             curImageTaskObj.progress = ele.progress >= 100 ? 100: ele.progress
                             curImageTaskObj.fixState.state = ele.state
                             curImageTaskObj.fixState.message = ele.message || ''

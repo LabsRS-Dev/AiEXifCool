@@ -28209,7 +28209,10 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       staticClass: "dove-docs-sidebar__menu-section-links"
     }, _vm._l((section.menu), function(item) {
       return _c('li', {
-        staticClass: "dove-docs-sidebar__menu-li"
+        staticClass: "dove-docs-sidebar__menu-li",
+        attrs: {
+          "exact": ""
+        }
       }, [(item.show) ? _c('router-link', {
         staticClass: "dove-docs-sidebar__menu-item",
         attrs: {
@@ -28290,6 +28293,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         expression: "item.style.show"
       }],
       key: item,
+      class: _vm.getItemStyleClass(item),
       attrs: {
         "removeIcon": "",
         "type": item.style.type
@@ -28327,7 +28331,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }, [(item.fixState.state > 0) ? _c('ui-icon-button', {
       attrs: {
         "type": "secondary",
-        "color": "black",
+        "color": "white",
         "size": "small"
       },
       on: {
@@ -28343,7 +28347,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     })]) : _vm._e(), _vm._v(" "), (item.fixState.state > 0) ? _c('ui-icon-button', {
       attrs: {
         "type": "secondary",
-        "color": "black",
+        "color": "white",
         "size": "small"
       },
       on: {
@@ -28356,23 +28360,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       attrs: {
         "title": _vm.$t('pages.repair.task-item.review-in-file')
       }
-    })]) : _vm._e(), _vm._v(" "), _c('ui-icon-button', {
-      attrs: {
-        "type": "secondary",
-        "color": "black",
-        "size": "small"
-      },
-      on: {
-        "click": function($event) {
-          _vm.onPreviewFile(item.fixpath)
-        }
-      }
-    }, [_c('span', {
-      staticClass: "fa fa-eye fa-lg fa-fw",
-      attrs: {
-        "title": _vm.$t('pages.repair.task-item.review-in-file')
-      }
-    })])], 1)]), _vm._v(" "), _c('div', {
+    })]) : _vm._e()], 1)]), _vm._v(" "), _c('div', {
       staticClass: "ui-toolbar__body"
     }, [(item.fixState.message.length > 0) ? _c('span', {
       class: ['ui-toolbar__top__taskMessage', item.fixState.state < 0 ? 'task-item-has-error' : ''],
@@ -28390,11 +28378,11 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       directives: [{
         name: "show",
         rawName: "v-show",
-        value: (item.isworking),
-        expression: "item.isworking"
+        value: (_vm.getImageProgressShow(item)),
+        expression: "getImageProgressShow(item)"
       }],
       attrs: {
-        "color": item.fixState.state >= 0 ? 'primary' : 'accent',
+        "color": _vm.getItemProgressStyle(item),
         "type": "determinate",
         "progress": item.progress,
         "title": _vm.$t('pages.repair.task-item.fix-progress') + item.progress
@@ -28649,6 +28637,33 @@ exports.default = {
 
             that.stopFix();
         },
+        getItemStyleClass: function getItemStyleClass(item) {
+            var _styleClass = [''];
+            if (item.fixState) {
+
+                if (item.fixState.state < 0) {
+                    _styleClass = ['isFixFailed'];
+                }
+                if (item.fixState.state > 0) {
+                    _styleClass = ['isFixedSuccess'];
+                }
+            }
+
+            return _styleClass;
+        },
+        getItemProgressStyle: function getItemProgressStyle(item) {
+            var that = this;
+            var progressStyle = 'black';
+            if (item.fixState) {
+                if (item.fixState.state < 0) progressStyle = 'accent';
+                if (item.fixState.state > 0) progressStyle = 'primary';
+            }
+
+            return progressStyle;
+        },
+        getImageProgressShow: function getImageProgressShow(item) {
+            return item.isworking;
+        },
         onConfirmDialogConfirm: function onConfirmDialogConfirm() {
             var that = this;
             var fn = that.confirmDialog.callbackConfirm;
@@ -28684,15 +28699,18 @@ exports.default = {
                 prompt: this.$t('pages.repair.dialog-import-images.prompt'),
                 allowMulSelection: true,
                 types: [] }, function () {
-                var taskObj = new Task("images/picture.svg", "RAW_NIKON_D7100.NEF", "D:\\TestResource\\exif_sample_images\\Nikon\\corrupted\\RAW_NIKON_D7100.NEF", '27.5MB');
-                that.taskList.push(taskObj);
-                that.taskID2taskObj[taskObj.id] = taskObj;
+                _dovemaxsdk._.each([{ fileName: 'RAW_NIKON_D7100.NEF', filePath: 'D:\\TestResource\\exif_sample_images\\Nikon\\corrupted\\RAW_NIKON_D7100.NEF', fileSize: '27.5MB' }, { fileName: '00000009.nef', filePath: 'D:\\TestResource\\exif_sample_images\\Nikon\\corrupted\\00000009.nef', fileSize: '10.7MB' }], function (ele) {
+                    var taskObj = new Task("images/picture.svg", ele.fileName, ele.filePath, ele.fileSize);
+                    that.taskList.push(taskObj);
+                    that.taskID2taskObj[taskObj.id] = taskObj;
+                });
+
                 return;
 
                 for (var i = 0; i < 50; ++i) {
-                    var _taskObj = new Task("images/picture.svg", "Images" + i, "/url/image" + i, i + '.2MB');
-                    that.taskList.push(_taskObj);
-                    that.taskID2taskObj[_taskObj.id] = _taskObj;
+                    var taskObj = new Task("images/picture.svg", "Images" + i, "/url/image" + i, i + '.2MB');
+                    that.taskList.push(taskObj);
+                    that.taskID2taskObj[taskObj.id] = taskObj;
                 }
             }, function (data) {
                 if (data.success) {
@@ -28814,7 +28832,7 @@ exports.default = {
                     _dovemaxsdk._.each(dataList, function (ele) {
                         var curImageTaskObj = that.taskID2taskObj[ele.id];
                         if (curImageTaskObj) {
-                            curImageTaskObj.isworking = true;
+                            curImageTaskObj.isworking = ele.progress >= 100 ? false : true;
                             curImageTaskObj.progress = ele.progress >= 100 ? 100 : ele.progress;
                             curImageTaskObj.fixState.state = ele.state;
                             curImageTaskObj.fixState.message = ele.message || '';

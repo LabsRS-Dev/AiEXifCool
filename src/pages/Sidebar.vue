@@ -41,7 +41,7 @@
                         
                         <ul class="dove-docs-sidebar__menu-section-links">
                             <li 
-                                class="dove-docs-sidebar__menu-li"
+                                class="dove-docs-sidebar__menu-li" exact
                                 v-for="item in section.menu">
                                 <router-link
                                     class="dove-docs-sidebar__menu-item" exact

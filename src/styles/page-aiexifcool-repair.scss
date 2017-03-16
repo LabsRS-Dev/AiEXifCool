@@ -27,6 +27,21 @@
             color: $md-grey-400;
             font-size: rem-calc(13px);
             border-radius: rem-calc(4px);
+
+            border-left: 12px solid $md-grey-400;
+        }
+
+        &.isFixedSuccess {
+            .ui-alert__body {
+                border-left: 12px solid $md-green;
+            }
+            
+        }
+
+        &.isFixFailed{
+            .ui-alert__body {
+                border-left: 12px solid $md-red-900;
+            }
         }
     }
 
