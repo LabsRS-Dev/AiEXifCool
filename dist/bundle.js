@@ -28208,7 +28208,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }, [_c('ul', {
       staticClass: "dove-docs-sidebar__menu-section-links"
     }, _vm._l((section.menu), function(item) {
-      return _c('li', [(item.show) ? _c('router-link', {
+      return _c('li', {
+        staticClass: "dove-docs-sidebar__menu-li"
+      }, [(item.show) ? _c('router-link', {
         staticClass: "dove-docs-sidebar__menu-item",
         attrs: {
           "exact": "",

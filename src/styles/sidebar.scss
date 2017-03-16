@@ -121,35 +121,38 @@
     }
 }
 //----------------------------------------------------------------------
-
-.dove-docs-sidebar__menu-item {
-    align-items: center;
-    color: $sider-menu-item-font-color;
-    font-size: rem-calc(13px);
-    display: flex;
-    padding: rem-calc(8px);
-    padding-left: rem-calc(40px);
-    &.is-active {
-        color: $link-color;
-        font-weight: 500;
-        background-color: rgba(black, 0.05);
-    }
-    &:hover,
-    &:focus {
-        text-decoration: none;
-        background-color: rgba(white, 0.05);
-        color: $sider-menu-item__active-font-color;
-    }
-    .ui-icon {
+.dove-docs-sidebar__menu-li {
+    .dove-docs-sidebar__menu-item {
+        align-items: center;
+        color: $sider-menu-item-font-color;
         font-size: rem-calc(13px);
-        margin-left: rem-calc(2px);
-        padding-right: rem-calc(12px);
+        display: flex;
+        padding: rem-calc(8px);
+        padding-left: rem-calc(40px);
+
+        &.is-active {
+            color: $link-color;
+            transform: scale(1.1);
+            background: url(/images/menu-active.png) no-repeat scroll 96% transparent!important;
+        }
+
+        &:hover,
+        &:focus {
+            text-decoration: none;
+            background-color: #242425;
+        }
+        .ui-icon {
+            font-size: rem-calc(13px);
+            margin-left: rem-calc(2px);
+            padding-right: rem-calc(12px);
+        }
+    }
+
+    .dove-docs-sidebar__menu-item__caption{
+        padding-left: rem-calc(12px);
     }
 }
 
-.dove-docs-sidebar__menu-item__caption{
-    padding-left: rem-calc(12px);
-}
 
 .transition-fade-enter-active,
 .transition-fade-leave-active {
