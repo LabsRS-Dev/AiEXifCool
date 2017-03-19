@@ -52,7 +52,7 @@
         "fileCount": "任务数量",
         "state": "当前修复状态",
         "isFixWorking": "正在执行修复",
-        "isWaiting":"等待执行修复",
+        "isWaiting":"空闲",
         "transferState": "修复引擎状态",
         "transferIsNormal": "连接正常",
         "transferIsFault": "无法连接"

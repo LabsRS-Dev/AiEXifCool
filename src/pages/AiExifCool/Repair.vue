@@ -286,7 +286,7 @@ export default {
                 // Test[1]: Windows 本地实际数据
                 _.each([
                     {fileName: 'RAW_NIKON_D7100.NEF', filePath:'D:\\TestResource\\exif_sample_images\\Nikon\\corrupted\\RAW_NIKON_D7100.NEF', fileSize: '27.5MB'},
-                    {fileName: '00000009.nef', filePath:'D:\\TestResource\\exif_sample_images\\Nikon\\corrupted\\00000009.nef', fileSize: '10.7MB'}
+                    {fileName: 'YDSC_0021.NEF', filePath:'D:\\TestResource\\exif_sample_images\\Nikon\\corrupted\\YDSC_0021.NEF', fileSize: '10.7MB'}
                 ], function(ele){
                     let taskObj = new Task("images/picture.svg", ele.fileName, ele.filePath, ele.fileSize)
                     that.taskList.push(taskObj)

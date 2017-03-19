@@ -109,7 +109,6 @@ const runWithTmp = (options, feedback, done) => {
       // 配置处理的文件或者目录
       args.push(destPath)
 
-      // 配置输出目录
       args.push('-o')
       args.push('%dfixed/%f.%e')
 
@@ -208,7 +207,7 @@ const streamResults = (toolPath, args = [], feedbackCallback, doneCallback) => {
     stderrString += data
   })
   child.on('exit', (exitCode) => {
-    if (exitCode !== 0) {
+    if (exitCode !== 0 || stderrString.length > 0) {
       return doneCallback(new Error(stderrString))
     }
     doneCallback({
