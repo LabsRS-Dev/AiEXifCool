@@ -20,6 +20,7 @@
   "keywords": [
     "vue",
     "vuejs",
+    "dove.max.sdk",
     "material design",
     "components",
     "ui"
@@ -42,7 +43,8 @@
     "vue": "^2.2.4",
     "vue-i18n": "^6.0.0-alpha.6",
     "vue-router": "^2.3.0",
-    "vuex": "^2.2.1"
+    "vuex": "^2.2.1",
+    "dove.max.sdk": "^1.0.0"
   },
   "devDependencies": {
     "ansi-html": "0.0.7",
