@@ -1,6 +1,7 @@
 // /
 import AboutPage from './pages/About.vue'
 import IconsRef from './data/icon.js'
+import RemovePage from './pages/AiExifCool/Remove.vue'
 // /AiExifCool
 import RepairPage from './pages/AiExifCool/Repair.vue'
 import sysConfigRef from './data/sys-config.js'
@@ -28,7 +29,7 @@ const menu = [{
   }, {
     path: rootPath + '/remove',
     show: true,
-    component: AboutPage,
+    component: RemovePage,
     title: 'routes.common.menu.remove.title',
     tip: 'routes.common.menu.remove.tip',
     icon: icons.remove,

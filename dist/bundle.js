@@ -26445,6 +26445,10 @@ var _icon = __webpack_require__(84);
 
 var _icon2 = _interopRequireDefault(_icon);
 
+var _Remove = __webpack_require__(175);
+
+var _Remove2 = _interopRequireDefault(_Remove);
+
 var _Repair = __webpack_require__(73);
 
 var _Repair2 = _interopRequireDefault(_Repair);
@@ -26476,7 +26480,7 @@ var menu = [{
   }, {
     path: rootPath + '/remove',
     show: true,
-    component: _About2.default,
+    component: _Remove2.default,
     title: 'routes.common.menu.remove.title',
     tip: 'routes.common.menu.remove.tip',
     icon: icons.remove,
@@ -28482,7 +28486,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         "color": _vm.getItemProgressStyle(item),
         "type": "determinate",
         "progress": item.progress,
-        "title": _vm.$t('pages.repair.task-item.fix-progress') + item.progress
+        "title": _vm.$t('pages.repair.task-item.progress') + item.progress
       }
     })], 1)])])
   })), _vm._v(" "), (_vm.taskList.length >= 0) ? _c('div', {
@@ -28718,7 +28722,7 @@ exports.default = {
     computed: {
         actionList: function actionList() {
             var that = this;
-            return [{ id: 'action-import', visiable: true, color: "white", icon: "fa fa-file-image-o fa-lg fa-fw", size: "small", type: "secondary", tooltip: "pages.repair.toolbar.import" }, { id: 'action-importDir', visiable: true, color: "white", icon: "fa fa-folder-open-o fa-lg fa-fw", size: "small", type: "secondary", tooltip: "pages.repair.toolbar.importDir" }, { id: 'action-remove', visiable: true, color: "white", icon: "fa fa-trash-o fa-lg fa-fw", size: "small", type: "secondary", tooltip: "pages.repair.toolbar.remove" }, { id: 'action-fix', visiable: !that.isFixworking, color: "green", icon: "fa fa-legal fa-lg fa-fw", size: "small", type: "secondary", tooltip: "pages.repair.toolbar.fix" }, { id: 'action-stopFix', visiable: that.isFixworking, color: "red", icon: "fa fa-hand-paper-o fa-lg fa-fw", size: "small", type: "secondary", tooltip: "pages.repair.toolbar.chancel" }];
+            return [{ id: 'action-import', visiable: true, color: "white", icon: "fa fa-file-image-o fa-lg fa-fw", size: "small", type: "secondary", tooltip: "pages.repair.toolbar.import" }, { id: 'action-importDir', visiable: true, color: "white", icon: "fa fa-folder-open-o fa-lg fa-fw", size: "small", type: "secondary", tooltip: "pages.repair.toolbar.importDir" }, { id: 'action-remove', visiable: true, color: "white", icon: "fa fa-trash-o fa-lg fa-fw", size: "small", type: "secondary", tooltip: "pages.repair.toolbar.remove" }, { id: 'action-do', visiable: !that.isFixworking, color: "green", icon: "fa fa-legal fa-lg fa-fw", size: "small", type: "secondary", tooltip: "pages.repair.toolbar.fix" }, { id: 'action-stop', visiable: that.isFixworking, color: "red", icon: "fa fa-hand-paper-o fa-lg fa-fw", size: "small", type: "secondary", tooltip: "pages.repair.toolbar.chancel" }];
         }
     },
 
@@ -28780,9 +28784,9 @@ exports.default = {
                 this.onBtnImportDirClick();
             } else if (item.id === 'action-remove') {
                 this.onBtnRemoveAllClick();
-            } else if (item.id === 'action-fix') {
+            } else if (item.id === 'action-do') {
                 this.onBtnFixClick();
-            } else if (item.id === 'action-stopFix') {
+            } else if (item.id === 'action-stop') {
                 this.onBtnStopFixClick();
             }
         },
@@ -40588,6 +40592,571 @@ var index_esm = {
 
 module.exports = __webpack_require__(70);
 
+
+/***/ }),
+/* 169 */,
+/* 170 */,
+/* 171 */,
+/* 172 */,
+/* 173 */,
+/* 174 */,
+/* 175 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var Component = __webpack_require__(20)(
+  /* script */
+  __webpack_require__(177),
+  /* template */
+  __webpack_require__(176),
+  /* scopeId */
+  null,
+  /* cssModules */
+  null
+)
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 176 */
+/***/ (function(module, exports) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('section', {
+    staticClass: "page page--aiexifcool-remove"
+  }, [_c('div', {
+    staticClass: "page__toolbar page__toolbar--aiexifcool-remove"
+  }, [_vm._l((_vm.actionList), function(item, index) {
+    return (item.visiable) ? _c('ui-icon-button', {
+      key: item.id,
+      attrs: {
+        "type": item.type,
+        "size": item.size,
+        "color": item.color
+      },
+      on: {
+        "click": function($event) {
+          _vm.onToolBtnClick(index, item)
+        }
+      }
+    }, [_c('span', {
+      class: item.icon,
+      attrs: {
+        "title": _vm.$t(item.tooltip)
+      }
+    })]) : _vm._e()
+  }), _vm._v(" "), _c('ui-confirm', {
+    ref: _vm.confirmDialog.ref,
+    attrs: {
+      "autofocus": _vm.confirmDialog.autofocus,
+      "confirm-button-text": _vm.confirmDialog.confirmButtonText,
+      "deny-button-text": _vm.confirmDialog.denyButtonText,
+      "title": _vm.confirmDialog.title
+    },
+    on: {
+      "confirm": _vm.onConfirmDialogConfirm,
+      "deny": _vm.onConfirmDialogDeny
+    }
+  }, [_vm._v("\n            " + _vm._s(_vm.confirmDialog.content) + "\n        ")])], 2), _vm._v(" "), _c('div', {
+    staticClass: "page__examples page__examples--aiexifcool-remove"
+  }, _vm._l((_vm.taskList), function(item, index) {
+    return _c('ui-alert', {
+      directives: [{
+        name: "show",
+        rawName: "v-show",
+        value: (item.style.show),
+        expression: "item.style.show"
+      }],
+      key: item,
+      class: _vm.getItemStyleClass(item),
+      attrs: {
+        "removeIcon": "",
+        "type": item.style.type
+      },
+      on: {
+        "dismiss": function($event) {
+          _vm.onRemoveTaskItem(item, index)
+        }
+      }
+    }, [_c('div', {
+      staticClass: "page__examples--aiexifcool-remove__item"
+    }, [_c('div', {
+      staticClass: "ui-toolbar__top"
+    }, [_c('div', {
+      staticClass: "ui-toolbar__top__metainfo"
+    }, [_c('img', {
+      attrs: {
+        "src": item.thumb,
+        "width": "48",
+        "height": "48",
+        "viewBox": "0 0 48 48"
+      }
+    }), _vm._v(" "), _c('strong', {
+      staticClass: "ui-toolbar__top__fileName",
+      attrs: {
+        "title": _vm.$t('pages.remove.task-item.file-name') + item.name
+      }
+    }, [_vm._v(" \n                            " + _vm._s(item.name) + " \n                            "), _c('sup', {
+      staticClass: "ui-toolbar__top__fileSize",
+      attrs: {
+        "title": _vm.$t('pages.remove.task-item.file-size') + item.size
+      }
+    }, [_vm._v("\n                            (" + _vm._s(item.size) + ")\n                            ")])])]), _vm._v(" "), _c('div', {
+      staticClass: "ui-toolbar__top__metainfo__toolbar"
+    }, [(item.fixState.state > 0) ? _c('ui-icon-button', {
+      attrs: {
+        "type": "secondary",
+        "color": "white",
+        "size": "small"
+      },
+      on: {
+        "click": function($event) {
+          _vm.onOpenParentDir(item.fixOutDir)
+        }
+      }
+    }, [_c('span', {
+      staticClass: "fa fa-folder-open-o fa-lg fa-fw",
+      attrs: {
+        "title": _vm.$t('pages.remove.task-item.open-parent-dir')
+      }
+    })]) : _vm._e(), _vm._v(" "), (item.fixState.state > 0) ? _c('ui-icon-button', {
+      attrs: {
+        "type": "secondary",
+        "color": "white",
+        "size": "small"
+      },
+      on: {
+        "click": function($event) {
+          _vm.onPreviewFile(item.fixpath)
+        }
+      }
+    }, [_c('span', {
+      staticClass: "fa fa-eye fa-lg fa-fw",
+      attrs: {
+        "title": _vm.$t('pages.remove.task-item.review-in-file')
+      }
+    })]) : _vm._e()], 1)]), _vm._v(" "), _c('div', {
+      staticClass: "ui-toolbar__body"
+    }, [(item.fixState.message.length > 0) ? _c('span', {
+      class: ['ui-toolbar__top__taskMessage', item.fixState.state < 0 ? 'task-item-has-error' : ''],
+      attrs: {
+        "title": item.fixState.message
+      }
+    }, [_vm._v("\n                        " + _vm._s(item.fixState.message) + "\n                    ")]) : _vm._e(), _vm._v(" "), _c('span', {
+      staticClass: "ui-toolbar__body__filePath",
+      attrs: {
+        "title": _vm.$t('pages.remove.task-item.file-path') + item.path
+      }
+    }, [_vm._v(_vm._s(item.path))])]), _vm._v(" "), _c('div', {
+      staticClass: "ui-toolbar__bottom"
+    }, [_c('ui-progress-linear', {
+      directives: [{
+        name: "show",
+        rawName: "v-show",
+        value: (_vm.getImageProgressShow(item)),
+        expression: "getImageProgressShow(item)"
+      }],
+      attrs: {
+        "color": _vm.getItemProgressStyle(item),
+        "type": "determinate",
+        "progress": item.progress,
+        "title": _vm.$t('pages.remove.task-item.progress') + item.progress
+      }
+    })], 1)])])
+  })), _vm._v(" "), (_vm.taskList.length >= 0) ? _c('div', {
+    class: ['page__footbar page__footbar--aiexifcool-remove', {
+      transferNormal: _vm.transferIsNormal
+    }, {
+      fixWorking: _vm.isRemoveWorking
+    }]
+  }, [_c('span', [_vm._v(_vm._s(_vm.$t('pages.remove.footbar.fileCount')) + " : " + _vm._s(_vm.taskList.length) + " ")]), _vm._v(" "), _c('span', [_vm._v(_vm._s(_vm.$t('pages.remove.footbar.state')) + " : " + _vm._s(_vm.isRemoveWorking ? _vm.$t('pages.remove.footbar.isRemoveWorking') : _vm.$t('pages.remove.footbar.isWaiting')) + " ")]), _vm._v(" "), _c('i', {
+    class: [_vm.isRemoveWorking ? 'fa fa-spinner fa-spin fa-lg fa-fw' : 'fa fa-lg fa-fw']
+  }), _vm._v(" "), _c('span', [_vm._v(_vm._s(_vm.$t('pages.remove.footbar.transferState')) + " : " + _vm._s(_vm.transferIsNormal ? _vm.$t('pages.remove.footbar.transferIsNormal') : _vm.$t('pages.remove.footbar.transferIsFault')) + " ")])]) : _vm._e()])
+},staticRenderFns: []}
+
+/***/ }),
+/* 177 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _classCallCheck2 = __webpack_require__(104);
+
+var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+var _dovemaxsdk = __webpack_require__(22);
+
+var _keenUi = __webpack_require__(21);
+
+var _transfer = __webpack_require__(83);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var baseID = "__page__repair__action__";
+var baseIDIndex = -1;
+
+var taskList = [];
+var taskPrefix = 'fixpage-image-id-' + _dovemaxsdk._.now();
+
+var Task = function Task(thumb, name, path, size) {
+    (0, _classCallCheck3.default)(this, Task);
+
+    this.id = _dovemaxsdk._.uniqueId(taskPrefix);
+    this.thumb = thumb;
+    this.name = name;
+    this.path = path;
+    this.size = size;
+    this.style = {
+        show: true,
+        type: "success"
+    };
+
+    this.isworking = false;
+    this.progress = 0;
+    this.fixOutDir = "";
+    this.fixpath = "";
+    this.fixState = {
+        state: 0,
+        message: "" };
+};
+
+exports.default = {
+    data: function data() {
+        console.log("Remove.vue call data()");
+        return {
+            taskList: taskList,
+            taskID2taskObj: {},
+            isRemoveWorking: false,
+            transferIsNormal: _transfer.Transfer.isRunning,
+            progressInterval: null,
+            confirmDialog: {
+                ref: 'default',
+                autofocus: 'none',
+                confirmButtonText: 'Confirm',
+                denyButtonText: 'Deny',
+                title: '',
+                content: '',
+                callbackConfirm: function callbackConfirm() {},
+                callbackDeny: function callbackDeny() {}
+            },
+            curFixTaskID: null };
+    },
+    beforeCreate: function beforeCreate() {
+        var that = this;
+        console.log('Remove.vue beforeCreate');
+
+        _transfer.Transfer.frontAgent.registerOnChannelFault(function () {
+            that.onTransferIsFault();
+        });
+
+        _transfer.Transfer.frontAgent.registerOnFinishBuildChannel(function () {
+            that.onTransferIsNoraml();
+        });
+    },
+    beforeDestroy: function beforeDestroy() {
+        clearInterval(this.progressInterval);
+    },
+
+
+    computed: {
+        actionList: function actionList() {
+            var that = this;
+            return [{ id: 'action-import', visiable: true, color: "white", icon: "fa fa-file-image-o fa-lg fa-fw", size: "small", type: "secondary", tooltip: "pages.remove.toolbar.import" }, { id: 'action-importDir', visiable: true, color: "white", icon: "fa fa-folder-open-o fa-lg fa-fw", size: "small", type: "secondary", tooltip: "pages.remove.toolbar.importDir" }, { id: 'action-remove', visiable: true, color: "white", icon: "fa fa-trash-o fa-lg fa-fw", size: "small", type: "secondary", tooltip: "pages.remove.toolbar.remove" }, { id: 'action-do', visiable: !that.isRemoveWorking, color: "red", icon: "fa fa-recycle fa-lg fa-fw", size: "small", type: "secondary", tooltip: "pages.remove.toolbar.fix" }, { id: 'action-stop', visiable: that.isRemoveWorking, color: "red", icon: "fa fa-hand-paper-o fa-lg fa-fw", size: "small", type: "secondary", tooltip: "pages.remove.toolbar.chancel" }];
+        }
+    },
+
+    methods: {
+        onTransferIsNoraml: function onTransferIsNoraml() {
+            var that = this;
+            that.transferIsNormal = true;
+        },
+        onTransferIsFault: function onTransferIsFault() {
+            var that = this;
+            that.transferIsNormal = false;
+            that.isRemoveWorking = false;
+
+            that.stopFix();
+        },
+        getItemStyleClass: function getItemStyleClass(item) {
+            var _styleClass = [''];
+            if (item.fixState) {
+
+                if (item.fixState.state < 0) {
+                    _styleClass = ['isFixFailed'];
+                }
+                if (item.fixState.state > 0) {
+                    _styleClass = ['isFixedSuccess'];
+                }
+            }
+
+            return _styleClass;
+        },
+        getItemProgressStyle: function getItemProgressStyle(item) {
+            var that = this;
+            var progressStyle = 'black';
+            if (item.fixState) {
+                if (item.fixState.state < 0) progressStyle = 'accent';
+                if (item.fixState.state > 0) progressStyle = 'primary';
+            }
+
+            return progressStyle;
+        },
+        getImageProgressShow: function getImageProgressShow(item) {
+            return item.isworking;
+        },
+        onConfirmDialogConfirm: function onConfirmDialogConfirm() {
+            var that = this;
+            var fn = that.confirmDialog.callbackConfirm;
+            fn && fn();
+        },
+        onConfirmDialogDeny: function onConfirmDialogDeny() {
+            var that = this;
+            var fn = that.confirmDialog.callbackDeny;
+            fn && fn();
+        },
+        onToolBtnClick: function onToolBtnClick(index, item) {
+            console.log('onToolBtnClick', index);
+
+            if (item.id === 'action-import') {
+                this.onBtnImportFilesClick();
+            } else if (item.id === 'action-importDir') {
+                this.onBtnImportDirClick();
+            } else if (item.id === 'action-remove') {
+                this.onBtnRemoveAllClick();
+            } else if (item.id === 'action-do') {
+                this.onBtnFixClick();
+            } else if (item.id === 'action-stop') {
+                this.onBtnStopFixClick();
+            }
+        },
+        onBtnImportFilesClick: function onBtnImportFilesClick() {
+            var that = this;
+
+            console.log("-------------------- call import files");
+
+            _dovemaxsdk.BS.b$.importFiles({
+                title: this.$t('pages.remove.dialog-import-images.title'),
+                prompt: this.$t('pages.remove.dialog-import-images.prompt'),
+                allowMulSelection: true,
+                types: [] }, function () {
+                _dovemaxsdk._.each([{ fileName: 'RAW_NIKON_D7100.NEF', filePath: 'D:\\TestResource\\exif_sample_images\\Nikon\\corrupted\\RAW_NIKON_D7100.NEF', fileSize: '27.5MB' }, { fileName: 'YDSC_0021.NEF', filePath: 'D:\\TestResource\\exif_sample_images\\Nikon\\corrupted\\YDSC_0021.NEF', fileSize: '10.7MB' }], function (ele) {
+                    var taskObj = new Task("images/picture.svg", ele.fileName, ele.filePath, ele.fileSize);
+                    that.taskList.push(taskObj);
+                    that.taskID2taskObj[taskObj.id] = taskObj;
+                });
+
+                return;
+
+                for (var i = 0; i < 50; ++i) {
+                    var taskObj = new Task("images/picture.svg", "Images" + i, "/url/image" + i, i + '.2MB');
+                    that.taskList.push(taskObj);
+                    that.taskID2taskObj[taskObj.id] = taskObj;
+                }
+            }, function (data) {
+                if (data.success) {
+                    var imageFiles = data.filesArray;
+                    imageFiles.forEach(function (fileObj, dinx) {
+                        var taskObj = new Task("images/picture.svg", fileObj.fileName, fileObj.filePath, fileObj.fileSizeStr);
+                        that.taskList.push(taskObj);
+                        that.taskID2taskObj[taskObj.id] = taskObj;
+                    });
+                }
+            });
+        },
+        onBtnImportDirClick: function onBtnImportDirClick() {
+            var that = this;
+
+            console.log("-------------------- call import dir");
+
+            _dovemaxsdk.BS.b$.selectDir({
+                title: this.$t('pages.remove.dialog-import-dir-images.title'),
+                prompt: this.$t('pages.remove.dialog-import-dir-images.prompt'),
+                allowMulSelection: true
+            }, function () {
+                for (var i = 0; i < 5; ++i) {
+                    var taskObj = new Task("images/folder.svg", "ImagesDir" + i, "/url/imageDir" + i, i + '22.2MB');
+                    that.taskList.push(taskObj);
+                    that.taskID2taskObj[taskObj.id] = taskObj;
+                }
+            }, function (data) {
+                if (data.success) {
+                    var imageFiles = data.filesArray;
+                    imageFiles.forEach(function (fileObj, dinx) {
+                        var taskObj = new Task("images/picture.svg", fileObj.fileName, fileObj.filePath, fileObj.fileSizeStr);
+                        that.taskList.push(taskObj);
+                        that.taskID2taskObj[taskObj.id] = taskObj;
+                    });
+                }
+            });
+        },
+        onBtnRemoveAllClick: function onBtnRemoveAllClick() {
+            var that = this;
+
+            if (that.taskList.length > 0) {
+                var cdg = that.confirmDialog;
+                cdg.title = that.$t('pages.remove.dialog-confirm-remove-all.title');
+                cdg.content = that.$t('pages.remove.dialog-confirm-remove-all.message');
+                cdg.confirmButtonText = that.$t('pages.remove.dialog-confirm-remove-all.btnConfirm');
+                cdg.denyButtonText = that.$t('pages.remove.dialog-confirm-remove-all.btnDeny');
+
+                var dialog = that.$refs[cdg.ref];
+                cdg.callbackConfirm = function () {
+                    that.stopFix();
+                    that.taskList.splice(0, that.taskList.length);
+                };
+                dialog.open();
+            }
+        },
+        onBtnFixClick: function onBtnFixClick() {
+            var that = this;
+
+            if (that.taskList.length === 0) {
+                return _dovemaxsdk.BS.b$.Notice.alert({
+                    message: that.$t('pages.remove.notice-no-items.message')
+                });
+            }
+
+            console.log("---------------------- call export dir");
+            _dovemaxsdk.BS.b$.selectOutDir({
+                title: that.$t('pages.remove.dialog-select-outdir.title'),
+                prompt: that.$t('pages.remove.dialog-select-outdir.prompt'),
+                canCreateDir: true
+            }, function () {
+                that.startFix('D:\\TestResource\\exif_sample_images\\Nikon\\corrupted_output');
+            }, function (data) {
+                if (data.success) {
+                    var outDir = data.filePath;
+                    that.startFix(outDir);
+                }
+            });
+        },
+        onBtnStopFixClick: function onBtnStopFixClick() {
+            var that = this;
+
+            if (that.isRemoveWorking) {
+                var cdg = that.confirmDialog;
+                cdg.title = that.$t('pages.remove.dialog-confirm-stop-fix.title');
+                cdg.content = that.$t('pages.remove.dialog-confirm-stop-fix.message');
+                cdg.confirmButtonText = that.$t('pages.remove.dialog-confirm-stop-fix.btnConfirm');
+                cdg.denyButtonText = that.$t('pages.remove.dialog-confirm-stop-fix.btnDeny');
+
+                var dialog = that.$refs[cdg.ref];
+                cdg.callbackConfirm = function () {
+                    that.stopFix();
+                };
+                dialog.open();
+            }
+        },
+        startFix: function startFix(outDir) {
+            var that = this;
+
+            var srcImagesMap = {};
+            _dovemaxsdk._.each(that.taskList, function (taskObj, index) {
+                srcImagesMap[taskObj.id] = taskObj.path;
+            });
+
+            that.curFixTaskID = _dovemaxsdk._.uniqueId(taskPrefix + 'task-');
+            _transfer.Transfer.Tools.Fix.Image.run({
+                taskID: that.curFixTaskID,
+                data: {
+                    src: srcImagesMap,
+                    outputDir: outDir || _dovemaxsdk.BS.b$.App.getTempDir()
+                },
+                lang: Vue.config.lang
+            }, function (data) {
+                if (data.msg_type === 's_task_exec_running') {
+                    that.isRemoveWorking = true;
+                } else if (data.msg_type === 's_task_exec_feedback') {
+                    var dataList = data.content;
+                    that.isRemoveWorking = dataList.length > 0;
+                    _dovemaxsdk._.each(dataList, function (ele) {
+                        var curImageTaskObj = that.taskID2taskObj[ele.id];
+                        if (curImageTaskObj) {
+                            curImageTaskObj.isworking = ele.progress >= 100 ? false : true;
+                            curImageTaskObj.progress = ele.progress >= 100 ? 100 : ele.progress;
+                            curImageTaskObj.fixState.state = ele.state;
+                            curImageTaskObj.fixState.message = ele.message || '';
+                        }
+                    });
+                } else if (data.msg_type === 's_task_exec_result') {}
+            });
+        },
+        stopFix: function stopFix() {
+            var notice = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
+
+            var that = this;
+
+            var srcImagesMap = {};
+            _dovemaxsdk._.each(that.taskList, function (taskObj, index) {
+                taskObj.isworking = false;
+
+                srcImagesMap[taskObj.id] = taskObj.path;
+            });
+
+            if (!notice) return;
+            if (_dovemaxsdk._.keys(srcImagesMap).length > 0 && that.isRemoveWorking) {
+                _transfer.Transfer.Tools.Fix.Image.chancel({
+                    taskID: that.curFixTaskID,
+                    data: {
+                        src: srcImagesMap
+                    }
+                });
+            }
+        },
+        __removeTaskItem: function __removeTaskItem(item, index) {
+            var that = this;
+            item.isworking = false;
+
+            item.progress = 0;
+            item.fixState = 0;
+            that.taskID2taskObj[item.id] = null;
+
+            that.taskList.splice(index, 1);
+        },
+        onRemoveTaskItem: function onRemoveTaskItem(item, index) {
+            console.log('item: ', item, 'index: ', index);
+            var that = this;
+
+            if (item.isworking) {
+                var srcImagesMap = {};
+                srcImagesMap[item.id] = item.path;
+                _transfer.Transfer.Tools.Fix.Image.chancel({
+                    taskID: that.curFixTaskID,
+                    data: {
+                        src: srcImagesMap
+                    }
+                });
+                that.__removeTaskItem(item, index);
+            } else {
+                that.__removeTaskItem(item, index);
+            }
+        },
+        onOpenParentDir: function onOpenParentDir(dir) {
+            var that = this;
+            _dovemaxsdk.BS.b$.revealInFinder(dir);
+        },
+        onPreviewFile: function onPreviewFile(file) {
+            _dovemaxsdk.BS.b$.previewFile(dir);
+        }
+    },
+
+    components: {
+        UiIcon: _keenUi.UiIcon,
+        UiTabs: _keenUi.UiTabs,
+        UiTab: _keenUi.UiTab,
+        UiButton: _keenUi.UiButton,
+        UiIconButton: _keenUi.UiIconButton,
+        UiAlert: _keenUi.UiAlert,
+        UiToolbar: _keenUi.UiToolbar,
+        UiConfirm: _keenUi.UiConfirm,
+        UiProgressLinear: _keenUi.UiProgressLinear
+    }
+};
 
 /***/ })
 /******/ ]);

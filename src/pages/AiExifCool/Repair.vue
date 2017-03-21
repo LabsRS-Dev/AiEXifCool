@@ -86,7 +86,7 @@
                             type="determinate"
                             :progress="item.progress"
                             v-show="getImageProgressShow(item)"
-                            :title=" $t('pages.repair.task-item.fix-progress') + item.progress"
+                            :title=" $t('pages.repair.task-item.progress') + item.progress"
                         ></ui-progress-linear>
                     </div>
                 </div>
@@ -190,8 +190,8 @@ export default {
                 {id:'action-import', visiable:true, color:"white", icon:"fa fa-file-image-o fa-lg fa-fw", size:"small", type:"secondary", tooltip:"pages.repair.toolbar.import"},
                 {id:'action-importDir', visiable:true, color:"white", icon:"fa fa-folder-open-o fa-lg fa-fw", size:"small", type:"secondary", tooltip:"pages.repair.toolbar.importDir"},
                 {id:'action-remove', visiable:true, color:"white", icon:"fa fa-trash-o fa-lg fa-fw", size:"small", type:"secondary", tooltip:"pages.repair.toolbar.remove"},
-                {id:'action-fix', visiable:!that.isFixworking, color:"green", icon:"fa fa-legal fa-lg fa-fw", size:"small", type:"secondary",  tooltip:"pages.repair.toolbar.fix"},
-                {id:'action-stopFix', visiable:that.isFixworking, color:"red", icon:"fa fa-hand-paper-o fa-lg fa-fw", size:"small", type:"secondary",  tooltip:"pages.repair.toolbar.chancel"}
+                {id:'action-do', visiable:!that.isFixworking, color:"green", icon:"fa fa-legal fa-lg fa-fw", size:"small", type:"secondary",  tooltip:"pages.repair.toolbar.fix"},
+                {id:'action-stop', visiable:that.isFixworking, color:"red", icon:"fa fa-hand-paper-o fa-lg fa-fw", size:"small", type:"secondary",  tooltip:"pages.repair.toolbar.chancel"}
            ]
         }
     },
@@ -265,9 +265,9 @@ export default {
                 this.onBtnImportDirClick()
             }else if (item.id === 'action-remove') {
                 this.onBtnRemoveAllClick()
-            }else if (item.id === 'action-fix') {
+            }else if (item.id === 'action-do') {
                 this.onBtnFixClick()
-            }else if (item.id === 'action-stopFix') {
+            }else if (item.id === 'action-stop') {
                 this.onBtnStopFixClick()
             }
         },
