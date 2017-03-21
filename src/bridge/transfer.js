@@ -21,7 +21,7 @@ const __$p$ = {
     const wsSocketIO = new agent.Chancel()
     wsSocketIO.build({
       type: agent.ChancelType.websocketForNode,
-      ip: 'localhost',
+      ip: '192.168.1.2', // 127.0.0.1
       port: '8888',
       protocol: 'http://',
       reqUrl: '',
