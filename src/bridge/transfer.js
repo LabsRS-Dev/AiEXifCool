@@ -103,6 +103,51 @@ __$p$.Tools = {
         __$p$.send(info) // 不需要监视结果
       }
     }
+  },
+  RemoveExifInfo: {
+    run: (options = {}, handler, one = false) => {
+      const debugMode = false
+      if (debugMode === false) {
+        const taskInfo = {
+          task_id: options.taskID,                    // 任务ID
+          cli: 'aiexifcool/exif.image/index',         // 动态调用的模块
+          reload: false,                              // 默认是false, 支持热部署, 是否重新加载动态模块
+          command: [                                  // 命令
+            { action: 'startRemoveExifInfoAction', data: options.data, lang: options.lang || 'en' }
+          ]
+        }
+
+        const info = {
+          taskInfo: taskInfo,
+          msg_type: 'c_task_exec'
+        }
+
+        __$p$.send(info, data => {
+          if (data.task_id === options.taskID) { // 只处理本任务的返回数据
+            handler && handler(data)
+          }
+        }, one)
+      } else {
+        handler && handler()
+      }
+    },
+    stop: (options = {}) => {
+      const taskInfo = {
+        task_id: options.taskID,                    // 任务ID
+        cli: 'aiexifcool/exif.image/index',         // 动态调用的模块
+        reload: false,                              // 默认是false, 支持热部署, 是否重新加载动态模块
+        command: [                                  // 命令
+          { action: 'stopRemoveExifInfoAction', data: options.data, lang: options.lang || 'en' }
+        ]
+      }
+
+      const info = {
+        taskInfo: taskInfo,
+        msg_type: 'c_task_exec'
+      }
+
+      __$p$.send(info) // 不需要监视结果
+    }
   }
 
 }

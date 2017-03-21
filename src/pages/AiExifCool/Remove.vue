@@ -52,7 +52,7 @@
                                 type="secondary"
                                 color="white"
                                 size="small"
-                                v-if="item.fixState.state > 0"
+                                v-if="item.stateInfo.state > 0"
                                 >
                                 <span class="fa fa-folder-open-o fa-lg fa-fw" :title=" $t('pages.remove.task-item.open-parent-dir') "></span>
                             </ui-icon-button>
@@ -62,7 +62,7 @@
                                 type="secondary"
                                 color="white"
                                 size="small"
-                                v-if="item.fixState.state > 0"
+                                v-if="item.stateInfo.state > 0"
                                 >
                                 <span class="fa fa-eye fa-lg fa-fw" :title=" $t('pages.remove.task-item.review-in-file') "></span>
                             </ui-icon-button>
@@ -72,11 +72,11 @@
                     </div>
                     <div class="ui-toolbar__body">
                         <span
-                            :class="['ui-toolbar__top__taskMessage', item.fixState.state < 0 ? 'task-item-has-error': '']"
-                            :title="item.fixState.message"
-                            v-if="item.fixState.message.length > 0"
+                            :class="['ui-toolbar__top__taskMessage', item.stateInfo.state < 0 ? 'task-item-has-error': '']"
+                            :title="item.stateInfo.message"
+                            v-show="item.stateInfo.state < 0"
                             >
-                            {{ item.fixState.message }}
+                            {{ item.stateInfo.message }}
                         </span>
                         <span class="ui-toolbar__body__filePath" :title=" $t('pages.remove.task-item.file-path') + item.path">{{ item.path }}</span>
                     </div>
@@ -133,7 +133,7 @@ class Task {
         this.progress = 0;          // 修复进度(100为单位)
         this.fixOutDir = "";        // 指定的修复输出目录
         this.fixpath = "";          // 修复成功的文件路径
-        this.fixState = {           // 修复运行状态
+        this.stateInfo = {           // 修复运行状态
             state: 0,               // 修复是否成功 0. 没有修复， 1，修复成功， -1修复失败
             message: ""             // 修复结果的描述，如果是错误，描述错误，如果是成功，描述其定义内容
         }
@@ -208,19 +208,19 @@ export default {
             that.isRemoveWorking = false
 
             // All task list run working
-            that.stopFix()
+            that.stopDo()
 
         },
 
         // ------------------------- Style
         getItemStyleClass(item){
             var _styleClass = ['']
-            if (item.fixState) {
+            if (item.stateInfo) {
                 
-                if (item.fixState.state < 0) {
+                if (item.stateInfo.state < 0) {
                     _styleClass = ['isFixFailed']
                 }
-                if (item.fixState.state > 0) {
+                if (item.stateInfo.state > 0) {
                     _styleClass = ['isFixedSuccess']
                 }
             }
@@ -230,10 +230,10 @@ export default {
 
         getItemProgressStyle(item){
             var that = this
-            var progressStyle = 'black' // item.fixState.state === 0
-            if (item.fixState) {
-                if (item.fixState.state < 0) progressStyle = 'accent'
-                if (item.fixState.state > 0) progressStyle = 'primary'
+            var progressStyle = 'black' // item.stateInfo.state === 0
+            if (item.stateInfo) {
+                if (item.stateInfo.state < 0) progressStyle = 'accent'
+                if (item.stateInfo.state > 0) progressStyle = 'primary'
             }
 
             return progressStyle
@@ -266,9 +266,9 @@ export default {
             }else if (item.id === 'action-remove') {
                 this.onBtnRemoveAllClick()
             }else if (item.id === 'action-do') {
-                this.onBtnFixClick()
+                this.onBtnDoClick()
             }else if (item.id === 'action-stop') {
-                this.onBtnStopFixClick()
+                this.onBtnStopDoClick()
             }
         },
 
@@ -352,14 +352,14 @@ export default {
 
                 var dialog = that.$refs[cdg.ref]
                 cdg.callbackConfirm = () =>{
-                    that.stopFix()
+                    that.stopDo()
                     that.taskList.splice(0, that.taskList.length)
                 }
                 dialog.open()
             }
         },
 
-        onBtnFixClick(){
+        onBtnDoClick(){
             var that = this
             
             if(that.taskList.length === 0) {
@@ -374,16 +374,16 @@ export default {
                 prompt: that.$t('pages.remove.dialog-select-outdir.prompt'),
                 canCreateDir: true
             },()=>{
-                that.startFix('D:\\TestResource\\exif_sample_images\\Nikon\\corrupted_output')
+                that.startDo('D:\\TestResource\\exif_sample_images\\Nikon\\corrupted_output')
             },(data)=>{
                 if(data.success) {
                     var outDir = data.filePath
-                    that.startFix(outDir)
+                    that.startDo(outDir)
                 }
             })
         },
 
-        onBtnStopFixClick(){
+        onBtnStopDoClick(){
             var that = this
 
             if(that.isRemoveWorking) {
@@ -395,13 +395,13 @@ export default {
 
                 var dialog = that.$refs[cdg.ref]
                 cdg.callbackConfirm = () =>{
-                    that.stopFix()
+                    that.stopDo()
                 }
                 dialog.open()
             }            
         },
 
-        startFix(outDir){
+        startDo(outDir){
             var that = this
 
             var srcImagesMap = {}
@@ -410,7 +410,7 @@ export default {
             })
 
             that.curFixTaskID = _.uniqueId(taskPrefix + 'task-')
-            Transfer.Tools.Fix.Image.run({
+            Transfer.Tools.RemoveExifInfo.run({
                 taskID: that.curFixTaskID,
                 data:{
                     src: srcImagesMap,
@@ -428,8 +428,8 @@ export default {
                         if (curImageTaskObj) {
                             curImageTaskObj.isworking = ele.progress >= 100 ? false : true
                             curImageTaskObj.progress = ele.progress >= 100 ? 100: ele.progress
-                            curImageTaskObj.fixState.state = ele.state
-                            curImageTaskObj.fixState.message = ele.message || ''
+                            curImageTaskObj.stateInfo.state = ele.state
+                            curImageTaskObj.stateInfo.message = ele.message || ''
                         }
                     })
                 }else if (data.msg_type === 's_task_exec_result') {
@@ -438,7 +438,7 @@ export default {
             })
         },
 
-        stopFix(notice = true){
+        stopDo(notice = true){
             var that = this
             // send stop message to server
             var srcImagesMap = {}
@@ -451,7 +451,7 @@ export default {
 
             if(!notice) return
             if(_.keys(srcImagesMap).length > 0 && that.isRemoveWorking) {
-                Transfer.Tools.Fix.Image.chancel({
+                Transfer.Tools.RemoveExifInfo.stop({
                     taskID: that.curFixTaskID,
                     data:{
                         src: srcImagesMap
@@ -467,7 +467,7 @@ export default {
             item.isworking = false;
             // TODO：remove it from taskList
             item.progress = 0
-            item.fixState = 0
+            item.stateInfo = 0
             that.taskID2taskObj[item.id] = null
 
             // remove from taskList
@@ -481,7 +481,7 @@ export default {
                 // notice to server 
                 let srcImagesMap = {}
                 srcImagesMap[item.id] = item.path
-                Transfer.Tools.Fix.Image.chancel({
+                Transfer.Tools.RemoveExifInfo.stop({
                     taskID: that.curFixTaskID,
                     data:{
                         src: srcImagesMap
