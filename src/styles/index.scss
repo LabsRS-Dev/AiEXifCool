@@ -7,6 +7,7 @@ $global-background: #EDEDED;
 $global-hover-background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#7793f5), color-stop(50%,#406df2), color-stop(100%,#275af1));
 $global-font-color: black;
 $global-font-size: rem-calc(13px);
+$global-font: $font-stack;
 $global-cursor: default;
 $global-toolbar-height: 10vh;
 
