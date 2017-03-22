@@ -1,10 +1,12 @@
 .page {
     margin: 0 auto;
-    max-width: rem-calc(1092px);
-    padding-top: rem-calc(16px);
-    padding-bottom: rem-calc(32px);
-    padding-left: rem-calc(32px);
-    padding-right: rem-calc(32px);
+    max-width: 100%;
+    height: 100%;
+
+    display: flex;
+    flex-direction: column;    
+
+    padding: rem-calc(16px);
     line-height: 1.6;
     color: $page-content-font-color;
 

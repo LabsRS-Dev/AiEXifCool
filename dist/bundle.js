@@ -28487,7 +28487,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "target": "_blank",
       "title": "View release notes"
     }
-  }, [_vm._v("v" + _vm._s(_vm.version))]), _vm._v(" "), _c('a', {
+  }, [_vm._v(_vm._s(_vm.version))]), _vm._v(" "), _c('a', {
     staticClass: "dove-docs-sidebar__header-github-link",
     attrs: {
       "href": _vm.homepage,

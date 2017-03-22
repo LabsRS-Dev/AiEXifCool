@@ -1,151 +1,158 @@
-.page__toolbar-app-doc{
-    .ui-confirm {
-        background: $global-background;
-        font-size: $global-font-size;
-        border-radius: rem-calc(4px);
-
-        .ui-modal__container {
-            background: $global-background;
-            color: $global-font-color;
-
-            .ui-modal__header {
-                background: $global-titlebar-background;
-                color: $global-font-color;
-                
-                h1 {
-                    font-size: $global-font-size;
-                }
-                height: rem-calc(21px);
-            }
-            .ui-modal__body {
-                .ui-confirm__message {
-                    font-size: $global-font-size;
-                }
-            }
-        }
-    }
-}
-
-
-.page__examples-app-doc{
-    margin: auto;
-    height: 75vh;
-    overflow-y: auto;
+.page-app-doc {
     
-    .ui-alert--type-success {
-        .ui-alert__body {
-            background: $docs-content__taskitem-background;
-            color: $docs-content__taskitem-font-color;
-            font-size: rem-calc(13px);
+    .page__toolbar-app-doc{
+        flex: 1;
+
+        .ui-confirm {
+            background: $global-background;
+            font-size: $global-font-size;
             border-radius: rem-calc(4px);
 
-            border-left: $docs-content__taskitem_normal-boder-left;
+            .ui-modal__container {
+                background: $global-background;
+                color: $global-font-color;
 
-            &:hover{
-                background: $docs-content__taskitem-hover-background;
-                color: $docs-content__taskitem-hover-font-color !important;
-            }
-        }
-
-        &.isFixedSuccess {
-            .ui-alert__body {
-                border-left: $docs-content__taskitem_success-boder-left;
-            }
-            
-        }
-
-        &.isFixFailed{
-            .ui-alert__body {
-                border-left: $docs-content__taskitem_failed-boder-left;
+                .ui-modal__header {
+                    background: $global-titlebar-background;
+                    color: $global-font-color;
+                    
+                    h1 {
+                        font-size: $global-font-size;
+                    }
+                    height: rem-calc(21px);
+                }
+                .ui-modal__body {
+                    .ui-confirm__message {
+                        font-size: $global-font-size;
+                    }
+                }
             }
         }
     }
 
-    .page__examples-app-doc__item {
-        display: flex;
-        flex-direction: column;
-        width: 100%;
 
-        .ui-toolbar__top {
+    .page__examples-app-doc{
+        overflow-y: auto;
+        flex: 358;
+        
+        .ui-alert--type-success {
+            .ui-alert__body {
+                background: $docs-content__taskitem-background;
+                color: $docs-content__taskitem-font-color;
+                font-size: rem-calc(13px);
+                border-radius: rem-calc(4px);
+
+                border-left: $docs-content__taskitem_normal-boder-left;
+
+                &:hover{
+                    background: $docs-content__taskitem-hover-background;
+                    color: $docs-content__taskitem-hover-font-color !important;
+                }
+            }
+
+            &.isFixedSuccess {
+                .ui-alert__body {
+                    border-left: $docs-content__taskitem_success-boder-left;
+                }
+                
+            }
+
+            &.isFixFailed{
+                .ui-alert__body {
+                    border-left: $docs-content__taskitem_failed-boder-left;
+                }
+            }
+        }
+
+        .page__examples-app-doc__item {
             display: flex;
-            flex-direction: row;
-            align-items: center;
-
+            flex-direction: column;
             width: 100%;
 
-            .ui-toolbar__top__metainfo{
-                flex-grow: 2;
-                width: 100%;
-
+            .ui-toolbar__top {
                 display: flex;
                 flex-direction: row;
                 align-items: center;
 
-                .ui-toolbar__top__fileName{
-                    margin-left: rem-calc(4px);
-                    user-select: auto !important;
+                width: 100%;
+
+                .ui-toolbar__top__metainfo{
+                    flex-grow: 2;
+                    width: 100%;
+
+                    display: flex;
+                    flex-direction: row;
+                    align-items: center;
+
+                    .ui-toolbar__top__fileName{
+                        margin-left: rem-calc(4px);
+                        user-select: auto !important;
+                    }
+
+                    .ui-toolbar__top__fileSize{
+                        margin-left: rem-calc(4px);
+                        font-size: rem-calc(11px);
+                        user-select: auto !important;
+                    }
                 }
 
-                .ui-toolbar__top__fileSize{
-                    margin-left: rem-calc(4px);
-                    font-size: rem-calc(11px);
+                .ui-toolbar__top__metainfo__toolbar{
+                    flex-grow: 1;
+                    align-self: flex-start;
+                    flex-shrink: 0;
+                }
+            }
+
+            .ui-toolbar__body{
+                display: flex;
+                flex-direction: column;
+                align-items: flex-start;
+
+                .ui-toolbar__top__taskMessage{
+                    margin-left: rem-calc(8px);
+                    &.task-item-has-error{
+                        color: $docs-content__taskitem_haserror-font-color;
+                        user-select: auto !important;
+                    }
+                }
+
+
+                .ui-toolbar__body__filePath{
+                    font-size: rem-calc(10px);
+                    padding: rem-calc(4px);
                     user-select: auto !important;
                 }
             }
 
-            .ui-toolbar__top__metainfo__toolbar{
-                flex-grow: 1;
-                align-self: flex-start;
-                flex-shrink: 0;
+            .ui-toolbar__bottom{
+                display: block;
+                flex-shrink: 1
             }
         }
-
-        .ui-toolbar__body{
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-
-            .ui-toolbar__top__taskMessage{
-                margin-left: rem-calc(8px);
-                &.task-item-has-error{
-                    color: $docs-content__taskitem_haserror-font-color;
-                    user-select: auto !important;
-                }
-            }
+    }
 
 
-            .ui-toolbar__body__filePath{
-                font-size: rem-calc(10px);
-                padding: rem-calc(4px);
-                user-select: auto !important;
-            }
+    .page__footbar-app-doc{
+        flex: 1;
+        background: $page-content__footbar-background;
+        border-radius:8px;
+        margin-top: rem-calc(4px);
+        padding: rem-calc(4px);
+        cursor: pointer;
+        span {
+            color: $page-content__footbar-font-color;
+            font-size: rem-calc(10px);
+            padding:  rem-calc(4px);
         }
 
-        .ui-toolbar__bottom{
-            display: block;
-            flex-shrink: 1
+        &.working {
+            background: $page-content__footbar-working-background;
+        }
+
+        &.transferNormal{
+            background: $page-content__footbar-normal-background;
         }
     }
 }
 
 
-.page__footbar-app-doc{
-    background: $page-content__footbar-background;
-    border-radius:8px;
-    margin-top: rem-calc(4px);
-    padding: rem-calc(4px);
-    cursor: pointer;
-    span {
-        color: $page-content__footbar-font-color;
-        font-size: rem-calc(10px);
-        padding:  rem-calc(4px);
-    }
-
-    &.working {
-        background: $page-content__footbar-working-background;
-    }
-
-    &.transferNormal{
-        background: $page-content__footbar-normal-background;
-    }
-}

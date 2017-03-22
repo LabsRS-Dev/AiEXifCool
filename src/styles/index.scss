@@ -20,8 +20,8 @@ $toolbar-border: 2px solid rgba(130,15,15, 1);
 ** 侧边栏的配色方案
 **/
 //0. 侧边栏整体配置方案
-$sidebar-default-width: rem-calc(240px);
-$mobile-sidebar-max-width: rem-calc(240px);
+$sidebar-default-width: rem-calc(200px);
+$mobile-sidebar-max-width: rem-calc(200px);
 $sidebar-border-right: 1px solid $md-grey-400;
 
 //1. 标题栏
@@ -73,6 +73,8 @@ $docs-content__taskitem_failed-boder-left: 12px solid $md-red-300;
 **/
 $mobile-sidebar-z-index: 10;
 $mobile-breakpoint: 720px;
+
+$desktop-min-height: 600px;
 
 
 //

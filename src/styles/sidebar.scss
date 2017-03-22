@@ -39,7 +39,7 @@
 
     .dove-docs-sidebar__header-product-name {
         color: $sidebar__header-font-color;
-        font-size: 1.5rem;
+        font-size: rem-calc(18px);
         height: rem-calc(48px);
         padding: rem-calc(4px);
         
@@ -48,7 +48,7 @@
     .dove-docs-sidebar__header-version {
         color: $sidebar__header-font-color;
         display: inline-block;
-        font-size: 0.9rem;
+        font-size: rem-calc(10px);
         opacity: 0.7;
         vertical-align: super;
         &:hover,

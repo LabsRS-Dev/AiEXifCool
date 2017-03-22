@@ -9,7 +9,7 @@
                 rel="noopener"
                 target="_blank"
                 title="View release notes"
-            >v{{ version }}</a>
+            >{{ version }}</a>
 
             <a
                 class="dove-docs-sidebar__header-github-link"
