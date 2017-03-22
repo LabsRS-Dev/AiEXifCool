@@ -28,54 +28,58 @@
 
 
 .dove-docs-sidebar__header {
+    box-sizing: border-box;
     background:$sidebar__header-background;
     color: $sidebar__header-font-color;
     font-size: 1.5rem;
-    height: rem-calc(64px);
-    padding: rem-calc(16px);
+    height: $sidebar__header-height;
     cursor: $global-cursor;
     
     border-bottom: $sidebar__header-border-bottom;
 
-    .dove-docs-sidebar__header-product-name {
-        color: $sidebar__header-font-color;
-        font-size: rem-calc(18px);
-        height: rem-calc(48px);
-        padding: rem-calc(4px);
-        
-    }
-
-    .dove-docs-sidebar__header-version {
-        color: $sidebar__header-font-color;
-        display: inline-block;
-        font-size: rem-calc(10px);
-        opacity: 0.7;
-        vertical-align: super;
-        &:hover,
-        &:focus {
-            opacity: 1;
-        }
-    }
-
-    .dove-docs-sidebar__header-github-link {
-        color: white;
-        float: right;
-        line-height: 1;
-        opacity: 0.8;
-        &:hover,
-        &:focus {
-            opacity: 1;
-        }
-    }
-
-    .dove-docs-sidebar__version-select {
+    .dove-docs-sidebar__header__info {
         padding: rem-calc(16px);
-        padding-top: rem-calc(8px);
-        .ui-select {
-            margin: 0;
+
+        .dove-docs-sidebar__header-product-name {
+            color: $sidebar__header-font-color;
+            font-size: rem-calc(18px);
+            height: rem-calc(48px);
+            padding: rem-calc(16px);
+            
         }
-        .ui-select-option {
-            min-height: rem-calc(40px);
+
+        .dove-docs-sidebar__header-version {
+            color: $sidebar__header-font-color;
+            display: inline-block;
+            font-size: rem-calc(10px);
+            opacity: 0.7;
+            vertical-align: super;
+            &:hover,
+            &:focus {
+                opacity: 1;
+            }
+        }
+
+        .dove-docs-sidebar__header-github-link {
+            color: white;
+            float: right;
+            line-height: 1;
+            opacity: 0.8;
+            &:hover,
+            &:focus {
+                opacity: 1;
+            }
+        }
+
+        .dove-docs-sidebar__version-select {
+            padding: rem-calc(16px);
+            padding-top: rem-calc(8px);
+            .ui-select {
+                margin: 0;
+            }
+            .ui-select-option {
+                min-height: rem-calc(40px);
+            }
         }
     }
 }
@@ -83,10 +87,9 @@
 
 
 .dove-docs-sidebar__scrollable {
-    height: 100%;
+    height: auto;
     overflow-y: auto;
     overflow-x: hidden;
-    border-right: $sidebar__scrollable-border-right;
 
     .dove-docs-sidebar__menu,
     .dove-docs-sidebar__menu-section-links {

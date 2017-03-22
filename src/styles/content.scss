@@ -8,7 +8,7 @@
 }
 
 .dove-docs-content__toolbar {
-    height: rem-calc(64px);
+    height: $docs-content__toolbar-height;
     background: $docs-content__toolbar-background;
     color: $docs-content__toolbar-font-color;
     width: 100%;

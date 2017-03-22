@@ -2,26 +2,28 @@
     <aside class="dove-docs-sidebar">
         <!--siderbar__header-->
         <div class="dove-docs-sidebar__header">
-            <span class="dove-docs-sidebar__header-product-name">{{ appName }}</span>
-            <a
-                class="dove-docs-sidebar__header-version"
-                :href="homepage"
-                rel="noopener"
-                target="_blank"
-                title="View release notes"
-            >{{ version }}</a>
+            <div class="dove-docs-sidebar__header__info">
+                <span class="dove-docs-sidebar__header-product-name">{{ appName }}</span>
+                <a
+                    class="dove-docs-sidebar__header-version"
+                    :href="homepage"
+                    rel="noopener"
+                    target="_blank"
+                    title="View release notes"
+                >{{ version }}</a>
 
-            <a
-                class="dove-docs-sidebar__header-github-link"
-                :href="homepage"
-                rel="noopener"
-                target="_blank"
-                title="View on HomePage"
-            >
-                <ui-icon v-show="false">
-                    <img src="images/plier.svg" width="24" height="24" viewBox="0 0 24 24" />
-                </ui-icon>
-            </a>
+                <a
+                    class="dove-docs-sidebar__header-github-link"
+                    :href="homepage"
+                    rel="noopener"
+                    target="_blank"
+                    title="View on HomePage"
+                >
+                    <ui-icon v-show="false">
+                        <img src="images/plier.svg" width="24" height="24" viewBox="0 0 24 24" />
+                    </ui-icon>
+                </a>
+            </div>
         </div>
 
         <!--siderbar__scrollable__content-->

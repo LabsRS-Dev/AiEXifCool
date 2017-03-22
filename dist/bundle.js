@@ -28477,6 +28477,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "dove-docs-sidebar"
   }, [_c('div', {
     staticClass: "dove-docs-sidebar__header"
+  }, [_c('div', {
+    staticClass: "dove-docs-sidebar__header__info"
   }, [_c('span', {
     staticClass: "dove-docs-sidebar__header-product-name"
   }, [_vm._v(_vm._s(_vm.appName))]), _vm._v(" "), _c('a', {
@@ -28509,7 +28511,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "height": "24",
       "viewBox": "0 0 24 24"
     }
-  })])], 1)]), _vm._v(" "), _c('div', {
+  })])], 1)])]), _vm._v(" "), _c('div', {
     staticClass: "dove-docs-sidebar__scrollable"
   }, [_c('ul', {
     staticClass: "dove-docs-sidebar__menu"

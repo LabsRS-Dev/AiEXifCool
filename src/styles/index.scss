@@ -8,6 +8,8 @@ $global-hover-background: -webkit-gradient(linear, left top, left bottom, color-
 $global-font-color: black;
 $global-font-size: rem-calc(13px);
 $global-cursor: default;
+$global-toolbar-height: rem-calc(64px);
+
 
 //
 //
@@ -29,9 +31,9 @@ $sidebar__header-background: $global-background;
 $sidebar__header-font-color: $global-font-color;
 $sidebar__header-border-bottom: 1px solid $md-grey-400;
 $sidebar__header-border-right: $sidebar-border-right;
+$sidebar__header-height: $global-toolbar-height;
 
 //2. 菜单导航栏
-$sidebar__scrollable-border-right: $sidebar-border-right;
 $sider-section-font-color: $global-font-color;
 $sider-menu-item-font-color: $global-font-color;          //MenuItem 字体颜色
 $sider-menu-item-hover-background: $global-hover-background;
@@ -56,6 +58,7 @@ $docs-content-font-color: $global-font-color;
 $docs-content__toolbar-background: $global-background;
 $docs-content__toolbar-font-color: $global-font-color;
 $docs-content__toolbar-border-bottom: 1px solid $md-grey-400;
+$docs-content__toolbar-height: $global-toolbar-height;
 
 $docs-content__taskitem-background: rgba(233, 233, 233, 1.0); // linear-gradient(rgba(233, 233, 233, 1.0), rgba(178, 178, 178, 1.0));
 $docs-content__taskitem-hover-background:  $global-hover-background;
