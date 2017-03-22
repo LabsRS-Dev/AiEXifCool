@@ -2,7 +2,7 @@
     
     .page__toolbar-app-doc{
         flex: 1;
-
+        min-height: rem-calc(44px);
         .ui-confirm {
             background: $global-background;
             font-size: $global-font-size;
@@ -134,6 +134,8 @@
 
     .page__footbar-app-doc{
         flex: 1;
+        min-height: rem-calc(44px);
+
         background: $page-content__footbar-background;
         border-radius:8px;
         margin-top: rem-calc(4px);
