@@ -1,4 +1,14 @@
 @import './define/imports.scss';
+
+// 模拟macOS的经典配色
+$global-with-titlebar-background: linear-gradient(rgba(233, 233, 233, 1.0), rgba(178, 178, 178, 1.0) 21px, #EDEDED, #EDEDED 23px);
+$global-titlebar-background:  linear-gradient(rgba(233, 233, 233, 1.0), rgba(178, 178, 178, 1.0));
+$global-background: #EDEDED;
+$global-hover-background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#7793f5), color-stop(50%,#406df2), color-stop(100%,#275af1));
+$global-font-color: black;
+$global-font-size: rem-calc(13px);
+$global-cursor: default;
+
 //
 //
 $link-color: #e6b422;
@@ -6,13 +16,61 @@ $toolbar-color: $md-grey-900;
 $toolbar__header-color: white;
 $toolbar-border: 2px solid rgba(130,15,15, 1);
 
-$sider-section-font-color: #fdeff2;
-$sider-menu-item-font-color: rgba(white, 0.75);
-$sider-menu-item__active-font-color: rgba(white, 1);
-$sider-background-color: rgba(25, 27, 31, 1);
+/**
+** 侧边栏的配色方案
+**/
+//0. 侧边栏整体配置方案
+$sidebar-default-width: rem-calc(240px);
+$mobile-sidebar-max-width: rem-calc(240px);
+$sidebar-border-right: 1px solid $md-grey-400;
 
-$page-content-backgroud-color:rgba(22,24,28, 1);
+//1. 标题栏
+$sidebar__header-background: $global-background;
+$sidebar__header-font-color: $global-font-color;
+$sidebar__header-border-bottom: 1px solid $md-grey-400;
+$sidebar__header-border-right: $sidebar-border-right;
 
+//2. 菜单导航栏
+$sidebar__scrollable-border-right: $sidebar-border-right;
+$sider-section-font-color: $global-font-color;
+$sider-menu-item-font-color: $global-font-color;          //MenuItem 字体颜色
+$sider-menu-item-hover-background: $global-hover-background;
+$sider-menu-item-hover-font-color: white;
+$sider-menu-item-is-active-font-color: $global-font-color;
+
+
+/**
+** 页面的配色方案
+**/
+//0. 整体Page页面的基本配置
+$page-content-backgroud: $global-background;
+$page-content-font-color: $global-font-color;
+
+$page-content__footbar-background: $global-background;          // 默认无连接状态
+$page-content__footbar-working-background: $global-background;  // 工作状态
+$page-content__footbar-normal-background: $global-background;   // 连接正常状态
+$page-content__footbar-font-color: $global-font-color;
+
+$docs-content-background: $global-background;
+$docs-content-font-color: $global-font-color;
+$docs-content__toolbar-background: $global-background;
+$docs-content__toolbar-font-color: $global-font-color;
+$docs-content__toolbar-border-bottom: 1px solid $md-grey-400;
+
+$docs-content__taskitem-background: rgba(233, 233, 233, 1.0); // linear-gradient(rgba(233, 233, 233, 1.0), rgba(178, 178, 178, 1.0));
+$docs-content__taskitem-hover-background:  $global-hover-background;
+$docs-content__taskitem-font-color: $global-font-color;
+$docs-content__taskitem_haserror-font-color: $md-red-300;
+$docs-content__taskitem-hover-font-color: white;
+
+// {任务执行情况标记}
+$docs-content__taskitem_normal-boder-left: 12px solid $md-grey-400;
+$docs-content__taskitem_success-boder-left: 12px solid $md-green-300;
+$docs-content__taskitem_failed-boder-left: 12px solid $md-red-300;
+
+/**
+** 自适应布局设置
+**/
 $mobile-sidebar-z-index: 10;
 $mobile-breakpoint: 720px;
 
@@ -26,5 +84,4 @@ $mobile-breakpoint: 720px;
 @import 'sidebar';
 @import 'content';
 @import 'page';
-@import 'page-aiexifcool-repair.scss';
-@import 'page-aiexifcool-remove.scss';
+@import 'page-app-doc.scss';

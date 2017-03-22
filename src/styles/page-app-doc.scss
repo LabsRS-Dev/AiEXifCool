@@ -1,51 +1,67 @@
-.page__toolbar--aiexifcool-repair{
+.page__toolbar-app-doc{
     .ui-confirm {
-        background-color: #2b2b2b;
-        font-size: rem-calc(13px);
+        background: $global-background;
+        font-size: $global-font-size;
         border-radius: rem-calc(4px);
 
-        .ui-modal__header {
-            background-color: $md-grey-600;
-        }
         .ui-modal__container {
-            background-color: #2b2b2b;
-            color: $md-grey-400;
+            background: $global-background;
+            color: $global-font-color;
+
+            .ui-modal__header {
+                background: $global-titlebar-background;
+                color: $global-font-color;
+                
+                h1 {
+                    font-size: $global-font-size;
+                }
+                height: rem-calc(21px);
+            }
+            .ui-modal__body {
+                .ui-confirm__message {
+                    font-size: $global-font-size;
+                }
+            }
         }
     }
 }
 
 
-.page__examples--aiexifcool-repair{
+.page__examples-app-doc{
     margin: auto;
     height: 75vh;
     overflow-y: auto;
-    user-select: auto;
-
+    
     .ui-alert--type-success {
         .ui-alert__body {
-            background-color: #2b2b2b;
-            color: $md-grey-400;
+            background: $docs-content__taskitem-background;
+            color: $docs-content__taskitem-font-color;
             font-size: rem-calc(13px);
             border-radius: rem-calc(4px);
 
-            border-left: 12px solid $md-grey-400;
+            border-left: $docs-content__taskitem_normal-boder-left;
+
+            &:hover{
+                background: $docs-content__taskitem-hover-background;
+                color: $docs-content__taskitem-hover-font-color !important;
+            }
         }
 
         &.isFixedSuccess {
             .ui-alert__body {
-                border-left: 12px solid $md-green;
+                border-left: $docs-content__taskitem_success-boder-left;
             }
             
         }
 
         &.isFixFailed{
             .ui-alert__body {
-                border-left: 12px solid $md-red-900;
+                border-left: $docs-content__taskitem_failed-boder-left;
             }
         }
     }
 
-    .page__examples--aiexifcool-repair__item {
+    .page__examples-app-doc__item {
         display: flex;
         flex-direction: column;
         width: 100%;
@@ -67,12 +83,13 @@
 
                 .ui-toolbar__top__fileName{
                     margin-left: rem-calc(4px);
+                    user-select: auto !important;
                 }
 
                 .ui-toolbar__top__fileSize{
                     margin-left: rem-calc(4px);
                     font-size: rem-calc(11px);
-                    color: $md-grey-700;
+                    user-select: auto !important;
                 }
             }
 
@@ -90,15 +107,17 @@
 
             .ui-toolbar__top__taskMessage{
                 margin-left: rem-calc(8px);
-                color: $md-grey-600;
+                &.task-item-has-error{
+                    color: $docs-content__taskitem_haserror-font-color;
+                    user-select: auto !important;
+                }
             }
 
-            .task-item-has-error{
-                color: rgb(245, 228, 9);
-            }
 
             .ui-toolbar__body__filePath{
+                font-size: rem-calc(10px);
                 padding: rem-calc(4px);
+                user-select: auto !important;
             }
         }
 
@@ -110,23 +129,23 @@
 }
 
 
-.page__footbar--aiexifcool-repair{
-    background-color: #2f0303;
+.page__footbar-app-doc{
+    background: $page-content__footbar-background;
     border-radius:8px;
     margin-top: rem-calc(4px);
     padding: rem-calc(4px);
+    cursor: pointer;
     span {
-        color: $md-grey-300;
+        color: $page-content__footbar-font-color;
         font-size: rem-calc(10px);
         padding:  rem-calc(4px);
     }
-    cursor: pointer;
-}
 
-.transferNormal {
-    background-color: #16181c;
-}
+    &.working {
+        background: $page-content__footbar-working-background;
+    }
 
-.fixWorking {
-    background-color: #083a0c;
+    &.transferNormal{
+        background: $page-content__footbar-normal-background;
+    }
 }

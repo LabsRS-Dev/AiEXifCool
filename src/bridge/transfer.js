@@ -110,7 +110,7 @@ __$p$.Tools = {
       if (debugMode === false) {
         const taskInfo = {
           task_id: options.taskID,                    // 任务ID
-          cli: 'aiexifcool/exif.image/index',         // 动态调用的模块
+          cli: 'aiexifcool/remove.exif/index',         // 动态调用的模块
           reload: false,                              // 默认是false, 支持热部署, 是否重新加载动态模块
           command: [                                  // 命令
             { action: 'startRemoveExifInfoAction', data: options.data, lang: options.lang || 'en' }
@@ -134,7 +134,7 @@ __$p$.Tools = {
     stop: (options = {}) => {
       const taskInfo = {
         task_id: options.taskID,                    // 任务ID
-        cli: 'aiexifcool/exif.image/index',         // 动态调用的模块
+        cli: 'aiexifcool/remove.exif/index',         // 动态调用的模块
         reload: false,                              // 默认是false, 支持热部署, 是否重新加载动态模块
         command: [                                  // 命令
           { action: 'stopRemoveExifInfoAction', data: options.data, lang: options.lang || 'en' }

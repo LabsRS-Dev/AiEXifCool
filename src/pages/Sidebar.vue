@@ -18,7 +18,7 @@
                 target="_blank"
                 title="View on HomePage"
             >
-                <ui-icon>
+                <ui-icon v-show="false">
                     <img src="images/plier.svg" width="24" height="24" viewBox="0 0 24 24" />
                 </ui-icon>
             </a>
@@ -49,7 +49,7 @@
                                     v-if="item.show"
                                     :title="$t(item.tip)"
                                 >
-                                    <ui-icon>
+                                    <ui-icon v-show="false">
                                         <img :src="item.icon" width="16" height="16" viewBox="0 0 16 16" />
                                     </ui-icon>  
                                     <span class="dove-docs-sidebar__menu-item__caption" >{{ $t(item.title) }}</span>  

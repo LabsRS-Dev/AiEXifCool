@@ -6,6 +6,9 @@
     padding-left: rem-calc(32px);
     padding-right: rem-calc(32px);
     line-height: 1.6;
+    color: $page-content-font-color;
+
+
     &>p:first-child,
     &>h1:first-child,
     &>h2:first-child,
@@ -31,7 +34,7 @@
     }
 
     .ui-tabs__body {
-        background-color: $page-content-backgroud-color;
+        background: $page-content-backgroud;
         border: 0px;
     }
 }

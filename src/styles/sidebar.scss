@@ -1,5 +1,5 @@
 .dove-docs-mobile-sidebar__backdrop {
-    background-color: rgba(black, 0.2);
+    background: $global-background;
     bottom: 0;
     left: 0;
     position: absolute;
@@ -9,16 +9,16 @@
 }
 
 .dove-docs-sidebar {
-    background-color: $sider-background-color;
+    background: $global-background;
     box-shadow: 0 2px 5px 0 rgba(black, 0.16), 0 2px 10px 0 rgba(black, 0.12);
     display: flex;
     flex-direction: column;
     flex-shrink: 0;
     height: 100vh;
-    width: rem-calc(296px);
+    width: $sidebar-default-width;
     z-index: 1;
     &.is-mobile {
-        max-width: rem-calc(280px);
+        max-width: $mobile-sidebar-max-width;
         z-index: $z-index-nav-drawer;
         position: absolute;
         left: 0;
@@ -26,129 +26,135 @@
     }
 }
 
+
+.dove-docs-sidebar__header {
+    background:$sidebar__header-background;
+    color: $sidebar__header-font-color;
+    font-size: 1.5rem;
+    height: rem-calc(64px);
+    padding: rem-calc(16px);
+    cursor: $global-cursor;
+    
+    border-bottom: $sidebar__header-border-bottom;
+
+    .dove-docs-sidebar__header-product-name {
+        color: $sidebar__header-font-color;
+        font-size: 1.5rem;
+        height: rem-calc(48px);
+        padding: rem-calc(4px);
+        
+    }
+
+    .dove-docs-sidebar__header-version {
+        color: $sidebar__header-font-color;
+        display: inline-block;
+        font-size: 0.9rem;
+        opacity: 0.7;
+        vertical-align: super;
+        &:hover,
+        &:focus {
+            opacity: 1;
+        }
+    }
+
+    .dove-docs-sidebar__header-github-link {
+        color: white;
+        float: right;
+        line-height: 1;
+        opacity: 0.8;
+        &:hover,
+        &:focus {
+            opacity: 1;
+        }
+    }
+
+    .dove-docs-sidebar__version-select {
+        padding: rem-calc(16px);
+        padding-top: rem-calc(8px);
+        .ui-select {
+            margin: 0;
+        }
+        .ui-select-option {
+            min-height: rem-calc(40px);
+        }
+    }
+}
+
+
+
 .dove-docs-sidebar__scrollable {
     height: 100%;
     overflow-y: auto;
     overflow-x: hidden;
-    border-right: 1px solid $md-grey-900;
-}
+    border-right: $sidebar__scrollable-border-right;
 
-.dove-docs-sidebar__header {
-    background-color: $toolbar-color;
-    color: $toolbar__header-color;
-    font-size: 1.5rem;
-    height: rem-calc(64px);
-    padding: rem-calc(16px);
-    
-    border-bottom: $toolbar-border;
-}
-
-.dove-docs-sidebar__header-product-name {
-    background-color: $toolbar-color;
-    color: $toolbar__header-color;
-    font-size: 1.5rem;
-    height: rem-calc(64px);
-    padding: rem-calc(12px);
-    
-}
-
-.dove-docs-sidebar__header-version {
-    color: $toolbar__header-color;
-    display: inline-block;
-    font-size: 0.9rem;
-    opacity: 0.7;
-    vertical-align: super;
-    &:hover,
-    &:focus {
-        opacity: 1;
-    }
-}
-
-.dove-docs-sidebar__header-github-link {
-    color: white;
-    float: right;
-    line-height: 1;
-    opacity: 0.8;
-    &:hover,
-    &:focus {
-        opacity: 1;
-    }
-}
-
-.dove-docs-sidebar__version-select {
-    padding: rem-calc(16px);
-    padding-top: rem-calc(8px);
-    .ui-select {
+    .dove-docs-sidebar__menu,
+    .dove-docs-sidebar__menu-section-links {
+        list-style: none;
         margin: 0;
-    }
-    .ui-select-option {
-        min-height: rem-calc(40px);
-    }
-}
-
-.dove-docs-sidebar__menu,
-.dove-docs-sidebar__menu-section-links {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-}
-
-.dove-docs-sidebar__menu-section-header {
-    color: $sider-section-font-color;
-    font-size: rem-calc(13px);
-    padding: 0 rem-calc(8px);
-}
-
-//--------------------------------------------------------------------
-//处理侧边栏的样式问题
-.ui-collapsible{
-    background-color: $sider-background-color !important;
-
-    .ui-collapsible__header{
-        background-color: $sider-background-color !important;
-        padding: rem-calc(12px 6px) !important;
-        padding: 0 !important;
-        font-size: rem-calc(13px);
+        padding: 0;
     }
 
-    .ui-collapsible__header-icon {
+    .dove-docs-sidebar__menu-section-header {
         color: $sider-section-font-color;
-    }
-
-    .ui-collapsible__body{
-        border: 0px;
-        padding: 0 !important;
-    }
-}
-//----------------------------------------------------------------------
-.dove-docs-sidebar__menu-li {
-    .dove-docs-sidebar__menu-item {
-        align-items: center;
-        color: $sider-menu-item-font-color;
         font-size: rem-calc(13px);
-        display: flex;
-        padding: rem-calc(8px);
-        padding-left: rem-calc(40px);
-
-        &.is-active {
-            color: $link-color;
-            background: url(/images/menu-active.png) no-repeat scroll 96% transparent!important;
-        }
-
-        &:hover,
-        &:focus {
-            text-decoration: none;
-            background-color: #242425;
-        }
-        .ui-icon {
-            font-size: rem-calc(13px);
-            margin-left: rem-calc(2px);
-            padding-right: rem-calc(12px);
-        }
+        padding: 0 rem-calc(8px);
     }
 
-    .dove-docs-sidebar__menu-item__caption{
-        padding-left: rem-calc(12px);
+    //--------------------------------------------------------------------
+    //处理侧边栏的样式问题
+    .ui-collapsible{
+        .ui-collapsible__header{
+            padding: rem-calc(12px 6px) !important;
+            padding: 0 !important;
+            font-size: rem-calc(13px);
+        }
+
+        .ui-collapsible__header-icon {
+            color: $sider-section-font-color;
+        }
+
+        .ui-collapsible__body{
+            border: 0px;
+            padding: 0 !important;
+        }
+    }
+    //----------------------------------------------------------------------
+    .dove-docs-sidebar__menu-li {
+        .dove-docs-sidebar__menu-item {
+            align-items: center;
+            color: $sider-menu-item-font-color;
+            font-size: rem-calc(13px);
+            display: flex;
+            padding: rem-calc(8px);
+            padding-left: rem-calc(40px);
+
+            &.is-active {
+                &:hover,
+                &:focus{
+                    color: $sider-menu-item-is-active-font-color;
+                }
+                
+                background: $sider-menu-item-hover-background;
+                background: url(/images/menu-active.png) no-repeat scroll 96% transparent!important;
+            }
+
+            &:hover,
+            &:focus {
+                text-decoration: none;
+                color: $sider-menu-item-hover-font-color;
+                background: $sider-menu-item-hover-background;
+            }
+            .ui-icon {
+                font-size: rem-calc(13px);
+                margin-left: rem-calc(2px);
+                padding-right: rem-calc(12px);
+            }
+        }
+
+        .dove-docs-sidebar__menu-item__caption{
+            padding-left: rem-calc(12px);
+        }
     }
 }
 

@@ -1,5 +1,7 @@
 * {
     box-sizing: border-box;
+
+    font-family: "Lucida Grande", "Lucida Sans Unicode", sans-serif;
 }
 
 html,
@@ -13,7 +15,6 @@ html {
 }
 
 body {
-    color: rgba(black, 0.87);
     font-family: $font-stack;
     font-size: rem-calc(15px);
 }

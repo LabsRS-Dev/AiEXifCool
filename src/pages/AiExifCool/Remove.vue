@@ -1,6 +1,6 @@
 <template>
-    <section class="page page--aiexifcool-remove">
-        <div class="page__toolbar page__toolbar--aiexifcool-remove">
+    <section class="page page-app-doc">
+        <div class="page__toolbar page__toolbar-app-doc">
             <ui-icon-button 
                 @click="onToolBtnClick(index, item)"
                 :type="item.type"
@@ -27,7 +27,7 @@
             </ui-confirm>
         </div>
 
-        <div class="page__examples page__examples--aiexifcool-remove">
+        <div class="page__examples page__examples-app-doc">
             <ui-alert 
                 :class="getItemStyleClass(item)"
                 @dismiss="onRemoveTaskItem(item, index)" removeIcon 
@@ -35,7 +35,7 @@
                 v-show="item.style.show" 
                 :key="item" 
                 v-for="item, index in taskList">
-                <div class="page__examples--aiexifcool-remove__item">
+                <div class="page__examples-app-doc__item">
                     <div class="ui-toolbar__top">
                         <div class="ui-toolbar__top__metainfo">
                             <img :src="item.thumb" width="48" height="48" viewBox="0 0 48 48" /> 
@@ -94,7 +94,7 @@
             </ui-alert>
         </div>
 
-        <div :class=" ['page__footbar page__footbar--aiexifcool-remove', {transferNormal: transferIsNormal}, {fixWorking: isRemoveWorking}]" v-if="taskList.length >= 0">
+        <div :class=" ['page__footbar page__footbar-app-doc', {transferNormal: transferIsNormal}, {working: isRemoveWorking}]" v-if="taskList.length >= 0">
             <span>{{ $t('pages.remove.footbar.fileCount') }} : {{ taskList.length }} </span>
             <span>{{ $t('pages.remove.footbar.state') }} : {{ isRemoveWorking ? $t('pages.remove.footbar.isRemoveWorking') : $t('pages.remove.footbar.isWaiting') }} </span>
             <i :class="[isRemoveWorking ? 'fa fa-spinner fa-spin fa-lg fa-fw':'fa fa-lg fa-fw' ]"/></i>
@@ -187,9 +187,9 @@ export default {
         actionList() {
            var that = this
            return [
-                {id:'action-import', visiable:true, color:"white", icon:"fa fa-file-image-o fa-lg fa-fw", size:"small", type:"secondary", tooltip:"pages.remove.toolbar.import"},
-                {id:'action-importDir', visiable:true, color:"white", icon:"fa fa-folder-open-o fa-lg fa-fw", size:"small", type:"secondary", tooltip:"pages.remove.toolbar.importDir"},
-                {id:'action-remove', visiable:true, color:"white", icon:"fa fa-trash-o fa-lg fa-fw", size:"small", type:"secondary", tooltip:"pages.remove.toolbar.remove"},
+                {id:'action-import', visiable:true, color:"black", icon:"fa fa-file-image-o fa-lg fa-fw", size:"small", type:"secondary", tooltip:"pages.remove.toolbar.import"},
+                {id:'action-importDir', visiable:true, color:"black", icon:"fa fa-folder-open-o fa-lg fa-fw", size:"small", type:"secondary", tooltip:"pages.remove.toolbar.importDir"},
+                {id:'action-remove', visiable:true, color:"black", icon:"fa fa-trash-o fa-lg fa-fw", size:"small", type:"secondary", tooltip:"pages.remove.toolbar.remove"},
                 {id:'action-do', visiable:!that.isRemoveWorking, color:"red", icon:"fa fa-recycle fa-lg fa-fw", size:"small", type:"secondary",  tooltip:"pages.remove.toolbar.fix"},
                 {id:'action-stop', visiable:that.isRemoveWorking, color:"red", icon:"fa fa-hand-paper-o fa-lg fa-fw", size:"small", type:"secondary",  tooltip:"pages.remove.toolbar.chancel"}
            ]

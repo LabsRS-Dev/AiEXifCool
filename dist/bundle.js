@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "D:\\workspace\\testprj\\1git_html\\AiEXifCool\\git_source\\AiEXifCool\\dist";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 168);
+/******/ 	return __webpack_require__(__webpack_require__.s = 171);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -186,7 +186,7 @@ module.exports = function(it){
 /***/ (function(module, exports, __webpack_require__) {
 
 var anObject       = __webpack_require__(7)
-  , IE8_DOM_DEFINE = __webpack_require__(52)
+  , IE8_DOM_DEFINE = __webpack_require__(54)
   , toPrimitive    = __webpack_require__(45)
   , dP             = Object.defineProperty;
 
@@ -230,7 +230,7 @@ module.exports = __webpack_require__(3) ? function(object, key, value){
 /***/ (function(module, exports, __webpack_require__) {
 
 // to indexed object, toObject with fallback for non-array-like ES3 strings
-var IObject = __webpack_require__(53)
+var IObject = __webpack_require__(55)
   , defined = __webpack_require__(24);
 module.exports = function(it){
   return IObject(defined(it));
@@ -307,81 +307,6 @@ module.exports = function(KEY, exec){
 /* 15 */
 /***/ (function(module, exports) {
 
-var toString = {}.toString;
-
-module.exports = function(it){
-  return toString.call(it).slice(8, -1);
-};
-
-/***/ }),
-/* 16 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// 19.1.2.14 / 15.2.3.14 Object.keys(O)
-var $keys       = __webpack_require__(61)
-  , enumBugKeys = __webpack_require__(36);
-
-module.exports = Object.keys || function keys(O){
-  return $keys(O, enumBugKeys);
-};
-
-/***/ }),
-/* 17 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var def = __webpack_require__(6).f
-  , has = __webpack_require__(11)
-  , TAG = __webpack_require__(1)('toStringTag');
-
-module.exports = function(it, tag, stat){
-  if(it && !has(it = stat ? it : it.prototype, TAG))def(it, TAG, {configurable: true, value: tag});
-};
-
-/***/ }),
-/* 18 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var $at  = __webpack_require__(143)(true);
-
-// 21.1.3.27 String.prototype[@@iterator]()
-__webpack_require__(37)(String, 'String', function(iterated){
-  this._t = String(iterated); // target
-  this._i = 0;                // next index
-// 21.1.5.2.1 %StringIteratorPrototype%.next()
-}, function(){
-  var O     = this._t
-    , index = this._i
-    , point;
-  if(index >= O.length)return {value: undefined, done: true};
-  point = $at(O, index);
-  this._i += point.length;
-  return {value: point, done: false};
-});
-
-/***/ }),
-/* 19 */
-/***/ (function(module, exports, __webpack_require__) {
-
-__webpack_require__(147);
-var global        = __webpack_require__(2)
-  , hide          = __webpack_require__(8)
-  , Iterators     = __webpack_require__(13)
-  , TO_STRING_TAG = __webpack_require__(1)('toStringTag');
-
-for(var collections = ['NodeList', 'DOMTokenList', 'MediaList', 'StyleSheetList', 'CSSRuleList'], i = 0; i < 5; i++){
-  var NAME       = collections[i]
-    , Collection = global[NAME]
-    , proto      = Collection && Collection.prototype;
-  if(proto && !proto[TO_STRING_TAG])hide(proto, TO_STRING_TAG, NAME);
-  Iterators[NAME] = Iterators.Array;
-}
-
-/***/ }),
-/* 20 */
-/***/ (function(module, exports) {
-
 module.exports = function normalizeComponent (
   rawScriptExports,
   compiledTemplate,
@@ -433,73 +358,73 @@ module.exports = function normalizeComponent (
 
 
 /***/ }),
-/* 21 */
+/* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(module) {var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;
 
-var _defineProperties = __webpack_require__(92);
+var _defineProperties = __webpack_require__(96);
 
 var _defineProperties2 = _interopRequireDefault2(_defineProperties);
 
-var _preventExtensions = __webpack_require__(99);
+var _preventExtensions = __webpack_require__(103);
 
 var _preventExtensions2 = _interopRequireDefault2(_preventExtensions);
 
-var _isExtensible = __webpack_require__(98);
+var _isExtensible = __webpack_require__(102);
 
 var _isExtensible2 = _interopRequireDefault2(_isExtensible);
 
-var _stringify3 = __webpack_require__(89);
+var _stringify3 = __webpack_require__(93);
 
 var _stringify4 = _interopRequireDefault2(_stringify3);
 
-var _map = __webpack_require__(90);
+var _map = __webpack_require__(94);
 
 var _map2 = _interopRequireDefault2(_map);
 
-var _setPrototypeOf = __webpack_require__(100);
+var _setPrototypeOf = __webpack_require__(104);
 
 var _setPrototypeOf2 = _interopRequireDefault2(_setPrototypeOf);
 
-var _getPrototypeOf = __webpack_require__(97);
+var _getPrototypeOf = __webpack_require__(101);
 
 var _getPrototypeOf2 = _interopRequireDefault2(_getPrototypeOf);
 
-var _getOwnPropertyDescriptor = __webpack_require__(94);
+var _getOwnPropertyDescriptor = __webpack_require__(98);
 
 var _getOwnPropertyDescriptor2 = _interopRequireDefault2(_getOwnPropertyDescriptor);
 
-var _isIterable2 = __webpack_require__(88);
+var _isIterable2 = __webpack_require__(92);
 
 var _isIterable3 = _interopRequireDefault2(_isIterable2);
 
-var _getIterator2 = __webpack_require__(87);
+var _getIterator2 = __webpack_require__(91);
 
 var _getIterator3 = _interopRequireDefault2(_getIterator2);
 
-var _getOwnPropertySymbols = __webpack_require__(96);
+var _getOwnPropertySymbols = __webpack_require__(100);
 
 var _getOwnPropertySymbols2 = _interopRequireDefault2(_getOwnPropertySymbols);
 
-var _getOwnPropertyNames = __webpack_require__(95);
+var _getOwnPropertyNames = __webpack_require__(99);
 
 var _getOwnPropertyNames2 = _interopRequireDefault2(_getOwnPropertyNames);
 
-var _create2 = __webpack_require__(91);
+var _create2 = __webpack_require__(95);
 
 var _create3 = _interopRequireDefault2(_create2);
 
-var _keys = __webpack_require__(50);
+var _keys = __webpack_require__(51);
 
 var _keys2 = _interopRequireDefault2(_keys);
 
-var _defineProperty4 = __webpack_require__(93);
+var _defineProperty4 = __webpack_require__(97);
 
 var _defineProperty5 = _interopRequireDefault2(_defineProperty4);
 
-var _typeof5 = __webpack_require__(105);
+var _typeof5 = __webpack_require__(108);
 
 var _typeof6 = _interopRequireDefault2(_typeof5);
 
@@ -14515,10 +14440,10 @@ function _interopRequireDefault2(obj) { return obj && obj.__esModule ? obj : { d
     exports.UiTooltip = _UiTooltip2.default;
   }]);
 });
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(69)(module)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(71)(module)))
 
 /***/ }),
-/* 22 */
+/* 17 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -25785,14 +25710,89 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
   return index;
 });
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(68), __webpack_require__(69)(module), __webpack_require__(32)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(70), __webpack_require__(71)(module), __webpack_require__(32)))
+
+/***/ }),
+/* 18 */
+/***/ (function(module, exports) {
+
+var toString = {}.toString;
+
+module.exports = function(it){
+  return toString.call(it).slice(8, -1);
+};
+
+/***/ }),
+/* 19 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// 19.1.2.14 / 15.2.3.14 Object.keys(O)
+var $keys       = __webpack_require__(63)
+  , enumBugKeys = __webpack_require__(36);
+
+module.exports = Object.keys || function keys(O){
+  return $keys(O, enumBugKeys);
+};
+
+/***/ }),
+/* 20 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var def = __webpack_require__(6).f
+  , has = __webpack_require__(11)
+  , TAG = __webpack_require__(1)('toStringTag');
+
+module.exports = function(it, tag, stat){
+  if(it && !has(it = stat ? it : it.prototype, TAG))def(it, TAG, {configurable: true, value: tag});
+};
+
+/***/ }),
+/* 21 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var $at  = __webpack_require__(146)(true);
+
+// 21.1.3.27 String.prototype[@@iterator]()
+__webpack_require__(37)(String, 'String', function(iterated){
+  this._t = String(iterated); // target
+  this._i = 0;                // next index
+// 21.1.5.2.1 %StringIteratorPrototype%.next()
+}, function(){
+  var O     = this._t
+    , index = this._i
+    , point;
+  if(index >= O.length)return {value: undefined, done: true};
+  point = $at(O, index);
+  this._i += point.length;
+  return {value: point, done: false};
+});
+
+/***/ }),
+/* 22 */
+/***/ (function(module, exports, __webpack_require__) {
+
+__webpack_require__(150);
+var global        = __webpack_require__(2)
+  , hide          = __webpack_require__(8)
+  , Iterators     = __webpack_require__(13)
+  , TO_STRING_TAG = __webpack_require__(1)('toStringTag');
+
+for(var collections = ['NodeList', 'DOMTokenList', 'MediaList', 'StyleSheetList', 'CSSRuleList'], i = 0; i < 5; i++){
+  var NAME       = collections[i]
+    , Collection = global[NAME]
+    , proto      = Collection && Collection.prototype;
+  if(proto && !proto[TO_STRING_TAG])hide(proto, TO_STRING_TAG, NAME);
+  Iterators[NAME] = Iterators.Array;
+}
 
 /***/ }),
 /* 23 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // getting tag from 19.1.3.6 Object.prototype.toString()
-var cof = __webpack_require__(15)
+var cof = __webpack_require__(18)
   , TAG = __webpack_require__(1)('toStringTag')
   // ES3 wrong here
   , ARG = cof(function(){ return arguments; }()) == 'Arguments';
@@ -25830,11 +25830,11 @@ module.exports = function(it){
 /***/ (function(module, exports, __webpack_require__) {
 
 var ctx         = __webpack_require__(10)
-  , call        = __webpack_require__(136)
-  , isArrayIter = __webpack_require__(135)
+  , call        = __webpack_require__(139)
+  , isArrayIter = __webpack_require__(138)
   , anObject    = __webpack_require__(7)
   , toLength    = __webpack_require__(44)
-  , getIterFn   = __webpack_require__(65)
+  , getIterFn   = __webpack_require__(67)
   , BREAK       = {}
   , RETURN      = {};
 var exports = module.exports = function(iterable, entries, fn, that, ITERATOR){
@@ -25925,7 +25925,7 @@ var meta = module.exports = {
 
 // 19.1.2.2 / 15.2.3.5 Object.create(O [, Properties])
 var anObject    = __webpack_require__(7)
-  , dPs         = __webpack_require__(56)
+  , dPs         = __webpack_require__(58)
   , enumBugKeys = __webpack_require__(36)
   , IE_PROTO    = __webpack_require__(41)('IE_PROTO')
   , Empty       = function(){ /* empty */ }
@@ -25940,7 +25940,7 @@ var createDict = function(){
     , gt     = '>'
     , iframeDocument;
   iframe.style.display = 'none';
-  __webpack_require__(51).appendChild(iframe);
+  __webpack_require__(53).appendChild(iframe);
   iframe.src = 'javascript:'; // eslint-disable-line no-script-url
   // createDict = iframe.contentWindow.Object;
   // html.removeChild(iframe);
@@ -26233,13 +26233,13 @@ module.exports = (
 
 var LIBRARY        = __webpack_require__(26)
   , $export        = __webpack_require__(4)
-  , redefine       = __webpack_require__(62)
+  , redefine       = __webpack_require__(64)
   , hide           = __webpack_require__(8)
   , has            = __webpack_require__(11)
   , Iterators      = __webpack_require__(13)
-  , $iterCreate    = __webpack_require__(137)
-  , setToStringTag = __webpack_require__(17)
-  , getPrototypeOf = __webpack_require__(60)
+  , $iterCreate    = __webpack_require__(140)
+  , setToStringTag = __webpack_require__(20)
+  , getPrototypeOf = __webpack_require__(62)
   , ITERATOR       = __webpack_require__(1)('iterator')
   , BUGGY          = !([].keys && 'next' in [].keys()) // Safari has buggy iterators w/o `next`
   , FF_ITERATOR    = '@@iterator'
@@ -26310,7 +26310,7 @@ var pIE            = __webpack_require__(39)
   , toIObject      = __webpack_require__(9)
   , toPrimitive    = __webpack_require__(45)
   , has            = __webpack_require__(11)
-  , IE8_DOM_DEFINE = __webpack_require__(52)
+  , IE8_DOM_DEFINE = __webpack_require__(54)
   , gOPD           = Object.getOwnPropertyDescriptor;
 
 exports.f = __webpack_require__(3) ? gOPD : function getOwnPropertyDescriptor(O, P){
@@ -26436,24 +26436,202 @@ exports.f = __webpack_require__(1);
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.Transfer = undefined;
 
-var _About = __webpack_require__(72);
+var _dovemaxsdk = __webpack_require__(17);
+
+var AgentClient = _dovemaxsdk.BS.b$.AgentClient;
+var AgentServer = _dovemaxsdk.BS.b$.AgentServer;
+
+var __$p$ = {
+  backAgent: new AgentServer(),
+  startBackAgent: function startBackAgent() {
+    var agent = this.backAgent;
+    agent.active({});
+  },
+
+  isRunning: false,
+  frontAgent: new AgentClient(),
+  startFrontAgent: function startFrontAgent() {
+    var that = this;
+    var agent = that.frontAgent;
+    var wsSocketIO = new agent.Chancel();
+    wsSocketIO.build({
+      type: agent.ChancelType.websocketForNode,
+      ip: '192.168.1.2',
+      port: '8888',
+      protocol: 'http://',
+      reqUrl: '',
+      clientIOType: 'Socket.io.client'
+    });
+    agent.registerOnFinishBuildChannel(function () {
+      console.log('frontAgent is finish build');
+      that.isRunning = true;
+      console.log('__$p$.isRunning = ', that.isRunning);
+    });
+    agent.appendChancel(wsSocketIO);
+  },
+  run: function run() {
+    var startBackAgent = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
+
+    console.log('start transfer.js ....');
+    if (startBackAgent) {
+      this.startBackAgent();
+    }
+    this.startFrontAgent();
+    return this;
+  },
+
+  send: function send(message, handler) {
+    var one = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
+
+    handler && this.frontAgent.registerOnReceiveFromServer(handler, one);
+    this.frontAgent.noticeToServer(message);
+    return this;
+  }
+};
+
+__$p$.Tools = {
+  Hello: function Hello(handler) {
+    var one = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+
+    __$p$.send({ data: 'Hello' }, function (data) {
+      handler(data);
+    }, one);
+  },
+  Fix: {
+    Image: {
+      run: function run() {
+        var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+        var handler = arguments[1];
+        var one = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
+
+        var debugMode = false;
+        if (debugMode === false) {
+          var taskInfo = {
+            task_id: options.taskID,
+            cli: 'aiexifcool/fix.image/index',
+            reload: false,
+            command: [{ action: 'startFix', data: options.data, lang: options.lang || 'en' }]
+          };
+
+          var info = {
+            taskInfo: taskInfo,
+            msg_type: 'c_task_exec'
+          };
+
+          __$p$.send(info, function (data) {
+            if (data.task_id === options.taskID) {
+              handler && handler(data);
+            }
+          }, one);
+        } else {
+          handler && handler();
+        }
+      },
+      chancel: function chancel() {
+        var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
+        var taskInfo = {
+          task_id: options.taskID,
+          cli: 'aiexifcool/fix.image/index',
+          reload: false,
+          command: [{ action: 'stopFix', data: options.data, lang: options.lang || 'en' }]
+        };
+
+        var info = {
+          taskInfo: taskInfo,
+          msg_type: 'c_task_exec'
+        };
+
+        __$p$.send(info);
+      }
+    }
+  },
+  RemoveExifInfo: {
+    run: function run() {
+      var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+      var handler = arguments[1];
+      var one = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
+
+      var debugMode = false;
+      if (debugMode === false) {
+        var taskInfo = {
+          task_id: options.taskID,
+          cli: 'aiexifcool/remove.exif/index',
+          reload: false,
+          command: [{ action: 'startRemoveExifInfoAction', data: options.data, lang: options.lang || 'en' }]
+        };
+
+        var info = {
+          taskInfo: taskInfo,
+          msg_type: 'c_task_exec'
+        };
+
+        __$p$.send(info, function (data) {
+          if (data.task_id === options.taskID) {
+            handler && handler(data);
+          }
+        }, one);
+      } else {
+        handler && handler();
+      }
+    },
+    stop: function stop() {
+      var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
+      var taskInfo = {
+        task_id: options.taskID,
+        cli: 'aiexifcool/remove.exif/index',
+        reload: false,
+        command: [{ action: 'stopRemoveExifInfoAction', data: options.data, lang: options.lang || 'en' }]
+      };
+
+      var info = {
+        taskInfo: taskInfo,
+        msg_type: 'c_task_exec'
+      };
+
+      __$p$.send(info);
+    }
+  }
+
+};
+
+var TransferClass = _dovemaxsdk.Observable.extend(__$p$);
+var Transfer = new TransferClass();
+Transfer.run();
+
+exports.Transfer = Transfer;
+
+/***/ }),
+/* 50 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _About = __webpack_require__(74);
 
 var _About2 = _interopRequireDefault(_About);
 
-var _icon = __webpack_require__(84);
+var _icon = __webpack_require__(88);
 
 var _icon2 = _interopRequireDefault(_icon);
 
-var _Remove = __webpack_require__(175);
+var _Remove = __webpack_require__(75);
 
 var _Remove2 = _interopRequireDefault(_Remove);
 
-var _Repair = __webpack_require__(73);
+var _Repair = __webpack_require__(76);
 
 var _Repair2 = _interopRequireDefault(_Repair);
 
-var _sysConfig = __webpack_require__(85);
+var _sysConfig = __webpack_require__(89);
 
 var _sysConfig2 = _interopRequireDefault(_sysConfig);
 
@@ -26597,19 +26775,34 @@ exports.default = {
 };
 
 /***/ }),
-/* 50 */
+/* 51 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = { "default": __webpack_require__(118), __esModule: true };
+module.exports = { "default": __webpack_require__(121), __esModule: true };
 
 /***/ }),
-/* 51 */
+/* 52 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+exports.__esModule = true;
+
+exports.default = function (instance, Constructor) {
+  if (!(instance instanceof Constructor)) {
+    throw new TypeError("Cannot call a class as a function");
+  }
+};
+
+/***/ }),
+/* 53 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__(2).document && document.documentElement;
 
 /***/ }),
-/* 52 */
+/* 54 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = !__webpack_require__(3) && !__webpack_require__(12)(function(){
@@ -26617,27 +26810,27 @@ module.exports = !__webpack_require__(3) && !__webpack_require__(12)(function(){
 });
 
 /***/ }),
-/* 53 */
+/* 55 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // fallback for non-array-like ES3 and non-enumerable old V8 strings
-var cof = __webpack_require__(15);
+var cof = __webpack_require__(18);
 module.exports = Object('z').propertyIsEnumerable(0) ? Object : function(it){
   return cof(it) == 'String' ? it.split('') : Object(it);
 };
 
 /***/ }),
-/* 54 */
+/* 56 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 7.2.2 IsArray(argument)
-var cof = __webpack_require__(15);
+var cof = __webpack_require__(18);
 module.exports = Array.isArray || function isArray(arg){
   return cof(arg) == 'Array';
 };
 
 /***/ }),
-/* 55 */
+/* 57 */
 /***/ (function(module, exports) {
 
 module.exports = function(done, value){
@@ -26645,12 +26838,12 @@ module.exports = function(done, value){
 };
 
 /***/ }),
-/* 56 */
+/* 58 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var dP       = __webpack_require__(6)
   , anObject = __webpack_require__(7)
-  , getKeys  = __webpack_require__(16);
+  , getKeys  = __webpack_require__(19);
 
 module.exports = __webpack_require__(3) ? Object.defineProperties : function defineProperties(O, Properties){
   anObject(O);
@@ -26663,12 +26856,12 @@ module.exports = __webpack_require__(3) ? Object.defineProperties : function def
 };
 
 /***/ }),
-/* 57 */
+/* 59 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // fallback for IE11 buggy Object.getOwnPropertyNames with iframe and window
 var toIObject = __webpack_require__(9)
-  , gOPN      = __webpack_require__(58).f
+  , gOPN      = __webpack_require__(60).f
   , toString  = {}.toString;
 
 var windowNames = typeof window == 'object' && window && Object.getOwnPropertyNames
@@ -26688,11 +26881,11 @@ module.exports.f = function getOwnPropertyNames(it){
 
 
 /***/ }),
-/* 58 */
+/* 60 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 19.1.2.7 / 15.2.3.4 Object.getOwnPropertyNames(O)
-var $keys      = __webpack_require__(61)
+var $keys      = __webpack_require__(63)
   , hiddenKeys = __webpack_require__(36).concat('length', 'prototype');
 
 exports.f = Object.getOwnPropertyNames || function getOwnPropertyNames(O){
@@ -26700,13 +26893,13 @@ exports.f = Object.getOwnPropertyNames || function getOwnPropertyNames(O){
 };
 
 /***/ }),
-/* 59 */
+/* 61 */
 /***/ (function(module, exports) {
 
 exports.f = Object.getOwnPropertySymbols;
 
 /***/ }),
-/* 60 */
+/* 62 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 19.1.2.9 / 15.2.3.2 Object.getPrototypeOf(O)
@@ -26724,12 +26917,12 @@ module.exports = Object.getPrototypeOf || function(O){
 };
 
 /***/ }),
-/* 61 */
+/* 63 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var has          = __webpack_require__(11)
   , toIObject    = __webpack_require__(9)
-  , arrayIndexOf = __webpack_require__(126)(false)
+  , arrayIndexOf = __webpack_require__(129)(false)
   , IE_PROTO     = __webpack_require__(41)('IE_PROTO');
 
 module.exports = function(object, names){
@@ -26746,13 +26939,13 @@ module.exports = function(object, names){
 };
 
 /***/ }),
-/* 62 */
+/* 64 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__(8);
 
 /***/ }),
-/* 63 */
+/* 65 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -26772,12 +26965,12 @@ module.exports = function(KEY){
 };
 
 /***/ }),
-/* 64 */
+/* 66 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var ctx                = __webpack_require__(10)
-  , invoke             = __webpack_require__(134)
-  , html               = __webpack_require__(51)
+  , invoke             = __webpack_require__(137)
+  , html               = __webpack_require__(53)
   , cel                = __webpack_require__(35)
   , global             = __webpack_require__(2)
   , process            = global.process
@@ -26814,7 +27007,7 @@ if(!setTask || !clearTask){
     delete queue[id];
   };
   // Node.js 0.8-
-  if(__webpack_require__(15)(process) == 'process'){
+  if(__webpack_require__(18)(process) == 'process'){
     defer = function(id){
       process.nextTick(ctx(run, id, 1));
     };
@@ -26852,7 +27045,7 @@ module.exports = {
 };
 
 /***/ }),
-/* 65 */
+/* 67 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var classof   = __webpack_require__(23)
@@ -26865,7 +27058,7 @@ module.exports = __webpack_require__(0).getIteratorMethod = function(it){
 };
 
 /***/ }),
-/* 66 */
+/* 68 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -26875,27 +27068,27 @@ var global         = __webpack_require__(2)
   , has            = __webpack_require__(11)
   , DESCRIPTORS    = __webpack_require__(3)
   , $export        = __webpack_require__(4)
-  , redefine       = __webpack_require__(62)
+  , redefine       = __webpack_require__(64)
   , META           = __webpack_require__(27).KEY
   , $fails         = __webpack_require__(12)
   , shared         = __webpack_require__(42)
-  , setToStringTag = __webpack_require__(17)
+  , setToStringTag = __webpack_require__(20)
   , uid            = __webpack_require__(31)
   , wks            = __webpack_require__(1)
   , wksExt         = __webpack_require__(47)
   , wksDefine      = __webpack_require__(46)
-  , keyOf          = __webpack_require__(139)
-  , enumKeys       = __webpack_require__(133)
-  , isArray        = __webpack_require__(54)
+  , keyOf          = __webpack_require__(142)
+  , enumKeys       = __webpack_require__(136)
+  , isArray        = __webpack_require__(56)
   , anObject       = __webpack_require__(7)
   , toIObject      = __webpack_require__(9)
   , toPrimitive    = __webpack_require__(45)
   , createDesc     = __webpack_require__(29)
   , _create        = __webpack_require__(28)
-  , gOPNExt        = __webpack_require__(57)
+  , gOPNExt        = __webpack_require__(59)
   , $GOPD          = __webpack_require__(38)
   , $DP            = __webpack_require__(6)
-  , $keys          = __webpack_require__(16)
+  , $keys          = __webpack_require__(19)
   , gOPD           = $GOPD.f
   , dP             = $DP.f
   , gOPN           = gOPNExt.f
@@ -27018,9 +27211,9 @@ if(!USE_NATIVE){
 
   $GOPD.f = $getOwnPropertyDescriptor;
   $DP.f   = $defineProperty;
-  __webpack_require__(58).f = gOPNExt.f = $getOwnPropertyNames;
+  __webpack_require__(60).f = gOPNExt.f = $getOwnPropertyNames;
   __webpack_require__(39).f  = $propertyIsEnumerable;
-  __webpack_require__(59).f = $getOwnPropertySymbols;
+  __webpack_require__(61).f = $getOwnPropertySymbols;
 
   if(DESCRIPTORS && !__webpack_require__(26)){
     redefine(ObjectProto, 'propertyIsEnumerable', $propertyIsEnumerable, true);
@@ -27106,7 +27299,7 @@ setToStringTag(Math, 'Math', true);
 setToStringTag(global.JSON, 'JSON', true);
 
 /***/ }),
-/* 67 */
+/* 69 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -27982,7 +28175,7 @@ module.exports = VueI18n;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(32)))
 
 /***/ }),
-/* 68 */
+/* 70 */
 /***/ (function(module, exports) {
 
 var g;
@@ -28009,7 +28202,7 @@ module.exports = g;
 
 
 /***/ }),
-/* 69 */
+/* 71 */
 /***/ (function(module, exports) {
 
 module.exports = function(module) {
@@ -28037,49 +28230,49 @@ module.exports = function(module) {
 
 
 /***/ }),
-/* 70 */
+/* 72 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var _promise = __webpack_require__(101);
+var _promise = __webpack_require__(105);
 
 var _promise2 = _interopRequireDefault(_promise);
 
-var _keys = __webpack_require__(50);
+var _keys = __webpack_require__(51);
 
 var _keys2 = _interopRequireDefault(_keys);
 
-var _vue = __webpack_require__(166);
+var _vue = __webpack_require__(169);
 
 var _vue2 = _interopRequireDefault(_vue);
 
-var _vueI18n = __webpack_require__(67);
+var _vueI18n = __webpack_require__(69);
 
 var _vueI18n2 = _interopRequireDefault(_vueI18n);
 
-var _vueRouter = __webpack_require__(165);
+var _vueRouter = __webpack_require__(168);
 
 var _vueRouter2 = _interopRequireDefault(_vueRouter);
 
-var _keenUi = __webpack_require__(21);
+var _keenUi = __webpack_require__(16);
 
 var _keenUi2 = _interopRequireDefault(_keenUi);
 
-var _vuex = __webpack_require__(167);
+var _vuex = __webpack_require__(170);
 
 var _vuex2 = _interopRequireDefault(_vuex);
 
-var _dovemaxsdk = __webpack_require__(22);
+var _dovemaxsdk = __webpack_require__(17);
 
-__webpack_require__(86);
+__webpack_require__(90);
 
-var _App = __webpack_require__(71);
+var _App = __webpack_require__(73);
 
 var _App2 = _interopRequireDefault(_App);
 
-var _routes = __webpack_require__(49);
+var _routes = __webpack_require__(50);
 
 var _routes2 = _interopRequireDefault(_routes);
 
@@ -28182,54 +28375,18 @@ $(document).ready(function () {
 });
 
 /***/ }),
-/* 71 */
+/* 73 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
 /* styles */
-__webpack_require__(164)
+__webpack_require__(167)
 
-var Component = __webpack_require__(20)(
+var Component = __webpack_require__(15)(
   /* script */
-  __webpack_require__(79),
+  __webpack_require__(83),
   /* template */
-  __webpack_require__(78),
-  /* scopeId */
-  null,
-  /* cssModules */
-  null
-)
-
-module.exports = Component.exports
-
-
-/***/ }),
-/* 72 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var Component = __webpack_require__(20)(
-  /* script */
-  __webpack_require__(80),
-  /* template */
-  __webpack_require__(76),
-  /* scopeId */
-  null,
-  /* cssModules */
-  null
-)
-
-module.exports = Component.exports
-
-
-/***/ }),
-/* 73 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var Component = __webpack_require__(20)(
-  /* script */
-  __webpack_require__(81),
-  /* template */
-  __webpack_require__(77),
+  __webpack_require__(82),
   /* scopeId */
   null,
   /* cssModules */
@@ -28243,11 +28400,11 @@ module.exports = Component.exports
 /* 74 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var Component = __webpack_require__(20)(
+var Component = __webpack_require__(15)(
   /* script */
-  __webpack_require__(82),
+  __webpack_require__(84),
   /* template */
-  __webpack_require__(75),
+  __webpack_require__(80),
   /* scopeId */
   null,
   /* cssModules */
@@ -28259,6 +28416,60 @@ module.exports = Component.exports
 
 /***/ }),
 /* 75 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var Component = __webpack_require__(15)(
+  /* script */
+  __webpack_require__(85),
+  /* template */
+  __webpack_require__(79),
+  /* scopeId */
+  null,
+  /* cssModules */
+  null
+)
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 76 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var Component = __webpack_require__(15)(
+  /* script */
+  __webpack_require__(86),
+  /* template */
+  __webpack_require__(81),
+  /* scopeId */
+  null,
+  /* cssModules */
+  null
+)
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 77 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var Component = __webpack_require__(15)(
+  /* script */
+  __webpack_require__(87),
+  /* template */
+  __webpack_require__(78),
+  /* scopeId */
+  null,
+  /* cssModules */
+  null
+)
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 78 */
 /***/ (function(module, exports) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -28284,7 +28495,14 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "target": "_blank",
       "title": "View on HomePage"
     }
-  }, [_c('ui-icon', [_c('img', {
+  }, [_c('ui-icon', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (false),
+      expression: "false"
+    }]
+  }, [_c('img', {
     attrs: {
       "src": "images/plier.svg",
       "width": "24",
@@ -28321,7 +28539,14 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
           "to": item.path,
           "title": _vm.$t(item.tip)
         }
-      }, [_c('ui-icon', [_c('img', {
+      }, [_c('ui-icon', {
+        directives: [{
+          name: "show",
+          rawName: "v-show",
+          value: (false),
+          expression: "false"
+        }]
+      }, [_c('img', {
         attrs: {
           "src": item.icon,
           "width": "16",
@@ -28336,22 +28561,14 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
 },staticRenderFns: []}
 
 /***/ }),
-/* 76 */
-/***/ (function(module, exports) {
-
-module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c("div")
-},staticRenderFns: []}
-
-/***/ }),
-/* 77 */
+/* 79 */
 /***/ (function(module, exports) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('section', {
-    staticClass: "page page--aiexifcool-repair"
+    staticClass: "page page-app-doc"
   }, [_c('div', {
-    staticClass: "page__toolbar page__toolbar--aiexifcool-repair"
+    staticClass: "page__toolbar page__toolbar-app-doc"
   }, [_vm._l((_vm.actionList), function(item, index) {
     return (item.visiable) ? _c('ui-icon-button', {
       key: item.id,
@@ -28384,7 +28601,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "deny": _vm.onConfirmDialogDeny
     }
   }, [_vm._v("\n            " + _vm._s(_vm.confirmDialog.content) + "\n        ")])], 2), _vm._v(" "), _c('div', {
-    staticClass: "page__examples page__examples--aiexifcool-repair"
+    staticClass: "page__examples page__examples-app-doc"
   }, _vm._l((_vm.taskList), function(item, index) {
     return _c('ui-alert', {
       directives: [{
@@ -28405,7 +28622,178 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         }
       }
     }, [_c('div', {
-      staticClass: "page__examples--aiexifcool-repair__item"
+      staticClass: "page__examples-app-doc__item"
+    }, [_c('div', {
+      staticClass: "ui-toolbar__top"
+    }, [_c('div', {
+      staticClass: "ui-toolbar__top__metainfo"
+    }, [_c('img', {
+      attrs: {
+        "src": item.thumb,
+        "width": "48",
+        "height": "48",
+        "viewBox": "0 0 48 48"
+      }
+    }), _vm._v(" "), _c('strong', {
+      staticClass: "ui-toolbar__top__fileName",
+      attrs: {
+        "title": _vm.$t('pages.remove.task-item.file-name') + item.name
+      }
+    }, [_vm._v(" \n                            " + _vm._s(item.name) + " \n                            "), _c('sup', {
+      staticClass: "ui-toolbar__top__fileSize",
+      attrs: {
+        "title": _vm.$t('pages.remove.task-item.file-size') + item.size
+      }
+    }, [_vm._v("\n                            (" + _vm._s(item.size) + ")\n                            ")])])]), _vm._v(" "), _c('div', {
+      staticClass: "ui-toolbar__top__metainfo__toolbar"
+    }, [(item.stateInfo.state > 0) ? _c('ui-icon-button', {
+      attrs: {
+        "type": "secondary",
+        "color": "white",
+        "size": "small"
+      },
+      on: {
+        "click": function($event) {
+          _vm.onOpenParentDir(item.fixOutDir)
+        }
+      }
+    }, [_c('span', {
+      staticClass: "fa fa-folder-open-o fa-lg fa-fw",
+      attrs: {
+        "title": _vm.$t('pages.remove.task-item.open-parent-dir')
+      }
+    })]) : _vm._e(), _vm._v(" "), (item.stateInfo.state > 0) ? _c('ui-icon-button', {
+      attrs: {
+        "type": "secondary",
+        "color": "white",
+        "size": "small"
+      },
+      on: {
+        "click": function($event) {
+          _vm.onPreviewFile(item.fixpath)
+        }
+      }
+    }, [_c('span', {
+      staticClass: "fa fa-eye fa-lg fa-fw",
+      attrs: {
+        "title": _vm.$t('pages.remove.task-item.review-in-file')
+      }
+    })]) : _vm._e()], 1)]), _vm._v(" "), _c('div', {
+      staticClass: "ui-toolbar__body"
+    }, [_c('span', {
+      directives: [{
+        name: "show",
+        rawName: "v-show",
+        value: (item.stateInfo.state < 0),
+        expression: "item.stateInfo.state < 0"
+      }],
+      class: ['ui-toolbar__top__taskMessage', item.stateInfo.state < 0 ? 'task-item-has-error' : ''],
+      attrs: {
+        "title": item.stateInfo.message
+      }
+    }, [_vm._v("\n                        " + _vm._s(item.stateInfo.message) + "\n                    ")]), _vm._v(" "), _c('span', {
+      staticClass: "ui-toolbar__body__filePath",
+      attrs: {
+        "title": _vm.$t('pages.remove.task-item.file-path') + item.path
+      }
+    }, [_vm._v(_vm._s(item.path))])]), _vm._v(" "), _c('div', {
+      staticClass: "ui-toolbar__bottom"
+    }, [_c('ui-progress-linear', {
+      directives: [{
+        name: "show",
+        rawName: "v-show",
+        value: (_vm.getImageProgressShow(item)),
+        expression: "getImageProgressShow(item)"
+      }],
+      attrs: {
+        "color": _vm.getItemProgressStyle(item),
+        "type": "determinate",
+        "progress": item.progress,
+        "title": _vm.$t('pages.remove.task-item.progress') + item.progress
+      }
+    })], 1)])])
+  })), _vm._v(" "), (_vm.taskList.length >= 0) ? _c('div', {
+    class: ['page__footbar page__footbar-app-doc', {
+      transferNormal: _vm.transferIsNormal
+    }, {
+      working: _vm.isRemoveWorking
+    }]
+  }, [_c('span', [_vm._v(_vm._s(_vm.$t('pages.remove.footbar.fileCount')) + " : " + _vm._s(_vm.taskList.length) + " ")]), _vm._v(" "), _c('span', [_vm._v(_vm._s(_vm.$t('pages.remove.footbar.state')) + " : " + _vm._s(_vm.isRemoveWorking ? _vm.$t('pages.remove.footbar.isRemoveWorking') : _vm.$t('pages.remove.footbar.isWaiting')) + " ")]), _vm._v(" "), _c('i', {
+    class: [_vm.isRemoveWorking ? 'fa fa-spinner fa-spin fa-lg fa-fw' : 'fa fa-lg fa-fw']
+  }), _vm._v(" "), _c('span', [_vm._v(_vm._s(_vm.$t('pages.remove.footbar.transferState')) + " : " + _vm._s(_vm.transferIsNormal ? _vm.$t('pages.remove.footbar.transferIsNormal') : _vm.$t('pages.remove.footbar.transferIsFault')) + " ")])]) : _vm._e()])
+},staticRenderFns: []}
+
+/***/ }),
+/* 80 */
+/***/ (function(module, exports) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c("div")
+},staticRenderFns: []}
+
+/***/ }),
+/* 81 */
+/***/ (function(module, exports) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('section', {
+    staticClass: "page page-app-doc"
+  }, [_c('div', {
+    staticClass: "page__toolbar page__toolbar-app-doc"
+  }, [_vm._l((_vm.actionList), function(item, index) {
+    return (item.visiable) ? _c('ui-icon-button', {
+      key: item.id,
+      attrs: {
+        "type": item.type,
+        "size": item.size,
+        "color": item.color
+      },
+      on: {
+        "click": function($event) {
+          _vm.onToolBtnClick(index, item)
+        }
+      }
+    }, [_c('span', {
+      class: item.icon,
+      attrs: {
+        "title": _vm.$t(item.tooltip)
+      }
+    })]) : _vm._e()
+  }), _vm._v(" "), _c('ui-confirm', {
+    ref: _vm.confirmDialog.ref,
+    attrs: {
+      "autofocus": _vm.confirmDialog.autofocus,
+      "confirm-button-text": _vm.confirmDialog.confirmButtonText,
+      "deny-button-text": _vm.confirmDialog.denyButtonText,
+      "title": _vm.confirmDialog.title
+    },
+    on: {
+      "confirm": _vm.onConfirmDialogConfirm,
+      "deny": _vm.onConfirmDialogDeny
+    }
+  }, [_vm._v("\n            " + _vm._s(_vm.confirmDialog.content) + "\n        ")])], 2), _vm._v(" "), _c('div', {
+    staticClass: "page__examples page__examples-app-doc"
+  }, _vm._l((_vm.taskList), function(item, index) {
+    return _c('ui-alert', {
+      directives: [{
+        name: "show",
+        rawName: "v-show",
+        value: (item.style.show),
+        expression: "item.style.show"
+      }],
+      key: item,
+      class: _vm.getItemStyleClass(item),
+      attrs: {
+        "removeIcon": "",
+        "type": item.style.type
+      },
+      on: {
+        "dismiss": function($event) {
+          _vm.onRemoveTaskItem(item, index)
+        }
+      }
+    }, [_c('div', {
+      staticClass: "page__examples-app-doc__item"
     }, [_c('div', {
       staticClass: "ui-toolbar__top"
     }, [_c('div', {
@@ -28496,10 +28884,10 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     })], 1)])])
   })), _vm._v(" "), (_vm.taskList.length >= 0) ? _c('div', {
-    class: ['page__footbar page__footbar--aiexifcool-repair', {
+    class: ['page__footbar page__footbar-app-doc', {
       transferNormal: _vm.transferIsNormal
     }, {
-      fixWorking: _vm.isFixworking
+      working: _vm.isFixworking
     }]
   }, [_c('span', [_vm._v(_vm._s(_vm.$t('pages.repair.footbar.fileCount')) + " : " + _vm._s(_vm.taskList.length) + " ")]), _vm._v(" "), _c('span', [_vm._v(_vm._s(_vm.$t('pages.repair.footbar.state')) + " : " + _vm._s(_vm.isFixworking ? _vm.$t('pages.repair.footbar.isFixWorking') : _vm.$t('pages.repair.footbar.isWaiting')) + " ")]), _vm._v(" "), _c('i', {
     class: [_vm.isFixworking ? 'fa fa-spinner fa-spin fa-lg fa-fw' : 'fa fa-lg fa-fw']
@@ -28507,7 +28895,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
 },staticRenderFns: []}
 
 /***/ }),
-/* 78 */
+/* 82 */
 /***/ (function(module, exports) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -28583,7 +28971,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
 },staticRenderFns: []}
 
 /***/ }),
-/* 79 */
+/* 83 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -28593,13 +28981,13 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _vueI18n = __webpack_require__(67);
+var _vueI18n = __webpack_require__(69);
 
 var _vueI18n2 = _interopRequireDefault(_vueI18n);
 
-var _keenUi = __webpack_require__(21);
+var _keenUi = __webpack_require__(16);
 
-var _Sidebar = __webpack_require__(74);
+var _Sidebar = __webpack_require__(77);
 
 var _Sidebar2 = _interopRequireDefault(_Sidebar);
 
@@ -28625,7 +29013,7 @@ exports.default = {
 };
 
 /***/ }),
-/* 80 */
+/* 84 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -28637,7 +29025,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = {};
 
 /***/ }),
-/* 81 */
+/* 85 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -28647,15 +29035,399 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _classCallCheck2 = __webpack_require__(104);
+var _classCallCheck2 = __webpack_require__(52);
 
 var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-var _dovemaxsdk = __webpack_require__(22);
+var _dovemaxsdk = __webpack_require__(17);
 
-var _keenUi = __webpack_require__(21);
+var _keenUi = __webpack_require__(16);
 
-var _transfer = __webpack_require__(83);
+var _transfer = __webpack_require__(49);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var baseID = "__page__repair__action__";
+var baseIDIndex = -1;
+
+var taskList = [];
+var taskPrefix = 'fixpage-image-id-' + _dovemaxsdk._.now();
+
+var Task = function Task(thumb, name, path, size) {
+    (0, _classCallCheck3.default)(this, Task);
+
+    this.id = _dovemaxsdk._.uniqueId(taskPrefix);
+    this.thumb = thumb;
+    this.name = name;
+    this.path = path;
+    this.size = size;
+    this.style = {
+        show: true,
+        type: "success"
+    };
+
+    this.isworking = false;
+    this.progress = 0;
+    this.fixOutDir = "";
+    this.fixpath = "";
+    this.stateInfo = {
+        state: 0,
+        message: "" };
+};
+
+exports.default = {
+    data: function data() {
+        console.log("Remove.vue call data()");
+        return {
+            taskList: taskList,
+            taskID2taskObj: {},
+            isRemoveWorking: false,
+            transferIsNormal: _transfer.Transfer.isRunning,
+            progressInterval: null,
+            confirmDialog: {
+                ref: 'default',
+                autofocus: 'none',
+                confirmButtonText: 'Confirm',
+                denyButtonText: 'Deny',
+                title: '',
+                content: '',
+                callbackConfirm: function callbackConfirm() {},
+                callbackDeny: function callbackDeny() {}
+            },
+            curFixTaskID: null };
+    },
+    beforeCreate: function beforeCreate() {
+        var that = this;
+        console.log('Remove.vue beforeCreate');
+
+        _transfer.Transfer.frontAgent.registerOnChannelFault(function () {
+            that.onTransferIsFault();
+        });
+
+        _transfer.Transfer.frontAgent.registerOnFinishBuildChannel(function () {
+            that.onTransferIsNoraml();
+        });
+    },
+    beforeDestroy: function beforeDestroy() {
+        clearInterval(this.progressInterval);
+    },
+
+
+    computed: {
+        actionList: function actionList() {
+            var that = this;
+            return [{ id: 'action-import', visiable: true, color: "black", icon: "fa fa-file-image-o fa-lg fa-fw", size: "small", type: "secondary", tooltip: "pages.remove.toolbar.import" }, { id: 'action-importDir', visiable: true, color: "black", icon: "fa fa-folder-open-o fa-lg fa-fw", size: "small", type: "secondary", tooltip: "pages.remove.toolbar.importDir" }, { id: 'action-remove', visiable: true, color: "black", icon: "fa fa-trash-o fa-lg fa-fw", size: "small", type: "secondary", tooltip: "pages.remove.toolbar.remove" }, { id: 'action-do', visiable: !that.isRemoveWorking, color: "red", icon: "fa fa-recycle fa-lg fa-fw", size: "small", type: "secondary", tooltip: "pages.remove.toolbar.fix" }, { id: 'action-stop', visiable: that.isRemoveWorking, color: "red", icon: "fa fa-hand-paper-o fa-lg fa-fw", size: "small", type: "secondary", tooltip: "pages.remove.toolbar.chancel" }];
+        }
+    },
+
+    methods: {
+        onTransferIsNoraml: function onTransferIsNoraml() {
+            var that = this;
+            that.transferIsNormal = true;
+        },
+        onTransferIsFault: function onTransferIsFault() {
+            var that = this;
+            that.transferIsNormal = false;
+            that.isRemoveWorking = false;
+
+            that.stopDo();
+        },
+        getItemStyleClass: function getItemStyleClass(item) {
+            var _styleClass = [''];
+            if (item.stateInfo) {
+
+                if (item.stateInfo.state < 0) {
+                    _styleClass = ['isFixFailed'];
+                }
+                if (item.stateInfo.state > 0) {
+                    _styleClass = ['isFixedSuccess'];
+                }
+            }
+
+            return _styleClass;
+        },
+        getItemProgressStyle: function getItemProgressStyle(item) {
+            var that = this;
+            var progressStyle = 'black';
+            if (item.stateInfo) {
+                if (item.stateInfo.state < 0) progressStyle = 'accent';
+                if (item.stateInfo.state > 0) progressStyle = 'primary';
+            }
+
+            return progressStyle;
+        },
+        getImageProgressShow: function getImageProgressShow(item) {
+            return item.isworking;
+        },
+        onConfirmDialogConfirm: function onConfirmDialogConfirm() {
+            var that = this;
+            var fn = that.confirmDialog.callbackConfirm;
+            fn && fn();
+        },
+        onConfirmDialogDeny: function onConfirmDialogDeny() {
+            var that = this;
+            var fn = that.confirmDialog.callbackDeny;
+            fn && fn();
+        },
+        onToolBtnClick: function onToolBtnClick(index, item) {
+            console.log('onToolBtnClick', index);
+
+            if (item.id === 'action-import') {
+                this.onBtnImportFilesClick();
+            } else if (item.id === 'action-importDir') {
+                this.onBtnImportDirClick();
+            } else if (item.id === 'action-remove') {
+                this.onBtnRemoveAllClick();
+            } else if (item.id === 'action-do') {
+                this.onBtnDoClick();
+            } else if (item.id === 'action-stop') {
+                this.onBtnStopDoClick();
+            }
+        },
+        onBtnImportFilesClick: function onBtnImportFilesClick() {
+            var that = this;
+
+            console.log("-------------------- call import files");
+
+            _dovemaxsdk.BS.b$.importFiles({
+                title: this.$t('pages.remove.dialog-import-images.title'),
+                prompt: this.$t('pages.remove.dialog-import-images.prompt'),
+                allowMulSelection: true,
+                types: [] }, function () {
+                _dovemaxsdk._.each([{ fileName: 'RAW_NIKON_D7100.NEF', filePath: 'D:\\TestResource\\exif_sample_images\\Nikon\\corrupted\\RAW_NIKON_D7100.NEF', fileSize: '27.5MB' }, { fileName: 'YDSC_0021.NEF', filePath: 'D:\\TestResource\\exif_sample_images\\Nikon\\corrupted\\YDSC_0021.NEF', fileSize: '10.7MB' }], function (ele) {
+                    var taskObj = new Task("images/picture.svg", ele.fileName, ele.filePath, ele.fileSize);
+                    that.taskList.push(taskObj);
+                    that.taskID2taskObj[taskObj.id] = taskObj;
+                });
+
+                return;
+
+                for (var i = 0; i < 50; ++i) {
+                    var taskObj = new Task("images/picture.svg", "Images" + i, "/url/image" + i, i + '.2MB');
+                    that.taskList.push(taskObj);
+                    that.taskID2taskObj[taskObj.id] = taskObj;
+                }
+            }, function (data) {
+                if (data.success) {
+                    var imageFiles = data.filesArray;
+                    imageFiles.forEach(function (fileObj, dinx) {
+                        var taskObj = new Task("images/picture.svg", fileObj.fileName, fileObj.filePath, fileObj.fileSizeStr);
+                        that.taskList.push(taskObj);
+                        that.taskID2taskObj[taskObj.id] = taskObj;
+                    });
+                }
+            });
+        },
+        onBtnImportDirClick: function onBtnImportDirClick() {
+            var that = this;
+
+            console.log("-------------------- call import dir");
+
+            _dovemaxsdk.BS.b$.selectDir({
+                title: this.$t('pages.remove.dialog-import-dir-images.title'),
+                prompt: this.$t('pages.remove.dialog-import-dir-images.prompt'),
+                allowMulSelection: true
+            }, function () {
+                for (var i = 0; i < 5; ++i) {
+                    var taskObj = new Task("images/folder.svg", "ImagesDir" + i, "/url/imageDir" + i, i + '22.2MB');
+                    that.taskList.push(taskObj);
+                    that.taskID2taskObj[taskObj.id] = taskObj;
+                }
+            }, function (data) {
+                if (data.success) {
+                    var imageFiles = data.filesArray;
+                    imageFiles.forEach(function (fileObj, dinx) {
+                        var taskObj = new Task("images/picture.svg", fileObj.fileName, fileObj.filePath, fileObj.fileSizeStr);
+                        that.taskList.push(taskObj);
+                        that.taskID2taskObj[taskObj.id] = taskObj;
+                    });
+                }
+            });
+        },
+        onBtnRemoveAllClick: function onBtnRemoveAllClick() {
+            var that = this;
+
+            if (that.taskList.length > 0) {
+                var cdg = that.confirmDialog;
+                cdg.title = that.$t('pages.remove.dialog-confirm-remove-all.title');
+                cdg.content = that.$t('pages.remove.dialog-confirm-remove-all.message');
+                cdg.confirmButtonText = that.$t('pages.remove.dialog-confirm-remove-all.btnConfirm');
+                cdg.denyButtonText = that.$t('pages.remove.dialog-confirm-remove-all.btnDeny');
+
+                var dialog = that.$refs[cdg.ref];
+                cdg.callbackConfirm = function () {
+                    that.stopDo();
+                    that.taskList.splice(0, that.taskList.length);
+                };
+                dialog.open();
+            }
+        },
+        onBtnDoClick: function onBtnDoClick() {
+            var that = this;
+
+            if (that.taskList.length === 0) {
+                return _dovemaxsdk.BS.b$.Notice.alert({
+                    message: that.$t('pages.remove.notice-no-items.message')
+                });
+            }
+
+            console.log("---------------------- call export dir");
+            _dovemaxsdk.BS.b$.selectOutDir({
+                title: that.$t('pages.remove.dialog-select-outdir.title'),
+                prompt: that.$t('pages.remove.dialog-select-outdir.prompt'),
+                canCreateDir: true
+            }, function () {
+                that.startDo('D:\\TestResource\\exif_sample_images\\Nikon\\corrupted_output');
+            }, function (data) {
+                if (data.success) {
+                    var outDir = data.filePath;
+                    that.startDo(outDir);
+                }
+            });
+        },
+        onBtnStopDoClick: function onBtnStopDoClick() {
+            var that = this;
+
+            if (that.isRemoveWorking) {
+                var cdg = that.confirmDialog;
+                cdg.title = that.$t('pages.remove.dialog-confirm-stop-fix.title');
+                cdg.content = that.$t('pages.remove.dialog-confirm-stop-fix.message');
+                cdg.confirmButtonText = that.$t('pages.remove.dialog-confirm-stop-fix.btnConfirm');
+                cdg.denyButtonText = that.$t('pages.remove.dialog-confirm-stop-fix.btnDeny');
+
+                var dialog = that.$refs[cdg.ref];
+                cdg.callbackConfirm = function () {
+                    that.stopDo();
+                };
+                dialog.open();
+            }
+        },
+        startDo: function startDo(outDir) {
+            var that = this;
+
+            var srcImagesMap = {};
+            _dovemaxsdk._.each(that.taskList, function (taskObj, index) {
+                srcImagesMap[taskObj.id] = taskObj.path;
+            });
+
+            that.curFixTaskID = _dovemaxsdk._.uniqueId(taskPrefix + 'task-');
+            _transfer.Transfer.Tools.RemoveExifInfo.run({
+                taskID: that.curFixTaskID,
+                data: {
+                    src: srcImagesMap,
+                    outputDir: outDir || _dovemaxsdk.BS.b$.App.getTempDir()
+                },
+                lang: Vue.config.lang
+            }, function (data) {
+                if (data.msg_type === 's_task_exec_running') {
+                    that.isRemoveWorking = true;
+                } else if (data.msg_type === 's_task_exec_feedback') {
+                    var dataList = data.content;
+                    that.isRemoveWorking = dataList.length > 0;
+                    _dovemaxsdk._.each(dataList, function (ele) {
+                        var curImageTaskObj = that.taskID2taskObj[ele.id];
+                        if (curImageTaskObj) {
+                            curImageTaskObj.isworking = ele.progress >= 100 ? false : true;
+                            curImageTaskObj.progress = ele.progress >= 100 ? 100 : ele.progress;
+                            curImageTaskObj.stateInfo.state = ele.state;
+                            curImageTaskObj.stateInfo.message = ele.message || '';
+                        }
+                    });
+                } else if (data.msg_type === 's_task_exec_result') {}
+            });
+        },
+        stopDo: function stopDo() {
+            var notice = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
+
+            var that = this;
+
+            var srcImagesMap = {};
+            _dovemaxsdk._.each(that.taskList, function (taskObj, index) {
+                taskObj.isworking = false;
+
+                srcImagesMap[taskObj.id] = taskObj.path;
+            });
+
+            if (!notice) return;
+            if (_dovemaxsdk._.keys(srcImagesMap).length > 0 && that.isRemoveWorking) {
+                _transfer.Transfer.Tools.RemoveExifInfo.stop({
+                    taskID: that.curFixTaskID,
+                    data: {
+                        src: srcImagesMap
+                    }
+                });
+            }
+        },
+        __removeTaskItem: function __removeTaskItem(item, index) {
+            var that = this;
+            item.isworking = false;
+
+            item.progress = 0;
+            item.stateInfo = 0;
+            that.taskID2taskObj[item.id] = null;
+
+            that.taskList.splice(index, 1);
+        },
+        onRemoveTaskItem: function onRemoveTaskItem(item, index) {
+            console.log('item: ', item, 'index: ', index);
+            var that = this;
+
+            if (item.isworking) {
+                var srcImagesMap = {};
+                srcImagesMap[item.id] = item.path;
+                _transfer.Transfer.Tools.RemoveExifInfo.stop({
+                    taskID: that.curFixTaskID,
+                    data: {
+                        src: srcImagesMap
+                    }
+                });
+                that.__removeTaskItem(item, index);
+            } else {
+                that.__removeTaskItem(item, index);
+            }
+        },
+        onOpenParentDir: function onOpenParentDir(dir) {
+            var that = this;
+            _dovemaxsdk.BS.b$.revealInFinder(dir);
+        },
+        onPreviewFile: function onPreviewFile(file) {
+            _dovemaxsdk.BS.b$.previewFile(dir);
+        }
+    },
+
+    components: {
+        UiIcon: _keenUi.UiIcon,
+        UiTabs: _keenUi.UiTabs,
+        UiTab: _keenUi.UiTab,
+        UiButton: _keenUi.UiButton,
+        UiIconButton: _keenUi.UiIconButton,
+        UiAlert: _keenUi.UiAlert,
+        UiToolbar: _keenUi.UiToolbar,
+        UiConfirm: _keenUi.UiConfirm,
+        UiProgressLinear: _keenUi.UiProgressLinear
+    }
+};
+
+/***/ }),
+/* 86 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _classCallCheck2 = __webpack_require__(52);
+
+var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+var _dovemaxsdk = __webpack_require__(17);
+
+var _keenUi = __webpack_require__(16);
+
+var _transfer = __webpack_require__(49);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -28728,7 +29500,7 @@ exports.default = {
     computed: {
         actionList: function actionList() {
             var that = this;
-            return [{ id: 'action-import', visiable: true, color: "white", icon: "fa fa-file-image-o fa-lg fa-fw", size: "small", type: "secondary", tooltip: "pages.repair.toolbar.import" }, { id: 'action-importDir', visiable: true, color: "white", icon: "fa fa-folder-open-o fa-lg fa-fw", size: "small", type: "secondary", tooltip: "pages.repair.toolbar.importDir" }, { id: 'action-remove', visiable: true, color: "white", icon: "fa fa-trash-o fa-lg fa-fw", size: "small", type: "secondary", tooltip: "pages.repair.toolbar.remove" }, { id: 'action-do', visiable: !that.isFixworking, color: "green", icon: "fa fa-legal fa-lg fa-fw", size: "small", type: "secondary", tooltip: "pages.repair.toolbar.fix" }, { id: 'action-stop', visiable: that.isFixworking, color: "red", icon: "fa fa-hand-paper-o fa-lg fa-fw", size: "small", type: "secondary", tooltip: "pages.repair.toolbar.chancel" }];
+            return [{ id: 'action-import', visiable: true, color: "black", icon: "fa fa-file-image-o fa-lg fa-fw", size: "small", type: "secondary", tooltip: "pages.repair.toolbar.import" }, { id: 'action-importDir', visiable: true, color: "black", icon: "fa fa-folder-open-o fa-lg fa-fw", size: "small", type: "secondary", tooltip: "pages.repair.toolbar.importDir" }, { id: 'action-remove', visiable: true, color: "black", icon: "fa fa-trash-o fa-lg fa-fw", size: "small", type: "secondary", tooltip: "pages.repair.toolbar.remove" }, { id: 'action-do', visiable: !that.isFixworking, color: "green", icon: "fa fa-legal fa-lg fa-fw", size: "small", type: "secondary", tooltip: "pages.repair.toolbar.fix" }, { id: 'action-stop', visiable: that.isFixworking, color: "red", icon: "fa fa-hand-paper-o fa-lg fa-fw", size: "small", type: "secondary", tooltip: "pages.repair.toolbar.chancel" }];
         }
     },
 
@@ -29021,7 +29793,7 @@ exports.default = {
 };
 
 /***/ }),
-/* 82 */
+/* 87 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -29031,11 +29803,11 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _dovemaxsdk = __webpack_require__(22);
+var _dovemaxsdk = __webpack_require__(17);
 
-var _keenUi = __webpack_require__(21);
+var _keenUi = __webpack_require__(16);
 
-var _routes = __webpack_require__(49);
+var _routes = __webpack_require__(50);
 
 var _routes2 = _interopRequireDefault(_routes);
 
@@ -29060,185 +29832,7 @@ exports.default = {
 };
 
 /***/ }),
-/* 83 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.Transfer = undefined;
-
-var _dovemaxsdk = __webpack_require__(22);
-
-var AgentClient = _dovemaxsdk.BS.b$.AgentClient;
-var AgentServer = _dovemaxsdk.BS.b$.AgentServer;
-
-var __$p$ = {
-  backAgent: new AgentServer(),
-  startBackAgent: function startBackAgent() {
-    var agent = this.backAgent;
-    agent.active({});
-  },
-
-  isRunning: false,
-  frontAgent: new AgentClient(),
-  startFrontAgent: function startFrontAgent() {
-    var that = this;
-    var agent = that.frontAgent;
-    var wsSocketIO = new agent.Chancel();
-    wsSocketIO.build({
-      type: agent.ChancelType.websocketForNode,
-      ip: '192.168.1.2',
-      port: '8888',
-      protocol: 'http://',
-      reqUrl: '',
-      clientIOType: 'Socket.io.client'
-    });
-    agent.registerOnFinishBuildChannel(function () {
-      console.log('frontAgent is finish build');
-      that.isRunning = true;
-      console.log('__$p$.isRunning = ', that.isRunning);
-    });
-    agent.appendChancel(wsSocketIO);
-  },
-  run: function run() {
-    var startBackAgent = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
-
-    console.log('start transfer.js ....');
-    if (startBackAgent) {
-      this.startBackAgent();
-    }
-    this.startFrontAgent();
-    return this;
-  },
-
-  send: function send(message, handler) {
-    var one = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
-
-    handler && this.frontAgent.registerOnReceiveFromServer(handler, one);
-    this.frontAgent.noticeToServer(message);
-    return this;
-  }
-};
-
-__$p$.Tools = {
-  Hello: function Hello(handler) {
-    var one = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
-
-    __$p$.send({ data: 'Hello' }, function (data) {
-      handler(data);
-    }, one);
-  },
-  Fix: {
-    Image: {
-      run: function run() {
-        var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-        var handler = arguments[1];
-        var one = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
-
-        var debugMode = false;
-        if (debugMode === false) {
-          var taskInfo = {
-            task_id: options.taskID,
-            cli: 'aiexifcool/fix.image/index',
-            reload: false,
-            command: [{ action: 'startFix', data: options.data, lang: options.lang || 'en' }]
-          };
-
-          var info = {
-            taskInfo: taskInfo,
-            msg_type: 'c_task_exec'
-          };
-
-          __$p$.send(info, function (data) {
-            if (data.task_id === options.taskID) {
-              handler && handler(data);
-            }
-          }, one);
-        } else {
-          handler && handler();
-        }
-      },
-      chancel: function chancel() {
-        var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-
-        var taskInfo = {
-          task_id: options.taskID,
-          cli: 'aiexifcool/fix.image/index',
-          reload: false,
-          command: [{ action: 'stopFix', data: options.data, lang: options.lang || 'en' }]
-        };
-
-        var info = {
-          taskInfo: taskInfo,
-          msg_type: 'c_task_exec'
-        };
-
-        __$p$.send(info);
-      }
-    }
-  },
-  RemoveExifInfo: {
-    run: function run() {
-      var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-      var handler = arguments[1];
-      var one = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
-
-      var debugMode = false;
-      if (debugMode === false) {
-        var taskInfo = {
-          task_id: options.taskID,
-          cli: 'aiexifcool/exif.image/index',
-          reload: false,
-          command: [{ action: 'startRemoveExifInfoAction', data: options.data, lang: options.lang || 'en' }]
-        };
-
-        var info = {
-          taskInfo: taskInfo,
-          msg_type: 'c_task_exec'
-        };
-
-        __$p$.send(info, function (data) {
-          if (data.task_id === options.taskID) {
-            handler && handler(data);
-          }
-        }, one);
-      } else {
-        handler && handler();
-      }
-    },
-    stop: function stop() {
-      var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-
-      var taskInfo = {
-        task_id: options.taskID,
-        cli: 'aiexifcool/exif.image/index',
-        reload: false,
-        command: [{ action: 'stopRemoveExifInfoAction', data: options.data, lang: options.lang || 'en' }]
-      };
-
-      var info = {
-        taskInfo: taskInfo,
-        msg_type: 'c_task_exec'
-      };
-
-      __$p$.send(info);
-    }
-  }
-
-};
-
-var TransferClass = _dovemaxsdk.Observable.extend(__$p$);
-var Transfer = new TransferClass();
-Transfer.run();
-
-exports.Transfer = Transfer;
-
-/***/ }),
-/* 84 */
+/* 88 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -29263,7 +29857,7 @@ exports.default = {
 };
 
 /***/ }),
-/* 85 */
+/* 89 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -29282,7 +29876,7 @@ var sysConfig = {
 exports.default = { sysConfig: sysConfig };
 
 /***/ }),
-/* 86 */
+/* 90 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -29292,7 +29886,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-__webpack_require__(163);
+__webpack_require__(166);
 
 var obj = {};
 exports.default = {
@@ -29300,124 +29894,109 @@ exports.default = {
 };
 
 /***/ }),
-/* 87 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = { "default": __webpack_require__(106), __esModule: true };
-
-/***/ }),
-/* 88 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = { "default": __webpack_require__(107), __esModule: true };
-
-/***/ }),
-/* 89 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = { "default": __webpack_require__(108), __esModule: true };
-
-/***/ }),
-/* 90 */
+/* 91 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = { "default": __webpack_require__(109), __esModule: true };
 
 /***/ }),
-/* 91 */
+/* 92 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = { "default": __webpack_require__(110), __esModule: true };
 
 /***/ }),
-/* 92 */
+/* 93 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = { "default": __webpack_require__(111), __esModule: true };
 
 /***/ }),
-/* 93 */
+/* 94 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = { "default": __webpack_require__(112), __esModule: true };
 
 /***/ }),
-/* 94 */
+/* 95 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = { "default": __webpack_require__(113), __esModule: true };
 
 /***/ }),
-/* 95 */
+/* 96 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = { "default": __webpack_require__(114), __esModule: true };
 
 /***/ }),
-/* 96 */
+/* 97 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = { "default": __webpack_require__(115), __esModule: true };
 
 /***/ }),
-/* 97 */
+/* 98 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = { "default": __webpack_require__(116), __esModule: true };
 
 /***/ }),
-/* 98 */
+/* 99 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = { "default": __webpack_require__(117), __esModule: true };
 
 /***/ }),
-/* 99 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = { "default": __webpack_require__(119), __esModule: true };
-
-/***/ }),
 /* 100 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = { "default": __webpack_require__(120), __esModule: true };
+module.exports = { "default": __webpack_require__(118), __esModule: true };
 
 /***/ }),
 /* 101 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = { "default": __webpack_require__(121), __esModule: true };
+module.exports = { "default": __webpack_require__(119), __esModule: true };
 
 /***/ }),
 /* 102 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = { "default": __webpack_require__(122), __esModule: true };
+module.exports = { "default": __webpack_require__(120), __esModule: true };
 
 /***/ }),
 /* 103 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = { "default": __webpack_require__(123), __esModule: true };
+module.exports = { "default": __webpack_require__(122), __esModule: true };
 
 /***/ }),
 /* 104 */
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
-
-
-exports.__esModule = true;
-
-exports.default = function (instance, Constructor) {
-  if (!(instance instanceof Constructor)) {
-    throw new TypeError("Cannot call a class as a function");
-  }
-};
+module.exports = { "default": __webpack_require__(123), __esModule: true };
 
 /***/ }),
 /* 105 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = { "default": __webpack_require__(124), __esModule: true };
+
+/***/ }),
+/* 106 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = { "default": __webpack_require__(125), __esModule: true };
+
+/***/ }),
+/* 107 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = { "default": __webpack_require__(126), __esModule: true };
+
+/***/ }),
+/* 108 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -29425,11 +30004,11 @@ exports.default = function (instance, Constructor) {
 
 exports.__esModule = true;
 
-var _iterator = __webpack_require__(103);
+var _iterator = __webpack_require__(107);
 
 var _iterator2 = _interopRequireDefault(_iterator);
 
-var _symbol = __webpack_require__(102);
+var _symbol = __webpack_require__(106);
 
 var _symbol2 = _interopRequireDefault(_symbol);
 
@@ -29444,23 +30023,23 @@ exports.default = typeof _symbol2.default === "function" && _typeof(_iterator2.d
 };
 
 /***/ }),
-/* 106 */
+/* 109 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(19);
-__webpack_require__(18);
-module.exports = __webpack_require__(145);
+__webpack_require__(22);
+__webpack_require__(21);
+module.exports = __webpack_require__(148);
 
 /***/ }),
-/* 107 */
+/* 110 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(19);
-__webpack_require__(18);
-module.exports = __webpack_require__(146);
+__webpack_require__(22);
+__webpack_require__(21);
+module.exports = __webpack_require__(149);
 
 /***/ }),
-/* 108 */
+/* 111 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var core  = __webpack_require__(0)
@@ -29470,45 +30049,15 @@ module.exports = function stringify(it){ // eslint-disable-line no-unused-vars
 };
 
 /***/ }),
-/* 109 */
-/***/ (function(module, exports, __webpack_require__) {
-
-__webpack_require__(48);
-__webpack_require__(18);
-__webpack_require__(19);
-__webpack_require__(148);
-__webpack_require__(160);
-module.exports = __webpack_require__(0).Map;
-
-/***/ }),
-/* 110 */
-/***/ (function(module, exports, __webpack_require__) {
-
-__webpack_require__(149);
-var $Object = __webpack_require__(0).Object;
-module.exports = function create(P, D){
-  return $Object.create(P, D);
-};
-
-/***/ }),
-/* 111 */
-/***/ (function(module, exports, __webpack_require__) {
-
-__webpack_require__(150);
-var $Object = __webpack_require__(0).Object;
-module.exports = function defineProperties(T, D){
-  return $Object.defineProperties(T, D);
-};
-
-/***/ }),
 /* 112 */
 /***/ (function(module, exports, __webpack_require__) {
 
+__webpack_require__(48);
+__webpack_require__(21);
+__webpack_require__(22);
 __webpack_require__(151);
-var $Object = __webpack_require__(0).Object;
-module.exports = function defineProperty(it, key, desc){
-  return $Object.defineProperty(it, key, desc);
-};
+__webpack_require__(163);
+module.exports = __webpack_require__(0).Map;
 
 /***/ }),
 /* 113 */
@@ -29516,8 +30065,8 @@ module.exports = function defineProperty(it, key, desc){
 
 __webpack_require__(152);
 var $Object = __webpack_require__(0).Object;
-module.exports = function getOwnPropertyDescriptor(it, key){
-  return $Object.getOwnPropertyDescriptor(it, key);
+module.exports = function create(P, D){
+  return $Object.create(P, D);
 };
 
 /***/ }),
@@ -29526,88 +30075,118 @@ module.exports = function getOwnPropertyDescriptor(it, key){
 
 __webpack_require__(153);
 var $Object = __webpack_require__(0).Object;
-module.exports = function getOwnPropertyNames(it){
-  return $Object.getOwnPropertyNames(it);
+module.exports = function defineProperties(T, D){
+  return $Object.defineProperties(T, D);
 };
 
 /***/ }),
 /* 115 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(66);
-module.exports = __webpack_require__(0).Object.getOwnPropertySymbols;
+__webpack_require__(154);
+var $Object = __webpack_require__(0).Object;
+module.exports = function defineProperty(it, key, desc){
+  return $Object.defineProperty(it, key, desc);
+};
 
 /***/ }),
 /* 116 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(154);
-module.exports = __webpack_require__(0).Object.getPrototypeOf;
+__webpack_require__(155);
+var $Object = __webpack_require__(0).Object;
+module.exports = function getOwnPropertyDescriptor(it, key){
+  return $Object.getOwnPropertyDescriptor(it, key);
+};
 
 /***/ }),
 /* 117 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(155);
-module.exports = __webpack_require__(0).Object.isExtensible;
+__webpack_require__(156);
+var $Object = __webpack_require__(0).Object;
+module.exports = function getOwnPropertyNames(it){
+  return $Object.getOwnPropertyNames(it);
+};
 
 /***/ }),
 /* 118 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(156);
-module.exports = __webpack_require__(0).Object.keys;
+__webpack_require__(68);
+module.exports = __webpack_require__(0).Object.getOwnPropertySymbols;
 
 /***/ }),
 /* 119 */
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(157);
-module.exports = __webpack_require__(0).Object.preventExtensions;
+module.exports = __webpack_require__(0).Object.getPrototypeOf;
 
 /***/ }),
 /* 120 */
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(158);
-module.exports = __webpack_require__(0).Object.setPrototypeOf;
+module.exports = __webpack_require__(0).Object.isExtensible;
 
 /***/ }),
 /* 121 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(48);
-__webpack_require__(18);
-__webpack_require__(19);
 __webpack_require__(159);
-module.exports = __webpack_require__(0).Promise;
+module.exports = __webpack_require__(0).Object.keys;
 
 /***/ }),
 /* 122 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(66);
-__webpack_require__(48);
-__webpack_require__(161);
-__webpack_require__(162);
-module.exports = __webpack_require__(0).Symbol;
+__webpack_require__(160);
+module.exports = __webpack_require__(0).Object.preventExtensions;
 
 /***/ }),
 /* 123 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(18);
-__webpack_require__(19);
-module.exports = __webpack_require__(47).f('iterator');
+__webpack_require__(161);
+module.exports = __webpack_require__(0).Object.setPrototypeOf;
 
 /***/ }),
 /* 124 */
+/***/ (function(module, exports, __webpack_require__) {
+
+__webpack_require__(48);
+__webpack_require__(21);
+__webpack_require__(22);
+__webpack_require__(162);
+module.exports = __webpack_require__(0).Promise;
+
+/***/ }),
+/* 125 */
+/***/ (function(module, exports, __webpack_require__) {
+
+__webpack_require__(68);
+__webpack_require__(48);
+__webpack_require__(164);
+__webpack_require__(165);
+module.exports = __webpack_require__(0).Symbol;
+
+/***/ }),
+/* 126 */
+/***/ (function(module, exports, __webpack_require__) {
+
+__webpack_require__(21);
+__webpack_require__(22);
+module.exports = __webpack_require__(47).f('iterator');
+
+/***/ }),
+/* 127 */
 /***/ (function(module, exports) {
 
 module.exports = function(){ /* empty */ };
 
 /***/ }),
-/* 125 */
+/* 128 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var forOf = __webpack_require__(25);
@@ -29620,14 +30199,14 @@ module.exports = function(iter, ITERATOR){
 
 
 /***/ }),
-/* 126 */
+/* 129 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // false -> Array#indexOf
 // true  -> Array#includes
 var toIObject = __webpack_require__(9)
   , toLength  = __webpack_require__(44)
-  , toIndex   = __webpack_require__(144);
+  , toIndex   = __webpack_require__(147);
 module.exports = function(IS_INCLUDES){
   return function($this, el, fromIndex){
     var O      = toIObject($this)
@@ -29646,7 +30225,7 @@ module.exports = function(IS_INCLUDES){
 };
 
 /***/ }),
-/* 127 */
+/* 130 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 0 -> Array#forEach
@@ -29657,10 +30236,10 @@ module.exports = function(IS_INCLUDES){
 // 5 -> Array#find
 // 6 -> Array#findIndex
 var ctx      = __webpack_require__(10)
-  , IObject  = __webpack_require__(53)
+  , IObject  = __webpack_require__(55)
   , toObject = __webpack_require__(30)
   , toLength = __webpack_require__(44)
-  , asc      = __webpack_require__(129);
+  , asc      = __webpack_require__(132);
 module.exports = function(TYPE, $create){
   var IS_MAP        = TYPE == 1
     , IS_FILTER     = TYPE == 2
@@ -29695,11 +30274,11 @@ module.exports = function(TYPE, $create){
 };
 
 /***/ }),
-/* 128 */
+/* 131 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var isObject = __webpack_require__(5)
-  , isArray  = __webpack_require__(54)
+  , isArray  = __webpack_require__(56)
   , SPECIES  = __webpack_require__(1)('species');
 
 module.exports = function(original){
@@ -29716,18 +30295,18 @@ module.exports = function(original){
 };
 
 /***/ }),
-/* 129 */
+/* 132 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 9.4.2.3 ArraySpeciesCreate(originalArray, length)
-var speciesConstructor = __webpack_require__(128);
+var speciesConstructor = __webpack_require__(131);
 
 module.exports = function(original, length){
   return new (speciesConstructor(original))(length);
 };
 
 /***/ }),
-/* 130 */
+/* 133 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -29740,8 +30319,8 @@ var dP          = __webpack_require__(6).f
   , defined     = __webpack_require__(24)
   , forOf       = __webpack_require__(25)
   , $iterDefine = __webpack_require__(37)
-  , step        = __webpack_require__(55)
-  , setSpecies  = __webpack_require__(63)
+  , step        = __webpack_require__(57)
+  , setSpecies  = __webpack_require__(65)
   , DESCRIPTORS = __webpack_require__(3)
   , fastKey     = __webpack_require__(27).fastKey
   , SIZE        = DESCRIPTORS ? '_s' : 'size';
@@ -29875,12 +30454,12 @@ module.exports = {
 };
 
 /***/ }),
-/* 131 */
+/* 134 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // https://github.com/DavidBruant/Map-Set.prototype.toJSON
 var classof = __webpack_require__(23)
-  , from    = __webpack_require__(125);
+  , from    = __webpack_require__(128);
 module.exports = function(NAME){
   return function toJSON(){
     if(classof(this) != NAME)throw TypeError(NAME + "#toJSON isn't generic");
@@ -29889,7 +30468,7 @@ module.exports = function(NAME){
 };
 
 /***/ }),
-/* 132 */
+/* 135 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -29903,9 +30482,9 @@ var global         = __webpack_require__(2)
   , forOf          = __webpack_require__(25)
   , anInstance     = __webpack_require__(34)
   , isObject       = __webpack_require__(5)
-  , setToStringTag = __webpack_require__(17)
+  , setToStringTag = __webpack_require__(20)
   , dP             = __webpack_require__(6).f
-  , each           = __webpack_require__(127)(0)
+  , each           = __webpack_require__(130)(0)
   , DESCRIPTORS    = __webpack_require__(3);
 
 module.exports = function(NAME, wrapper, methods, common, IS_MAP, IS_WEAK){
@@ -29954,12 +30533,12 @@ module.exports = function(NAME, wrapper, methods, common, IS_MAP, IS_WEAK){
 };
 
 /***/ }),
-/* 133 */
+/* 136 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // all enumerable object keys, includes symbols
-var getKeys = __webpack_require__(16)
-  , gOPS    = __webpack_require__(59)
+var getKeys = __webpack_require__(19)
+  , gOPS    = __webpack_require__(61)
   , pIE     = __webpack_require__(39);
 module.exports = function(it){
   var result     = getKeys(it)
@@ -29974,7 +30553,7 @@ module.exports = function(it){
 };
 
 /***/ }),
-/* 134 */
+/* 137 */
 /***/ (function(module, exports) {
 
 // fast apply, http://jsperf.lnkit.com/fast-apply/5
@@ -29995,7 +30574,7 @@ module.exports = function(fn, args, that){
 };
 
 /***/ }),
-/* 135 */
+/* 138 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // check on default Array iterator
@@ -30008,7 +30587,7 @@ module.exports = function(it){
 };
 
 /***/ }),
-/* 136 */
+/* 139 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // call something on iterator step with safe closing on error
@@ -30025,14 +30604,14 @@ module.exports = function(iterator, fn, value, entries){
 };
 
 /***/ }),
-/* 137 */
+/* 140 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 var create         = __webpack_require__(28)
   , descriptor     = __webpack_require__(29)
-  , setToStringTag = __webpack_require__(17)
+  , setToStringTag = __webpack_require__(20)
   , IteratorPrototype = {};
 
 // 25.1.2.1.1 %IteratorPrototype%[@@iterator]()
@@ -30044,7 +30623,7 @@ module.exports = function(Constructor, NAME, next){
 };
 
 /***/ }),
-/* 138 */
+/* 141 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var ITERATOR     = __webpack_require__(1)('iterator')
@@ -30070,10 +30649,10 @@ module.exports = function(exec, skipClosing){
 };
 
 /***/ }),
-/* 139 */
+/* 142 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var getKeys   = __webpack_require__(16)
+var getKeys   = __webpack_require__(19)
   , toIObject = __webpack_require__(9);
 module.exports = function(object, el){
   var O      = toIObject(object)
@@ -30085,15 +30664,15 @@ module.exports = function(object, el){
 };
 
 /***/ }),
-/* 140 */
+/* 143 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var global    = __webpack_require__(2)
-  , macrotask = __webpack_require__(64).set
+  , macrotask = __webpack_require__(66).set
   , Observer  = global.MutationObserver || global.WebKitMutationObserver
   , process   = global.process
   , Promise   = global.Promise
-  , isNode    = __webpack_require__(15)(process) == 'process';
+  , isNode    = __webpack_require__(18)(process) == 'process';
 
 module.exports = function(){
   var head, last, notify;
@@ -30158,7 +30737,7 @@ module.exports = function(){
 };
 
 /***/ }),
-/* 141 */
+/* 144 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // Works with __proto__ only. Old v8 can't work with null proto objects.
@@ -30188,7 +30767,7 @@ module.exports = {
 };
 
 /***/ }),
-/* 142 */
+/* 145 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 7.3.20 SpeciesConstructor(O, defaultConstructor)
@@ -30201,7 +30780,7 @@ module.exports = function(O, D){
 };
 
 /***/ }),
-/* 143 */
+/* 146 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var toInteger = __webpack_require__(43)
@@ -30223,7 +30802,7 @@ module.exports = function(TO_STRING){
 };
 
 /***/ }),
-/* 144 */
+/* 147 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var toInteger = __webpack_require__(43)
@@ -30235,11 +30814,11 @@ module.exports = function(index, length){
 };
 
 /***/ }),
-/* 145 */
+/* 148 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var anObject = __webpack_require__(7)
-  , get      = __webpack_require__(65);
+  , get      = __webpack_require__(67);
 module.exports = __webpack_require__(0).getIterator = function(it){
   var iterFn = get(it);
   if(typeof iterFn != 'function')throw TypeError(it + ' is not iterable!');
@@ -30247,7 +30826,7 @@ module.exports = __webpack_require__(0).getIterator = function(it){
 };
 
 /***/ }),
-/* 146 */
+/* 149 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var classof   = __webpack_require__(23)
@@ -30261,13 +30840,13 @@ module.exports = __webpack_require__(0).isIterable = function(it){
 };
 
 /***/ }),
-/* 147 */
+/* 150 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-var addToUnscopables = __webpack_require__(124)
-  , step             = __webpack_require__(55)
+var addToUnscopables = __webpack_require__(127)
+  , step             = __webpack_require__(57)
   , Iterators        = __webpack_require__(13)
   , toIObject        = __webpack_require__(9);
 
@@ -30301,15 +30880,15 @@ addToUnscopables('values');
 addToUnscopables('entries');
 
 /***/ }),
-/* 148 */
+/* 151 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-var strong = __webpack_require__(130);
+var strong = __webpack_require__(133);
 
 // 23.1 Map Objects
-module.exports = __webpack_require__(132)('Map', function(get){
+module.exports = __webpack_require__(135)('Map', function(get){
   return function Map(){ return get(this, arguments.length > 0 ? arguments[0] : undefined); };
 }, {
   // 23.1.3.6 Map.prototype.get(key)
@@ -30324,7 +30903,7 @@ module.exports = __webpack_require__(132)('Map', function(get){
 }, strong, true);
 
 /***/ }),
-/* 149 */
+/* 152 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var $export = __webpack_require__(4)
@@ -30332,15 +30911,15 @@ var $export = __webpack_require__(4)
 $export($export.S, 'Object', {create: __webpack_require__(28)});
 
 /***/ }),
-/* 150 */
+/* 153 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var $export = __webpack_require__(4);
 // 19.1.2.3 / 15.2.3.7 Object.defineProperties(O, Properties)
-$export($export.S + $export.F * !__webpack_require__(3), 'Object', {defineProperties: __webpack_require__(56)});
+$export($export.S + $export.F * !__webpack_require__(3), 'Object', {defineProperties: __webpack_require__(58)});
 
 /***/ }),
-/* 151 */
+/* 154 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var $export = __webpack_require__(4);
@@ -30348,7 +30927,7 @@ var $export = __webpack_require__(4);
 $export($export.S + $export.F * !__webpack_require__(3), 'Object', {defineProperty: __webpack_require__(6).f});
 
 /***/ }),
-/* 152 */
+/* 155 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 19.1.2.6 Object.getOwnPropertyDescriptor(O, P)
@@ -30362,21 +30941,21 @@ __webpack_require__(14)('getOwnPropertyDescriptor', function(){
 });
 
 /***/ }),
-/* 153 */
+/* 156 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 19.1.2.7 Object.getOwnPropertyNames(O)
 __webpack_require__(14)('getOwnPropertyNames', function(){
-  return __webpack_require__(57).f;
+  return __webpack_require__(59).f;
 });
 
 /***/ }),
-/* 154 */
+/* 157 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 19.1.2.9 Object.getPrototypeOf(O)
 var toObject        = __webpack_require__(30)
-  , $getPrototypeOf = __webpack_require__(60);
+  , $getPrototypeOf = __webpack_require__(62);
 
 __webpack_require__(14)('getPrototypeOf', function(){
   return function getPrototypeOf(it){
@@ -30385,7 +30964,7 @@ __webpack_require__(14)('getPrototypeOf', function(){
 });
 
 /***/ }),
-/* 155 */
+/* 158 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 19.1.2.11 Object.isExtensible(O)
@@ -30398,12 +30977,12 @@ __webpack_require__(14)('isExtensible', function($isExtensible){
 });
 
 /***/ }),
-/* 156 */
+/* 159 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 19.1.2.14 Object.keys(O)
 var toObject = __webpack_require__(30)
-  , $keys    = __webpack_require__(16);
+  , $keys    = __webpack_require__(19);
 
 __webpack_require__(14)('keys', function(){
   return function keys(it){
@@ -30412,7 +30991,7 @@ __webpack_require__(14)('keys', function(){
 });
 
 /***/ }),
-/* 157 */
+/* 160 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 19.1.2.15 Object.preventExtensions(O)
@@ -30426,15 +31005,15 @@ __webpack_require__(14)('preventExtensions', function($preventExtensions){
 });
 
 /***/ }),
-/* 158 */
+/* 161 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 19.1.3.19 Object.setPrototypeOf(O, proto)
 var $export = __webpack_require__(4);
-$export($export.S, 'Object', {setPrototypeOf: __webpack_require__(141).set});
+$export($export.S, 'Object', {setPrototypeOf: __webpack_require__(144).set});
 
 /***/ }),
-/* 159 */
+/* 162 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -30448,9 +31027,9 @@ var LIBRARY            = __webpack_require__(26)
   , aFunction          = __webpack_require__(33)
   , anInstance         = __webpack_require__(34)
   , forOf              = __webpack_require__(25)
-  , speciesConstructor = __webpack_require__(142)
-  , task               = __webpack_require__(64).set
-  , microtask          = __webpack_require__(140)()
+  , speciesConstructor = __webpack_require__(145)
+  , task               = __webpack_require__(66).set
+  , microtask          = __webpack_require__(143)()
   , PROMISE            = 'Promise'
   , TypeError          = global.TypeError
   , process            = global.process
@@ -30668,8 +31247,8 @@ if(!USE_NATIVE){
 }
 
 $export($export.G + $export.W + $export.F * !USE_NATIVE, {Promise: $Promise});
-__webpack_require__(17)($Promise, PROMISE);
-__webpack_require__(63)(PROMISE);
+__webpack_require__(20)($Promise, PROMISE);
+__webpack_require__(65)(PROMISE);
 Wrapper = __webpack_require__(0)[PROMISE];
 
 // statics
@@ -30693,7 +31272,7 @@ $export($export.S + $export.F * (LIBRARY || !USE_NATIVE), PROMISE, {
     return capability.promise;
   }
 });
-$export($export.S + $export.F * !(USE_NATIVE && __webpack_require__(138)(function(iter){
+$export($export.S + $export.F * !(USE_NATIVE && __webpack_require__(141)(function(iter){
   $Promise.all(iter)['catch'](empty);
 })), PROMISE, {
   // 25.4.4.1 Promise.all(iterable)
@@ -30739,40 +31318,40 @@ $export($export.S + $export.F * !(USE_NATIVE && __webpack_require__(138)(functio
 });
 
 /***/ }),
-/* 160 */
+/* 163 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // https://github.com/DavidBruant/Map-Set.prototype.toJSON
 var $export  = __webpack_require__(4);
 
-$export($export.P + $export.R, 'Map', {toJSON: __webpack_require__(131)('Map')});
+$export($export.P + $export.R, 'Map', {toJSON: __webpack_require__(134)('Map')});
 
 /***/ }),
-/* 161 */
+/* 164 */
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(46)('asyncIterator');
 
 /***/ }),
-/* 162 */
+/* 165 */
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(46)('observable');
 
 /***/ }),
-/* 163 */
+/* 166 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
 
 /***/ }),
-/* 164 */
+/* 167 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
 
 /***/ }),
-/* 165 */
+/* 168 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -33058,7 +33637,7 @@ if (inBrowser && window.Vue) {
 /* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(32)))
 
 /***/ }),
-/* 166 */
+/* 169 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -39821,10 +40400,10 @@ setTimeout(function () {
 
 /* harmony default export */ __webpack_exports__["default"] = Vue$2;
 
-/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(32), __webpack_require__(68)))
+/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(32), __webpack_require__(70)))
 
 /***/ }),
-/* 167 */
+/* 170 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -40640,582 +41219,11 @@ var index_esm = {
 
 
 /***/ }),
-/* 168 */
+/* 171 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(70);
+module.exports = __webpack_require__(72);
 
-
-/***/ }),
-/* 169 */,
-/* 170 */,
-/* 171 */,
-/* 172 */,
-/* 173 */,
-/* 174 */,
-/* 175 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var Component = __webpack_require__(20)(
-  /* script */
-  __webpack_require__(177),
-  /* template */
-  __webpack_require__(176),
-  /* scopeId */
-  null,
-  /* cssModules */
-  null
-)
-
-module.exports = Component.exports
-
-
-/***/ }),
-/* 176 */
-/***/ (function(module, exports) {
-
-module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('section', {
-    staticClass: "page page--aiexifcool-remove"
-  }, [_c('div', {
-    staticClass: "page__toolbar page__toolbar--aiexifcool-remove"
-  }, [_vm._l((_vm.actionList), function(item, index) {
-    return (item.visiable) ? _c('ui-icon-button', {
-      key: item.id,
-      attrs: {
-        "type": item.type,
-        "size": item.size,
-        "color": item.color
-      },
-      on: {
-        "click": function($event) {
-          _vm.onToolBtnClick(index, item)
-        }
-      }
-    }, [_c('span', {
-      class: item.icon,
-      attrs: {
-        "title": _vm.$t(item.tooltip)
-      }
-    })]) : _vm._e()
-  }), _vm._v(" "), _c('ui-confirm', {
-    ref: _vm.confirmDialog.ref,
-    attrs: {
-      "autofocus": _vm.confirmDialog.autofocus,
-      "confirm-button-text": _vm.confirmDialog.confirmButtonText,
-      "deny-button-text": _vm.confirmDialog.denyButtonText,
-      "title": _vm.confirmDialog.title
-    },
-    on: {
-      "confirm": _vm.onConfirmDialogConfirm,
-      "deny": _vm.onConfirmDialogDeny
-    }
-  }, [_vm._v("\n            " + _vm._s(_vm.confirmDialog.content) + "\n        ")])], 2), _vm._v(" "), _c('div', {
-    staticClass: "page__examples page__examples--aiexifcool-remove"
-  }, _vm._l((_vm.taskList), function(item, index) {
-    return _c('ui-alert', {
-      directives: [{
-        name: "show",
-        rawName: "v-show",
-        value: (item.style.show),
-        expression: "item.style.show"
-      }],
-      key: item,
-      class: _vm.getItemStyleClass(item),
-      attrs: {
-        "removeIcon": "",
-        "type": item.style.type
-      },
-      on: {
-        "dismiss": function($event) {
-          _vm.onRemoveTaskItem(item, index)
-        }
-      }
-    }, [_c('div', {
-      staticClass: "page__examples--aiexifcool-remove__item"
-    }, [_c('div', {
-      staticClass: "ui-toolbar__top"
-    }, [_c('div', {
-      staticClass: "ui-toolbar__top__metainfo"
-    }, [_c('img', {
-      attrs: {
-        "src": item.thumb,
-        "width": "48",
-        "height": "48",
-        "viewBox": "0 0 48 48"
-      }
-    }), _vm._v(" "), _c('strong', {
-      staticClass: "ui-toolbar__top__fileName",
-      attrs: {
-        "title": _vm.$t('pages.remove.task-item.file-name') + item.name
-      }
-    }, [_vm._v(" \n                            " + _vm._s(item.name) + " \n                            "), _c('sup', {
-      staticClass: "ui-toolbar__top__fileSize",
-      attrs: {
-        "title": _vm.$t('pages.remove.task-item.file-size') + item.size
-      }
-    }, [_vm._v("\n                            (" + _vm._s(item.size) + ")\n                            ")])])]), _vm._v(" "), _c('div', {
-      staticClass: "ui-toolbar__top__metainfo__toolbar"
-    }, [(item.stateInfo.state > 0) ? _c('ui-icon-button', {
-      attrs: {
-        "type": "secondary",
-        "color": "white",
-        "size": "small"
-      },
-      on: {
-        "click": function($event) {
-          _vm.onOpenParentDir(item.fixOutDir)
-        }
-      }
-    }, [_c('span', {
-      staticClass: "fa fa-folder-open-o fa-lg fa-fw",
-      attrs: {
-        "title": _vm.$t('pages.remove.task-item.open-parent-dir')
-      }
-    })]) : _vm._e(), _vm._v(" "), (item.stateInfo.state > 0) ? _c('ui-icon-button', {
-      attrs: {
-        "type": "secondary",
-        "color": "white",
-        "size": "small"
-      },
-      on: {
-        "click": function($event) {
-          _vm.onPreviewFile(item.fixpath)
-        }
-      }
-    }, [_c('span', {
-      staticClass: "fa fa-eye fa-lg fa-fw",
-      attrs: {
-        "title": _vm.$t('pages.remove.task-item.review-in-file')
-      }
-    })]) : _vm._e()], 1)]), _vm._v(" "), _c('div', {
-      staticClass: "ui-toolbar__body"
-    }, [_c('span', {
-      directives: [{
-        name: "show",
-        rawName: "v-show",
-        value: (item.stateInfo.state < 0),
-        expression: "item.stateInfo.state < 0"
-      }],
-      class: ['ui-toolbar__top__taskMessage', item.stateInfo.state < 0 ? 'task-item-has-error' : ''],
-      attrs: {
-        "title": item.stateInfo.message
-      }
-    }, [_vm._v("\n                        " + _vm._s(item.stateInfo.message) + "\n                    ")]), _vm._v(" "), _c('span', {
-      staticClass: "ui-toolbar__body__filePath",
-      attrs: {
-        "title": _vm.$t('pages.remove.task-item.file-path') + item.path
-      }
-    }, [_vm._v(_vm._s(item.path))])]), _vm._v(" "), _c('div', {
-      staticClass: "ui-toolbar__bottom"
-    }, [_c('ui-progress-linear', {
-      directives: [{
-        name: "show",
-        rawName: "v-show",
-        value: (_vm.getImageProgressShow(item)),
-        expression: "getImageProgressShow(item)"
-      }],
-      attrs: {
-        "color": _vm.getItemProgressStyle(item),
-        "type": "determinate",
-        "progress": item.progress,
-        "title": _vm.$t('pages.remove.task-item.progress') + item.progress
-      }
-    })], 1)])])
-  })), _vm._v(" "), (_vm.taskList.length >= 0) ? _c('div', {
-    class: ['page__footbar page__footbar--aiexifcool-remove', {
-      transferNormal: _vm.transferIsNormal
-    }, {
-      fixWorking: _vm.isRemoveWorking
-    }]
-  }, [_c('span', [_vm._v(_vm._s(_vm.$t('pages.remove.footbar.fileCount')) + " : " + _vm._s(_vm.taskList.length) + " ")]), _vm._v(" "), _c('span', [_vm._v(_vm._s(_vm.$t('pages.remove.footbar.state')) + " : " + _vm._s(_vm.isRemoveWorking ? _vm.$t('pages.remove.footbar.isRemoveWorking') : _vm.$t('pages.remove.footbar.isWaiting')) + " ")]), _vm._v(" "), _c('i', {
-    class: [_vm.isRemoveWorking ? 'fa fa-spinner fa-spin fa-lg fa-fw' : 'fa fa-lg fa-fw']
-  }), _vm._v(" "), _c('span', [_vm._v(_vm._s(_vm.$t('pages.remove.footbar.transferState')) + " : " + _vm._s(_vm.transferIsNormal ? _vm.$t('pages.remove.footbar.transferIsNormal') : _vm.$t('pages.remove.footbar.transferIsFault')) + " ")])]) : _vm._e()])
-},staticRenderFns: []}
-
-/***/ }),
-/* 177 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _classCallCheck2 = __webpack_require__(104);
-
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
-
-var _dovemaxsdk = __webpack_require__(22);
-
-var _keenUi = __webpack_require__(21);
-
-var _transfer = __webpack_require__(83);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var baseID = "__page__repair__action__";
-var baseIDIndex = -1;
-
-var taskList = [];
-var taskPrefix = 'fixpage-image-id-' + _dovemaxsdk._.now();
-
-var Task = function Task(thumb, name, path, size) {
-    (0, _classCallCheck3.default)(this, Task);
-
-    this.id = _dovemaxsdk._.uniqueId(taskPrefix);
-    this.thumb = thumb;
-    this.name = name;
-    this.path = path;
-    this.size = size;
-    this.style = {
-        show: true,
-        type: "success"
-    };
-
-    this.isworking = false;
-    this.progress = 0;
-    this.fixOutDir = "";
-    this.fixpath = "";
-    this.stateInfo = {
-        state: 0,
-        message: "" };
-};
-
-exports.default = {
-    data: function data() {
-        console.log("Remove.vue call data()");
-        return {
-            taskList: taskList,
-            taskID2taskObj: {},
-            isRemoveWorking: false,
-            transferIsNormal: _transfer.Transfer.isRunning,
-            progressInterval: null,
-            confirmDialog: {
-                ref: 'default',
-                autofocus: 'none',
-                confirmButtonText: 'Confirm',
-                denyButtonText: 'Deny',
-                title: '',
-                content: '',
-                callbackConfirm: function callbackConfirm() {},
-                callbackDeny: function callbackDeny() {}
-            },
-            curFixTaskID: null };
-    },
-    beforeCreate: function beforeCreate() {
-        var that = this;
-        console.log('Remove.vue beforeCreate');
-
-        _transfer.Transfer.frontAgent.registerOnChannelFault(function () {
-            that.onTransferIsFault();
-        });
-
-        _transfer.Transfer.frontAgent.registerOnFinishBuildChannel(function () {
-            that.onTransferIsNoraml();
-        });
-    },
-    beforeDestroy: function beforeDestroy() {
-        clearInterval(this.progressInterval);
-    },
-
-
-    computed: {
-        actionList: function actionList() {
-            var that = this;
-            return [{ id: 'action-import', visiable: true, color: "white", icon: "fa fa-file-image-o fa-lg fa-fw", size: "small", type: "secondary", tooltip: "pages.remove.toolbar.import" }, { id: 'action-importDir', visiable: true, color: "white", icon: "fa fa-folder-open-o fa-lg fa-fw", size: "small", type: "secondary", tooltip: "pages.remove.toolbar.importDir" }, { id: 'action-remove', visiable: true, color: "white", icon: "fa fa-trash-o fa-lg fa-fw", size: "small", type: "secondary", tooltip: "pages.remove.toolbar.remove" }, { id: 'action-do', visiable: !that.isRemoveWorking, color: "red", icon: "fa fa-recycle fa-lg fa-fw", size: "small", type: "secondary", tooltip: "pages.remove.toolbar.fix" }, { id: 'action-stop', visiable: that.isRemoveWorking, color: "red", icon: "fa fa-hand-paper-o fa-lg fa-fw", size: "small", type: "secondary", tooltip: "pages.remove.toolbar.chancel" }];
-        }
-    },
-
-    methods: {
-        onTransferIsNoraml: function onTransferIsNoraml() {
-            var that = this;
-            that.transferIsNormal = true;
-        },
-        onTransferIsFault: function onTransferIsFault() {
-            var that = this;
-            that.transferIsNormal = false;
-            that.isRemoveWorking = false;
-
-            that.stopDo();
-        },
-        getItemStyleClass: function getItemStyleClass(item) {
-            var _styleClass = [''];
-            if (item.stateInfo) {
-
-                if (item.stateInfo.state < 0) {
-                    _styleClass = ['isFixFailed'];
-                }
-                if (item.stateInfo.state > 0) {
-                    _styleClass = ['isFixedSuccess'];
-                }
-            }
-
-            return _styleClass;
-        },
-        getItemProgressStyle: function getItemProgressStyle(item) {
-            var that = this;
-            var progressStyle = 'black';
-            if (item.stateInfo) {
-                if (item.stateInfo.state < 0) progressStyle = 'accent';
-                if (item.stateInfo.state > 0) progressStyle = 'primary';
-            }
-
-            return progressStyle;
-        },
-        getImageProgressShow: function getImageProgressShow(item) {
-            return item.isworking;
-        },
-        onConfirmDialogConfirm: function onConfirmDialogConfirm() {
-            var that = this;
-            var fn = that.confirmDialog.callbackConfirm;
-            fn && fn();
-        },
-        onConfirmDialogDeny: function onConfirmDialogDeny() {
-            var that = this;
-            var fn = that.confirmDialog.callbackDeny;
-            fn && fn();
-        },
-        onToolBtnClick: function onToolBtnClick(index, item) {
-            console.log('onToolBtnClick', index);
-
-            if (item.id === 'action-import') {
-                this.onBtnImportFilesClick();
-            } else if (item.id === 'action-importDir') {
-                this.onBtnImportDirClick();
-            } else if (item.id === 'action-remove') {
-                this.onBtnRemoveAllClick();
-            } else if (item.id === 'action-do') {
-                this.onBtnDoClick();
-            } else if (item.id === 'action-stop') {
-                this.onBtnStopDoClick();
-            }
-        },
-        onBtnImportFilesClick: function onBtnImportFilesClick() {
-            var that = this;
-
-            console.log("-------------------- call import files");
-
-            _dovemaxsdk.BS.b$.importFiles({
-                title: this.$t('pages.remove.dialog-import-images.title'),
-                prompt: this.$t('pages.remove.dialog-import-images.prompt'),
-                allowMulSelection: true,
-                types: [] }, function () {
-                _dovemaxsdk._.each([{ fileName: 'RAW_NIKON_D7100.NEF', filePath: 'D:\\TestResource\\exif_sample_images\\Nikon\\corrupted\\RAW_NIKON_D7100.NEF', fileSize: '27.5MB' }, { fileName: 'YDSC_0021.NEF', filePath: 'D:\\TestResource\\exif_sample_images\\Nikon\\corrupted\\YDSC_0021.NEF', fileSize: '10.7MB' }], function (ele) {
-                    var taskObj = new Task("images/picture.svg", ele.fileName, ele.filePath, ele.fileSize);
-                    that.taskList.push(taskObj);
-                    that.taskID2taskObj[taskObj.id] = taskObj;
-                });
-
-                return;
-
-                for (var i = 0; i < 50; ++i) {
-                    var taskObj = new Task("images/picture.svg", "Images" + i, "/url/image" + i, i + '.2MB');
-                    that.taskList.push(taskObj);
-                    that.taskID2taskObj[taskObj.id] = taskObj;
-                }
-            }, function (data) {
-                if (data.success) {
-                    var imageFiles = data.filesArray;
-                    imageFiles.forEach(function (fileObj, dinx) {
-                        var taskObj = new Task("images/picture.svg", fileObj.fileName, fileObj.filePath, fileObj.fileSizeStr);
-                        that.taskList.push(taskObj);
-                        that.taskID2taskObj[taskObj.id] = taskObj;
-                    });
-                }
-            });
-        },
-        onBtnImportDirClick: function onBtnImportDirClick() {
-            var that = this;
-
-            console.log("-------------------- call import dir");
-
-            _dovemaxsdk.BS.b$.selectDir({
-                title: this.$t('pages.remove.dialog-import-dir-images.title'),
-                prompt: this.$t('pages.remove.dialog-import-dir-images.prompt'),
-                allowMulSelection: true
-            }, function () {
-                for (var i = 0; i < 5; ++i) {
-                    var taskObj = new Task("images/folder.svg", "ImagesDir" + i, "/url/imageDir" + i, i + '22.2MB');
-                    that.taskList.push(taskObj);
-                    that.taskID2taskObj[taskObj.id] = taskObj;
-                }
-            }, function (data) {
-                if (data.success) {
-                    var imageFiles = data.filesArray;
-                    imageFiles.forEach(function (fileObj, dinx) {
-                        var taskObj = new Task("images/picture.svg", fileObj.fileName, fileObj.filePath, fileObj.fileSizeStr);
-                        that.taskList.push(taskObj);
-                        that.taskID2taskObj[taskObj.id] = taskObj;
-                    });
-                }
-            });
-        },
-        onBtnRemoveAllClick: function onBtnRemoveAllClick() {
-            var that = this;
-
-            if (that.taskList.length > 0) {
-                var cdg = that.confirmDialog;
-                cdg.title = that.$t('pages.remove.dialog-confirm-remove-all.title');
-                cdg.content = that.$t('pages.remove.dialog-confirm-remove-all.message');
-                cdg.confirmButtonText = that.$t('pages.remove.dialog-confirm-remove-all.btnConfirm');
-                cdg.denyButtonText = that.$t('pages.remove.dialog-confirm-remove-all.btnDeny');
-
-                var dialog = that.$refs[cdg.ref];
-                cdg.callbackConfirm = function () {
-                    that.stopDo();
-                    that.taskList.splice(0, that.taskList.length);
-                };
-                dialog.open();
-            }
-        },
-        onBtnDoClick: function onBtnDoClick() {
-            var that = this;
-
-            if (that.taskList.length === 0) {
-                return _dovemaxsdk.BS.b$.Notice.alert({
-                    message: that.$t('pages.remove.notice-no-items.message')
-                });
-            }
-
-            console.log("---------------------- call export dir");
-            _dovemaxsdk.BS.b$.selectOutDir({
-                title: that.$t('pages.remove.dialog-select-outdir.title'),
-                prompt: that.$t('pages.remove.dialog-select-outdir.prompt'),
-                canCreateDir: true
-            }, function () {
-                that.startDo('D:\\TestResource\\exif_sample_images\\Nikon\\corrupted_output');
-            }, function (data) {
-                if (data.success) {
-                    var outDir = data.filePath;
-                    that.startDo(outDir);
-                }
-            });
-        },
-        onBtnStopDoClick: function onBtnStopDoClick() {
-            var that = this;
-
-            if (that.isRemoveWorking) {
-                var cdg = that.confirmDialog;
-                cdg.title = that.$t('pages.remove.dialog-confirm-stop-fix.title');
-                cdg.content = that.$t('pages.remove.dialog-confirm-stop-fix.message');
-                cdg.confirmButtonText = that.$t('pages.remove.dialog-confirm-stop-fix.btnConfirm');
-                cdg.denyButtonText = that.$t('pages.remove.dialog-confirm-stop-fix.btnDeny');
-
-                var dialog = that.$refs[cdg.ref];
-                cdg.callbackConfirm = function () {
-                    that.stopDo();
-                };
-                dialog.open();
-            }
-        },
-        startDo: function startDo(outDir) {
-            var that = this;
-
-            var srcImagesMap = {};
-            _dovemaxsdk._.each(that.taskList, function (taskObj, index) {
-                srcImagesMap[taskObj.id] = taskObj.path;
-            });
-
-            that.curFixTaskID = _dovemaxsdk._.uniqueId(taskPrefix + 'task-');
-            _transfer.Transfer.Tools.RemoveExifInfo.run({
-                taskID: that.curFixTaskID,
-                data: {
-                    src: srcImagesMap,
-                    outputDir: outDir || _dovemaxsdk.BS.b$.App.getTempDir()
-                },
-                lang: Vue.config.lang
-            }, function (data) {
-                if (data.msg_type === 's_task_exec_running') {
-                    that.isRemoveWorking = true;
-                } else if (data.msg_type === 's_task_exec_feedback') {
-                    var dataList = data.content;
-                    that.isRemoveWorking = dataList.length > 0;
-                    _dovemaxsdk._.each(dataList, function (ele) {
-                        var curImageTaskObj = that.taskID2taskObj[ele.id];
-                        if (curImageTaskObj) {
-                            curImageTaskObj.isworking = ele.progress >= 100 ? false : true;
-                            curImageTaskObj.progress = ele.progress >= 100 ? 100 : ele.progress;
-                            curImageTaskObj.stateInfo.state = ele.state;
-                            curImageTaskObj.stateInfo.message = ele.message || '';
-                        }
-                    });
-                } else if (data.msg_type === 's_task_exec_result') {}
-            });
-        },
-        stopDo: function stopDo() {
-            var notice = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
-
-            var that = this;
-
-            var srcImagesMap = {};
-            _dovemaxsdk._.each(that.taskList, function (taskObj, index) {
-                taskObj.isworking = false;
-
-                srcImagesMap[taskObj.id] = taskObj.path;
-            });
-
-            if (!notice) return;
-            if (_dovemaxsdk._.keys(srcImagesMap).length > 0 && that.isRemoveWorking) {
-                _transfer.Transfer.Tools.RemoveExifInfo.stop({
-                    taskID: that.curFixTaskID,
-                    data: {
-                        src: srcImagesMap
-                    }
-                });
-            }
-        },
-        __removeTaskItem: function __removeTaskItem(item, index) {
-            var that = this;
-            item.isworking = false;
-
-            item.progress = 0;
-            item.stateInfo = 0;
-            that.taskID2taskObj[item.id] = null;
-
-            that.taskList.splice(index, 1);
-        },
-        onRemoveTaskItem: function onRemoveTaskItem(item, index) {
-            console.log('item: ', item, 'index: ', index);
-            var that = this;
-
-            if (item.isworking) {
-                var srcImagesMap = {};
-                srcImagesMap[item.id] = item.path;
-                _transfer.Transfer.Tools.RemoveExifInfo.stop({
-                    taskID: that.curFixTaskID,
-                    data: {
-                        src: srcImagesMap
-                    }
-                });
-                that.__removeTaskItem(item, index);
-            } else {
-                that.__removeTaskItem(item, index);
-            }
-        },
-        onOpenParentDir: function onOpenParentDir(dir) {
-            var that = this;
-            _dovemaxsdk.BS.b$.revealInFinder(dir);
-        },
-        onPreviewFile: function onPreviewFile(file) {
-            _dovemaxsdk.BS.b$.previewFile(dir);
-        }
-    },
-
-    components: {
-        UiIcon: _keenUi.UiIcon,
-        UiTabs: _keenUi.UiTabs,
-        UiTab: _keenUi.UiTab,
-        UiButton: _keenUi.UiButton,
-        UiIconButton: _keenUi.UiIconButton,
-        UiAlert: _keenUi.UiAlert,
-        UiToolbar: _keenUi.UiToolbar,
-        UiConfirm: _keenUi.UiConfirm,
-        UiProgressLinear: _keenUi.UiProgressLinear
-    }
-};
 
 /***/ })
 /******/ ]);
