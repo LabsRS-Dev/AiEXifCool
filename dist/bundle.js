@@ -26631,6 +26631,10 @@ var _Repair = __webpack_require__(76);
 
 var _Repair2 = _interopRequireDefault(_Repair);
 
+var _Welcome = __webpack_require__(178);
+
+var _Welcome2 = _interopRequireDefault(_Welcome);
+
 var _sysConfig = __webpack_require__(89);
 
 var _sysConfig2 = _interopRequireDefault(_sysConfig);
@@ -26648,6 +26652,18 @@ var menu = [{
   enableExpand: false,
   visible: true,
   menu: [{
+    path: '',
+    redirect: rootPath + '/welcome',
+    show: false
+  }, {
+    path: rootPath + '/welcome',
+    show: true,
+    component: _Welcome2.default,
+    title: 'routes.common.menu.welcome.title',
+    tip: 'routes.common.menu.welcome.tip',
+    icon: icons.adjust,
+    sourceUrl: ''
+  }, {
     path: rootPath + '/adjust',
     show: true,
     component: _About2.default,
@@ -26665,7 +26681,6 @@ var menu = [{
     sourceUrl: ''
   }, {
     path: rootPath + '/repair',
-
     show: true,
     component: _Repair2.default,
     title: 'routes.common.menu.repair.title',
@@ -26752,6 +26767,7 @@ var routes = menu.reduce(function (paths, section) {
   var sectionPaths = section.menu.map(function (menuItem) {
     return {
       path: menuItem.path,
+      redirect: menuItem.redirect || '',
       component: menuItem.component,
       meta: {
         section: section.title,
@@ -29049,7 +29065,7 @@ var _transfer = __webpack_require__(49);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var baseID = "__page__repair__action__";
+var baseID = "__page__remove__action__";
 var baseIDIndex = -1;
 
 var taskList = [];
@@ -41226,6 +41242,104 @@ var index_esm = {
 
 module.exports = __webpack_require__(72);
 
+
+/***/ }),
+/* 172 */,
+/* 173 */,
+/* 174 */,
+/* 175 */,
+/* 176 */,
+/* 177 */,
+/* 178 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var Component = __webpack_require__(15)(
+  /* script */
+  __webpack_require__(180),
+  /* template */
+  __webpack_require__(179),
+  /* scopeId */
+  null,
+  /* cssModules */
+  null
+)
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 179 */
+/***/ (function(module, exports) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('section', {
+    staticClass: "page page-app-doc"
+  }, [_c('div', {
+    staticClass: "page__toolbar page__toolbar-app-doc"
+  }, _vm._l((_vm.actionList), function(item, index) {
+    return (item.visiable) ? _c('ui-icon-button', {
+      key: item.id,
+      attrs: {
+        "type": item.type,
+        "size": item.size,
+        "color": item.color
+      },
+      on: {
+        "click": function($event) {
+          _vm.onToolBtnClick(index, item)
+        }
+      }
+    }, [_c('span', {
+      class: item.icon,
+      attrs: {
+        "title": _vm.$t(item.tooltip)
+      }
+    })]) : _vm._e()
+  })), _vm._v(" "), _c('div', {
+    staticClass: "page__examples page__examples-app-doc"
+  })])
+},staticRenderFns: []}
+
+/***/ }),
+/* 180 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _dovemaxsdk = __webpack_require__(17);
+
+var _keenUi = __webpack_require__(16);
+
+var _transfer = __webpack_require__(49);
+
+exports.default = {
+  computed: {
+    actionList: function actionList() {
+      var that = this;
+      return [{ id: 'action-setting', visiable: true, color: "black", icon: "fa fa-file-image-o fa-lg fa-fw", size: "small", type: "secondary", tooltip: "pages.welcome.toolbar.setting" }, { id: 'action-online-doc', visiable: true, color: "black", icon: "fa fa-folder-open-o fa-lg fa-fw", size: "small", type: "secondary", tooltip: "pages.welcome.toolbar.onlineDoc" }];
+    },
+    pageList: function pageList() {
+      var that = this;
+      return [];
+    }
+  },
+  components: {
+    UiIcon: _keenUi.UiIcon,
+    UiTabs: _keenUi.UiTabs,
+    UiTab: _keenUi.UiTab,
+    UiButton: _keenUi.UiButton,
+    UiIconButton: _keenUi.UiIconButton,
+    UiAlert: _keenUi.UiAlert,
+    UiToolbar: _keenUi.UiToolbar,
+    UiConfirm: _keenUi.UiConfirm,
+    UiProgressLinear: _keenUi.UiProgressLinear
+  }
+};
 
 /***/ })
 /******/ ]);

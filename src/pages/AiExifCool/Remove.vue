@@ -109,7 +109,7 @@ import {UiIcon, UiTabs, UiTab, UiConfirm, UiButton, UiIconButton, UiAlert, UiToo
 import {Transfer} from '../../bridge/transfer'
 
 
-var baseID = "__page__repair__action__"
+var baseID = "__page__remove__action__"
 var baseIDIndex = -1
 
 let taskList = [];

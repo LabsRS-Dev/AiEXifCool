@@ -31,7 +31,12 @@
     }
   },
   "pages": {
-    "welcome":{},
+    "welcome":{
+      "toolbar":{
+        "setting":"设置",
+        "onlineDoc":"在线文档"
+      }
+    },
     "repair":{
       "toolbar":{
         "import":"导入损坏的图像文件",

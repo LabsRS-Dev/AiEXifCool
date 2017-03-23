@@ -2,8 +2,9 @@
 import AboutPage from './pages/About.vue'
 import IconsRef from './data/icon.js'
 import RemovePage from './pages/AiExifCool/Remove.vue'
-// /AiExifCool
 import RepairPage from './pages/AiExifCool/Repair.vue'
+// /AiExifCool
+import WelcomePage from './pages/AiExifCool/Welcome.vue'
 import sysConfigRef from './data/sys-config.js'
 
 // Config SystemConfig
@@ -19,6 +20,18 @@ const menu = [{
   enableExpand: false,
   visible: true,
   menu: [{
+    path: '',
+    redirect: rootPath + '/welcome',
+    show: false
+  }, {
+    path: rootPath + '/welcome',
+    show: true,
+    component: WelcomePage,
+    title: 'routes.common.menu.welcome.title',
+    tip: 'routes.common.menu.welcome.tip',
+    icon: icons.adjust,
+    sourceUrl: ''
+  }, {
     path: rootPath + '/adjust',
     show: true,
     component: AboutPage,
@@ -36,7 +49,6 @@ const menu = [{
     sourceUrl: ''
   }, {
     path: rootPath + '/repair',
-    // path: '',
     show: true,
     component: RepairPage,
     title: 'routes.common.menu.repair.title',
@@ -128,6 +140,7 @@ const routes = menu.reduce((paths, section) => {
   const sectionPaths = section.menu.map(menuItem => {
     return {
       path: menuItem.path,
+      redirect: menuItem.redirect || '',
       component: menuItem.component,
       meta: {
         section: section.title,
