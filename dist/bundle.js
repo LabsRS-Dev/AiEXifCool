@@ -28807,7 +28807,10 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       value: (_vm.taskList.length <= 0),
       expression: "taskList.length <= 0"
     }],
-    staticClass: "page__examples-app-doc__welcome"
+    staticClass: "page__examples-app-doc__welcome",
+    attrs: {
+      "id": _vm.welcomeContentID
+    }
   }), _vm._v(" "), _vm._l((_vm.taskList), function(item, index) {
     return _c('ui-alert', {
       directives: [{
@@ -29504,6 +29507,7 @@ exports.default = {
     data: function data() {
         console.log("Repair.vue call data()");
         return {
+            welcomeContentID: 'page__repair__welcome__id',
             taskList: taskList,
             taskID2taskObj: {},
             isFixworking: false,
@@ -29533,6 +29537,9 @@ exports.default = {
             that.onTransferIsNoraml();
         });
     },
+    created: function created() {
+        this.drawWelcome();
+    },
     beforeDestroy: function beforeDestroy() {
         clearInterval(this.progressInterval);
     },
@@ -29556,6 +29563,9 @@ exports.default = {
             that.isFixworking = false;
 
             that.stopFix();
+        },
+        drawWelcome: function drawWelcome() {
+            var that = this;
         },
         getItemStyleClass: function getItemStyleClass(item) {
             var _styleClass = [''];

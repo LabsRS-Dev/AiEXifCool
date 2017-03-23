@@ -28,7 +28,9 @@
         </div>
 
         <div class="page__examples page__examples-app-doc">
-            <div class="page__examples-app-doc__welcome"
+            <div 
+                :id="welcomeContentID"
+                class="page__examples-app-doc__welcome"
                 v-show="taskList.length <= 0"
                 >
             </div>
@@ -109,6 +111,7 @@
 
 <script>
 import { BS, Util, _ } from 'dovemaxsdk'
+// import { SVG } from 'svg.js'
 import {UiIcon, UiTabs, UiTab, UiConfirm, UiButton, UiIconButton, UiAlert, UiToolbar, UiProgressLinear} from 'keen-ui';
 import {Transfer} from '../../bridge/transfer'
 
@@ -152,6 +155,7 @@ export default {
     data() {
         console.log("Repair.vue call data()")
         return {
+            welcomeContentID:'page__repair__welcome__id',
             taskList: taskList,
             taskID2taskObj: {},
             isFixworking: false,
@@ -182,6 +186,9 @@ export default {
         Transfer.frontAgent.registerOnFinishBuildChannel(function (){
             that.onTransferIsNoraml()
         })
+    },
+    created(){
+        this.drawWelcome()
     },
     beforeDestroy() {
         clearInterval(this.progressInterval);
@@ -214,6 +221,15 @@ export default {
             // All task list run working
             that.stopFix()
 
+        },
+
+        // ------------------------- Welcome content
+        drawWelcome(){
+            var that = this
+            // if (!SVG.supported) return
+
+            // var draw = SVG(that.welcomeContentID).size(300, 300)
+            // var rect = draw.rect(100, 100).attr({ fill: '#f06' })
         },
 
         // ------------------------- Style

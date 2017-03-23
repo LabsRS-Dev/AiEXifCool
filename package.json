@@ -41,7 +41,7 @@
   "homepage": "https://github.com/LabsRS-Dev/AiEXifCool",
   "dependencies": {
     "dove.max.sdk": "^1.0.0",
-    "svg.js": "^2.5.0",
+    "snapsvg": "^0.5.1",
     "vue": "^2.2.4",
     "vue-i18n": "^6.0.0-alpha.6",
     "vue-router": "^2.3.0",
