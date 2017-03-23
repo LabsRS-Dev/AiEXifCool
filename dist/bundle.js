@@ -28625,8 +28625,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     directives: [{
       name: "show",
       rawName: "v-show",
-      value: (_vm.taskList.length > 0),
-      expression: "taskList.length > 0"
+      value: (_vm.taskList.length <= 0),
+      expression: "taskList.length <= 0"
     }],
     staticClass: "page__examples-app-doc__welcome"
   }), _vm._v(" "), _vm._l((_vm.taskList), function(item, index) {
@@ -28804,8 +28804,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     directives: [{
       name: "show",
       rawName: "v-show",
-      value: (_vm.taskList.length > 0),
-      expression: "taskList.length > 0"
+      value: (_vm.taskList.length <= 0),
+      expression: "taskList.length <= 0"
     }],
     staticClass: "page__examples-app-doc__welcome"
   }), _vm._v(" "), _vm._l((_vm.taskList), function(item, index) {
@@ -41327,8 +41327,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     directives: [{
       name: "show",
       rawName: "v-show",
-      value: (_vm.newsList.length > 0),
-      expression: "newsList.length > 0"
+      value: (_vm.newsList.length <= 0),
+      expression: "newsList.length <= 0"
     }],
     staticClass: "page__examples-app-doc__welcome"
   }), _vm._v(" "), _vm._l((_vm.newsList), function(item, index) {

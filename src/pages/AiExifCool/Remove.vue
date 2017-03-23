@@ -29,7 +29,7 @@
 
         <div class="page__examples page__examples-app-doc">
             <div class="page__examples-app-doc__welcome"
-                v-show="taskList.length > 0"
+                v-show="taskList.length <= 0"
                 >
             </div>
             <ui-alert 
