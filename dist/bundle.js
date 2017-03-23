@@ -26666,7 +26666,7 @@ var menu = [{
     component: _About2.default,
     title: 'routes.common.menu.adjust.title',
     tip: 'routes.common.menu.adjust.tip',
-    tipAsSubTitle: true,
+    tipAsSubTitle: false,
     icon: icons.adjust,
     sourceUrl: ''
   }, {
@@ -28621,7 +28621,15 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_vm._v("\n            " + _vm._s(_vm.confirmDialog.content) + "\n        ")])], 2), _vm._v(" "), _c('div', {
     staticClass: "page__examples page__examples-app-doc"
-  }, _vm._l((_vm.taskList), function(item, index) {
+  }, [_c('div', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.taskList.length > 0),
+      expression: "taskList.length > 0"
+    }],
+    staticClass: "page__examples-app-doc__welcome"
+  }), _vm._v(" "), _vm._l((_vm.taskList), function(item, index) {
     return _c('ui-alert', {
       directives: [{
         name: "show",
@@ -28731,7 +28739,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         "title": _vm.$t('pages.remove.task-item.progress') + item.progress
       }
     })], 1)])])
-  })), _vm._v(" "), (_vm.taskList.length >= 0) ? _c('div', {
+  })], 2), _vm._v(" "), (_vm.taskList.length >= 0) ? _c('div', {
     class: ['page__footbar page__footbar-app-doc', {
       transferNormal: _vm.transferIsNormal
     }, {
@@ -28792,7 +28800,15 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_vm._v("\n            " + _vm._s(_vm.confirmDialog.content) + "\n        ")])], 2), _vm._v(" "), _c('div', {
     staticClass: "page__examples page__examples-app-doc"
-  }, _vm._l((_vm.taskList), function(item, index) {
+  }, [_c('div', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.taskList.length > 0),
+      expression: "taskList.length > 0"
+    }],
+    staticClass: "page__examples-app-doc__welcome"
+  }), _vm._v(" "), _vm._l((_vm.taskList), function(item, index) {
     return _c('ui-alert', {
       directives: [{
         name: "show",
@@ -28902,7 +28918,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         "title": _vm.$t('pages.repair.task-item.progress') + item.progress
       }
     })], 1)])])
-  })), _vm._v(" "), (_vm.taskList.length >= 0) ? _c('div', {
+  })], 2), _vm._v(" "), (_vm.taskList.length >= 0) ? _c('div', {
     class: ['page__footbar page__footbar-app-doc', {
       transferNormal: _vm.transferIsNormal
     }, {
@@ -41307,7 +41323,15 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "page__examples page__examples-app-doc"
   }, [_c('div', {
     staticClass: "page__app__welcome"
-  }, _vm._l((_vm.newsList), function(item, index) {
+  }, [_c('div', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.newsList.length > 0),
+      expression: "newsList.length > 0"
+    }],
+    staticClass: "page__examples-app-doc__welcome"
+  }), _vm._v(" "), _vm._l((_vm.newsList), function(item, index) {
     return _c('ui-alert', {
       directives: [{
         name: "show",
@@ -41363,7 +41387,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }, [_vm._v(_vm._s(item.description))])]), _vm._v(" "), _c('div', {
       staticClass: "ui-toolbar__bottom"
     })])])
-  }))])])
+  })], 2)])])
 },staticRenderFns: []}
 
 /***/ }),

@@ -36,7 +36,7 @@ const menu = [{
     component: AboutPage,
     title: 'routes.common.menu.adjust.title',
     tip: 'routes.common.menu.adjust.tip',
-    tipAsSubTitle: true,
+    tipAsSubTitle: false,
     icon: icons.adjust,
     sourceUrl: ''
   }, {

@@ -15,6 +15,10 @@
     </div>
     <div class="page__examples page__examples-app-doc">
       <div class="page__app__welcome">
+        <div class="page__examples-app-doc__welcome"
+            v-show="newsList.length > 0"
+            >
+        </div>
         <ui-alert 
             :dismissible="false"
             :class="getItemStyleClass(item)"

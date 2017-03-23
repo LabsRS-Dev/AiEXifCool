@@ -28,6 +28,10 @@
         </div>
 
         <div class="page__examples page__examples-app-doc">
+            <div class="page__examples-app-doc__welcome"
+                v-show="taskList.length > 0"
+                >
+            </div>
             <ui-alert 
                 :class="getItemStyleClass(item)"
                 @dismiss="onRemoveTaskItem(item, index)" removeIcon 
