@@ -26631,20 +26631,16 @@ var _Repair = __webpack_require__(76);
 
 var _Repair2 = _interopRequireDefault(_Repair);
 
+var _sysConfig = __webpack_require__(89);
+
 var _Welcome = __webpack_require__(178);
 
 var _Welcome2 = _interopRequireDefault(_Welcome);
 
-var _sysConfig = __webpack_require__(89);
-
-var _sysConfig2 = _interopRequireDefault(_sysConfig);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var icons = _icon2.default.iconSet;
-var sysConfig = _sysConfig2.default.sysConfig;
-
-var rootPath = '/' + sysConfig.appName;
+var rootPath = '/' + _sysConfig.SysConfig.appName;
 
 var menu = [{
   title: 'routes.common.title',
@@ -26661,6 +26657,7 @@ var menu = [{
     component: _Welcome2.default,
     title: 'routes.common.menu.welcome.title',
     tip: 'routes.common.menu.welcome.tip',
+    tipAsSubTitle: false,
     icon: icons.adjust,
     sourceUrl: ''
   }, {
@@ -26669,6 +26666,7 @@ var menu = [{
     component: _About2.default,
     title: 'routes.common.menu.adjust.title',
     tip: 'routes.common.menu.adjust.tip',
+    tipAsSubTitle: true,
     icon: icons.adjust,
     sourceUrl: ''
   }, {
@@ -26677,6 +26675,7 @@ var menu = [{
     component: _Remove2.default,
     title: 'routes.common.menu.remove.title',
     tip: 'routes.common.menu.remove.tip',
+    tipAsSubTitle: false,
     icon: icons.remove,
     sourceUrl: ''
   }, {
@@ -26685,6 +26684,7 @@ var menu = [{
     component: _Repair2.default,
     title: 'routes.common.menu.repair.title',
     tip: 'routes.common.menu.repair.tip',
+    tipAsSubTitle: false,
     icon: icons.repair,
     sourceUrl: ''
   }, {
@@ -26773,6 +26773,7 @@ var routes = menu.reduce(function (paths, section) {
         section: section.title,
         title: menuItem.title,
         tip: menuItem.tip,
+        tipAsSubTitle: menuItem.tipAsSubTitle || false,
         icon: menuItem.icon,
         show: menuItem.show,
         sourceUrl: menuItem.sourceUrl
@@ -26784,7 +26785,7 @@ var routes = menu.reduce(function (paths, section) {
 }, []);
 
 exports.default = {
-  sysConfig: sysConfig,
+  SysConfig: _sysConfig.SysConfig,
   icons: icons,
   menu: menu,
   routes: routes
@@ -28260,6 +28261,22 @@ var _keys = __webpack_require__(51);
 
 var _keys2 = _interopRequireDefault(_keys);
 
+__webpack_require__(90);
+
+var _dovemaxsdk = __webpack_require__(17);
+
+var _App = __webpack_require__(73);
+
+var _App2 = _interopRequireDefault(_App);
+
+var _keenUi = __webpack_require__(16);
+
+var _keenUi2 = _interopRequireDefault(_keenUi);
+
+var _routes = __webpack_require__(50);
+
+var _routes2 = _interopRequireDefault(_routes);
+
 var _vue = __webpack_require__(169);
 
 var _vue2 = _interopRequireDefault(_vue);
@@ -28272,25 +28289,9 @@ var _vueRouter = __webpack_require__(168);
 
 var _vueRouter2 = _interopRequireDefault(_vueRouter);
 
-var _keenUi = __webpack_require__(16);
-
-var _keenUi2 = _interopRequireDefault(_keenUi);
-
 var _vuex = __webpack_require__(170);
 
 var _vuex2 = _interopRequireDefault(_vuex);
-
-var _dovemaxsdk = __webpack_require__(17);
-
-__webpack_require__(90);
-
-var _App = __webpack_require__(73);
-
-var _App2 = _interopRequireDefault(_App);
-
-var _routes = __webpack_require__(50);
-
-var _routes2 = _interopRequireDefault(_routes);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -28382,7 +28383,7 @@ function startApp(i18nObj) {
     }
   });
 
-  document.title = _routes2.default.sysConfig.appName;
+  document.title = _routes2.default.SysConfig.appName;
   app.$mount('#app');
 }
 
@@ -28973,9 +28974,15 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }), _vm._v(" "), _c('h1', {
     staticClass: "dove-docs-content__toolbar-title"
-  }, [_vm._v(_vm._s(_vm.$t(_vm.$route.meta.title)))]), _vm._v(" "), _c('h3', {
+  }, [_vm._v(_vm._s(_vm.$t(_vm.$route.meta.title)))]), _vm._v(" "), _c('p', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.$route.meta.tipAsSubTitle),
+      expression: "$route.meta.tipAsSubTitle"
+    }],
     staticClass: "dove-docs-content__toolbar-title__sub"
-  }, [_vm._v(_vm._s(_vm.$t(_vm.$route.meta.tip)))]), _vm._v(" "), (_vm.$route.meta.sourceUrl) ? _c('a', {
+  }, [_vm._v(" >> " + _vm._s(_vm.$t(_vm.$route.meta.tip)))]), _vm._v(" "), (_vm.$route.meta.sourceUrl) ? _c('a', {
     staticClass: "dove-docs-content__toolbar-action",
     attrs: {
       "rel": "noopener",
@@ -29834,9 +29841,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 exports.default = {
     data: function data() {
         return {
-            appName: _routes2.default.sysConfig.appName,
-            version: _routes2.default.sysConfig.version,
-            homepage: _routes2.default.sysConfig.homepage,
+            appName: _routes2.default.SysConfig.appName,
+            version: _routes2.default.SysConfig.version,
+            homepage: _routes2.default.SysConfig.homepage,
 
             menu: _routes2.default.menu
         };
@@ -29885,13 +29892,14 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var sysConfig = {
+var SysConfig = {
   appName: 'AiEXifCool',
   version: '1.0.0',
-  homepage: 'https://github.com/LabsRS-Dev/AiEXifCool'
+  homepage: 'https://github.com/LabsRS-Dev/AiEXifCool',
+  docPage: 'https://github.com/LabsRS-Dev/AiEXifCool'
 };
 
-exports.default = { sysConfig: sysConfig };
+exports.SysConfig = SysConfig;
 
 /***/ }),
 /* 90 */
@@ -41297,7 +41305,65 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     })]) : _vm._e()
   })), _vm._v(" "), _c('div', {
     staticClass: "page__examples page__examples-app-doc"
-  })])
+  }, [_c('div', {
+    staticClass: "page__app__welcome"
+  }, _vm._l((_vm.newsList), function(item, index) {
+    return _c('ui-alert', {
+      directives: [{
+        name: "show",
+        rawName: "v-show",
+        value: (item.style.show),
+        expression: "item.style.show"
+      }],
+      key: item,
+      class: _vm.getItemStyleClass(item),
+      attrs: {
+        "dismissible": false,
+        "type": item.style.type
+      }
+    }, [_c('div', {
+      staticClass: "page__examples-app-doc__item"
+    }, [_c('div', {
+      staticClass: "ui-toolbar__top"
+    }, [_c('div', {
+      staticClass: "ui-toolbar__top__metainfo"
+    }, [_c('img', {
+      attrs: {
+        "src": item.thumb,
+        "width": "48",
+        "height": "48",
+        "viewBox": "0 0 48 48"
+      }
+    }), _vm._v(" "), _c('strong', {
+      staticClass: "ui-toolbar__top__news__title"
+    }, [_vm._v(" \n                          " + _vm._s(item.title) + " \n                          "), _c('sup', {
+      staticClass: "ui-toolbar__top__news__date"
+    }, [_vm._v("\n                          (" + _vm._s(item.date) + ")\n                          ")])])]), _vm._v(" "), _c('div', {
+      staticClass: "ui-toolbar__top__metainfo__toolbar"
+    }, [_c('ui-icon-button', {
+      attrs: {
+        "type": "secondary",
+        "color": "black",
+        "size": "small"
+      },
+      on: {
+        "click": function($event) {
+          _vm.onOpenParentDir(item.link)
+        }
+      }
+    }, [_c('span', {
+      staticClass: "fa fa-link fa-lg fa-fw",
+      attrs: {
+        "title": _vm.$t('pages.remove.task-item.open-parent-dir')
+      }
+    })])], 1)]), _vm._v(" "), _c('div', {
+      staticClass: "ui-toolbar__body"
+    }, [_c('p', {
+      staticClass: "ui-toolbar__body__news__description"
+    }, [_vm._v(_vm._s(item.description))])]), _vm._v(" "), _c('div', {
+      staticClass: "ui-toolbar__bottom"
+    })])])
+  }))])])
 },staticRenderFns: []}
 
 /***/ }),
@@ -41311,21 +41377,96 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _classCallCheck2 = __webpack_require__(52);
+
+var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
 var _dovemaxsdk = __webpack_require__(17);
 
 var _keenUi = __webpack_require__(16);
 
 var _transfer = __webpack_require__(49);
 
+var _sysConfig = __webpack_require__(89);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var News = function News(thumb, title, date, description, link) {
+  (0, _classCallCheck3.default)(this, News);
+
+  this.id = _dovemaxsdk._.uniqueId('welcome-news-id-');
+  this.thumb = thumb;
+  this.title = title;
+  this.date = date;
+  this.description = description;
+  this.link = link;
+  this.style = {
+    show: true,
+    type: "success"
+  };
+};
+
 exports.default = {
+  data: function data() {
+    return {
+      newsList: []
+    };
+  },
+  beforeCreate: function beforeCreate() {},
+  mounted: function mounted() {
+    this.testNewList();
+  },
+
   computed: {
     actionList: function actionList() {
       var that = this;
-      return [{ id: 'action-setting', visiable: true, color: "black", icon: "fa fa-file-image-o fa-lg fa-fw", size: "small", type: "secondary", tooltip: "pages.welcome.toolbar.setting" }, { id: 'action-online-doc', visiable: true, color: "black", icon: "fa fa-folder-open-o fa-lg fa-fw", size: "small", type: "secondary", tooltip: "pages.welcome.toolbar.onlineDoc" }];
+      return [{ id: 'action-setting', visiable: true, color: "black", icon: "fa fa-cog fa-lg fa-fw", size: "small", type: "secondary", tooltip: "pages.welcome.toolbar.setting" }, { id: 'action-online-doc', visiable: true, color: "black", icon: "fa fa-book fa-lg fa-fw", size: "small", type: "secondary", tooltip: "pages.welcome.toolbar.onlineDoc" }, { id: 'action-online-room', visiable: true, color: "black", icon: "fa fa-users fa-lg fa-fw", size: "small", type: "secondary", tooltip: "pages.welcome.toolbar.onlineRoom" }, { id: 'action-update-news', visiable: true, color: "black", icon: "fa fa-rss fa-lg fa-fw", size: "small", type: "secondary", tooltip: "pages.welcome.toolbar.updateNews" }];
     },
     pageList: function pageList() {
       var that = this;
-      return [];
+      var prefix_i18n = 'pages.welcome.page.';
+      return [{ id: 'action-exif-adjust', visiable: true, color: "accent", icon: "fa fa-cog fa-lg fa-fw", size: "normal", type: "primary", title: prefix_i18n + "adjust.title", tooltip: prefix_i18n + "adjust.tip" }, { id: 'action-exif-remove', visiable: true, color: "default", icon: "fa fa-book fa-lg fa-fw", size: "large", type: "primary", title: prefix_i18n + "remove.title", tooltip: prefix_i18n + "remove.tip" }];
+    }
+  },
+  methods: {
+    testNewList: function testNewList() {
+      var that = this;
+      var list = [];
+
+      for (var i = 0; i < 20; ++i) {
+        list.push({
+          title: 'AiExifCool Ver 1.0.0 publish...',
+          date: '2017年3月23日',
+          description: '\n            AiExifCool \u65B0\u4EA7\u54C1\u53D1\u5E03\uFF0C\u6D89\u53CA\u5982\u4E0B\u529F\u80FD\uFF1A\n            1. \u7528\u6237\u754C\u9762\u6539\u8FDB\n            2. \u7528\u6237\u4EA7\u54C1\u529F\u80FD\u66F4\u65B0\n            3. \u4FEE\u590D\u4E00\u4E9B\u5F71\u54CD\u5904\u7406\u901F\u5EA6\u7684\u95EE\u9898\n            ',
+          link: 'https://www.baidu.com'
+        });
+      }
+
+      _dovemaxsdk._.each(list, function (ele) {
+        var newsObj = new News("images/picture.svg", ele.title, ele.date, ele.description, ele.link);
+        that.newsList.push(newsObj);
+      });
+    },
+    getItemStyleClass: function getItemStyleClass(item) {
+      var _styleClass = [''];
+      return _styleClass;
+    },
+    onToolBtnClick: function onToolBtnClick(index, item) {
+      console.log('onToolBtnClick', index);
+
+      if (item.id === 'action-setting') {
+        this.onBtnSettingClick();
+      } else if (item.id === 'action-online-doc') {
+        this.onBtnOnlineDocClick();
+      }
+    },
+    onBtnSettingClick: function onBtnSettingClick() {},
+    onBtnOnlineDocClick: function onBtnOnlineDocClick() {
+      console.log(_sysConfig.SysConfig.docPage);
+      _dovemaxsdk.BS.b$.App.open(_sysConfig.SysConfig.docPage);
+    },
+    onPageBtnClick: function onPageBtnClick(index, item) {
+      console.log('onPageBtnClick', index);
     }
   },
   components: {

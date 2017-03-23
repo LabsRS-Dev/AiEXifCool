@@ -5,15 +5,15 @@
       "menu":{
         "welcome":{
           "title": "欢迎使用",
-          "tip": ""
+          "tip": "在线文档，在线交流，最新新闻"
         },
         "repair":{
           "title": "修复",
           "tip": "修复错误的图像文件, 这些文件的错误大部分原因是因为老版本Nikon软件传输过程中造成的。"
         },
         "adjust":{
-          "title": "调整",
-          "tip": "调整图像的EXIF信息"
+          "title": "修改",
+          "tip": "修改图像的EXIF信息"
         },
         "remove":{
           "title": "移除",
@@ -34,7 +34,19 @@
     "welcome":{
       "toolbar":{
         "setting":"设置",
-        "onlineDoc":"在线文档"
+        "onlineDoc":"在线文档",
+        "onlineRoom": "在线交流",
+        "updateNews": "获取最新新闻"
+      },
+      "page":{
+        "adjust":{
+          "title":"修改图像的Exif信息",
+          "tip": "修改图像的EXIF信息"
+        },
+        "remove":{
+          "title":"删除图像的Exif信息",
+          "tip": "删除图像的Exif信息"
+        }
       }
     },
     "repair":{

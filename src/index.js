@@ -1,17 +1,17 @@
+// /----------- Extern
+import './extern.js'
+
+import { BS, Util, _ } from 'dovemaxsdk'
+
+// /----------- Components
+import App from './App.vue'
+import KeenUI from 'keen-ui'
+import Routes from './routes.js'
 // /----------- Base
 import Vue from 'vue'
 import VueI18n from 'vue-i18n'
 import VueRouter from 'vue-router'
-import KeenUI from 'keen-ui'
 import Vuex from 'vuex'
-import { BS, Util, _ } from 'dovemaxsdk'
-
-// /----------- Extern
-import './extern.js'
-
-// /----------- Components
-import App from './App.vue'
-import Routes from './routes.js'
 
 // Allow inspection, even in production mode
 Vue.config.devtools = true
@@ -111,7 +111,7 @@ function startApp (i18nObj) {
     }
   })
 
-  document.title = Routes.sysConfig.appName
+  document.title = Routes.SysConfig.appName
   app.$mount('#app')
 }
 

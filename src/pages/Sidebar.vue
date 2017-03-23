@@ -79,9 +79,9 @@ import Routes from './../routes.js'
 export default {
     data() {
         return {
-            appName:  Routes.sysConfig.appName,
-            version:  Routes.sysConfig.version,
-            homepage: Routes.sysConfig.homepage,
+            appName:  Routes.SysConfig.appName,
+            version:  Routes.SysConfig.version,
+            homepage: Routes.SysConfig.homepage,
 
             menu: Routes.menu
         }

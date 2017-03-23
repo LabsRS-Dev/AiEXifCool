@@ -3,15 +3,13 @@ import AboutPage from './pages/About.vue'
 import IconsRef from './data/icon.js'
 import RemovePage from './pages/AiExifCool/Remove.vue'
 import RepairPage from './pages/AiExifCool/Repair.vue'
+import { SysConfig } from './data/sys-config.js'
 // /AiExifCool
 import WelcomePage from './pages/AiExifCool/Welcome.vue'
-import sysConfigRef from './data/sys-config.js'
 
 // Config SystemConfig
 const icons = IconsRef.iconSet
-const sysConfig = sysConfigRef.sysConfig
-
-const rootPath = '/' + sysConfig.appName
+const rootPath = '/' + SysConfig.appName
 
 // Config menu
 const menu = [{
@@ -29,6 +27,7 @@ const menu = [{
     component: WelcomePage,
     title: 'routes.common.menu.welcome.title',
     tip: 'routes.common.menu.welcome.tip',
+    tipAsSubTitle: false,
     icon: icons.adjust,
     sourceUrl: ''
   }, {
@@ -37,6 +36,7 @@ const menu = [{
     component: AboutPage,
     title: 'routes.common.menu.adjust.title',
     tip: 'routes.common.menu.adjust.tip',
+    tipAsSubTitle: true,
     icon: icons.adjust,
     sourceUrl: ''
   }, {
@@ -45,6 +45,7 @@ const menu = [{
     component: RemovePage,
     title: 'routes.common.menu.remove.title',
     tip: 'routes.common.menu.remove.tip',
+    tipAsSubTitle: false,
     icon: icons.remove,
     sourceUrl: ''
   }, {
@@ -53,6 +54,7 @@ const menu = [{
     component: RepairPage,
     title: 'routes.common.menu.repair.title',
     tip: 'routes.common.menu.repair.tip',
+    tipAsSubTitle: false,
     icon: icons.repair,
     sourceUrl: ''
   }, {
@@ -146,6 +148,7 @@ const routes = menu.reduce((paths, section) => {
         section: section.title,
         title: menuItem.title,
         tip: menuItem.tip,
+        tipAsSubTitle: menuItem.tipAsSubTitle || false,
         icon: menuItem.icon,
         show: menuItem.show,
         sourceUrl: menuItem.sourceUrl
@@ -158,7 +161,7 @@ const routes = menu.reduce((paths, section) => {
 
 // export
 export default {
-  sysConfig,
+  SysConfig,
   icons,
   menu,
   routes

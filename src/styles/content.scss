@@ -45,10 +45,11 @@
 }
 
 .dove-docs-content__toolbar-title__sub {
-    margin-top: rem-calc(4px);
-    margin-left: rem-calc(8px);
+    margin-left: rem-calc(16px);
+    margin-bottom: rem-calc(8px);
+    padding: rem-calc(8px);
     font-weight: normal;
-    font-size: 0.8rem;
+    font-size: rem-calc(10px);
     user-select: none;
 }
 

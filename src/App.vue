@@ -28,7 +28,9 @@
                     ></ui-icon-button>
 
                     <h1 class="dove-docs-content__toolbar-title">{{ $t($route.meta.title) }}</h1>
-                    <h3 class="dove-docs-content__toolbar-title__sub">{{ $t($route.meta.tip) }}</h3>
+                    <p class="dove-docs-content__toolbar-title__sub"
+                        v-show="$route.meta.tipAsSubTitle"
+                    > >> {{ $t($route.meta.tip) }}</p>
 
                     <a
                         class="dove-docs-content__toolbar-action"
