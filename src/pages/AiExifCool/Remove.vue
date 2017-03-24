@@ -199,7 +199,7 @@ export default {
                 {id:'action-import', visiable:true, color:"black", icon:"fa fa-file-image-o fa-lg fa-fw", size:"small", type:"secondary", tooltip:"pages.remove.toolbar.import"},
                 {id:'action-importDir', visiable:true, color:"black", icon:"fa fa-folder-open-o fa-lg fa-fw", size:"small", type:"secondary", tooltip:"pages.remove.toolbar.importDir"},
                 {id:'action-remove', visiable:true, color:"black", icon:"fa fa-trash-o fa-lg fa-fw", size:"small", type:"secondary", tooltip:"pages.remove.toolbar.remove"},
-                {id:'action-do', visiable:!that.isRemoveWorking, color:"red", icon:"fa fa-eraser fa-lg fa-fw", size:"small", type:"secondary",  tooltip:"pages.remove.toolbar.fix"},
+                {id:'action-do', visiable:!that.isRemoveWorking, color:"green", icon:"fa fa-eraser fa-lg fa-fw", size:"small", type:"secondary",  tooltip:"pages.remove.toolbar.fix"},
                 {id:'action-stop', visiable:that.isRemoveWorking, color:"red", icon:"fa fa-hand-paper-o fa-lg fa-fw", size:"small", type:"secondary",  tooltip:"pages.remove.toolbar.chancel"}
            ]
         }

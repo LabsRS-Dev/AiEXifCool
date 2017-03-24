@@ -29229,7 +29229,7 @@ exports.default = {
     computed: {
         actionList: function actionList() {
             var that = this;
-            return [{ id: 'action-import', visiable: true, color: "black", icon: "fa fa-file-image-o fa-lg fa-fw", size: "small", type: "secondary", tooltip: "pages.remove.toolbar.import" }, { id: 'action-importDir', visiable: true, color: "black", icon: "fa fa-folder-open-o fa-lg fa-fw", size: "small", type: "secondary", tooltip: "pages.remove.toolbar.importDir" }, { id: 'action-remove', visiable: true, color: "black", icon: "fa fa-trash-o fa-lg fa-fw", size: "small", type: "secondary", tooltip: "pages.remove.toolbar.remove" }, { id: 'action-do', visiable: !that.isRemoveWorking, color: "red", icon: "fa fa-eraser fa-lg fa-fw", size: "small", type: "secondary", tooltip: "pages.remove.toolbar.fix" }, { id: 'action-stop', visiable: that.isRemoveWorking, color: "red", icon: "fa fa-hand-paper-o fa-lg fa-fw", size: "small", type: "secondary", tooltip: "pages.remove.toolbar.chancel" }];
+            return [{ id: 'action-import', visiable: true, color: "black", icon: "fa fa-file-image-o fa-lg fa-fw", size: "small", type: "secondary", tooltip: "pages.remove.toolbar.import" }, { id: 'action-importDir', visiable: true, color: "black", icon: "fa fa-folder-open-o fa-lg fa-fw", size: "small", type: "secondary", tooltip: "pages.remove.toolbar.importDir" }, { id: 'action-remove', visiable: true, color: "black", icon: "fa fa-trash-o fa-lg fa-fw", size: "small", type: "secondary", tooltip: "pages.remove.toolbar.remove" }, { id: 'action-do', visiable: !that.isRemoveWorking, color: "green", icon: "fa fa-eraser fa-lg fa-fw", size: "small", type: "secondary", tooltip: "pages.remove.toolbar.fix" }, { id: 'action-stop', visiable: that.isRemoveWorking, color: "red", icon: "fa fa-hand-paper-o fa-lg fa-fw", size: "small", type: "secondary", tooltip: "pages.remove.toolbar.chancel" }];
         }
     },
 
@@ -41751,7 +41751,23 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }, [_vm._v("\n                            (" + _vm._s(item.size) + ")\n                            ")])])]), _vm._v(" "), _c('div', {
       staticClass: "ui-toolbar__top__metainfo__toolbar"
-    }, [(item.stateInfo.state > 0) ? _c('ui-icon-button', {
+    }, [_c('ui-icon-button', {
+      attrs: {
+        "type": "secondary",
+        "color": "black",
+        "size": "small"
+      },
+      on: {
+        "click": function($event) {
+          _vm.onSettingPlan(item)
+        }
+      }
+    }, [_c('span', {
+      staticClass: "fa fa-pencil fa-lg fa-fw",
+      attrs: {
+        "title": _vm.$t('pages.modify.task-item.setting-plan')
+      }
+    })]), _vm._v(" "), (item.stateInfo.state > 0) ? _c('ui-icon-button', {
       attrs: {
         "type": "secondary",
         "color": "white",
@@ -41924,7 +41940,7 @@ exports.default = {
     computed: {
         actionList: function actionList() {
             var that = this;
-            return [{ id: 'action-import', visiable: true, color: "black", icon: "fa fa-file-image-o fa-lg fa-fw", size: "small", type: "secondary", tooltip: "pages.modify.toolbar.import" }, { id: 'action-importDir', visiable: true, color: "black", icon: "fa fa-folder-open-o fa-lg fa-fw", size: "small", type: "secondary", tooltip: "pages.modify.toolbar.importDir" }, { id: 'action-remove', visiable: true, color: "black", icon: "fa fa-trash-o fa-lg fa-fw", size: "small", type: "secondary", tooltip: "pages.modify.toolbar.remove" }, { id: 'action-do', visiable: !that.isModifyWorking, color: "primary", icon: "fa fa-pencil fa-lg fa-fw", size: "small", type: "secondary", tooltip: "pages.modify.toolbar.fix" }, { id: 'action-stop', visiable: that.isModifyWorking, color: "red", icon: "fa fa-hand-paper-o fa-lg fa-fw", size: "small", type: "secondary", tooltip: "pages.modify.toolbar.chancel" }, { id: 'action-choicePlan', visiable: true, color: "black", icon: "fa fa-list-ol fa-lg fa-fw", size: "small", type: "secondary", tooltip: "pages.modify.toolbar.choicePlan" }];
+            return [{ id: 'action-import', visiable: true, color: "black", icon: "fa fa-file-image-o fa-lg fa-fw", size: "small", type: "secondary", tooltip: "pages.modify.toolbar.import" }, { id: 'action-importDir', visiable: true, color: "black", icon: "fa fa-folder-open-o fa-lg fa-fw", size: "small", type: "secondary", tooltip: "pages.modify.toolbar.importDir" }, { id: 'action-remove', visiable: true, color: "black", icon: "fa fa-trash-o fa-lg fa-fw", size: "small", type: "secondary", tooltip: "pages.modify.toolbar.remove" }, { id: 'action-choicePlan', visiable: true, color: "primary", icon: "fa fa-database fa-lg fa-fw", size: "small", type: "secondary", tooltip: "pages.modify.toolbar.choicePlan" }, { id: 'action-do', visiable: !that.isModifyWorking, color: "green", icon: "fa fa-legal fa-lg fa-fw", size: "small", type: "secondary", tooltip: "pages.modify.toolbar.fix" }, { id: 'action-stop', visiable: that.isModifyWorking, color: "red", icon: "fa fa-hand-paper-o fa-lg fa-fw", size: "small", type: "secondary", tooltip: "pages.modify.toolbar.chancel" }];
         }
     },
 
@@ -42222,6 +42238,7 @@ exports.default = {
                 that.__removeTaskItem(item, index);
             }
         },
+        onSettingPlan: function onSettingPlan(item) {},
         onOpenParentDir: function onOpenParentDir(dir) {
             var that = this;
             _dovemaxsdk.BS.b$.revealInFinder(dir);

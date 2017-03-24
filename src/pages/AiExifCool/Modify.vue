@@ -53,6 +53,14 @@
                         </div>
                         <div class="ui-toolbar__top__metainfo__toolbar">
                             <ui-icon-button 
+                                @click="onSettingPlan(item)"
+                                type="secondary"
+                                color="black"
+                                size="small"
+                                >
+                                <span class="fa fa-pencil fa-lg fa-fw" :title=" $t('pages.modify.task-item.setting-plan') "></span>
+                            </ui-icon-button>
+                            <ui-icon-button 
                                 @click="onOpenParentDir(item.fixOutDir)"
                                 type="secondary"
                                 color="white"
@@ -199,9 +207,9 @@ export default {
                 {id:'action-import', visiable:true, color:"black", icon:"fa fa-file-image-o fa-lg fa-fw", size:"small", type:"secondary", tooltip:"pages.modify.toolbar.import"},
                 {id:'action-importDir', visiable:true, color:"black", icon:"fa fa-folder-open-o fa-lg fa-fw", size:"small", type:"secondary", tooltip:"pages.modify.toolbar.importDir"},
                 {id:'action-remove', visiable:true, color:"black", icon:"fa fa-trash-o fa-lg fa-fw", size:"small", type:"secondary", tooltip:"pages.modify.toolbar.remove"},
-                {id:'action-do', visiable:!that.isModifyWorking, color:"primary", icon:"fa fa-pencil fa-lg fa-fw", size:"small", type:"secondary",  tooltip:"pages.modify.toolbar.fix"},
-                {id:'action-stop', visiable:that.isModifyWorking, color:"red", icon:"fa fa-hand-paper-o fa-lg fa-fw", size:"small", type:"secondary",  tooltip:"pages.modify.toolbar.chancel"},
-                {id:'action-choicePlan', visiable:true, color:"black", icon:"fa fa-list-ol fa-lg fa-fw", size:"small", type:"secondary", tooltip:"pages.modify.toolbar.choicePlan"}
+                {id:'action-choicePlan', visiable:true, color:"primary", icon:"fa fa-database fa-lg fa-fw", size:"small", type:"secondary", tooltip:"pages.modify.toolbar.choicePlan"},
+                {id:'action-do', visiable:!that.isModifyWorking, color:"green", icon:"fa fa-legal fa-lg fa-fw", size:"small", type:"secondary",  tooltip:"pages.modify.toolbar.fix"},
+                {id:'action-stop', visiable:that.isModifyWorking, color:"red", icon:"fa fa-hand-paper-o fa-lg fa-fw", size:"small", type:"secondary",  tooltip:"pages.modify.toolbar.chancel"}
            ]
         }
     },
@@ -535,6 +543,9 @@ export default {
             }else {
                 that.__removeTaskItem(item, index)
             }
+
+        },
+        onSettingPlan(item){
 
         },
         onOpenParentDir(dir){
