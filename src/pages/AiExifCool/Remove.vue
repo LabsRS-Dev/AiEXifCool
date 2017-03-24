@@ -28,10 +28,11 @@
         </div>
 
         <div class="page__examples page__examples-app-doc">
-            <div class="page__examples-app-doc__welcome"
+            <svg 
+                :id="welcomeContentID"
+                class="page__examples-app-doc__welcome"
                 v-show="taskList.length <= 0"
-                >
-            </div>
+                />
             <ui-alert 
                 :class="getItemStyleClass(item)"
                 @dismiss="onRemoveTaskItem(item, index)" removeIcon 
@@ -152,6 +153,7 @@ export default {
     data() {
         console.log("Remove.vue call data()")
         return {
+            welcomeContentID:'page__remove__welcome__id',
             taskList: taskList,
             taskID2taskObj: {},
             isRemoveWorking: false,
@@ -182,6 +184,9 @@ export default {
         Transfer.frontAgent.registerOnFinishBuildChannel(function (){
             that.onTransferIsNoraml()
         })
+    },
+    mounted(){
+        this.drawWelcome()
     },
     beforeDestroy() {
         clearInterval(this.progressInterval);
@@ -215,6 +220,39 @@ export default {
             that.stopDo()
 
         },
+
+        // ------------------------- Welcome content
+        drawWelcome(){
+            var that = this
+            var SnapRef = Util.util.getSnapSVG$()
+            if (SnapRef) {
+                var s = SnapRef('#' + that.welcomeContentID)
+
+                // 创建一个盒子
+                var rect = s.rect('8%', '8%', '84%', '84%', 16)
+                rect.attr({
+                    fill: "none",
+                    "fill-opacity": 0.5,
+                    "stroke-linecap": "round",
+                    "stroke-linejoin": "bevel",
+                    "stroke-dasharray" : "5,5",
+                    stroke: "#adadad",
+                    strokeWidth: 1
+                })
+
+                // 创建一个文字盒子
+                var description = s.text('12%', '16%', that.$t('pages.remove.welcome.description'))
+                var step1 = s.text('15%', '26%', that.$t('pages.remove.welcome.step1'))
+                var step2 = s.text('15%', '36%', that.$t('pages.remove.welcome.step2'))
+                var step3 = s.text('15%', '46%', that.$t('pages.remove.welcome.step3'))
+
+                // 修饰一下文字
+                description.attr({
+                    "font-weight": "bold"
+                })
+
+            }
+        },        
 
         // ------------------------- Style
         getItemStyleClass(item){

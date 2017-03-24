@@ -28679,14 +28679,17 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_vm._v("\n            " + _vm._s(_vm.confirmDialog.content) + "\n        ")])], 2), _vm._v(" "), _c('div', {
     staticClass: "page__examples page__examples-app-doc"
-  }, [_c('div', {
+  }, [_c('svg', {
     directives: [{
       name: "show",
       rawName: "v-show",
       value: (_vm.taskList.length <= 0),
       expression: "taskList.length <= 0"
     }],
-    staticClass: "page__examples-app-doc__welcome"
+    staticClass: "page__examples-app-doc__welcome",
+    attrs: {
+      "id": _vm.welcomeContentID
+    }
   }), _vm._v(" "), _vm._l((_vm.taskList), function(item, index) {
     return _c('ui-alert', {
       directives: [{
@@ -29181,6 +29184,7 @@ exports.default = {
     data: function data() {
         console.log("Remove.vue call data()");
         return {
+            welcomeContentID: 'page__remove__welcome__id',
             taskList: taskList,
             taskID2taskObj: {},
             isRemoveWorking: false,
@@ -29210,6 +29214,9 @@ exports.default = {
             that.onTransferIsNoraml();
         });
     },
+    mounted: function mounted() {
+        this.drawWelcome();
+    },
     beforeDestroy: function beforeDestroy() {
         clearInterval(this.progressInterval);
     },
@@ -29233,6 +29240,33 @@ exports.default = {
             that.isRemoveWorking = false;
 
             that.stopDo();
+        },
+        drawWelcome: function drawWelcome() {
+            var that = this;
+            var SnapRef = _dovemaxsdk.Util.util.getSnapSVG$();
+            if (SnapRef) {
+                var s = SnapRef('#' + that.welcomeContentID);
+
+                var rect = s.rect('8%', '8%', '84%', '84%', 16);
+                rect.attr({
+                    fill: "none",
+                    "fill-opacity": 0.5,
+                    "stroke-linecap": "round",
+                    "stroke-linejoin": "bevel",
+                    "stroke-dasharray": "5,5",
+                    stroke: "#adadad",
+                    strokeWidth: 1
+                });
+
+                var description = s.text('12%', '16%', that.$t('pages.remove.welcome.description'));
+                var step1 = s.text('15%', '26%', that.$t('pages.remove.welcome.step1'));
+                var step2 = s.text('15%', '36%', that.$t('pages.remove.welcome.step2'));
+                var step3 = s.text('15%', '46%', that.$t('pages.remove.welcome.step3'));
+
+                description.attr({
+                    "font-weight": "bold"
+                });
+            }
         },
         getItemStyleClass: function getItemStyleClass(item) {
             var _styleClass = [''];
@@ -29628,29 +29662,25 @@ exports.default = {
             if (SnapRef) {
                 var s = SnapRef('#' + that.welcomeContentID);
 
-                var bigCircle = s.circle(150, 150, 100);
-
-                bigCircle.attr({
-                    fill: "#bada55",
-                    stroke: "#000",
-                    strokeWidth: 5
+                var rect = s.rect('8%', '8%', '84%', '84%', 16);
+                rect.attr({
+                    fill: "none",
+                    "fill-opacity": 0.5,
+                    "stroke-linecap": "round",
+                    "stroke-linejoin": "bevel",
+                    "stroke-dasharray": "5,5",
+                    stroke: "#adadad",
+                    strokeWidth: 1
                 });
 
-                var smallCircle = s.circle(100, 150, 70);
+                var description = s.text('12%', '16%', that.$t('pages.repair.welcome.description'));
+                var step1 = s.text('15%', '26%', that.$t('pages.repair.welcome.step1'));
+                var step2 = s.text('15%', '36%', that.$t('pages.repair.welcome.step2'));
+                var step3 = s.text('15%', '46%', that.$t('pages.repair.welcome.step3'));
 
-                var discs = s.group(smallCircle, s.circle(200, 150, 70));
-
-                discs.attr({
-                    fill: "#fff"
+                description.attr({
+                    "font-weight": "bold"
                 });
-
-                bigCircle.attr({
-                    mask: discs
-                });
-
-                smallCircle.animate({ r: 50 }, 1000);
-
-                discs.select("circle:nth-child(2)").animate({ r: 50 }, 1000);
             }
         },
         getItemStyleClass: function getItemStyleClass(item) {

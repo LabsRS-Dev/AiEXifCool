@@ -228,37 +228,31 @@ export default {
             var SnapRef = Util.util.getSnapSVG$()
             if (SnapRef) {
                 var s = SnapRef('#' + that.welcomeContentID)
-                // Lets create big circle in the middle:
-                var bigCircle = s.circle(150, 150, 100);
-                // By default its black, lets change its attributes
-                bigCircle.attr({
-                    fill: "#bada55",
-                    stroke: "#000",
-                    strokeWidth: 5
-                });
-                // Now lets create another small circle:
-                var smallCircle = s.circle(100, 150, 70);
-                // Lets put this small circle and another one into a group:
-                var discs = s.group(smallCircle, s.circle(200, 150, 70));
-                // Now we can change attributes for the whole group
-                discs.attr({
-                    fill: "#fff"
-                });
-                // Now more interesting stuff
-                // Lets assign this group as a mask for our big circle
-                bigCircle.attr({
-                    mask: discs
-                });
-                // Despite our small circle now is a part of a group
-                // and a part of a mask we could still access it:
-                smallCircle.animate({r: 50}, 1000);
-                // We don’t have reference for second small circle,
-                // but we could easily grab it with CSS selectors:
-                discs.select("circle:nth-child(2)").animate({r: 50}, 1000);
+
+                // 创建一个盒子
+                var rect = s.rect('8%', '8%', '84%', '84%', 16)
+                rect.attr({
+                    fill: "none",
+                    "fill-opacity": 0.5,
+                    "stroke-linecap": "round",
+                    "stroke-linejoin": "bevel",
+                    "stroke-dasharray" : "5,5",
+                    stroke: "#adadad",
+                    strokeWidth: 1
+                })
+
+                // 创建一个文字盒子
+                var description = s.text('12%', '16%', that.$t('pages.repair.welcome.description'))
+                var step1 = s.text('15%', '26%', that.$t('pages.repair.welcome.step1'))
+                var step2 = s.text('15%', '36%', that.$t('pages.repair.welcome.step2'))
+                var step3 = s.text('15%', '46%', that.$t('pages.repair.welcome.step3'))
+
+                // 修饰一下文字
+                description.attr({
+                    "font-weight": "bold"
+                })
+
             }
-
-
-            // var rect = draw.rect(100, 100).attr({ fill: '#f06' })
         },
 
         // ------------------------- Style

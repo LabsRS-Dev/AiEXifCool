@@ -100,7 +100,13 @@
       },
       "notice-no-items":{
         "message": "请先导入损坏的图像文件，然后在执行修复操作！"
-      }      
+      },
+      "welcome":{
+        "description": "操作步骤：",
+        "step1":"Step1: 导入损坏的图像文件或者图像目录",
+        "step2":"Step2: 点击执行修复按钮进行修复",
+        "step3":"Step3: 查看修复结果"
+      }
     },
     "remove":{
       "toolbar":{
@@ -153,6 +159,12 @@
       },
       "notice-no-items":{
         "message": "请先导入图像文件，然后再执行处理！"
+      },
+      "welcome":{
+        "description": "操作步骤：",
+        "step1":"Step1: 导入图像文件或者图像目录",
+        "step2":"Step2: 点击执行移除按钮进行移除",
+        "step3":"Step3: 查看移除结果"
       }      
     }    
   }
