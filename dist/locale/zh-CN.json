@@ -38,15 +38,8 @@
         "onlineRoom": "在线交流",
         "updateNews": "获取最新新闻"
       },
-      "page":{
-        "adjust":{
-          "title":"修改图像的Exif信息",
-          "tip": "修改图像的EXIF信息"
-        },
-        "remove":{
-          "title":"删除图像的Exif信息",
-          "tip": "删除图像的Exif信息"
-        }
+      "task-item":{
+        "onOpenLink": "打开查看"
       }
     },
     "repair":{

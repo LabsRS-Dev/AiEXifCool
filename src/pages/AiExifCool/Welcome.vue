@@ -39,12 +39,12 @@
                     </div>
                     <div class="ui-toolbar__top__metainfo__toolbar">
                         <ui-icon-button 
-                            @click="onOpenParentDir(item.link)"
+                            @click="onOpenLink(item.link)"
                             type="secondary"
                             color="black"
                             size="small"
                             >
-                            <span class="fa fa-link fa-lg fa-fw" :title=" $t('pages.remove.task-item.open-parent-dir') "></span>
+                            <span class="fa fa-link fa-lg fa-fw" :title=" $t('pages.welcome.task-item.onOpenLink') "></span>
                         </ui-icon-button>
                     </div>
                 </div>
@@ -111,14 +111,6 @@ export default {
         {id:'action-online-room', visiable:true, color:"black", icon:"fa fa-users fa-lg fa-fw", size:"small", type:"secondary", tooltip:"pages.welcome.toolbar.onlineRoom"},
         {id:'action-update-news', visiable:true, color:"black", icon:"fa fa-rss fa-lg fa-fw", size:"small", type:"secondary", tooltip:"pages.welcome.toolbar.updateNews"}
       ]
-    },
-    pageList() {
-      var that = this
-      const prefix_i18n = 'pages.welcome.page.'
-      return [
-        {id:'action-exif-adjust', visiable:true, color:"accent", icon:"fa fa-cog fa-lg fa-fw", size:"normal", type:"primary", title: prefix_i18n + "adjust.title", tooltip: prefix_i18n + "adjust.tip"},
-        {id:'action-exif-remove', visiable:true, color:"default", icon:"fa fa-book fa-lg fa-fw", size:"large", type:"primary", title: prefix_i18n + "remove.title", tooltip: prefix_i18n + "remove.tip"}
-      ]
     }
   },
   methods:{
@@ -151,6 +143,11 @@ export default {
       var _styleClass = ['']
       return _styleClass
     },
+
+    onOpenLink(link){
+      BS.b$.App.open(link)
+    },
+
     // -------------------------- Tool bar
     onToolBtnClick(index, item){
         console.log('onToolBtnClick', index)

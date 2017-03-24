@@ -41502,13 +41502,13 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       },
       on: {
         "click": function($event) {
-          _vm.onOpenParentDir(item.link)
+          _vm.onOpenLink(item.link)
         }
       }
     }, [_c('span', {
       staticClass: "fa fa-link fa-lg fa-fw",
       attrs: {
-        "title": _vm.$t('pages.remove.task-item.open-parent-dir')
+        "title": _vm.$t('pages.welcome.task-item.onOpenLink')
       }
     })])], 1)]), _vm._v(" "), _c('div', {
       staticClass: "ui-toolbar__body"
@@ -41575,11 +41575,6 @@ exports.default = {
     actionList: function actionList() {
       var that = this;
       return [{ id: 'action-setting', visiable: true, color: "black", icon: "fa fa-cog fa-lg fa-fw", size: "small", type: "secondary", tooltip: "pages.welcome.toolbar.setting" }, { id: 'action-online-doc', visiable: true, color: "black", icon: "fa fa-book fa-lg fa-fw", size: "small", type: "secondary", tooltip: "pages.welcome.toolbar.onlineDoc" }, { id: 'action-online-room', visiable: true, color: "black", icon: "fa fa-users fa-lg fa-fw", size: "small", type: "secondary", tooltip: "pages.welcome.toolbar.onlineRoom" }, { id: 'action-update-news', visiable: true, color: "black", icon: "fa fa-rss fa-lg fa-fw", size: "small", type: "secondary", tooltip: "pages.welcome.toolbar.updateNews" }];
-    },
-    pageList: function pageList() {
-      var that = this;
-      var prefix_i18n = 'pages.welcome.page.';
-      return [{ id: 'action-exif-adjust', visiable: true, color: "accent", icon: "fa fa-cog fa-lg fa-fw", size: "normal", type: "primary", title: prefix_i18n + "adjust.title", tooltip: prefix_i18n + "adjust.tip" }, { id: 'action-exif-remove', visiable: true, color: "default", icon: "fa fa-book fa-lg fa-fw", size: "large", type: "primary", title: prefix_i18n + "remove.title", tooltip: prefix_i18n + "remove.tip" }];
     }
   },
   methods: {
@@ -41604,6 +41599,9 @@ exports.default = {
     getItemStyleClass: function getItemStyleClass(item) {
       var _styleClass = [''];
       return _styleClass;
+    },
+    onOpenLink: function onOpenLink(link) {
+      _dovemaxsdk.BS.b$.App.open(link);
     },
     onToolBtnClick: function onToolBtnClick(index, item) {
       console.log('onToolBtnClick', index);
