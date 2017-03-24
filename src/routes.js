@@ -1,6 +1,7 @@
-// /
 import AboutPage from './pages/About.vue'
+// /
 import IconsRef from './data/icon.js'
+import ModifyPage from './pages/AiExifCool/Modify.vue'
 import RemovePage from './pages/AiExifCool/Remove.vue'
 import RepairPage from './pages/AiExifCool/Repair.vue'
 import { SysConfig } from './data/sys-config.js'
@@ -33,7 +34,7 @@ const menu = [{
   }, {
     path: rootPath + '/adjust',
     show: true,
-    component: AboutPage,
+    component: ModifyPage,
     title: 'routes.common.menu.adjust.title',
     tip: 'routes.common.menu.adjust.tip',
     tipAsSubTitle: false,

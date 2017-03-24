@@ -166,6 +166,67 @@
         "step2":"Step2: 点击执行移除按钮进行移除",
         "step3":"Step3: 查看移除结果"
       }      
-    }    
+    },
+    "modify":{
+      "toolbar":{
+        "import":"导入图像文件",
+        "importDir":"导入图像目录",
+        "remove":"清空导入",
+        "choicePlan": "修改方案管理",
+        "fix":"开始执行",
+        "chancel":"停止"
+      },
+      "task-item":{
+         "file-name": "名称：",
+         "file-path": "路径：",
+         "file-size": "大小：",
+         "progress": "处理进度：",
+         "open-parent-dir": "打开所在目录",
+         "review-in-file": "点击查看"
+      },
+      "footbar": {
+        "fileCount": "任务数量",
+        "state": "当前状态",
+        "isRemoveWorking": "正在执行移除",
+        "isWaiting":"空闲",
+        "transferState": "引擎状态",
+        "transferIsNormal": "连接正常",
+        "transferIsFault": "无法连接"
+      },
+      "dialog-import-images":{
+        "title":"请选择要导入的图像文件",
+        "prompt":"导入"
+      },
+      "dialog-import-dir-images":{
+        "title":"请选择要导入的图像文件目录",
+        "prompt":"导入"
+      },      
+      "dialog-select-outdir":{
+        "title":"请选择输出目录",
+        "prompt":"选择"
+      },
+      "dialog-confirm-remove-all":{
+        "title":"确认操作",
+        "btnConfirm": "确定",
+        "btnDeny": "取消",
+        "message": "确定要清空导入的图片信息吗？"
+      },
+      "dialog-confirm-stop-fix":{
+        "title":"确认操作",
+        "btnConfirm": "确定",
+        "btnDeny": "取消",
+        "message": "确定要终止所有操作吗？"
+      },
+      "notice-no-items":{
+        "message": "请先导入图像文件，然后再执行处理！"
+      },
+      "welcome":{
+        "description": "操作步骤：",
+        "step1":"Step1: 导入图像文件或者图像目录",
+        "step2":"Step2: 可以直接一对一的修改，也可以通过选择修改方案来设置",
+        "step3":"Step3: 执行修改",
+        "step4":"Step4: 查看修改结果"
+      }      
+    }            
   }
 }
