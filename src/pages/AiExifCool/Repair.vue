@@ -28,12 +28,12 @@
         </div>
 
         <div class="page__examples page__examples-app-doc">
-            <div 
+            <svg 
                 :id="welcomeContentID"
                 class="page__examples-app-doc__welcome"
                 v-show="taskList.length <= 0"
-                >
-            </div>
+                />
+
             <ui-alert 
                 :class="getItemStyleClass(item)"
                 @dismiss="onRemoveTaskItem(item, index)" removeIcon 
@@ -111,7 +111,6 @@
 
 <script>
 import { BS, Util, _ } from 'dovemaxsdk'
-// import { SVG } from 'svg.js'
 import {UiIcon, UiTabs, UiTab, UiConfirm, UiButton, UiIconButton, UiAlert, UiToolbar, UiProgressLinear} from 'keen-ui';
 import {Transfer} from '../../bridge/transfer'
 
@@ -187,7 +186,7 @@ export default {
             that.onTransferIsNoraml()
         })
     },
-    created(){
+    mounted(){
         this.drawWelcome()
     },
     beforeDestroy() {
@@ -226,9 +225,39 @@ export default {
         // ------------------------- Welcome content
         drawWelcome(){
             var that = this
-            // if (!SVG.supported) return
+            var SnapRef = Util.util.getSnapSVG$()
+            if (SnapRef) {
+                var s = SnapRef('#' + that.welcomeContentID)
+                // Lets create big circle in the middle:
+                var bigCircle = s.circle(150, 150, 100);
+                // By default its black, lets change its attributes
+                bigCircle.attr({
+                    fill: "#bada55",
+                    stroke: "#000",
+                    strokeWidth: 5
+                });
+                // Now lets create another small circle:
+                var smallCircle = s.circle(100, 150, 70);
+                // Lets put this small circle and another one into a group:
+                var discs = s.group(smallCircle, s.circle(200, 150, 70));
+                // Now we can change attributes for the whole group
+                discs.attr({
+                    fill: "#fff"
+                });
+                // Now more interesting stuff
+                // Lets assign this group as a mask for our big circle
+                bigCircle.attr({
+                    mask: discs
+                });
+                // Despite our small circle now is a part of a group
+                // and a part of a mask we could still access it:
+                smallCircle.animate({r: 50}, 1000);
+                // We don’t have reference for second small circle,
+                // but we could easily grab it with CSS selectors:
+                discs.select("circle:nth-child(2)").animate({r: 50}, 1000);
+            }
 
-            // var draw = SVG(that.welcomeContentID).size(300, 300)
+
             // var rect = draw.rect(100, 100).attr({ fill: '#f06' })
         },
 
