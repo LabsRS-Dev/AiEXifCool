@@ -52,6 +52,11 @@
                             </strong>
                         </div>
                         <div class="ui-toolbar__top__metainfo__toolbar">
+                            <ui-select
+                                :placeholder="planPlaceHolder"
+                                :options="planList"
+                                v-model="item.selectPlanModel"
+                            ></ui-select>
                             <ui-icon-button 
                                 @click="onSettingPlan(item)"
                                 type="secondary"
@@ -118,7 +123,7 @@
 
 <script>
 import { BS, Util, _ } from 'dovemaxsdk'
-import {UiIcon, UiTabs, UiTab, UiConfirm, UiButton, UiIconButton, UiAlert, UiToolbar, UiProgressLinear} from 'keen-ui';
+import {UiIcon, UiSelect, UiTabs, UiTab, UiConfirm, UiButton, UiIconButton, UiAlert, UiToolbar, UiProgressLinear} from 'keen-ui';
 import {Transfer} from '../../bridge/transfer'
 
 
@@ -141,6 +146,9 @@ class Task {
             type: "success"
         };
 
+        /// ----- 自己的方案选择
+        this.selectPlanModel = '';  // 所选的处理方案
+
         /// ----- 修改工作的情况
         this.isworking = false;     // 是否正在修改中
         this.progress = 0;          // 修改进度(100为单位)
@@ -162,6 +170,7 @@ export default {
         console.log("Modify.vue call data()")
         return {
             welcomeContentID:'page__modify__welcome__id',
+            planSelectModel: '',
             taskList: taskList,
             taskID2taskObj: {},
             isModifyWorking: false,
@@ -211,6 +220,26 @@ export default {
                 {id:'action-do', visiable:!that.isModifyWorking, color:"green", icon:"fa fa-legal fa-lg fa-fw", size:"small", type:"secondary",  tooltip:"pages.modify.toolbar.fix"},
                 {id:'action-stop', visiable:that.isModifyWorking, color:"red", icon:"fa fa-hand-paper-o fa-lg fa-fw", size:"small", type:"secondary",  tooltip:"pages.modify.toolbar.chancel"}
            ]
+        },
+
+        planPlaceHolder() {
+          var that = this
+          return that.$t('pages.modify.plans.default')
+        },
+        planList() {
+          var that = this
+
+          var list = []
+          list.push({
+            label: that.$t('pages.modify.plans.default'),
+            value: 0
+          })
+
+          list.push({
+            label: '修改Exif日期',
+            value: 1
+          })
+          return list
         }
     },
 
@@ -566,6 +595,7 @@ export default {
         UiIconButton,
         UiAlert,
         UiToolbar,
+        UiSelect,
         UiConfirm,
         UiProgressLinear
     }

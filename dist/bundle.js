@@ -41751,7 +41751,18 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }, [_vm._v("\n                            (" + _vm._s(item.size) + ")\n                            ")])])]), _vm._v(" "), _c('div', {
       staticClass: "ui-toolbar__top__metainfo__toolbar"
-    }, [_c('ui-icon-button', {
+    }, [_c('ui-select', {
+      attrs: {
+        "placeholder": _vm.planPlaceHolder,
+        "options": _vm.planList
+      },
+      model: {
+        value: (item.selectPlanModel),
+        callback: function($$v) {
+          item.selectPlanModel = $$v
+        }
+      }
+    }), _vm._v(" "), _c('ui-icon-button', {
       attrs: {
         "type": "secondary",
         "color": "black",
@@ -41886,6 +41897,7 @@ var Task = function Task(thumb, name, path, size) {
         type: "success"
     };
 
+    this.selectPlanModel = '';
     this.isworking = false;
     this.progress = 0;
     this.fixOutDir = "";
@@ -41900,6 +41912,7 @@ exports.default = {
         console.log("Modify.vue call data()");
         return {
             welcomeContentID: 'page__modify__welcome__id',
+            planSelectModel: '',
             taskList: taskList,
             taskID2taskObj: {},
             isModifyWorking: false,
@@ -41941,6 +41954,25 @@ exports.default = {
         actionList: function actionList() {
             var that = this;
             return [{ id: 'action-import', visiable: true, color: "black", icon: "fa fa-file-image-o fa-lg fa-fw", size: "small", type: "secondary", tooltip: "pages.modify.toolbar.import" }, { id: 'action-importDir', visiable: true, color: "black", icon: "fa fa-folder-open-o fa-lg fa-fw", size: "small", type: "secondary", tooltip: "pages.modify.toolbar.importDir" }, { id: 'action-remove', visiable: true, color: "black", icon: "fa fa-trash-o fa-lg fa-fw", size: "small", type: "secondary", tooltip: "pages.modify.toolbar.remove" }, { id: 'action-choicePlan', visiable: true, color: "primary", icon: "fa fa-database fa-lg fa-fw", size: "small", type: "secondary", tooltip: "pages.modify.toolbar.choicePlan" }, { id: 'action-do', visiable: !that.isModifyWorking, color: "green", icon: "fa fa-legal fa-lg fa-fw", size: "small", type: "secondary", tooltip: "pages.modify.toolbar.fix" }, { id: 'action-stop', visiable: that.isModifyWorking, color: "red", icon: "fa fa-hand-paper-o fa-lg fa-fw", size: "small", type: "secondary", tooltip: "pages.modify.toolbar.chancel" }];
+        },
+        planPlaceHolder: function planPlaceHolder() {
+            var that = this;
+            return that.$t('pages.modify.plans.default');
+        },
+        planList: function planList() {
+            var that = this;
+
+            var list = [];
+            list.push({
+                label: that.$t('pages.modify.plans.default'),
+                value: 0
+            });
+
+            list.push({
+                label: '修改Exif日期',
+                value: 1
+            });
+            return list;
         }
     },
 
@@ -42256,6 +42288,7 @@ exports.default = {
         UiIconButton: _keenUi.UiIconButton,
         UiAlert: _keenUi.UiAlert,
         UiToolbar: _keenUi.UiToolbar,
+        UiSelect: _keenUi.UiSelect,
         UiConfirm: _keenUi.UiConfirm,
         UiProgressLinear: _keenUi.UiProgressLinear
     }

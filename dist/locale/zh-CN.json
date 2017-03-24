@@ -96,7 +96,7 @@
       },
       "welcome":{
         "description": "操作步骤：",
-        "step1":"Step1: 导入损坏的图像文件或者图像目录",
+        "step1":"Step1: 导入损坏的图像文件或者图像目录（支持拖拽）",
         "step2":"Step2: 点击执行修复按钮进行修复",
         "step3":"Step3: 查看修复结果"
       }
@@ -155,7 +155,7 @@
       },
       "welcome":{
         "description": "操作步骤：",
-        "step1":"Step1: 导入图像文件或者图像目录",
+        "step1":"Step1: 导入图像文件或者图像目录（支持拖拽）",
         "step2":"Step2: 点击执行移除按钮进行移除",
         "step3":"Step3: 查看移除结果"
       }      
@@ -177,6 +177,9 @@
          "setting-plan": "设置",
          "open-parent-dir": "打开所在目录",
          "review-in-file": "点击查看"
+      },
+      "plans":{
+        "default":"自定义"
       },
       "footbar": {
         "fileCount": "任务数量",
@@ -216,7 +219,7 @@
       },
       "welcome":{
         "description": "操作步骤：",
-        "step1":"Step1: 导入图像文件或者图像目录",
+        "step1":"Step1: 导入图像文件或者图像目录（支持拖拽）",
         "step2":"Step2: 可以直接一对一的修改，也可以通过选择修改方案来设置",
         "step3":"Step3: 执行修改",
         "step4":"Step4: 查看修改结果"
