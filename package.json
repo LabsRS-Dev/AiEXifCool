@@ -40,9 +40,12 @@
   },
   "homepage": "https://github.com/LabsRS-Dev/AiEXifCool",
   "dependencies": {
+    "babel-eslint": "^7.2.1",
+    "caniuse-db": "^1.0.30000640",
     "dove.max.sdk": "^1.0.0",
-    "vue": "^2.2.4",
-    "vue-i18n": "^6.0.0-alpha.6",
+    "node-sass": "^4.5.1",
+    "vue": "^2.2.5",
+    "vue-i18n": "^6.0.0-beta.1",
     "vue-router": "^2.3.0",
     "vuex": "^2.2.1"
   },
@@ -89,8 +92,8 @@
     "tether-tooltip": "^1.2.0",
     "vue-hot-reload-api": "^2.0.11",
     "vue-style-loader": "^2.0.4",
-    "vue-template-compiler": "^2.2.4",
-    "webpack": "^2.2.1",
+    "vue-template-compiler": "^2.2.5",
+    "webpack": "^2.3.2",
     "webpack-dev-middleware": "^1.10.1",
     "webpack-dev-server": "^2.4.2"
   }

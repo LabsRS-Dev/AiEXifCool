@@ -235,10 +235,13 @@ export default {
             value: 0
           })
 
-          list.push({
-            label: '修改Exif日期',
-            value: 1
-          })
+          for(let i=0; i < 20; ++i){
+            list.push({
+              label: i + '-修改Exif日期',
+              value: i+1
+            })
+          }
+
           return list
         }
     },
