@@ -29647,14 +29647,14 @@ exports.default = {
             }
         },
         getItemStyleClass: function getItemStyleClass(item) {
-            var _styleClass = [''];
+            var _styleClass = ['page__modify__task__item'];
             if (item.stateInfo) {
 
                 if (item.stateInfo.state < 0) {
-                    _styleClass = ['isFixFailed'];
+                    _styleClass.push('isFixFailed');
                 }
                 if (item.stateInfo.state > 0) {
-                    _styleClass = ['isFixedSuccess'];
+                    _styleClass.push('isFixedSuccess');
                 }
             }
 
