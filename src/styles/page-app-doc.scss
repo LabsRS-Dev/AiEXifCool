@@ -111,9 +111,19 @@
 
                     font-size: rem-calc(11px);
 
-                    .ui-select__dropdown{
-                        min-width: auto !important;
-                        width: auto !important;
+                    // 选择框
+                    .ui-select__dropdown {
+                        position: relative;
+                        max-height: rem-calc(3px);
+
+                        .ui-select__search-input{
+                            background-color: #fff;
+                            font-size: rem-calc(11px);
+                        }
+                    }
+
+                    .ui-select__display {
+                        height: auto !important;
                     }
 
                     .ui-select__options *{

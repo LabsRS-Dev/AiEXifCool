@@ -29062,7 +29062,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }, [_c('ui-select', {
       attrs: {
         "placeholder": _vm.planPlaceHolder,
-        "options": _vm.planList
+        "options": _vm.planList,
+        "hasSearch": ""
       },
       model: {
         value: (item.selectPlanModel),

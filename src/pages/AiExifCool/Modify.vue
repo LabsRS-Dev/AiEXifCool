@@ -55,6 +55,7 @@
                             <ui-select
                                 :placeholder="planPlaceHolder"
                                 :options="planList"
+                                hasSearch
                                 v-model="item.selectPlanModel"
                             ></ui-select>
                             <ui-icon-button 
