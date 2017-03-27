@@ -42435,19 +42435,22 @@ module.exports = Component.exports
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
-    staticClass: "dovemxui-exif-info"
+    staticClass: "dovemxui-exif-info____container"
   }, [_c('ui-tabs', {
     attrs: {
       "type": "text"
     }
   }, _vm._l((_vm.exif.categories), function(category, categoryIndex) {
     return _c('ui-tab', {
+      key: categoryIndex,
       attrs: {
         "title": category.title
       }
-    }, [_c('ul', _vm._l((category.items), function(keyItem, keyItemIndex) {
-      return _c('li', [_vm._v("\n                  " + _vm._s(keyItem.title) + " : " + _vm._s(keyItem.value) + "\n              ")])
-    }))])
+    }, [_c('dovemxui-property-editor', {
+      attrs: {
+        "items": category.items
+      }
+    })], 1)
   }))], 1)
 },staticRenderFns: []}
 
@@ -42463,6 +42466,8 @@ Object.defineProperty(exports, "__esModule", {
 });
 
 var _keenUi = __webpack_require__(9);
+
+var _index = __webpack_require__(191);
 
 exports.default = {
   name: 'dovemxui-exif-info',
@@ -42519,24 +42524,178 @@ exports.default = {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.UIExifInfo = undefined;
+exports.DoveMX_UIPropertyEditor = exports.DoveMX_UIExifInfo = undefined;
 
 var _uiExifInfo = __webpack_require__(188);
 
 var _uiExifInfo2 = _interopRequireDefault(_uiExifInfo);
 
+var _uiPropertyEditor = __webpack_require__(193);
+
+var _uiPropertyEditor2 = _interopRequireDefault(_uiPropertyEditor);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var DoveMXComponents = {
-  UIExifInfo: _uiExifInfo2.default,
+  DoveMX_UIExifInfo: _uiExifInfo2.default,
+  DoveMX_UIPropertyEditor: _uiPropertyEditor2.default,
 
   install: function install(Vue) {
     Vue.component('dovemxui-exif-info', _uiExifInfo2.default);
+    Vue.component('dovemxui-property-editor', _uiPropertyEditor2.default);
   }
 };
 
 exports.default = DoveMXComponents;
-exports.UIExifInfo = _uiExifInfo2.default;
+exports.DoveMX_UIExifInfo = _uiExifInfo2.default;
+exports.DoveMX_UIPropertyEditor = _uiPropertyEditor2.default;
+
+/***/ }),
+/* 192 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+exports.__esModule = true;
+
+var _defineProperty = __webpack_require__(106);
+
+var _defineProperty2 = _interopRequireDefault(_defineProperty);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = function () {
+  function defineProperties(target, props) {
+    for (var i = 0; i < props.length; i++) {
+      var descriptor = props[i];
+      descriptor.enumerable = descriptor.enumerable || false;
+      descriptor.configurable = true;
+      if ("value" in descriptor) descriptor.writable = true;
+      (0, _defineProperty2.default)(target, descriptor.key, descriptor);
+    }
+  }
+
+  return function (Constructor, protoProps, staticProps) {
+    if (protoProps) defineProperties(Constructor.prototype, protoProps);
+    if (staticProps) defineProperties(Constructor, staticProps);
+    return Constructor;
+  };
+}();
+
+/***/ }),
+/* 193 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var Component = __webpack_require__(8)(
+  /* script */
+  __webpack_require__(195),
+  /* template */
+  __webpack_require__(194),
+  /* scopeId */
+  null,
+  /* cssModules */
+  null
+)
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 194 */
+/***/ (function(module, exports) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "dovemxui-property-editor____container"
+  }, [_c('ul', _vm._l((_vm.items), function(keyItem, keyItemIndex) {
+    return _c('li', [_vm._v("\n        " + _vm._s(keyItem.title) + " : " + _vm._s(keyItem.value) + "\n    ")])
+  }))])
+},staticRenderFns: []}
+
+/***/ }),
+/* 195 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _classCallCheck2 = __webpack_require__(24);
+
+var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+var _createClass2 = __webpack_require__(192);
+
+var _createClass3 = _interopRequireDefault(_createClass2);
+
+var _keenUi = __webpack_require__(9);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var PropertyEditor = function () {
+    function PropertyEditor() {
+        (0, _classCallCheck3.default)(this, PropertyEditor);
+    }
+
+    (0, _createClass3.default)(PropertyEditor, [{
+        key: 'setup',
+        value: function setup() {}
+    }, {
+        key: 'getValue',
+        value: function getValue() {}
+    }, {
+        key: 'setValue',
+        value: function setValue(newValue) {}
+    }, {
+        key: 'getAsText',
+        value: function getAsText() {}
+    }, {
+        key: 'setAsText',
+        value: function setAsText() {}
+    }, {
+        key: 'getTags',
+        value: function getTags() {}
+    }, {
+        key: 'getInitializationString',
+        value: function getInitializationString() {}
+    }]);
+    return PropertyEditor;
+}();
+
+exports.default = {
+    name: 'dovemxui-property-editor',
+    props: {
+        items: {
+            type: Object,
+            default: {}
+        }
+    },
+    data: function data() {
+        return {};
+    },
+
+    computed: {
+        classes: function classes() {
+            return [];
+        }
+    },
+    components: {
+        UiIcon: _keenUi.UiIcon,
+        UiTabs: _keenUi.UiTabs,
+        UiTab: _keenUi.UiTab,
+        UiButton: _keenUi.UiButton,
+        UiIconButton: _keenUi.UiIconButton,
+        UiAlert: _keenUi.UiAlert,
+        UiToolbar: _keenUi.UiToolbar,
+        UiSelect: _keenUi.UiSelect,
+        UiConfirm: _keenUi.UiConfirm,
+        UiProgressLinear: _keenUi.UiProgressLinear
+    }
+};
 
 /***/ })
 /******/ ]);

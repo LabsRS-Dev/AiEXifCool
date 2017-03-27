@@ -1,17 +1,15 @@
 <template>
-  <div class="dovemxui-exif-info">
+  <div class="dovemxui-exif-info____container">
       <ui-tabs type="text">
           <ui-tab 
             :title="category.title"
-            v-for="category, categoryIndex in exif.categories"
+            :key="categoryIndex"
+            v-for="(category, categoryIndex) in exif.categories"
           >
-              <ul>
-                <li
-                    v-for="keyItem, keyItemIndex in category.items"
-                >
-                    {{ keyItem.title }} : {{ keyItem.value }}
-                </li>
-              </ul>
+            <dovemxui-property-editor
+              :items="category.items"
+            >
+            </dovemxui-property-editor>
           </ui-tab>
       </ui-tabs>
   </div>
@@ -19,6 +17,7 @@
 
 <script>
 import {UiIcon, UiSelect, UiTabs, UiTab, UiConfirm, UiButton, UiIconButton, UiAlert, UiToolbar, UiProgressLinear} from 'keen-ui'
+import { UIPropertyEditor } from './index.js'
 
 export default {
   name: 'dovemxui-exif-info',
@@ -70,7 +69,7 @@ export default {
     UiSelect,
     UiConfirm,
     UiProgressLinear
-}
+  }
 }
 
 </script>
