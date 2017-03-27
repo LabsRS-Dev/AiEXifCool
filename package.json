@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "cross-env NODE_ENV=development webpack-dev-server --config ./build/webpack.dev.js --open --inline --hot",
     "dev:compile": "webpack --config ./build/webpack.dev.js --display-error-details --watch",
+    "dev:http": "http-server ./dist -c-1",
     "compile": "webpack --config ./build/webpack.dist.js --display-error-details --watch",
     "build": "webpack --config ./build/webpack.dist.js",
     "build:all": "npm run build",

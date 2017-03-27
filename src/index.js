@@ -1,20 +1,24 @@
 // /----------- Extern
 import './extern.js'
 
-import { BS, Util, _ } from 'dovemaxsdk'
-
-// /----------- Components
-import App from './App.vue'
-import KeenUI from 'keen-ui'
-import Routes from './routes.js'
 // /----------- Base
 import Vue from 'vue'
 import VueI18n from 'vue-i18n'
 import VueRouter from 'vue-router'
 import Vuex from 'vuex'
+import { BS, Util, _ } from 'dovemaxsdk'
+
+// /----------- Components
+import DoveMXComponents from './components'
+import App from './App.vue'
+import KeenUI from 'keen-ui'
+import Routes from './routes.js'
+
 
 // Allow inspection, even in production mode
 Vue.config.devtools = true
+
+Vue.use(DoveMXComponents)
 
 // Use VueI18n
 Vue.use(VueI18n, {})

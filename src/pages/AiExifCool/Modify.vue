@@ -24,6 +24,7 @@
                 @deny="onConfirmDialogDeny"
             >
                 {{ confirmDialog.content }}
+                <dovemxui-exif-info></dovemxui-exif-info>
             </ui-confirm>
         </div>
 
@@ -124,8 +125,10 @@
 
 <script>
 import { BS, Util, _ } from 'dovemaxsdk'
-import {UiIcon, UiSelect, UiTabs, UiTab, UiConfirm, UiButton, UiIconButton, UiAlert, UiToolbar, UiProgressLinear} from 'keen-ui';
+import {UiIcon, UiSelect, UiTabs, UiTab, UiConfirm, UiButton, UiIconButton, UiAlert, UiToolbar, UiProgressLinear} from 'keen-ui'
+import DoveMXComponents from '../../components'
 import {Transfer} from '../../bridge/transfer'
+
 
 
 var baseID = "__page__modify__action__"
@@ -601,7 +604,8 @@ export default {
         UiToolbar,
         UiSelect,
         UiConfirm,
-        UiProgressLinear
+        UiProgressLinear,
+        DoveMXComponents
     }
 }
 
