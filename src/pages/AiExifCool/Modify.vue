@@ -38,7 +38,8 @@
             >
                 {{ exifConfigDialog.content }}
                 <dovemxui-exif-info
-                    :exif="exifConfigDialog.exifInfo"
+                    :propertyEditorConfig="exifConfigDialog.propertyEditorConfig"
+                    :exifInformation="exifConfigDialog.exifInfo"
                 >
                 </dovemxui-exif-info>
             </ui-confirm>
@@ -215,6 +216,7 @@ export default {
                 title: '',
                 content: '',
                 exifInfo: {},
+                propertyEditorConfig: {},
                 callbackConfirm: ()=>{},
                 callbackDeny: ()=>{}
             },
@@ -628,6 +630,10 @@ export default {
             cdg.confirmButtonText = that.$t('pages.modify.dialog-exif-confirm-edit.btnConfirm')
             cdg.denyButtonText = that.$t('pages.modify.dialog-exif-confirm-edit.btnDeny')
             cdg.exifInfo = item.exif
+            cdg.propertyEditorConfig = {
+                propertyCaption: that.$t('_common.propertyEditor.property'),
+                valueCaption: that.$t('_common.propertyEditor.value')
+            }
             var dialog = that.$refs[cdg.ref]
             cdg.callbackConfirm = () =>{
 

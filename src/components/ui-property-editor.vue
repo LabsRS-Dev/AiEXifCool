@@ -1,12 +1,30 @@
 <template>
-  <div class="dovemxui-property-editor____container">
-    <ul>
-      <li
-          v-for="keyItem, keyItemIndex in items"
+  <div class="dovemxui-property-editor__container">
+    <ui-select
+        :placeholder="planPlaceHolder"
+        :options="propertyNames"
+        hasSearch
+        v-model="modelSelectProperty"
+    ></ui-select>
+    <table class="dovemxui-property-editor__container__table">
+      <tr>
+        <td> {{ propertyCaption  }}</td>
+        <td> {{ valueCaption }}</td>
+      </tr>
+      <tr
+      :key="'item' + keyItemIndex"
+      v-for="(keyItem, keyItemIndex) in items"
       >
-          {{ keyItem.title }} : {{ keyItem.value }}
-      </li>
-    </ul>  
+        <td class="dovemxui-property-editor__container__table__property"> 
+          <span :title="keyItem.description">
+            {{ keyItem.title }} 
+          </span>
+        </td>
+        <td class="dovemxui-property-editor__container__table__propertyValue"> 
+          {{ keyItem.value }} 
+        </td>
+      </tr>
+    </table>  
   </div>
 </template>
 <script>
@@ -69,14 +87,39 @@ class PropertyEditor {
 export default {
   name: 'dovemxui-property-editor',
   props: {
+    propertyCaption: {
+      type: String,
+      default: "Property"
+    },
+    valueCaption: {
+      type: String,
+      default: "Value"
+    },
+
     items: {
       type: Object,
-      default: {}
+      default: {
+        keyName: {
+          title: 'KeyName',  // 属性标签
+          description: '',   // 属性描述
+          dataType: String,  // 数据类型
+          uiComponent: {},   // 展示UI组件
+          value: '',         // 当前值，任意类型
+          onlyRead: false,   // 是否只读
+        }
+      }
+
+      /// items 样例
+      /**
+      ** keyName = {title, dataType, uiType, value, editable, onlyRead}
+      **
+      **/
     }
   },
   data(){
     return {
-      
+      planPlaceHolder: 'Search ....',
+      modelSelectProperty: {}
     }
   },
   computed: {
@@ -84,8 +127,29 @@ export default {
       return [
         
       ]
+    },
+
+    propertyNames(){
+      var that = this
+      var keyNameList = [];
+      var keyList = Object.keys(that.items)
+
+      for(let i=0; i <keyList.length; ++i){
+        const key = keyList[i]
+        keyNameList.push(that.items[key].title)
+      }
+
+      return keyNameList
     }
   },
+
+  methods:{
+     getPropertyValueStyle(item){
+
+     }
+  },
+
+
   components: {
     UiIcon,
     UiTabs,
@@ -100,5 +164,17 @@ export default {
   }
 }
 
-
 </script>
+
+<style lang="scss">
+@import '../styles/define/imports.scss';
+
+.dovemxui-property-editor__container {
+  background: #EDEDED;
+
+  .dovemxui-property-editor__container__table {
+    border: 1px solid blue;
+  }
+}
+
+</style>

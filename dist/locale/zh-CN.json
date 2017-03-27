@@ -230,5 +230,14 @@
         "step4":"Step4: 查看修改结果"
       }      
     }            
+  },
+  "_common":{
+    "propertyEditor":{
+      "property": "属性",
+      "value": "属性值"
+    }
+  },
+  "_exif":{
+
   }
 }

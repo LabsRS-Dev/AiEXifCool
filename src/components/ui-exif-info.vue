@@ -4,9 +4,11 @@
           <ui-tab 
             :title="category.title"
             :key="categoryIndex"
-            v-for="(category, categoryIndex) in exif.categories"
+            v-for="(category, categoryIndex) in exifInformation.categories"
           >
             <dovemxui-property-editor
+              :propertyCaption="propertyEditorConfig.propertyCaption"
+              :valueCaption="propertyEditorConfig.valueCaption"
               :items="category.items"
             >
             </dovemxui-property-editor>
@@ -22,7 +24,11 @@ import { UIPropertyEditor } from './index.js'
 export default {
   name: 'dovemxui-exif-info',
   props: {
-    exif: {
+    propertyEditorConfig:{
+        type: Object,
+        default: {}
+    },
+    exifInformation: {
         type: Object,
         default: {
             categories: [
@@ -31,7 +37,8 @@ export default {
                     items: {
                         key$filePath: {
                             title: '文件路径',
-                            type: String,
+                            description: '获取或设置文件的路径',
+                            dataType: String,
                             value: 'Demo'
                         }
                     }
