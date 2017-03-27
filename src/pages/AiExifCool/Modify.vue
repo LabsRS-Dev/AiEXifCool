@@ -24,7 +24,23 @@
                 @deny="onConfirmDialogDeny"
             >
                 {{ confirmDialog.content }}
-                <dovemxui-exif-info></dovemxui-exif-info>
+            </ui-confirm>
+
+            <ui-confirm
+                :autofocus="exifConfigDialog.autofocus"
+                :confirm-button-text="exifConfigDialog.confirmButtonText"
+                :deny-button-text="exifConfigDialog.denyButtonText"
+                :ref="exifConfigDialog.ref"
+                :title="exifConfigDialog.title"
+
+                @confirm="onExifConfigDialogConfirm"
+                @deny="onExifConfigDialogDeny"
+            >
+                {{ exifConfigDialog.content }}
+                <dovemxui-exif-info
+                    :exif="exifConfigDialog.exifInfo"
+                >
+                </dovemxui-exif-info>
             </ui-confirm>
         </div>
 
@@ -152,6 +168,7 @@ class Task {
 
         /// ----- 自己的方案选择
         this.selectPlanModel = '';  // 所选的处理方案
+        this.exifConfig = {};       // Exif配置信息
 
         /// ----- 修改工作的情况
         this.isworking = false;     // 是否正在修改中
@@ -189,7 +206,18 @@ export default {
                 content: '',
                 callbackConfirm: ()=>{},
                 callbackDeny: ()=>{}
-            }, 
+            },
+            exifConfigDialog:{
+                ref: 'exifConfigDialog',
+                autofocus: 'none',
+                confirmButtonText: 'Confirm',
+                denyButtonText: 'Deny',
+                title: '',
+                content: '',
+                exifInfo: {},
+                callbackConfirm: ()=>{},
+                callbackDeny: ()=>{}
+            },
             curFixTaskID: null       // 当前正在执行修改的整体任务ID
         }
     },
@@ -340,6 +368,18 @@ export default {
         onConfirmDialogDeny(){
             var that = this
             const  fn = that.confirmDialog.callbackDeny
+            fn && fn()
+        },
+
+        // -------------------------- ExifInfo Confirm dialog
+        onExifConfigDialogConfirm(){
+            var that = this
+            const  fn = that.exifConfigDialog.callbackConfirm
+            fn && fn()
+        },
+        onExifConfigDialogDeny(){
+            var that = this
+            const  fn = that.exifConfigDialog.callbackDeny
             fn && fn()
         },
 
@@ -582,7 +622,17 @@ export default {
 
         },
         onSettingPlan(item){
+            var that = this
+            const cdg = that.exifConfigDialog
+            cdg.title = that.$t('pages.modify.dialog-exif-confirm-edit.title')
+            cdg.confirmButtonText = that.$t('pages.modify.dialog-exif-confirm-edit.btnConfirm')
+            cdg.denyButtonText = that.$t('pages.modify.dialog-exif-confirm-edit.btnDeny')
+            cdg.exifInfo = item.exif
+            var dialog = that.$refs[cdg.ref]
+            cdg.callbackConfirm = () =>{
 
+            }
+            dialog.open()
         },
         onOpenParentDir(dir){
             var that = this

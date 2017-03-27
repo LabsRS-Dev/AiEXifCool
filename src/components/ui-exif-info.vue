@@ -1,20 +1,17 @@
 <template>
   <div class="dovemxui-exif-info">
       <ui-tabs type="text">
-          <ui-tab title="Books">
-              My books <a href="https://google.com" target="_blank" rel="noopener">Hey</a>
-          </ui-tab>
-
-          <ui-tab title="Authors">
-              Authors
-          </ui-tab>
-
-          <ui-tab title="Collections">
-              My collections
-          </ui-tab>
-
-          <ui-tab title="Favourites">
-              My favourites
+          <ui-tab 
+            :title="category.title"
+            v-for="category, categoryIndex in exif.categories"
+          >
+              <ul>
+                <li
+                    v-for="keyItem, keyItemIndex in category.items"
+                >
+                    {{ keyItem.title }} : {{ keyItem.value }}
+                </li>
+              </ul>
           </ui-tab>
       </ui-tabs>
   </div>
@@ -26,7 +23,29 @@ import {UiIcon, UiSelect, UiTabs, UiTab, UiConfirm, UiButton, UiIconButton, UiAl
 export default {
   name: 'dovemxui-exif-info',
   props: {
+    exif: {
+        type: Object,
+        default: {
+            categories: [
+                {
+                    title: '基本信息',
+                    items: {
+                        key$filePath: {
+                            title: '文件路径',
+                            type: String,
+                            value: 'Demo'
+                        }
+                    }
+                },
+                {
+                    title: '扩展信息',
+                    items: {
 
+                    }
+                }
+           ]
+        }
+    }
   },
   data(){
     return {

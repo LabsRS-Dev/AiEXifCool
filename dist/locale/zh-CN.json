@@ -214,6 +214,11 @@
         "btnDeny": "取消",
         "message": "确定要终止所有操作吗？"
       },
+      "dialog-exif-confirm-edit":{
+        "title":"EXIF信息设置",
+        "btnConfirm": "确定",
+        "btnDeny": "取消"
+      },
       "notice-no-items":{
         "message": "请先导入图像文件，然后再执行处理！"
       },

@@ -29009,7 +29009,23 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "confirm": _vm.onConfirmDialogConfirm,
       "deny": _vm.onConfirmDialogDeny
     }
-  }, [_vm._v("\n            " + _vm._s(_vm.confirmDialog.content) + "\n            "), _c('dovemxui-exif-info')], 1)], 2), _vm._v(" "), _c('div', {
+  }, [_vm._v("\n            " + _vm._s(_vm.confirmDialog.content) + "\n        ")]), _vm._v(" "), _c('ui-confirm', {
+    ref: _vm.exifConfigDialog.ref,
+    attrs: {
+      "autofocus": _vm.exifConfigDialog.autofocus,
+      "confirm-button-text": _vm.exifConfigDialog.confirmButtonText,
+      "deny-button-text": _vm.exifConfigDialog.denyButtonText,
+      "title": _vm.exifConfigDialog.title
+    },
+    on: {
+      "confirm": _vm.onExifConfigDialogConfirm,
+      "deny": _vm.onExifConfigDialogDeny
+    }
+  }, [_vm._v("\n            " + _vm._s(_vm.exifConfigDialog.content) + "\n            "), _c('dovemxui-exif-info', {
+    attrs: {
+      "exif": _vm.exifConfigDialog.exifInfo
+    }
+  })], 1)], 2), _vm._v(" "), _c('div', {
     staticClass: "page__examples page__examples-app-doc"
   }, [_c('svg', {
     directives: [{
@@ -29537,6 +29553,7 @@ var Task = function Task(thumb, name, path, size) {
     };
 
     this.selectPlanModel = '';
+    this.exifConfig = {};
     this.isworking = false;
     this.progress = 0;
     this.fixOutDir = "";
@@ -29564,6 +29581,17 @@ exports.default = {
                 denyButtonText: 'Deny',
                 title: '',
                 content: '',
+                callbackConfirm: function callbackConfirm() {},
+                callbackDeny: function callbackDeny() {}
+            },
+            exifConfigDialog: {
+                ref: 'exifConfigDialog',
+                autofocus: 'none',
+                confirmButtonText: 'Confirm',
+                denyButtonText: 'Deny',
+                title: '',
+                content: '',
+                exifInfo: {},
                 callbackConfirm: function callbackConfirm() {},
                 callbackDeny: function callbackDeny() {}
             },
@@ -29693,6 +29721,16 @@ exports.default = {
         onConfirmDialogDeny: function onConfirmDialogDeny() {
             var that = this;
             var fn = that.confirmDialog.callbackDeny;
+            fn && fn();
+        },
+        onExifConfigDialogConfirm: function onExifConfigDialogConfirm() {
+            var that = this;
+            var fn = that.exifConfigDialog.callbackConfirm;
+            fn && fn();
+        },
+        onExifConfigDialogDeny: function onExifConfigDialogDeny() {
+            var that = this;
+            var fn = that.exifConfigDialog.callbackDeny;
             fn && fn();
         },
         onToolBtnClick: function onToolBtnClick(index, item) {
@@ -29912,7 +29950,17 @@ exports.default = {
                 that.__removeTaskItem(item, index);
             }
         },
-        onSettingPlan: function onSettingPlan(item) {},
+        onSettingPlan: function onSettingPlan(item) {
+            var that = this;
+            var cdg = that.exifConfigDialog;
+            cdg.title = that.$t('pages.modify.dialog-exif-confirm-edit.title');
+            cdg.confirmButtonText = that.$t('pages.modify.dialog-exif-confirm-edit.btnConfirm');
+            cdg.denyButtonText = that.$t('pages.modify.dialog-exif-confirm-edit.btnDeny');
+            cdg.exifInfo = item.exif;
+            var dialog = that.$refs[cdg.ref];
+            cdg.callbackConfirm = function () {};
+            dialog.open();
+        },
         onOpenParentDir: function onOpenParentDir(dir) {
             var that = this;
             _dovemaxsdk.BS.b$.revealInFinder(dir);
@@ -42392,29 +42440,15 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "type": "text"
     }
-  }, [_c('ui-tab', {
-    attrs: {
-      "title": "Books"
-    }
-  }, [_vm._v("\n            My books "), _c('a', {
-    attrs: {
-      "href": "https://google.com",
-      "target": "_blank",
-      "rel": "noopener"
-    }
-  }, [_vm._v("Hey")])]), _vm._v(" "), _c('ui-tab', {
-    attrs: {
-      "title": "Authors"
-    }
-  }, [_vm._v("\n            Authors\n        ")]), _vm._v(" "), _c('ui-tab', {
-    attrs: {
-      "title": "Collections"
-    }
-  }, [_vm._v("\n            My collections\n        ")]), _vm._v(" "), _c('ui-tab', {
-    attrs: {
-      "title": "Favourites"
-    }
-  }, [_vm._v("\n            My favourites\n        ")])], 1)], 1)
+  }, _vm._l((_vm.exif.categories), function(category, categoryIndex) {
+    return _c('ui-tab', {
+      attrs: {
+        "title": category.title
+      }
+    }, [_c('ul', _vm._l((category.items), function(keyItem, keyItemIndex) {
+      return _c('li', [_vm._v("\n                  " + _vm._s(keyItem.title) + " : " + _vm._s(keyItem.value) + "\n              ")])
+    }))])
+  }))], 1)
 },staticRenderFns: []}
 
 /***/ }),
@@ -42432,7 +42466,26 @@ var _keenUi = __webpack_require__(9);
 
 exports.default = {
   name: 'dovemxui-exif-info',
-  props: {},
+  props: {
+    exif: {
+      type: Object,
+      default: {
+        categories: [{
+          title: '基本信息',
+          items: {
+            key$filePath: {
+              title: '文件路径',
+              type: String,
+              value: 'Demo'
+            }
+          }
+        }, {
+          title: '扩展信息',
+          items: {}
+        }]
+      }
+    }
+  },
   data: function data() {
     return {};
   },
