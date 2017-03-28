@@ -143,10 +143,10 @@
 <script>
 import { BS, Util, _ } from 'dovemaxsdk'
 import {UiIcon, UiSelect, UiTabs, UiTab, UiConfirm, UiButton, UiIconButton, UiAlert, UiToolbar, UiProgressLinear} from 'keen-ui'
-import DoveMXComponents, { ExifInformation, ExifCategory, ExifItem } from '../../components'
 import {Transfer} from '../../bridge/transfer'
 
-console.log('ExifInformation = ', ExifInformation)
+import DoveMX_UIExifInfo from '../../components/ui-exif-info.vue'
+import { ExifInformation, ExifCategory, ExifItem } from '../../components/def-exif.js'
 
 var baseID = "__page__modify__action__"
 var baseIDIndex = -1
@@ -628,13 +628,13 @@ export default {
             let exifInformation = new ExifInformation()
             let cag1 = new ExifCategory('基本信息')
             cag1.add(new ExifItem('key$filePath',{
-                title: '文件路径',
+                title: '路径',
                 description: '获取或设置文件的路径',
                 dataType: String,
                 value: 'Demo'
             }))
             cag1.add(new ExifItem('key$fileSize',{
-                title: '文件大小',
+                title: '大小',
                 description: '获取或设置文件的大小',
                 dataType: String,
                 value: '52.36MB'
@@ -685,7 +685,7 @@ export default {
         UiSelect,
         UiConfirm,
         UiProgressLinear,
-        DoveMXComponents
+        'dovemxui-exif-info': DoveMX_UIExifInfo
     }
 }
 

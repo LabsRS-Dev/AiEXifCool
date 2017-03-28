@@ -1,5 +1,5 @@
 <template>
-  <div class="dovemxui-exif-info____container">
+  <div class="dovemxui-exif-info__container">
       <ui-tabs type="text">
           <ui-tab 
             :title="category.title"
@@ -19,7 +19,7 @@
 
 <script>
 import {UiIcon, UiSelect, UiTabs, UiTab, UiConfirm, UiButton, UiIconButton, UiAlert, UiToolbar, UiProgressLinear} from 'keen-ui'
-import { UIPropertyEditor } from './index.js'
+import DoveMX_UIPropertyEditor from './ui-property-editor.vue'
 import { ExifInformation } from './def-exif'
 
 
@@ -64,7 +64,8 @@ export default {
     UiToolbar,
     UiSelect,
     UiConfirm,
-    UiProgressLinear
+    UiProgressLinear,
+    'dovemxui-property-editor':DoveMX_UIPropertyEditor
   }
 }
 

@@ -11,7 +11,7 @@ class PropertyItem {
     this.value = value // 当前值，任意类型
 
     this.dataType = options.dataType || String // 数据类型
-    this.uiComponent = options.uiComponent || {} // 展示UI组件
+    this.uiComponent = options.uiComponent || 'ui-textbox' // 展示UI组件
     this.readOnly = options.readOnly || false // 是否只读
   }
 }

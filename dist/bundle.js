@@ -26436,50 +26436,7 @@ process.umask = function() { return 0; };
 
 
 /***/ }),
-/* 35 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.PropertyItem = exports.ExifItem = exports.ExifCategory = exports.ExifInformation = exports.DoveMX_UIPropertyEditor = exports.DoveMX_UIExifInfo = undefined;
-
-var _uiExifInfo = __webpack_require__(166);
-
-var _uiExifInfo2 = _interopRequireDefault(_uiExifInfo);
-
-var _uiPropertyEditor = __webpack_require__(167);
-
-var _uiPropertyEditor2 = _interopRequireDefault(_uiPropertyEditor);
-
-var _defExif = __webpack_require__(196);
-
-var _defPropertyEditor = __webpack_require__(197);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var DoveMXComponents = {
-  DoveMX_UIExifInfo: _uiExifInfo2.default,
-  DoveMX_UIPropertyEditor: _uiPropertyEditor2.default,
-
-  install: function install(Vue) {
-    Vue.component('dovemxui-exif-info', _uiExifInfo2.default);
-    Vue.component('dovemxui-property-editor', _uiPropertyEditor2.default);
-  }
-};
-
-exports.default = DoveMXComponents;
-exports.DoveMX_UIExifInfo = _uiExifInfo2.default;
-exports.DoveMX_UIPropertyEditor = _uiPropertyEditor2.default;
-exports.ExifInformation = _defExif.ExifInformation;
-exports.ExifCategory = _defExif.ExifCategory;
-exports.ExifItem = _defExif.ExifItem;
-exports.PropertyItem = _defPropertyEditor.PropertyItem;
-
-/***/ }),
+/* 35 */,
 /* 36 */
 /***/ (function(module, exports) {
 
@@ -28404,10 +28361,6 @@ var _vuex2 = _interopRequireDefault(_vuex);
 
 var _dovemaxsdk = __webpack_require__(12);
 
-var _components = __webpack_require__(35);
-
-var _components2 = _interopRequireDefault(_components);
-
 var _App = __webpack_require__(165);
 
 var _App2 = _interopRequireDefault(_App);
@@ -28423,8 +28376,6 @@ var _routes2 = _interopRequireDefault(_routes);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 _vue2.default.config.devtools = true;
-
-_vue2.default.use(_components2.default);
 
 _vue2.default.use(_vueI18n2.default, {});
 
@@ -28579,7 +28530,9 @@ var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
 var _keenUi = __webpack_require__(7);
 
-var _index = __webpack_require__(35);
+var _uiPropertyEditor = __webpack_require__(167);
+
+var _uiPropertyEditor2 = _interopRequireDefault(_uiPropertyEditor);
 
 var _defExif = __webpack_require__(196);
 
@@ -28625,7 +28578,8 @@ exports.default = {
     UiToolbar: _keenUi.UiToolbar,
     UiSelect: _keenUi.UiSelect,
     UiConfirm: _keenUi.UiConfirm,
-    UiProgressLinear: _keenUi.UiProgressLinear
+    UiProgressLinear: _keenUi.UiProgressLinear,
+    'dovemxui-property-editor': _uiPropertyEditor2.default
   }
 };
 
@@ -28642,7 +28596,13 @@ Object.defineProperty(exports, "__esModule", {
 
 var _keenUi = __webpack_require__(7);
 
+var _uiPropertyEditorItem = __webpack_require__(199);
+
+var _uiPropertyEditorItem2 = _interopRequireDefault(_uiPropertyEditorItem);
+
 var _defPropertyEditor = __webpack_require__(197);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = {
   name: 'dovemxui-property-editor',
@@ -28689,6 +28649,7 @@ exports.default = {
   },
 
   methods: {
+    setValue: function setValue(value) {},
     getPropertyValueStyle: function getPropertyValueStyle(item) {}
   },
 
@@ -28702,7 +28663,8 @@ exports.default = {
     UiToolbar: _keenUi.UiToolbar,
     UiSelect: _keenUi.UiSelect,
     UiConfirm: _keenUi.UiConfirm,
-    UiProgressLinear: _keenUi.UiProgressLinear
+    UiProgressLinear: _keenUi.UiProgressLinear,
+    'dovemxui-property-editor-item': _uiPropertyEditorItem2.default
   }
 };
 
@@ -28737,15 +28699,15 @@ var _dovemaxsdk = __webpack_require__(12);
 
 var _keenUi = __webpack_require__(7);
 
-var _components = __webpack_require__(35);
-
-var _components2 = _interopRequireDefault(_components);
-
 var _transfer = __webpack_require__(24);
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var _uiExifInfo = __webpack_require__(166);
 
-console.log('ExifInformation = ', _components.ExifInformation);
+var _uiExifInfo2 = _interopRequireDefault(_uiExifInfo);
+
+var _defExif = __webpack_require__(196);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var baseID = "__page__modify__action__";
 var baseIDIndex = -1;
@@ -29166,22 +29128,22 @@ exports.default = {
             }
         },
         __getItemExifInfo: function __getItemExifInfo(item) {
-            var exifInformation = new _components.ExifInformation();
-            var cag1 = new _components.ExifCategory('基本信息');
-            cag1.add(new _components.ExifItem('key$filePath', {
-                title: '文件路径',
+            var exifInformation = new _defExif.ExifInformation();
+            var cag1 = new _defExif.ExifCategory('基本信息');
+            cag1.add(new _defExif.ExifItem('key$filePath', {
+                title: '路径',
                 description: '获取或设置文件的路径',
                 dataType: String,
                 value: 'Demo'
             }));
-            cag1.add(new _components.ExifItem('key$fileSize', {
-                title: '文件大小',
+            cag1.add(new _defExif.ExifItem('key$fileSize', {
+                title: '大小',
                 description: '获取或设置文件的大小',
                 dataType: String,
                 value: '52.36MB'
             }));
 
-            var cag2 = new _components.ExifCategory('扩展信息');
+            var cag2 = new _defExif.ExifCategory('扩展信息');
 
             exifInformation.add(cag1);
             exifInformation.add(cag2);
@@ -29222,7 +29184,7 @@ exports.default = {
         UiSelect: _keenUi.UiSelect,
         UiConfirm: _keenUi.UiConfirm,
         UiProgressLinear: _keenUi.UiProgressLinear,
-        DoveMXComponents: _components2.default
+        'dovemxui-exif-info': _uiExifInfo2.default
     }
 };
 
@@ -31922,7 +31884,7 @@ module.exports = Component.exports
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
-    staticClass: "dovemxui-exif-info____container"
+    staticClass: "dovemxui-exif-info__container"
   }, [_c('ui-tabs', {
     attrs: {
       "type": "text"
@@ -32567,7 +32529,11 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }, [_vm._v("\n          " + _vm._s(keyItem.title) + " \n        ")])]), _vm._v(" "), _c('td', {
       staticClass: "dovemxui-property-editor__container__propertyValue"
-    }, [_vm._v(" \n        " + _vm._s(keyItem.value) + " \n      ")])])
+    }, [_c('dovemxui-property-editor-item', {
+      attrs: {
+        "itemdata": keyItem
+      }
+    })], 1)])
   })], 2)], 1)
 },staticRenderFns: []}
 
@@ -42916,7 +42882,7 @@ var PropertyItem = function PropertyItem() {
   this.value = value;
 
   this.dataType = options.dataType || String;
-  this.uiComponent = options.uiComponent || {};
+  this.uiComponent = options.uiComponent || 'ui-textbox';
   this.readOnly = options.readOnly || false;
 };
 
@@ -42954,6 +42920,187 @@ var PropertyEditor = function () {
 
 exports.PropertyItem = PropertyItem;
 exports.PropertyEditor = PropertyEditor;
+
+/***/ }),
+/* 198 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _stringify = __webpack_require__(89);
+
+var _stringify2 = _interopRequireDefault(_stringify);
+
+var _keenUi = __webpack_require__(7);
+
+var _defPropertyEditor = __webpack_require__(197);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = {
+  name: "dovemxui-property-editor-item",
+  props: {
+    itemdata: Object,
+    default: function _default() {
+      return new _defPropertyEditor.PropertyItem();
+    },
+
+    options: {
+      type: Array,
+      default: function _default() {
+        return [];
+      }
+    },
+    disabled: {
+      type: Boolean,
+      default: false
+    }
+  },
+  data: function data() {
+    return {
+      query: '',
+      isActive: false,
+      isTouched: false,
+      showEditWidget: false,
+      initialValue: (0, _stringify2.default)(this.itemdata)
+    };
+  },
+
+
+  watch: {
+    showEditWidget: function showEditWidget() {
+      if (this.showEditWidget) {
+        this.onEdit();
+        this.$emit('edit-widget-open');
+      } else {
+        this.onCloseEdit();
+        this.$emit('edit-widget-close');
+      }
+    }
+  },
+
+  created: function created() {},
+  mounted: function mounted() {
+    document.addEventListener('click', this.onExternalClick);
+  },
+  beforeDestroy: function beforeDestroy() {
+    document.removeEventListener('click', this.onExternalClick);
+  },
+
+
+  methods: {
+    toggleEditWidget: function toggleEditWidget() {
+      this[this.showEditWidget ? 'closeEditWidget' : 'openEditWidget']();
+    },
+    openEditWidget: function openEditWidget() {
+      if (this.disabled) {
+        return;
+      }
+
+      this.showEditWidget = true;
+      if (!this.isActive) {
+        this.isActive = true;
+      }
+    },
+    closeEditWidget: function closeEditWidget() {
+      var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : { autoBlur: false };
+
+      this.showEditWidget = false;
+
+      if (!this.isTouched) {
+        this.isTouched = true;
+        this.$emit('touch');
+      }
+
+      if (options.autoBlur) {
+        this.isActive = false;
+      } else {}
+    },
+    onFocus: function onFocus(e) {
+      if (this.isActive) {
+        return;
+      }
+
+      this.isActive = true;
+      this.$emit('focus', e);
+    },
+    onEdit: function onEdit() {},
+    onCloseEdit: function onCloseEdit() {},
+    onExternalClick: function onExternalClick(e) {
+      if (!this.$el.contains(e.target)) {
+        if (this.showEditWidget) {
+          this.closeEditWidget({ autoBlur: true });
+        } else if (this.isActive) {
+          this.isActive = false;
+        }
+      }
+    }
+  },
+
+  components: {
+    UiIcon: _keenUi.UiIcon,
+    UiTabs: _keenUi.UiTabs,
+    UiTab: _keenUi.UiTab,
+    UiButton: _keenUi.UiButton,
+    UiIconButton: _keenUi.UiIconButton,
+    UiAlert: _keenUi.UiAlert,
+    UiToolbar: _keenUi.UiToolbar,
+    UiSelect: _keenUi.UiSelect,
+    UiConfirm: _keenUi.UiConfirm,
+    UiProgressLinear: _keenUi.UiProgressLinear
+  }
+};
+
+/***/ }),
+/* 199 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var Component = __webpack_require__(9)(
+  /* script */
+  __webpack_require__(198),
+  /* template */
+  __webpack_require__(200),
+  /* scopeId */
+  null,
+  /* cssModules */
+  null
+)
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 200 */
+/***/ (function(module, exports) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    on: {
+      "click": _vm.toggleEditWidget,
+      "focus": _vm.onFocus
+    }
+  }, [_c('div', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (!_vm.showEditWidget),
+      expression: "!showEditWidget"
+    }]
+  }, [_vm._v("\n    " + _vm._s(_vm.itemdata.value) + "\n  ")]), _vm._v(" "), _c(_vm.itemdata.uiComponent, {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.showEditWidget),
+      expression: "showEditWidget"
+    }],
+    tag: "div"
+  }, [_vm._v("\n    12112\n  ")])])
+},staticRenderFns: []}
 
 /***/ })
 /******/ ]);

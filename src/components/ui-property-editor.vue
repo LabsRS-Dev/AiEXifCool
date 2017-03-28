@@ -25,7 +25,10 @@
           </span>
         </td>
         <td class="dovemxui-property-editor__container__propertyValue"> 
-          {{ keyItem.value }} 
+          <dovemxui-property-editor-item
+            :itemdata="keyItem"
+          >
+          </dovemxui-property-editor-item>
         </td>
       </tr>
     </table>  
@@ -33,7 +36,9 @@
 </template>
 <script>
 import {UiIcon, UiSelect, UiTabs, UiTab, UiConfirm, UiButton, UiIconButton, UiAlert, UiToolbar, UiProgressLinear} from 'keen-ui'
+import DoveMX_UIPropertyEditorItem from './ui-property-editor-item.vue'
 import { PropertyItem, PropertyEditor } from './def-property-editor'
+
 
 export default {
   name: 'dovemxui-property-editor',
@@ -84,9 +89,11 @@ export default {
   },
 
   methods:{
-     getPropertyValueStyle(item){
+    setValue(value) {
+    },
+    getPropertyValueStyle(item){
 
-     }
+    }
   },
 
 
@@ -100,7 +107,8 @@ export default {
     UiToolbar,
     UiSelect,
     UiConfirm,
-    UiProgressLinear
+    UiProgressLinear,
+    'dovemxui-property-editor-item': DoveMX_UIPropertyEditorItem
   }
 }
 
@@ -108,6 +116,9 @@ export default {
 
 <style lang="scss">
 @import '../styles/define/imports.scss';
+
+$padding-size: rem-calc(4px);
+$border: 1px solid $md-grey-400;
 
 .dovemxui-property-editor__container {
   background: #EDEDED;
@@ -118,21 +129,30 @@ export default {
   }
   .dovemxui-property-editor__container__table {
     width: 100%;
-    border: 1px solid $md-grey-400;
+    border: $border;
     max-height: 80vh;
 
     .dovemxui-property-editor__container__head {
       background: linear-gradient(rgba(233, 233, 233, 1.0), rgba(178, 178, 178, 1.0));
+      text-align: center;
+      padding: $padding-size;
+      
     }
 
     .dovemxui-property-editor__container__content {
       .dovemxui-property-editor__container__property{
-        width: 60%;
+        width: 42%;
         cursor: default;
+        border: $border;
+        padding: $padding-size;
       }
 
       .dovemxui-property-editor__container__propertyValue{
-        width: 40%;
+        width: 58%;
+        border: $border;
+        background: white;
+        padding: $padding-size;
+        cursor: pointer;
       }
     }
 
