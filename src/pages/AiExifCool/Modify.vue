@@ -143,10 +143,10 @@
 <script>
 import { BS, Util, _ } from 'dovemaxsdk'
 import {UiIcon, UiSelect, UiTabs, UiTab, UiConfirm, UiButton, UiIconButton, UiAlert, UiToolbar, UiProgressLinear} from 'keen-ui'
-import DoveMXComponents from '../../components'
+import DoveMXComponents, { ExifInformation, ExifCategory, ExifItem } from '../../components'
 import {Transfer} from '../../bridge/transfer'
 
-
+console.log('ExifInformation = ', ExifInformation)
 
 var baseID = "__page__modify__action__"
 var baseIDIndex = -1
@@ -623,13 +623,37 @@ export default {
             }
 
         },
+
+        __getItemExifInfo(item) {
+            let exifInformation = new ExifInformation()
+            let cag1 = new ExifCategory('基本信息')
+            cag1.add(new ExifItem('key$filePath',{
+                title: '文件路径',
+                description: '获取或设置文件的路径',
+                dataType: String,
+                value: 'Demo'
+            }))
+            cag1.add(new ExifItem('key$fileSize',{
+                title: '文件大小',
+                description: '获取或设置文件的大小',
+                dataType: String,
+                value: '52.36MB'
+            }))
+
+            let cag2 = new ExifCategory('扩展信息')
+
+            exifInformation.add(cag1)
+            exifInformation.add(cag2)
+            return exifInformation
+
+        },
         onSettingPlan(item){
             var that = this
             const cdg = that.exifConfigDialog
             cdg.title = that.$t('pages.modify.dialog-exif-confirm-edit.title')
             cdg.confirmButtonText = that.$t('pages.modify.dialog-exif-confirm-edit.btnConfirm')
             cdg.denyButtonText = that.$t('pages.modify.dialog-exif-confirm-edit.btnDeny')
-            cdg.exifInfo = item.exif
+            cdg.exifInfo = that.__getItemExifInfo(item)
             cdg.propertyEditorConfig = {
                 propertyCaption: that.$t('_common.propertyEditor.property'),
                 valueCaption: that.$t('_common.propertyEditor.value')

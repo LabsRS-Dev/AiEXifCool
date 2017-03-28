@@ -1,26 +1,30 @@
 <template>
   <div class="dovemxui-property-editor__container">
     <ui-select
+        class="dovemxui-property-editor__search"
         :placeholder="planPlaceHolder"
         :options="propertyNames"
         hasSearch
         v-model="modelSelectProperty"
     ></ui-select>
     <table class="dovemxui-property-editor__container__table">
-      <tr>
+      <tr
+        class="dovemxui-property-editor__container__head"
+      >
         <td> {{ propertyCaption  }}</td>
         <td> {{ valueCaption }}</td>
       </tr>
       <tr
+      class="dovemxui-property-editor__container__content"
       :key="'item' + keyItemIndex"
       v-for="(keyItem, keyItemIndex) in items"
       >
-        <td class="dovemxui-property-editor__container__table__property"> 
+        <td class="dovemxui-property-editor__container__property"> 
           <span :title="keyItem.description">
             {{ keyItem.title }} 
           </span>
         </td>
-        <td class="dovemxui-property-editor__container__table__propertyValue"> 
+        <td class="dovemxui-property-editor__container__propertyValue"> 
           {{ keyItem.value }} 
         </td>
       </tr>
@@ -29,64 +33,16 @@
 </template>
 <script>
 import {UiIcon, UiSelect, UiTabs, UiTab, UiConfirm, UiButton, UiIconButton, UiAlert, UiToolbar, UiProgressLinear} from 'keen-ui'
-
-// 定义属性编辑器
-class PropertyEditor {
-    constructor() {
-
-    }
-
-    setup(){
-
-    }
-
-    /**
-    ** 返回属性的当前值。基本类型被封装成对应的封装类实例
-    **/
-    getValue(){
-
-    }
-    
-    /**
-    ** 设置属性的值，基本类型以封装类传入
-    **/
-    setValue(newValue){
-
-    }
-
-    /**
-    ** 将属性对象用一个字符串表示，以便外部的属性编辑器能以可视化的方式显示。缺省返回null，表示该属性不能以字符串表示；
-    **/
-    getAsText() {
-
-    }
-
-    /**
-    ** 用一个字符串去更新属性的内部值，这个字符串一般从外部属性编辑器传入
-    **/
-    setAsText() {
-
-    }
-
-    /**
-    ** 返回表示有效属性值的字符串数组（如boolean属性对应的有效Tag为true和false），以便属性编辑器能以下拉框的方式显示出来。缺省返回null，表示属性没有匹配的字符值有限集合
-    **/
-    getTags() {
-
-    }
-
-    /**
-    ** 为属性提供一个表示初始值的字符串，属性编辑器以此值作为属性的默认值。
-    **/
-    getInitializationString() {
-
-    }
-}
-
+import { PropertyItem, PropertyEditor } from './def-property-editor'
 
 export default {
   name: 'dovemxui-property-editor',
   props: {
+    // UI Style
+    planPlaceHolder: {
+      type: String,
+      default: "Search"
+    },
     propertyCaption: {
       type: String,
       default: "Property"
@@ -96,29 +52,14 @@ export default {
       default: "Value"
     },
 
+    // Data
     items: {
-      type: Object,
-      default: {
-        keyName: {
-          title: 'KeyName',  // 属性标签
-          description: '',   // 属性描述
-          dataType: String,  // 数据类型
-          uiComponent: {},   // 展示UI组件
-          value: '',         // 当前值，任意类型
-          onlyRead: false,   // 是否只读
-        }
-      }
-
-      /// items 样例
-      /**
-      ** keyName = {title, dataType, uiType, value, editable, onlyRead}
-      **
-      **/
+      type: Array,
+      default: [new PropertyItem()]
     }
   },
   data(){
     return {
-      planPlaceHolder: 'Search ....',
       modelSelectProperty: {}
     }
   },
@@ -132,11 +73,10 @@ export default {
     propertyNames(){
       var that = this
       var keyNameList = [];
-      var keyList = Object.keys(that.items)
 
-      for(let i=0; i <keyList.length; ++i){
-        const key = keyList[i]
-        keyNameList.push(that.items[key].title)
+      for(let i=0; i <that.items.length; ++i){
+        const item = that.items[i]
+        keyNameList.push(item.title)
       }
 
       return keyNameList
@@ -172,8 +112,31 @@ export default {
 .dovemxui-property-editor__container {
   background: #EDEDED;
 
+  
+  .dovemxui-property-editor__search{
+    font-size: rem-calc(9px);
+  }
   .dovemxui-property-editor__container__table {
-    border: 1px solid blue;
+    width: 100%;
+    border: 1px solid $md-grey-400;
+    max-height: 80vh;
+
+    .dovemxui-property-editor__container__head {
+      background: linear-gradient(rgba(233, 233, 233, 1.0), rgba(178, 178, 178, 1.0));
+    }
+
+    .dovemxui-property-editor__container__content {
+      .dovemxui-property-editor__container__property{
+        width: 60%;
+        cursor: default;
+      }
+
+      .dovemxui-property-editor__container__propertyValue{
+        width: 40%;
+      }
+    }
+
+
   }
 }
 

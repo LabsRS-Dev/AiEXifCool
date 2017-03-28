@@ -26445,7 +26445,7 @@ process.umask = function() { return 0; };
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.DoveMX_UIPropertyEditor = exports.DoveMX_UIExifInfo = undefined;
+exports.PropertyItem = exports.ExifItem = exports.ExifCategory = exports.ExifInformation = exports.DoveMX_UIPropertyEditor = exports.DoveMX_UIExifInfo = undefined;
 
 var _uiExifInfo = __webpack_require__(166);
 
@@ -26454,6 +26454,10 @@ var _uiExifInfo2 = _interopRequireDefault(_uiExifInfo);
 var _uiPropertyEditor = __webpack_require__(167);
 
 var _uiPropertyEditor2 = _interopRequireDefault(_uiPropertyEditor);
+
+var _defExif = __webpack_require__(196);
+
+var _defPropertyEditor = __webpack_require__(197);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -26470,6 +26474,10 @@ var DoveMXComponents = {
 exports.default = DoveMXComponents;
 exports.DoveMX_UIExifInfo = _uiExifInfo2.default;
 exports.DoveMX_UIPropertyEditor = _uiPropertyEditor2.default;
+exports.ExifInformation = _defExif.ExifInformation;
+exports.ExifCategory = _defExif.ExifCategory;
+exports.ExifItem = _defExif.ExifItem;
+exports.PropertyItem = _defPropertyEditor.PropertyItem;
 
 /***/ }),
 /* 36 */
@@ -28565,35 +28573,37 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _classCallCheck2 = __webpack_require__(18);
+
+var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
 var _keenUi = __webpack_require__(7);
 
 var _index = __webpack_require__(35);
+
+var _defExif = __webpack_require__(196);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var PropertyEditorConfig = function PropertyEditorConfig() {
+  var propertyCaption = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'property';
+  var valueCaption = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'value';
+  (0, _classCallCheck3.default)(this, PropertyEditorConfig);
+
+  this.propertyCaption = propertyCaption;
+  this.valueCaption = valueCaption;
+};
 
 exports.default = {
   name: 'dovemxui-exif-info',
   props: {
     propertyEditorConfig: {
       type: Object,
-      default: {}
+      default: new PropertyEditorConfig()
     },
     exifInformation: {
       type: Object,
-      default: {
-        categories: [{
-          title: '基本信息',
-          items: {
-            key$filePath: {
-              title: '文件路径',
-              description: '获取或设置文件的路径',
-              dataType: String,
-              value: 'Demo'
-            }
-          }
-        }, {
-          title: '扩展信息',
-          items: {}
-        }]
-      }
+      default: new _defExif.ExifInformation()
     }
   },
   data: function data() {
@@ -28630,55 +28640,17 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _keys = __webpack_require__(55);
-
-var _keys2 = _interopRequireDefault(_keys);
-
-var _classCallCheck2 = __webpack_require__(18);
-
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
-
-var _createClass2 = __webpack_require__(103);
-
-var _createClass3 = _interopRequireDefault(_createClass2);
-
 var _keenUi = __webpack_require__(7);
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var PropertyEditor = function () {
-  function PropertyEditor() {
-    (0, _classCallCheck3.default)(this, PropertyEditor);
-  }
-
-  (0, _createClass3.default)(PropertyEditor, [{
-    key: 'setup',
-    value: function setup() {}
-  }, {
-    key: 'getValue',
-    value: function getValue() {}
-  }, {
-    key: 'setValue',
-    value: function setValue(newValue) {}
-  }, {
-    key: 'getAsText',
-    value: function getAsText() {}
-  }, {
-    key: 'setAsText',
-    value: function setAsText() {}
-  }, {
-    key: 'getTags',
-    value: function getTags() {}
-  }, {
-    key: 'getInitializationString',
-    value: function getInitializationString() {}
-  }]);
-  return PropertyEditor;
-}();
+var _defPropertyEditor = __webpack_require__(197);
 
 exports.default = {
   name: 'dovemxui-property-editor',
   props: {
+    planPlaceHolder: {
+      type: String,
+      default: "Search"
+    },
     propertyCaption: {
       type: String,
       default: "Property"
@@ -28689,22 +28661,12 @@ exports.default = {
     },
 
     items: {
-      type: Object,
-      default: {
-        keyName: {
-          title: 'KeyName',
-          description: '',
-          dataType: String,
-          uiComponent: {},
-          value: '',
-          onlyRead: false }
-      }
-
+      type: Array,
+      default: [new _defPropertyEditor.PropertyItem()]
     }
   },
   data: function data() {
     return {
-      planPlaceHolder: 'Search ....',
       modelSelectProperty: {}
     };
   },
@@ -28716,11 +28678,10 @@ exports.default = {
     propertyNames: function propertyNames() {
       var that = this;
       var keyNameList = [];
-      var keyList = (0, _keys2.default)(that.items);
 
-      for (var i = 0; i < keyList.length; ++i) {
-        var key = keyList[i];
-        keyNameList.push(that.items[key].title);
+      for (var i = 0; i < that.items.length; ++i) {
+        var item = that.items[i];
+        keyNameList.push(item.title);
       }
 
       return keyNameList;
@@ -28783,6 +28744,8 @@ var _components2 = _interopRequireDefault(_components);
 var _transfer = __webpack_require__(24);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+console.log('ExifInformation = ', _components.ExifInformation);
 
 var baseID = "__page__modify__action__";
 var baseIDIndex = -1;
@@ -29202,13 +29165,35 @@ exports.default = {
                 that.__removeTaskItem(item, index);
             }
         },
+        __getItemExifInfo: function __getItemExifInfo(item) {
+            var exifInformation = new _components.ExifInformation();
+            var cag1 = new _components.ExifCategory('基本信息');
+            cag1.add(new _components.ExifItem('key$filePath', {
+                title: '文件路径',
+                description: '获取或设置文件的路径',
+                dataType: String,
+                value: 'Demo'
+            }));
+            cag1.add(new _components.ExifItem('key$fileSize', {
+                title: '文件大小',
+                description: '获取或设置文件的大小',
+                dataType: String,
+                value: '52.36MB'
+            }));
+
+            var cag2 = new _components.ExifCategory('扩展信息');
+
+            exifInformation.add(cag1);
+            exifInformation.add(cag2);
+            return exifInformation;
+        },
         onSettingPlan: function onSettingPlan(item) {
             var that = this;
             var cdg = that.exifConfigDialog;
             cdg.title = that.$t('pages.modify.dialog-exif-confirm-edit.title');
             cdg.confirmButtonText = that.$t('pages.modify.dialog-exif-confirm-edit.btnConfirm');
             cdg.denyButtonText = that.$t('pages.modify.dialog-exif-confirm-edit.btnDeny');
-            cdg.exifInfo = item.exif;
+            cdg.exifInfo = that.__getItemExifInfo(item);
             cdg.propertyEditorConfig = {
                 propertyCaption: that.$t('_common.propertyEditor.property'),
                 valueCaption: that.$t('_common.propertyEditor.value')
@@ -31783,6 +31768,10 @@ module.exports = Component.exports
 /* 166 */
 /***/ (function(module, exports, __webpack_require__) {
 
+
+/* styles */
+__webpack_require__(194)
+
 var Component = __webpack_require__(9)(
   /* script */
   __webpack_require__(77),
@@ -32549,6 +32538,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   return _c('div', {
     staticClass: "dovemxui-property-editor__container"
   }, [_c('ui-select', {
+    staticClass: "dovemxui-property-editor__search",
     attrs: {
       "placeholder": _vm.planPlaceHolder,
       "options": _vm.propertyNames,
@@ -32563,17 +32553,20 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }), _vm._v(" "), _c('table', {
     staticClass: "dovemxui-property-editor__container__table"
-  }, [_c('tr', [_c('td', [_vm._v(" " + _vm._s(_vm.propertyCaption))]), _vm._v(" "), _c('td', [_vm._v(" " + _vm._s(_vm.valueCaption))])]), _vm._v(" "), _vm._l((_vm.items), function(keyItem, keyItemIndex) {
+  }, [_c('tr', {
+    staticClass: "dovemxui-property-editor__container__head"
+  }, [_c('td', [_vm._v(" " + _vm._s(_vm.propertyCaption))]), _vm._v(" "), _c('td', [_vm._v(" " + _vm._s(_vm.valueCaption))])]), _vm._v(" "), _vm._l((_vm.items), function(keyItem, keyItemIndex) {
     return _c('tr', {
-      key: 'item' + keyItemIndex
+      key: 'item' + keyItemIndex,
+      staticClass: "dovemxui-property-editor__container__content"
     }, [_c('td', {
-      staticClass: "dovemxui-property-editor__container__table__property"
+      staticClass: "dovemxui-property-editor__container__property"
     }, [_c('span', {
       attrs: {
         "title": keyItem.description
       }
     }, [_vm._v("\n          " + _vm._s(keyItem.title) + " \n        ")])]), _vm._v(" "), _c('td', {
-      staticClass: "dovemxui-property-editor__container__table__propertyValue"
+      staticClass: "dovemxui-property-editor__container__propertyValue"
     }, [_vm._v(" \n        " + _vm._s(keyItem.value) + " \n      ")])])
   })], 2)], 1)
 },staticRenderFns: []}
@@ -42788,6 +42781,179 @@ var index_esm = {
 
 module.exports = __webpack_require__(75);
 
+
+/***/ }),
+/* 187 */,
+/* 188 */,
+/* 189 */,
+/* 190 */,
+/* 191 */,
+/* 192 */,
+/* 193 */,
+/* 194 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 195 */,
+/* 196 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.ExifInformation = exports.ExifCategory = exports.ExifItem = undefined;
+
+var _createClass2 = __webpack_require__(103);
+
+var _createClass3 = _interopRequireDefault(_createClass2);
+
+var _classCallCheck2 = __webpack_require__(18);
+
+var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var ExifItem = function ExifItem() {
+  var key = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
+  var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+  (0, _classCallCheck3.default)(this, ExifItem);
+
+  this.key = key;
+  this.title = options.title || 'title';
+  this.description = options.description || 'description';
+  this.category = options.category || 'base';
+  this.dataType = options.dataType || String;
+  this.value = options.value || 'value';
+};
+
+var ExifCategory = function () {
+  function ExifCategory() {
+    var title = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
+    var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+    (0, _classCallCheck3.default)(this, ExifCategory);
+
+    this.title = title || '';
+    this.items = [];
+  }
+
+  (0, _createClass3.default)(ExifCategory, [{
+    key: 'add',
+    value: function add(item) {
+      this.items.push(item);
+    }
+  }, {
+    key: 'getItemKeyList',
+    value: function getItemKeyList() {
+      var list = [];
+      for (var i = 0; i < this.items.length; ++i) {
+        var item = this.items[i];
+        list.push(item.key);
+      }
+      return list;
+    }
+  }]);
+  return ExifCategory;
+}();
+
+var ExifInformation = function () {
+  function ExifInformation() {
+    (0, _classCallCheck3.default)(this, ExifInformation);
+
+    this.categories = [];
+  }
+
+  (0, _createClass3.default)(ExifInformation, [{
+    key: 'add',
+    value: function add(category) {
+      this.categories.push(category);
+    }
+  }]);
+  return ExifInformation;
+}();
+
+exports.ExifItem = ExifItem;
+exports.ExifCategory = ExifCategory;
+exports.ExifInformation = ExifInformation;
+
+/***/ }),
+/* 197 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.PropertyEditor = exports.PropertyItem = undefined;
+
+var _createClass2 = __webpack_require__(103);
+
+var _createClass3 = _interopRequireDefault(_createClass2);
+
+var _classCallCheck2 = __webpack_require__(18);
+
+var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var PropertyItem = function PropertyItem() {
+  var key = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
+  var title = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '';
+  var description = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : '';
+  var value = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : '';
+  var options = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : {};
+  (0, _classCallCheck3.default)(this, PropertyItem);
+
+  this.key = key;
+  this.title = title;
+  this.description = description;
+  this.value = value;
+
+  this.dataType = options.dataType || String;
+  this.uiComponent = options.uiComponent || {};
+  this.readOnly = options.readOnly || false;
+};
+
+var PropertyEditor = function () {
+  function PropertyEditor() {
+    (0, _classCallCheck3.default)(this, PropertyEditor);
+
+    this.name = 'PropertyEditor';
+  }
+
+  (0, _createClass3.default)(PropertyEditor, [{
+    key: 'setup',
+    value: function setup() {}
+  }, {
+    key: 'getValue',
+    value: function getValue() {}
+  }, {
+    key: 'setValue',
+    value: function setValue(newValue) {}
+  }, {
+    key: 'getAsText',
+    value: function getAsText() {}
+  }, {
+    key: 'setAsText',
+    value: function setAsText() {}
+  }, {
+    key: 'getTags',
+    value: function getTags() {}
+  }, {
+    key: 'getInitializationString',
+    value: function getInitializationString() {}
+  }]);
+  return PropertyEditor;
+}();
+
+exports.PropertyItem = PropertyItem;
+exports.PropertyEditor = PropertyEditor;
 
 /***/ })
 /******/ ]);

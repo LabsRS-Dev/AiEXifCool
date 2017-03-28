@@ -20,37 +20,26 @@
 <script>
 import {UiIcon, UiSelect, UiTabs, UiTab, UiConfirm, UiButton, UiIconButton, UiAlert, UiToolbar, UiProgressLinear} from 'keen-ui'
 import { UIPropertyEditor } from './index.js'
+import { ExifInformation } from './def-exif'
+
+
+class PropertyEditorConfig {
+    constructor(propertyCaption = 'property', valueCaption = 'value'){
+        this.propertyCaption = propertyCaption
+        this.valueCaption = valueCaption
+    }
+}
 
 export default {
   name: 'dovemxui-exif-info',
   props: {
     propertyEditorConfig:{
         type: Object,
-        default: {}
+        default: new PropertyEditorConfig()
     },
     exifInformation: {
         type: Object,
-        default: {
-            categories: [
-                {
-                    title: '基本信息',
-                    items: {
-                        key$filePath: {
-                            title: '文件路径',
-                            description: '获取或设置文件的路径',
-                            dataType: String,
-                            value: 'Demo'
-                        }
-                    }
-                },
-                {
-                    title: '扩展信息',
-                    items: {
-
-                    }
-                }
-           ]
-        }
+        default: new ExifInformation()
     }
   },
   data(){
@@ -80,3 +69,9 @@ export default {
 }
 
 </script>
+
+<style lang="scss">
+.ui-tabs__body {
+    padding: 0;
+}
+</style>
