@@ -29134,14 +29134,24 @@ exports.default = {
                 title: '路径',
                 description: '获取或设置文件的路径',
                 dataType: String,
-                value: 'Demo'
+                value: 'D:\\TestResource\\exif_sample_images\\Nikon\\corrupted_output\\picture.jpg'
             }));
             cag1.add(new _defExif.ExifItem('key$fileSize', {
                 title: '大小',
                 description: '获取或设置文件的大小',
                 dataType: String,
-                value: '52.36MB'
+                value: '52.36MB',
+                readOnly: true
             }));
+
+            for (var i = 0; i < 20; ++i) {
+                cag1.add(new _defExif.ExifItem('key$filePath' + i, {
+                    title: '路径' + i,
+                    description: '获取或设置文件的路径',
+                    dataType: String,
+                    value: 'D:\\TestResource\\exif_sample_images\\Nikon\\corrupted_output\\picture.jpg'
+                }));
+            }
 
             var cag2 = new _defExif.ExifCategory('扩展信息');
 
@@ -32513,7 +32523,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       },
       expression: "modelSelectProperty"
     }
-  }), _vm._v(" "), _c('table', {
+  }), _vm._v(" "), _c('div', {
+    staticClass: "dovemxui-property-editor__container__visual__area"
+  }, [_c('table', {
     staticClass: "dovemxui-property-editor__container__table"
   }, [_c('tr', {
     staticClass: "dovemxui-property-editor__container__head"
@@ -32527,14 +32539,15 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       attrs: {
         "title": keyItem.description
       }
-    }, [_vm._v("\n          " + _vm._s(keyItem.title) + " \n        ")])]), _vm._v(" "), _c('td', {
+    }, [_vm._v("\n            " + _vm._s(keyItem.title) + " \n          ")])]), _vm._v(" "), _c('td', {
       staticClass: "dovemxui-property-editor__container__propertyValue"
     }, [_c('dovemxui-property-editor-item', {
       attrs: {
+        "tip": keyItem.description,
         "itemdata": keyItem
       }
     })], 1)])
-  })], 2)], 1)
+  })], 2)])], 1)
 },staticRenderFns: []}
 
 /***/ }),
@@ -42795,6 +42808,8 @@ var ExifItem = function ExifItem() {
   this.category = options.category || 'base';
   this.dataType = options.dataType || String;
   this.value = options.value || 'value';
+  this.readOnly = options.readOnly || false;
+  this.extendData = options.extendData || {};
 };
 
 var ExifCategory = function () {
@@ -42880,9 +42895,7 @@ var PropertyItem = function PropertyItem() {
   this.title = title;
   this.description = description;
   this.value = value;
-
   this.dataType = options.dataType || String;
-  this.uiComponent = options.uiComponent || 'ui-textbox';
   this.readOnly = options.readOnly || false;
 };
 
@@ -42945,6 +42958,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 exports.default = {
   name: "dovemxui-property-editor-item",
   props: {
+    tip: String,
     itemdata: Object,
     default: function _default() {
       return new _defPropertyEditor.PropertyItem();
@@ -42972,6 +42986,54 @@ exports.default = {
   },
 
 
+  computed: {
+    component: function component() {
+      if (this.itemdata.dataType === String) {
+        return _keenUi.UiTextbox;
+      }
+      return _keenUi.UiTextbox;
+    },
+    asFormatTip: function asFormatTip() {
+      return this.tip + ' : ' + this.asText;
+    },
+    asText: function asText() {
+      if (this.itemdata.dataType === String) {
+        return this.itemdata.value;
+      }
+    },
+    btnHasMenu: function btnHasMenu() {
+      return false;
+    },
+    menuOptions: function menuOptions() {
+      var menuOptions = [{
+        id: 'edit',
+        label: 'Edit',
+        icon: 'edit',
+        secondaryText: 'Ctrl+E'
+      }, {
+        id: 'duplicate',
+        label: 'Duplicate',
+        icon: 'content_copy',
+        secondaryText: 'Ctrl+D'
+      }, {
+        id: 'share',
+        label: 'Share',
+        icon: 'share',
+        secondaryText: 'Ctrl+Shift+S',
+        disabled: true
+      }, {
+        type: 'divider'
+      }, {
+        id: 'delete',
+        label: 'Delete',
+        icon: 'delete',
+        secondaryText: 'Del'
+      }];
+
+      return menuOptions;
+    }
+  },
+
   watch: {
     showEditWidget: function showEditWidget() {
       if (this.showEditWidget) {
@@ -42994,11 +43056,20 @@ exports.default = {
 
 
   methods: {
+    onClickEditBtn: function onClickEditBtn(e) {},
+    toggleEditWidgetOnDblClick: function toggleEditWidgetOnDblClick() {
+      this.toggleEditWidget(true);
+    },
     toggleEditWidget: function toggleEditWidget() {
+      var isDblClick = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
+
+      if (isDblClick) {
+        return this['openEditWidget']();
+      }
       this[this.showEditWidget ? 'closeEditWidget' : 'openEditWidget']();
     },
     openEditWidget: function openEditWidget() {
-      if (this.disabled) {
+      if (this.disabled || this.itemdata.readOnly) {
         return;
       }
 
@@ -43044,6 +43115,8 @@ exports.default = {
 
   components: {
     UiIcon: _keenUi.UiIcon,
+    UiMenu: _keenUi.UiMenu,
+    UiTextbox: _keenUi.UiTextbox,
     UiTabs: _keenUi.UiTabs,
     UiTab: _keenUi.UiTab,
     UiButton: _keenUi.UiButton,
@@ -43059,6 +43132,10 @@ exports.default = {
 /***/ }),
 /* 199 */
 /***/ (function(module, exports, __webpack_require__) {
+
+
+/* styles */
+__webpack_require__(201)
 
 var Component = __webpack_require__(9)(
   /* script */
@@ -43080,27 +43157,74 @@ module.exports = Component.exports
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
+    staticClass: "dovemxui-property-editor-item__container",
     on: {
-      "click": _vm.toggleEditWidget,
+      "dblclick": _vm.toggleEditWidgetOnDblClick,
       "focus": _vm.onFocus
     }
-  }, [_c('div', {
+  }, [_c('ui-textbox', {
     directives: [{
       name: "show",
       rawName: "v-show",
       value: (!_vm.showEditWidget),
       expression: "!showEditWidget"
-    }]
-  }, [_vm._v("\n    " + _vm._s(_vm.itemdata.value) + "\n  ")]), _vm._v(" "), _c(_vm.itemdata.uiComponent, {
+    }],
+    staticClass: "dovemxui-property-editor-item__container__display",
+    attrs: {
+      "title": _vm.asFormatTip,
+      "readonly": true,
+      "value": _vm.asText
+    }
+  }), _vm._v(" "), _c(_vm.component, {
     directives: [{
       name: "show",
       rawName: "v-show",
       value: (_vm.showEditWidget),
       expression: "showEditWidget"
     }],
-    tag: "div"
-  }, [_vm._v("\n    12112\n  ")])])
+    tag: "div",
+    staticClass: "dovemxui-property-editor-item__container__edit",
+    attrs: {
+      "value": _vm.itemdata.value
+    }
+  }), _vm._v(" "), _c('ui-button', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.showEditWidget),
+      expression: "showEditWidget"
+    }],
+    ref: "dropdownButton",
+    staticClass: "dovemxui-property-editor-item__container__edit__btn",
+    attrs: {
+      "size": "small",
+      "type": "primary",
+      "has-dropdown": _vm.btnHasMenu
+    },
+    on: {
+      "click": _vm.onClickEditBtn
+    }
+  }, [(_vm.btnHasMenu) ? _c('ui-menu', {
+    attrs: {
+      "contain-focus": "",
+      "has-secondary-text": "",
+      "has-icons": "",
+      "options": _vm.menuOptions
+    },
+    on: {
+      "close": function($event) {
+        _vm.$refs.dropdownButton.closeDropdown()
+      }
+    },
+    slot: "dropdown"
+  }) : _vm._e(), _vm._v("\n    ...\n    ")], 1)], 1)
 },staticRenderFns: []}
+
+/***/ }),
+/* 201 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
 
 /***/ })
 /******/ ]);

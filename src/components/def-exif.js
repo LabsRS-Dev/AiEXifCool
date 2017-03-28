@@ -1,3 +1,4 @@
+
 /**
  * Exif信息单项
  *
@@ -11,6 +12,8 @@ class ExifItem {
     this.category = options.category || 'base'
     this.dataType = options.dataType || String
     this.value = options.value || 'value'
+    this.readOnly = options.readOnly || false // 是否只读
+    this.extendData = options.extendData || {} // 扩展数据信息
   }
 }
 

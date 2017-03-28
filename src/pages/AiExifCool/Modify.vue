@@ -631,14 +631,24 @@ export default {
                 title: '路径',
                 description: '获取或设置文件的路径',
                 dataType: String,
-                value: 'Demo'
+                value: 'D:\\TestResource\\exif_sample_images\\Nikon\\corrupted_output\\picture.jpg'
             }))
             cag1.add(new ExifItem('key$fileSize',{
                 title: '大小',
                 description: '获取或设置文件的大小',
                 dataType: String,
-                value: '52.36MB'
+                value: '52.36MB',
+                readOnly: true
             }))
+
+            for(let i=0; i< 20; ++i){
+                cag1.add(new ExifItem('key$filePath' + i,{
+                    title: '路径' + i,
+                    description: '获取或设置文件的路径',
+                    dataType: String,
+                    value: 'D:\\TestResource\\exif_sample_images\\Nikon\\corrupted_output\\picture.jpg'
+                }))
+            }
 
             let cag2 = new ExifCategory('扩展信息')
 
