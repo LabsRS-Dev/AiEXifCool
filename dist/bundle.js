@@ -43014,7 +43014,6 @@ exports.default = {
       initialValue: (0, _stringify2.default)(this.itemdata),
 
       vmValue: this.itemdata.value
-
     };
   },
 
@@ -43114,9 +43113,14 @@ exports.default = {
     onUiTextBoxBlur: function onUiTextBoxBlur(e) {
       if (!this.showEditWidget) {
         this.isActive = false;
+      } else {
+        this.$emit('blur', e);
       }
     },
     onUiTextBoxFocus: function onUiTextBoxFocus(e) {
+      if (this.isActive) {
+        return;
+      }
       this.isActive = true;
       this.$emit('focus', e);
     },
@@ -43132,9 +43136,20 @@ exports.default = {
     onUiTextBoxKeydown: function onUiTextBoxKeydown(e) {
       this.$emit('keydown', e);
     },
-    onClickByEditBtn: function onClickByEditBtn(e) {},
-    onBlurByEditBtn: function onBlurByEditBtn(e) {
-      this.closeEditWidget();
+    onToolbarBlur: function onToolbarBlur(e) {
+      if (this.showEditWidget) {
+        this.toggleEditWidget();
+      } else {
+        this.$emit('blur', e);
+      }
+    },
+    onToolBarEditBtnClick: function onToolBarEditBtnClick(e) {
+      console.log('onToolBarEditBtnClick');
+    },
+    onBlur: function onBlur(e) {
+      if (!this.showEditWidget) {
+        this.$emit('blur', e);
+      }
     },
     toggleEditWidgetOnClick: function toggleEditWidgetOnClick() {
       if (!this.showEditWidget) {
@@ -43167,20 +43182,6 @@ exports.default = {
       if (options.autoBlur) {
         this.isActive = false;
       } else {}
-    },
-    onFocus: function onFocus(e) {
-      console.log('onFocus');
-      if (this.isActive) {
-        return;
-      }
-
-      this.isActive = true;
-      this.$emit('focus', e);
-    },
-    onBlur: function onBlur(e) {
-      console.log('onBlur');
-      this.closeEditWidget({ autoBlur: true });
-      this.$emit('blur', e);
     },
     onEdit: function onEdit() {},
     onCloseEdit: function onCloseEdit() {},
@@ -43242,10 +43243,12 @@ module.exports = Component.exports
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "dovemxui-property-editor-item__container",
+    class: _vm.classes,
     on: {
       "click": _vm.toggleEditWidgetOnClick,
-      "focus": _vm.onFocus,
-      "blur": _vm.onBlur
+      "!blur": function($event) {
+        _vm.onBlur($event)
+      }
     }
   }, [_c('div', {
     staticClass: "dovemxui-property-editor-item__container__display",
@@ -43313,7 +43316,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       value: (_vm.showEditWidget && _vm.hasToolbar),
       expression: "showEditWidget && hasToolbar"
     }],
-    staticClass: "dovemxui-property-editor-item__container__toolbar"
+    staticClass: "dovemxui-property-editor-item__container__toolbar",
+    on: {
+      "!blur": function($event) {
+        _vm.onToolbarBlur($event)
+      }
+    }
   }, [_c('ui-button', {
     ref: "dropdownButton",
     attrs: {
@@ -43322,8 +43330,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "has-dropdown": _vm.btnHasMenu
     },
     on: {
-      "click": _vm.onClickByEditBtn,
-      "blur": _vm.onBlurByEditBtn
+      "click": _vm.onToolBarEditBtnClick
     }
   }, [(_vm.btnHasMenu) ? _c('ui-menu', {
     attrs: {

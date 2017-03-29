@@ -675,8 +675,6 @@ export default {
                 cag2.add(item)
             }
 
-            
-
             exifInformation.add(cag1)
             exifInformation.add(cag2)
             return exifInformation

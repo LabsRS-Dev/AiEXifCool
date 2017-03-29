@@ -1,8 +1,9 @@
 <template>
     <div class="dovemxui-property-editor-item__container"
-    @click="toggleEditWidgetOnClick"
-    @focus="onFocus"
-    @blur="onBlur"
+      :class="classes"
+
+      @click="toggleEditWidgetOnClick"
+      @blur.capture="onBlur"
     >
       <!-- 显示控件(及编辑状态) -->
       <div 
@@ -66,6 +67,8 @@
 
       <div 
         class="dovemxui-property-editor-item__container__toolbar"
+
+        @blur.capture="onToolbarBlur"
         v-show="showEditWidget && hasToolbar"
         >
         <ui-button
@@ -75,9 +78,7 @@
           :has-dropdown="btnHasMenu"
 
 
-          @click="onClickByEditBtn"
-          @blur="onBlurByEditBtn"
-
+          @click="onToolBarEditBtnClick"
           >
           <ui-menu
             contain-focus
@@ -144,7 +145,6 @@ export default {
       initialValue: JSON.stringify(this.itemdata),
 
       vmValue: this.itemdata.value
-
     }
   },
 
@@ -257,55 +257,71 @@ export default {
       this.$emit('change', value)
     },
 
-    // ------------------------------------------------------ UiTextbox
+
+
+    // {}------------------------------------------------------ UiTextbox
     onUiTextBoxValueChange(value){
       //this.setValue(value)
     },
-
     onUiTextBoxBlur(e){
       if(!this.showEditWidget){
         this.isActive = false
+      }else {
+        this.$emit('blur', e)
       }
     },
-
     onUiTextBoxFocus(e){
+      if (this.isActive) {
+        return
+      }
       this.isActive = true
       this.$emit('focus', e)
     },
-
     onUiTextBoxUpdateValue(value) {
       this.itemdata.value = value
       this.setValue(value)
     },
-
     onUiTextBoxKeydownEnter(e){
       console.log('onUiTextBoxKeydownEnter')
       this.toggleEditWidget()
       this.$emit('keydown-enter-prevent', e);
     },
-
     onUiTextBoxKeydown(e){
       this.$emit('keydown', e);
     },
-    // ---------------------------------------------------- UiButton
-    onClickByEditBtn(e) {
-      
+
+
+    // {} --------------------------------------------------- __container__toolbar
+    onToolbarBlur(e){
+      if(this.showEditWidget){
+        this.toggleEditWidget()
+      }else {
+        this.$emit('blur', e)
+      }
     },
 
-    onBlurByEditBtn(e) {
-      this.closeEditWidget()
+
+    // {} ---------------------------------------------------- UiButton
+    onToolBarEditBtnClick(e) {
+      // support Key.enter.down and Key.space.down
+      console.log('onToolBarEditBtnClick')
     },
-    // -----------------------------------------------------
+
+    // {} ----------------------------------------------------- Self
+    onBlur(e){
+      if(!this.showEditWidget){
+        this.$emit('blur', e)
+      }
+    },
+
     toggleEditWidgetOnClick() {
       if(!this.showEditWidget) {
         this.toggleEditWidget(false)
       }
     },
-
     toggleEditWidget() {
       this[this.showEditWidget ? 'closeEditWidget' : 'openEditWidget']()
     },
-
     openEditWidget() {
       if (this.disabled || this.itemdata.readOnly) {
         return
@@ -330,22 +346,6 @@ export default {
       } else {
         // this.$refs.label.focus()
       }
-    },
-
-    onFocus(e) {
-      console.log('onFocus')
-      if (this.isActive) {
-        return
-      }
-
-      this.isActive = true
-      this.$emit('focus', e)
-    },
-
-    onBlur(e) {
-      console.log('onBlur')
-      this.closeEditWidget({ autoBlur: true })
-      this.$emit('blur', e)
     },
 
     onEdit(){
