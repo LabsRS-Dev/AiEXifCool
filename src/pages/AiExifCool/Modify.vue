@@ -633,7 +633,8 @@ export default {
                 dataType: String,
                 value: 'D:\\TestResource\\exif_sample_images\\Nikon\\corrupted_output\\picture.jpg',
                 extend: {
-                    uiDisplayComponent:'ui-textbox'
+                    uiDisplayComponent:'ui-textbox',
+                    showToolbar: false
                 }
             }))
             cag1.add(new ExifItem('key$fileSize',{
@@ -651,9 +652,9 @@ export default {
                 description: '获取或设置文件的大小',
                 dataType: Boolean,
                 value: true,
-                readOnly: true,
                 extend: {
-                    uiDisplayComponent:'ui-switch'
+                    uiDisplayComponent:'ui-switch',
+                    showToolbar: false
                 }
             }))            
 
@@ -666,7 +667,8 @@ export default {
                     dataType: String,
                     value: 'D:\\TestResource\\exif_sample_images\\Nikon\\corrupted_output\\picture.jpg',
                     extend: {
-                        uiDisplayComponent:'ui-textbox'
+                        uiDisplayComponent:'ui-textbox',
+                        showToolbar: true
                     }
                 })
                 cag1.add(item)

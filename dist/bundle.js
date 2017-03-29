@@ -29139,7 +29139,8 @@ exports.default = {
                 dataType: String,
                 value: 'D:\\TestResource\\exif_sample_images\\Nikon\\corrupted_output\\picture.jpg',
                 extend: {
-                    uiDisplayComponent: 'ui-textbox'
+                    uiDisplayComponent: 'ui-textbox',
+                    showToolbar: false
                 }
             }));
             cag1.add(new _defExif.ExifItem('key$fileSize', {
@@ -29157,9 +29158,9 @@ exports.default = {
                 description: '获取或设置文件的大小',
                 dataType: Boolean,
                 value: true,
-                readOnly: true,
                 extend: {
-                    uiDisplayComponent: 'ui-switch'
+                    uiDisplayComponent: 'ui-switch',
+                    showToolbar: false
                 }
             }));
 
@@ -29172,7 +29173,8 @@ exports.default = {
                     dataType: String,
                     value: 'D:\\TestResource\\exif_sample_images\\Nikon\\corrupted_output\\picture.jpg',
                     extend: {
-                        uiDisplayComponent: 'ui-textbox'
+                        uiDisplayComponent: 'ui-textbox',
+                        showToolbar: true
                     }
                 });
                 cag1.add(_item);
@@ -43041,7 +43043,10 @@ exports.default = {
       return this.tip + ' : ' + this.vmValue;
     },
     isReadOnly: function isReadOnly() {
-      return this.itemdata.readonly || false;
+      return !!this.itemdata.readonly;
+    },
+    hasToolbar: function hasToolbar() {
+      return !!this.itemdata.extend.showToolbar;
     },
     btnHasMenu: function btnHasMenu() {
       return false;
@@ -43106,7 +43111,11 @@ exports.default = {
       this.$emit('change', value);
     },
     onUiTextBoxValueChange: function onUiTextBoxValueChange(value) {},
-    onUiTextBoxBlur: function onUiTextBoxBlur(e) {},
+    onUiTextBoxBlur: function onUiTextBoxBlur(e) {
+      if (!this.showEditWidget) {
+        this.isActive = false;
+      }
+    },
     onUiTextBoxFocus: function onUiTextBoxFocus(e) {
       this.isActive = true;
       this.$emit('focus', e);
@@ -43116,23 +43125,23 @@ exports.default = {
       this.setValue(value);
     },
     onUiTextBoxKeydownEnter: function onUiTextBoxKeydownEnter(e) {
-      this.closeEditWidget();
+      console.log('onUiTextBoxKeydownEnter');
+      this.toggleEditWidget();
       this.$emit('keydown-enter-prevent', e);
     },
     onUiTextBoxKeydown: function onUiTextBoxKeydown(e) {
       this.$emit('keydown', e);
     },
-    onClickEditBtn: function onClickEditBtn(e) {},
-    toggleEditWidgetOnClick: function toggleEditWidgetOnClick() {
-      this.toggleEditWidget(false);
+    onClickByEditBtn: function onClickByEditBtn(e) {},
+    onBlurByEditBtn: function onBlurByEditBtn(e) {
+      this.closeEditWidget();
     },
-    toggleEditWidgetOnDblClick: function toggleEditWidgetOnDblClick() {},
-    toggleEditWidget: function toggleEditWidget() {
-      var isDblClick = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
-
-      if (isDblClick) {
-        return this['openEditWidget']();
+    toggleEditWidgetOnClick: function toggleEditWidgetOnClick() {
+      if (!this.showEditWidget) {
+        this.toggleEditWidget(false);
       }
+    },
+    toggleEditWidget: function toggleEditWidget() {
       this[this.showEditWidget ? 'closeEditWidget' : 'openEditWidget']();
     },
     openEditWidget: function openEditWidget() {
@@ -43160,6 +43169,7 @@ exports.default = {
       } else {}
     },
     onFocus: function onFocus(e) {
+      console.log('onFocus');
       if (this.isActive) {
         return;
       }
@@ -43168,6 +43178,7 @@ exports.default = {
       this.$emit('focus', e);
     },
     onBlur: function onBlur(e) {
+      console.log('onBlur');
       this.closeEditWidget({ autoBlur: true });
       this.$emit('blur', e);
     },
@@ -43232,11 +43243,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   return _c('div', {
     staticClass: "dovemxui-property-editor-item__container",
     on: {
-      "click": function($event) {
-        $event.stopPropagation();
-        _vm.toggleEditWidgetOnClick($event)
-      },
-      "dblclick": _vm.toggleEditWidgetOnDblClick,
+      "click": _vm.toggleEditWidgetOnClick,
       "focus": _vm.onFocus,
       "blur": _vm.onBlur
     }
@@ -43303,8 +43310,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     directives: [{
       name: "show",
       rawName: "v-show",
-      value: (_vm.showEditWidget),
-      expression: "showEditWidget"
+      value: (_vm.showEditWidget && _vm.hasToolbar),
+      expression: "showEditWidget && hasToolbar"
     }],
     staticClass: "dovemxui-property-editor-item__container__toolbar"
   }, [_c('ui-button', {
@@ -43315,7 +43322,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "has-dropdown": _vm.btnHasMenu
     },
     on: {
-      "click": _vm.onClickEditBtn
+      "click": _vm.onClickByEditBtn,
+      "blur": _vm.onBlurByEditBtn
     }
   }, [(_vm.btnHasMenu) ? _c('ui-menu', {
     attrs: {

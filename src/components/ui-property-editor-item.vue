@@ -1,7 +1,6 @@
 <template>
     <div class="dovemxui-property-editor-item__container"
-    @click.stop="toggleEditWidgetOnClick"
-    @dblclick="toggleEditWidgetOnDblClick"
+    @click="toggleEditWidgetOnClick"
     @focus="onFocus"
     @blur="onBlur"
     >
@@ -67,14 +66,17 @@
 
       <div 
         class="dovemxui-property-editor-item__container__toolbar"
-        v-show="showEditWidget"
+        v-show="showEditWidget && hasToolbar"
         >
         <ui-button
           size="small" 
           type="primary" 
           ref="dropdownButton"
           :has-dropdown="btnHasMenu"
-          @click="onClickEditBtn"
+
+
+          @click="onClickByEditBtn"
+          @blur="onBlurByEditBtn"
 
           >
           <ui-menu
@@ -177,7 +179,10 @@ export default {
       return this.tip + ' : ' + this.vmValue
     },
     isReadOnly(){
-      return this.itemdata.readonly || false
+      return !!this.itemdata.readonly
+    },
+    hasToolbar(){
+      return !!this.itemdata.extend.showToolbar
     },
     btnHasMenu(){
       return false
@@ -258,7 +263,9 @@ export default {
     },
 
     onUiTextBoxBlur(e){
-     
+      if(!this.showEditWidget){
+        this.isActive = false
+      }
     },
 
     onUiTextBoxFocus(e){
@@ -272,30 +279,30 @@ export default {
     },
 
     onUiTextBoxKeydownEnter(e){
-      this.closeEditWidget()
+      console.log('onUiTextBoxKeydownEnter')
+      this.toggleEditWidget()
       this.$emit('keydown-enter-prevent', e);
     },
 
     onUiTextBoxKeydown(e){
       this.$emit('keydown', e);
     },
-    // ----------------------------------------------------
-
-    onClickEditBtn(e) {
-      // alert(12)
+    // ---------------------------------------------------- UiButton
+    onClickByEditBtn(e) {
+      
     },
 
+    onBlurByEditBtn(e) {
+      this.closeEditWidget()
+    },
+    // -----------------------------------------------------
     toggleEditWidgetOnClick() {
-      this.toggleEditWidget(false)
-    },
-    toggleEditWidgetOnDblClick(){
-      //this.toggleEditWidget(true)
+      if(!this.showEditWidget) {
+        this.toggleEditWidget(false)
+      }
     },
 
-    toggleEditWidget(isDblClick = false) {
-      if (isDblClick) {
-        return this['openEditWidget']()
-      }
+    toggleEditWidget() {
       this[this.showEditWidget ? 'closeEditWidget' : 'openEditWidget']()
     },
 
@@ -326,6 +333,7 @@ export default {
     },
 
     onFocus(e) {
+      console.log('onFocus')
       if (this.isActive) {
         return
       }
@@ -335,6 +343,7 @@ export default {
     },
 
     onBlur(e) {
+      console.log('onBlur')
       this.closeEditWidget({ autoBlur: true })
       this.$emit('blur', e)
     },
@@ -387,6 +396,8 @@ $font-size: rem-calc(9px);
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+
+  width: 100%;
 
   // 显示非编辑状态
   .dovemxui-property-editor-item__container__display {
