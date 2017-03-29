@@ -29,6 +29,8 @@
             <dovemxui-property-editor-item
               :tip="keyItem.description"
               :itemdata="keyItem"
+
+              @change="onPropertyValueUpdate"
             >
             </dovemxui-property-editor-item>
           </td>
@@ -96,6 +98,10 @@ export default {
     },
     getPropertyValueStyle(item){
 
+    },
+
+    onPropertyValueUpdate(value){
+      console.log('onPropertyValueUpdate = ', value)
     }
   },
 
@@ -120,9 +126,10 @@ export default {
 <style lang="scss">
 @import '../styles/define/imports.scss';
 
-$padding-size: rem-calc(4px);
+$padding-size: rem-calc(5px)  rem-calc(15px)  rem-calc(5px)  rem-calc(6px);
 $border: 1px solid $md-grey-400;
 $visual-box-height: 48vh;
+$background: #d5d5d5;
 
 .dovemxui-property-editor__container {
   background: #EDEDED;
@@ -145,9 +152,15 @@ $visual-box-height: 48vh;
       border: $border;
 
       .dovemxui-property-editor__container__head {
-        background: linear-gradient(rgba(233, 233, 233, 1.0), rgba(178, 178, 178, 1.0));
+        // background: linear-gradient(rgba(233, 233, 233, 1.0), rgba(178, 178, 178, 1.0));
         text-align: center;
         padding: $padding-size;
+
+        td{
+          padding: $padding-size;
+          border: $border;
+          background: $background;
+        }
         
       }
 
@@ -158,6 +171,8 @@ $visual-box-height: 48vh;
           cursor: default;
           border: $border;
           padding: $padding-size;
+          background: $background;
+          font-size: rem-calc(10px);
         }
 
         .dovemxui-property-editor__container__propertyValue{

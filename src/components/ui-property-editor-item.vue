@@ -1,46 +1,117 @@
 <template>
     <div class="dovemxui-property-editor-item__container"
+    @click.stop="toggleEditWidgetOnClick"
     @dblclick="toggleEditWidgetOnDblClick"
     @focus="onFocus"
+    @blur="onBlur"
     >
-      <ui-textbox class="dovemxui-property-editor-item__container__display"
-        :title="asFormatTip"
-        :readonly="true"
-        :value="asText"
-        v-show="!showEditWidget"
-      >
-      </ui-textbox>
-      <div class="dovemxui-property-editor-item__container__edit"
-        :is="component"
-        :value="itemdata.value"
-        v-show="showEditWidget"
-      >
+      <!-- 显示控件(及编辑状态) -->
+      <div 
+        class="dovemxui-property-editor-item__container__display"
+        :class="classes"
+        >
+
+        <!-- 文本编辑框 -->
+        <ui-textbox 
+          :title="formatTip"
+          :readonly="isReadOnly"
+          :value="submittedValue"
+
+          @change="onUiTextBoxValueChange"
+          @blur="onUiTextBoxBlur"
+          @focus="onUiTextBoxFocus"
+          @input="onUiTextBoxUpdateValue"
+          @keydown.enter.prevent="onUiTextBoxKeydownEnter"
+          @keydown="onUiTextBoxKeydown"
+
+          v-if="ifComponentAsUiTextBox"
+          >
+        </ui-textbox>
+
+        <!-- 进度条 -->
+        <ui-progress-linear
+          color="primary"
+          type="determinate"
+
+          :progress="vmValue"
+
+          v-model="vmValue"
+          v-if="ifComponentAsUiProgressLinear"
+          >
+        </ui-progress-linear>
+
+        <!-- 滑动条 -->
+        <ui-slider
+          show-marker
+          snap-to-steps
+
+          :title="formatTip"
+          :value="vmValue"
+
+          v-model="vmValue"
+          v-if="ifComponentAsUiSlider"
+          >
+        </ui-slider>
+
+        <!-- Switch开关 -->
+        <ui-switch
+          :title="formatTip"
+          :value="vmValue"
+
+          v-model="vmValue"
+          v-if="ifComponentAsUiSwitch"
+          >
+        </ui-switch>
+
       </div>
-      <ui-button class="dovemxui-property-editor-item__container__edit__btn" 
-        size="small" 
-        type="primary" 
-        ref="dropdownButton"
-        :has-dropdown="btnHasMenu"
-        @click="onClickEditBtn"
-        v-show="showEditWidget" 
+
+      <div 
+        class="dovemxui-property-editor-item__container__toolbar"
+        v-show="showEditWidget"
         >
-        <ui-menu
-          contain-focus
-          has-secondary-text
-          has-icons
-          slot="dropdown"
-          :options="menuOptions"
-          @close="$refs.dropdownButton.closeDropdown()"
-          v-if="btnHasMenu"
-        >
-        </ui-menu>
-        ...
-        </ui-button>
+        <ui-button
+          size="small" 
+          type="primary" 
+          ref="dropdownButton"
+          :has-dropdown="btnHasMenu"
+          @click="onClickEditBtn"
+
+          >
+          <ui-menu
+            contain-focus
+            has-secondary-text
+            has-icons
+            slot="dropdown"
+            :options="menuOptions"
+            @close="$refs.dropdownButton.closeDropdown()"
+            v-if="btnHasMenu"
+          >
+          </ui-menu>
+          ...
+          </ui-button>
+      </div>
+
+
     </div>
 </template>
 
 <script>
-import {UiIcon, UiMenu, UiTextbox, UiSelect, UiTabs, UiTab, UiConfirm, UiButton, UiIconButton, UiAlert, UiToolbar, UiProgressLinear} from 'keen-ui'
+import { 
+  UiIcon, 
+  UiMenu, 
+  UiTextbox, 
+  UiSelect, 
+  UiTabs, 
+  UiTab, 
+  UiConfirm, 
+  UiButton, 
+  UiIconButton, 
+  UiAlert, 
+  UiToolbar, 
+  UiSlider,
+  UiSwitch,
+  UiProgressLinear
+} from 'keen-ui'
 import { PropertyItem, PropertyEditor } from './def-property-editor'
 
 export default {
@@ -68,24 +139,45 @@ export default {
       isActive: false,
       isTouched: false,
       showEditWidget: false,
-      initialValue: JSON.stringify(this.itemdata)
+      initialValue: JSON.stringify(this.itemdata),
+
+      vmValue: this.itemdata.value
+
     }
   },
 
   computed: {
-    component(){
-      if (this.itemdata.dataType === String){
-        return UiTextbox
-      }
-      return UiTextbox
+    classes(){
+        return [
+            { 'is-active': this.isActive },
+            { 'is-not-active': !this.isActive},
+            { 'is-touched': this.isTouched }
+        ];
     },
-    asFormatTip(){
-      return this.tip + ' : ' + this.asText
+    // -------------- 检测显示用什么控件
+    ifComponentAsUiTextBox(){
+      const hasUiSpec = this.itemdata.extend.uiDisplayComponent === 'ui-textbox'
+      return this.itemdata.dataType === String && hasUiSpec
     },
-    asText(){
-      if (this.itemdata.dataType === String){
-        return this.itemdata.value
-      }
+    ifComponentAsUiProgressLinear(){
+      const hasUiSpec = this.itemdata.extend.uiDisplayComponent === 'ui-progress-linear'
+      return this.itemdata.dataType === Number && hasUiSpec
+    },
+    ifComponentAsUiSlider(){
+      const hasUiSpec = this.itemdata.extend.uiDisplayComponent === 'ui-slider'
+      return this.itemdata.dataType === Number && hasUiSpec
+    },
+    ifComponentAsUiSwitch(){
+      const hasUiSpec = this.itemdata.extend.uiDisplayComponent === 'ui-switch'
+      return this.itemdata.dataType === Boolean && hasUiSpec
+    },
+
+    // ---------------------------------------
+    formatTip(){
+      return this.tip + ' : ' + this.vmValue
+    },
+    isReadOnly(){
+      return this.itemdata.readonly || false
     },
     btnHasMenu(){
       return false
@@ -123,6 +215,9 @@ export default {
       ]
 
       return menuOptions
+    },
+    submittedValue(){
+      return this.itemdata.value
     }
   },
 
@@ -151,12 +246,50 @@ export default {
   },
 
   methods: {
+    setValue(value) {
+      // TODO: format the value
+      this.$emit('input', value)
+      this.$emit('change', value)
+    },
+
+    // ------------------------------------------------------ UiTextbox
+    onUiTextBoxValueChange(value){
+      //this.setValue(value)
+    },
+
+    onUiTextBoxBlur(e){
+     
+    },
+
+    onUiTextBoxFocus(e){
+      this.isActive = true
+      this.$emit('focus', e)
+    },
+
+    onUiTextBoxUpdateValue(value) {
+      this.itemdata.value = value
+      this.setValue(value)
+    },
+
+    onUiTextBoxKeydownEnter(e){
+      this.closeEditWidget()
+      this.$emit('keydown-enter-prevent', e);
+    },
+
+    onUiTextBoxKeydown(e){
+      this.$emit('keydown', e);
+    },
+    // ----------------------------------------------------
+
     onClickEditBtn(e) {
       // alert(12)
     },
 
+    toggleEditWidgetOnClick() {
+      this.toggleEditWidget(false)
+    },
     toggleEditWidgetOnDblClick(){
-      this.toggleEditWidget(true)
+      //this.toggleEditWidget(true)
     },
 
     toggleEditWidget(isDblClick = false) {
@@ -201,6 +334,11 @@ export default {
       this.$emit('focus', e)
     },
 
+    onBlur(e) {
+      this.closeEditWidget({ autoBlur: true })
+      this.$emit('blur', e)
+    },
+
     onEdit(){
 
     },
@@ -221,17 +359,19 @@ export default {
   },
 
   components: {
-    UiIcon,
-    UiMenu,
-    UiTextbox,
-    UiTabs,
-    UiTab,
-    UiButton,
-    UiIconButton,
-    UiAlert,
-    UiToolbar,
-    UiSelect,
-    UiConfirm,
+    UiIcon, 
+    UiMenu, 
+    UiTextbox, 
+    UiSelect, 
+    UiTabs, 
+    UiTab, 
+    UiConfirm, 
+    UiButton, 
+    UiIconButton, 
+    UiAlert, 
+    UiToolbar, 
+    UiSlider,
+    UiSwitch,
     UiProgressLinear
   }  
 }
@@ -250,34 +390,37 @@ $font-size: rem-calc(9px);
 
   // 显示非编辑状态
   .dovemxui-property-editor-item__container__display {
-    margin-bottom: auto;
     width: 100%;
 
-    .ui-textbox__input, .ui-textbox__textarea {
-      font-size: $font-size;
-      height: auto;
-      border-bottom: none;
+    &.is-not-active {
+      .ui-textbox__input, .ui-textbox__textarea {
+        border-bottom: none;
+      }
     }
-  }
 
- // 编辑状态
-  .dovemxui-property-editor-item__container__edit{
-    margin-bottom: auto;
-    width: 100%;
+    .ui-textbox {
+      margin-bottom: auto;
+      width: 100%;
 
-    .ui-textbox__input, .ui-textbox__textarea {
-      font-size: $font-size;
-      height: auto;
+      .ui-textbox__input, .ui-textbox__textarea {
+        font-size: $font-size;
+        height: auto;
+        
+      }
     }
+
   }
 
   // 编辑状态下工具按钮的样式
-  .dovemxui-property-editor-item__container__edit__btn{
-      margin-right: 0;
-      margin-left: 2px;
-      min-width: rem-calc(4px);
-      width: rem-calc(4px);
-      height: rem-calc(16px);
+  .dovemxui-property-editor-item__container__toolbar{
+      
+      margin-left: rem-calc(4px);
+      .ui-button{
+        margin-right: 0;
+        min-width: rem-calc(4px);
+        width: rem-calc(4px);
+        height: rem-calc(16px);
+      }
   }
 }
 

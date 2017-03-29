@@ -631,26 +631,49 @@ export default {
                 title: '路径',
                 description: '获取或设置文件的路径',
                 dataType: String,
-                value: 'D:\\TestResource\\exif_sample_images\\Nikon\\corrupted_output\\picture.jpg'
+                value: 'D:\\TestResource\\exif_sample_images\\Nikon\\corrupted_output\\picture.jpg',
+                extend: {
+                    uiDisplayComponent:'ui-textbox'
+                }
             }))
             cag1.add(new ExifItem('key$fileSize',{
                 title: '大小',
                 description: '获取或设置文件的大小',
-                dataType: String,
-                value: '52.36MB',
-                readOnly: true
+                dataType: Number,
+                value: 52.36,
+                readOnly: true,
+                extend: {
+                    uiDisplayComponent:'ui-slider'
+                }
             }))
+            cag1.add(new ExifItem('key$canRead',{
+                title: '启动开关',
+                description: '获取或设置文件的大小',
+                dataType: Boolean,
+                value: true,
+                readOnly: true,
+                extend: {
+                    uiDisplayComponent:'ui-switch'
+                }
+            }))            
+
+            let cag2 = new ExifCategory('扩展信息')
 
             for(let i=0; i< 20; ++i){
-                cag1.add(new ExifItem('key$filePath' + i,{
+                const item = new ExifItem('key$filePath' + i,{
                     title: '路径' + i,
                     description: '获取或设置文件的路径',
                     dataType: String,
-                    value: 'D:\\TestResource\\exif_sample_images\\Nikon\\corrupted_output\\picture.jpg'
-                }))
+                    value: 'D:\\TestResource\\exif_sample_images\\Nikon\\corrupted_output\\picture.jpg',
+                    extend: {
+                        uiDisplayComponent:'ui-textbox'
+                    }
+                })
+                cag1.add(item)
+                cag2.add(item)
             }
 
-            let cag2 = new ExifCategory('扩展信息')
+            
 
             exifInformation.add(cag1)
             exifInformation.add(cag2)

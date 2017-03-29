@@ -13,7 +13,7 @@ class ExifItem {
     this.dataType = options.dataType || String
     this.value = options.value || 'value'
     this.readOnly = options.readOnly || false // 是否只读
-    this.extendData = options.extendData || {} // 扩展数据信息
+    this.extend = options.extend || {} // 扩展数据信息
   }
 }
 

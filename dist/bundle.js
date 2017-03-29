@@ -28650,7 +28650,10 @@ exports.default = {
 
   methods: {
     setValue: function setValue(value) {},
-    getPropertyValueStyle: function getPropertyValueStyle(item) {}
+    getPropertyValueStyle: function getPropertyValueStyle(item) {},
+    onPropertyValueUpdate: function onPropertyValueUpdate(value) {
+      console.log('onPropertyValueUpdate = ', value);
+    }
   },
 
   components: {
@@ -29134,26 +29137,47 @@ exports.default = {
                 title: '路径',
                 description: '获取或设置文件的路径',
                 dataType: String,
-                value: 'D:\\TestResource\\exif_sample_images\\Nikon\\corrupted_output\\picture.jpg'
+                value: 'D:\\TestResource\\exif_sample_images\\Nikon\\corrupted_output\\picture.jpg',
+                extend: {
+                    uiDisplayComponent: 'ui-textbox'
+                }
             }));
             cag1.add(new _defExif.ExifItem('key$fileSize', {
                 title: '大小',
                 description: '获取或设置文件的大小',
-                dataType: String,
-                value: '52.36MB',
-                readOnly: true
+                dataType: Number,
+                value: 52.36,
+                readOnly: true,
+                extend: {
+                    uiDisplayComponent: 'ui-slider'
+                }
+            }));
+            cag1.add(new _defExif.ExifItem('key$canRead', {
+                title: '启动开关',
+                description: '获取或设置文件的大小',
+                dataType: Boolean,
+                value: true,
+                readOnly: true,
+                extend: {
+                    uiDisplayComponent: 'ui-switch'
+                }
             }));
 
+            var cag2 = new _defExif.ExifCategory('扩展信息');
+
             for (var i = 0; i < 20; ++i) {
-                cag1.add(new _defExif.ExifItem('key$filePath' + i, {
+                var _item = new _defExif.ExifItem('key$filePath' + i, {
                     title: '路径' + i,
                     description: '获取或设置文件的路径',
                     dataType: String,
-                    value: 'D:\\TestResource\\exif_sample_images\\Nikon\\corrupted_output\\picture.jpg'
-                }));
+                    value: 'D:\\TestResource\\exif_sample_images\\Nikon\\corrupted_output\\picture.jpg',
+                    extend: {
+                        uiDisplayComponent: 'ui-textbox'
+                    }
+                });
+                cag1.add(_item);
+                cag2.add(_item);
             }
-
-            var cag2 = new _defExif.ExifCategory('扩展信息');
 
             exifInformation.add(cag1);
             exifInformation.add(cag2);
@@ -32545,6 +32569,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       attrs: {
         "tip": keyItem.description,
         "itemdata": keyItem
+      },
+      on: {
+        "change": _vm.onPropertyValueUpdate
       }
     })], 1)])
   })], 2)])], 1)
@@ -42809,7 +42836,7 @@ var ExifItem = function ExifItem() {
   this.dataType = options.dataType || String;
   this.value = options.value || 'value';
   this.readOnly = options.readOnly || false;
-  this.extendData = options.extendData || {};
+  this.extend = options.extend || {};
 };
 
 var ExifCategory = function () {
@@ -42897,6 +42924,7 @@ var PropertyItem = function PropertyItem() {
   this.value = value;
   this.dataType = options.dataType || String;
   this.readOnly = options.readOnly || false;
+  this.extend = options.extend || {};
 };
 
 var PropertyEditor = function () {
@@ -42981,25 +43009,39 @@ exports.default = {
       isActive: false,
       isTouched: false,
       showEditWidget: false,
-      initialValue: (0, _stringify2.default)(this.itemdata)
+      initialValue: (0, _stringify2.default)(this.itemdata),
+
+      vmValue: this.itemdata.value
+
     };
   },
 
 
   computed: {
-    component: function component() {
-      if (this.itemdata.dataType === String) {
-        return _keenUi.UiTextbox;
-      }
-      return _keenUi.UiTextbox;
+    classes: function classes() {
+      return [{ 'is-active': this.isActive }, { 'is-not-active': !this.isActive }, { 'is-touched': this.isTouched }];
     },
-    asFormatTip: function asFormatTip() {
-      return this.tip + ' : ' + this.asText;
+    ifComponentAsUiTextBox: function ifComponentAsUiTextBox() {
+      var hasUiSpec = this.itemdata.extend.uiDisplayComponent === 'ui-textbox';
+      return this.itemdata.dataType === String && hasUiSpec;
     },
-    asText: function asText() {
-      if (this.itemdata.dataType === String) {
-        return this.itemdata.value;
-      }
+    ifComponentAsUiProgressLinear: function ifComponentAsUiProgressLinear() {
+      var hasUiSpec = this.itemdata.extend.uiDisplayComponent === 'ui-progress-linear';
+      return this.itemdata.dataType === Number && hasUiSpec;
+    },
+    ifComponentAsUiSlider: function ifComponentAsUiSlider() {
+      var hasUiSpec = this.itemdata.extend.uiDisplayComponent === 'ui-slider';
+      return this.itemdata.dataType === Number && hasUiSpec;
+    },
+    ifComponentAsUiSwitch: function ifComponentAsUiSwitch() {
+      var hasUiSpec = this.itemdata.extend.uiDisplayComponent === 'ui-switch';
+      return this.itemdata.dataType === Boolean && hasUiSpec;
+    },
+    formatTip: function formatTip() {
+      return this.tip + ' : ' + this.vmValue;
+    },
+    isReadOnly: function isReadOnly() {
+      return this.itemdata.readonly || false;
     },
     btnHasMenu: function btnHasMenu() {
       return false;
@@ -43031,6 +43073,9 @@ exports.default = {
       }];
 
       return menuOptions;
+    },
+    submittedValue: function submittedValue() {
+      return this.itemdata.value;
     }
   },
 
@@ -43056,10 +43101,32 @@ exports.default = {
 
 
   methods: {
-    onClickEditBtn: function onClickEditBtn(e) {},
-    toggleEditWidgetOnDblClick: function toggleEditWidgetOnDblClick() {
-      this.toggleEditWidget(true);
+    setValue: function setValue(value) {
+      this.$emit('input', value);
+      this.$emit('change', value);
     },
+    onUiTextBoxValueChange: function onUiTextBoxValueChange(value) {},
+    onUiTextBoxBlur: function onUiTextBoxBlur(e) {},
+    onUiTextBoxFocus: function onUiTextBoxFocus(e) {
+      this.isActive = true;
+      this.$emit('focus', e);
+    },
+    onUiTextBoxUpdateValue: function onUiTextBoxUpdateValue(value) {
+      this.itemdata.value = value;
+      this.setValue(value);
+    },
+    onUiTextBoxKeydownEnter: function onUiTextBoxKeydownEnter(e) {
+      this.closeEditWidget();
+      this.$emit('keydown-enter-prevent', e);
+    },
+    onUiTextBoxKeydown: function onUiTextBoxKeydown(e) {
+      this.$emit('keydown', e);
+    },
+    onClickEditBtn: function onClickEditBtn(e) {},
+    toggleEditWidgetOnClick: function toggleEditWidgetOnClick() {
+      this.toggleEditWidget(false);
+    },
+    toggleEditWidgetOnDblClick: function toggleEditWidgetOnDblClick() {},
     toggleEditWidget: function toggleEditWidget() {
       var isDblClick = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
 
@@ -43100,6 +43167,10 @@ exports.default = {
       this.isActive = true;
       this.$emit('focus', e);
     },
+    onBlur: function onBlur(e) {
+      this.closeEditWidget({ autoBlur: true });
+      this.$emit('blur', e);
+    },
     onEdit: function onEdit() {},
     onCloseEdit: function onCloseEdit() {},
     onExternalClick: function onExternalClick(e) {
@@ -43117,14 +43188,16 @@ exports.default = {
     UiIcon: _keenUi.UiIcon,
     UiMenu: _keenUi.UiMenu,
     UiTextbox: _keenUi.UiTextbox,
+    UiSelect: _keenUi.UiSelect,
     UiTabs: _keenUi.UiTabs,
     UiTab: _keenUi.UiTab,
+    UiConfirm: _keenUi.UiConfirm,
     UiButton: _keenUi.UiButton,
     UiIconButton: _keenUi.UiIconButton,
     UiAlert: _keenUi.UiAlert,
     UiToolbar: _keenUi.UiToolbar,
-    UiSelect: _keenUi.UiSelect,
-    UiConfirm: _keenUi.UiConfirm,
+    UiSlider: _keenUi.UiSlider,
+    UiSwitch: _keenUi.UiSwitch,
     UiProgressLinear: _keenUi.UiProgressLinear
   }
 };
@@ -43159,43 +43232,83 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   return _c('div', {
     staticClass: "dovemxui-property-editor-item__container",
     on: {
+      "click": function($event) {
+        $event.stopPropagation();
+        _vm.toggleEditWidgetOnClick($event)
+      },
       "dblclick": _vm.toggleEditWidgetOnDblClick,
-      "focus": _vm.onFocus
+      "focus": _vm.onFocus,
+      "blur": _vm.onBlur
     }
-  }, [_c('ui-textbox', {
-    directives: [{
-      name: "show",
-      rawName: "v-show",
-      value: (!_vm.showEditWidget),
-      expression: "!showEditWidget"
-    }],
+  }, [_c('div', {
     staticClass: "dovemxui-property-editor-item__container__display",
+    class: _vm.classes
+  }, [(_vm.ifComponentAsUiTextBox) ? _c('ui-textbox', {
     attrs: {
-      "title": _vm.asFormatTip,
-      "readonly": true,
-      "value": _vm.asText
+      "title": _vm.formatTip,
+      "readonly": _vm.isReadOnly,
+      "value": _vm.submittedValue
+    },
+    on: {
+      "change": _vm.onUiTextBoxValueChange,
+      "blur": _vm.onUiTextBoxBlur,
+      "focus": _vm.onUiTextBoxFocus,
+      "input": _vm.onUiTextBoxUpdateValue,
+      "keydown": [function($event) {
+        if (!('button' in $event) && _vm._k($event.keyCode, "enter", 13)) { return null; }
+        $event.preventDefault();
+        _vm.onUiTextBoxKeydownEnter($event)
+      }, _vm.onUiTextBoxKeydown]
     }
-  }), _vm._v(" "), _c(_vm.component, {
+  }) : _vm._e(), _vm._v(" "), (_vm.ifComponentAsUiProgressLinear) ? _c('ui-progress-linear', {
+    attrs: {
+      "color": "primary",
+      "type": "determinate",
+      "progress": _vm.vmValue
+    },
+    model: {
+      value: (_vm.vmValue),
+      callback: function($$v) {
+        _vm.vmValue = $$v
+      },
+      expression: "vmValue"
+    }
+  }) : _vm._e(), _vm._v(" "), (_vm.ifComponentAsUiSlider) ? _c('ui-slider', {
+    attrs: {
+      "show-marker": "",
+      "snap-to-steps": "",
+      "title": _vm.formatTip,
+      "value": _vm.vmValue
+    },
+    model: {
+      value: (_vm.vmValue),
+      callback: function($$v) {
+        _vm.vmValue = $$v
+      },
+      expression: "vmValue"
+    }
+  }) : _vm._e(), _vm._v(" "), (_vm.ifComponentAsUiSwitch) ? _c('ui-switch', {
+    attrs: {
+      "title": _vm.formatTip,
+      "value": _vm.vmValue
+    },
+    model: {
+      value: (_vm.vmValue),
+      callback: function($$v) {
+        _vm.vmValue = $$v
+      },
+      expression: "vmValue"
+    }
+  }) : _vm._e()], 1), _vm._v(" "), _c('div', {
     directives: [{
       name: "show",
       rawName: "v-show",
       value: (_vm.showEditWidget),
       expression: "showEditWidget"
     }],
-    tag: "div",
-    staticClass: "dovemxui-property-editor-item__container__edit",
-    attrs: {
-      "value": _vm.itemdata.value
-    }
-  }), _vm._v(" "), _c('ui-button', {
-    directives: [{
-      name: "show",
-      rawName: "v-show",
-      value: (_vm.showEditWidget),
-      expression: "showEditWidget"
-    }],
+    staticClass: "dovemxui-property-editor-item__container__toolbar"
+  }, [_c('ui-button', {
     ref: "dropdownButton",
-    staticClass: "dovemxui-property-editor-item__container__edit__btn",
     attrs: {
       "size": "small",
       "type": "primary",
@@ -43217,7 +43330,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     },
     slot: "dropdown"
-  }) : _vm._e(), _vm._v("\n    ...\n    ")], 1)], 1)
+  }) : _vm._e(), _vm._v("\n      ...\n      ")], 1)], 1)])
 },staticRenderFns: []}
 
 /***/ }),
