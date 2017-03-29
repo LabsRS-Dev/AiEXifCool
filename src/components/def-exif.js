@@ -5,7 +5,9 @@
  * @class ExifItem
  */
 class ExifItem {
+  static count = 0
   constructor (key = '', options = {}) {
+    this.id = ++ExifItem.count // 唯一ID
     this.key = key // 关键索引Key
     this.title = options.title || 'title'
     this.description = options.description || 'description'
@@ -23,7 +25,9 @@ class ExifItem {
  * @class ExifCategory
  */
 class ExifCategory {
+  static count = 0
   constructor (title = '', options = {}) {
+    this.id = ++ExifCategory.count // 唯一ID
     this.title = title || ''
     this.items = []
   }
@@ -48,7 +52,9 @@ class ExifCategory {
  * @class ExifInformation
  */
 class ExifInformation {
+  static count = 0
   constructor () {
+    this.id = ++ExifInformation.count // 唯一ID
     this.categories = []
   }
 

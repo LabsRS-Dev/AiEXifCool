@@ -208,6 +208,9 @@ export default {
     },
     orgValue(){
       return JSON.parse(this.initialValue).value
+    },
+    itemId(){
+      return JSON.parse(this.initialValue).id
     }
   },
 
@@ -239,13 +242,13 @@ export default {
 
   methods: {
     setValue(value) {
-      this.$emit('change', value)
+      this.$emit('change', this.itemId, value)
     },
 
     resetValue(){
       if (this.isValueChange) {
         this.itemdata.value = this.orgValue
-        this.$emit('reset', this.orgValue)
+        this.$emit('reset', this.itemId, this.orgValue)
       }
     },
 
@@ -454,5 +457,9 @@ $font-size: rem-calc(9px);
       width: rem-calc(4px);
       height: rem-calc(16px);
     }
+}
+
+.ui-menu-option__content, .ui-menu-option__text, .ui-menu-option__secondary-text{
+  font-size: $font-size;
 }
 </style>

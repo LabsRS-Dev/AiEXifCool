@@ -4,7 +4,9 @@
  * @class PropertyItem
  */
 class PropertyItem {
-  constructor (key = '', title = '', description = '', value = '', options = {}) {
+  constructor (id, key = '', title = '', description = '', value = '', options = {}) {
+    console.log('this.count = ', this.count)
+    this.id = id   // 唯一ID
     this.key = key // 关键Key
     this.title = title // 标题
     this.description = description // 描述

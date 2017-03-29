@@ -28651,11 +28651,11 @@ exports.default = {
   methods: {
     setValue: function setValue(value) {},
     getPropertyValueStyle: function getPropertyValueStyle(item) {},
-    onPropertyValueUpdate: function onPropertyValueUpdate(value) {
-      console.log('onPropertyValueUpdate = ', value);
+    onPropertyValueUpdate: function onPropertyValueUpdate(id, value) {
+      console.log('onPropertyValueUpdate = ', id, value);
     },
-    onPropertyValueReset: function onPropertyValueReset(value) {
-      console.log('onPropertyValueReset = ', value);
+    onPropertyValueReset: function onPropertyValueReset(id, value) {
+      console.log('onPropertyValueReset = ', id, value);
     }
   },
 
@@ -42861,6 +42861,7 @@ var ExifItem = function ExifItem() {
   var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
   (0, _classCallCheck3.default)(this, ExifItem);
 
+  this.id = ++ExifItem.count;
   this.key = key;
   this.title = options.title || 'title';
   this.description = options.description || 'description';
@@ -42871,12 +42872,15 @@ var ExifItem = function ExifItem() {
   this.extend = options.extend || {};
 };
 
+ExifItem.count = 0;
+
 var ExifCategory = function () {
   function ExifCategory() {
     var title = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
     var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
     (0, _classCallCheck3.default)(this, ExifCategory);
 
+    this.id = ++ExifCategory.count;
     this.title = title || '';
     this.items = [];
   }
@@ -42900,10 +42904,13 @@ var ExifCategory = function () {
   return ExifCategory;
 }();
 
+ExifCategory.count = 0;
+
 var ExifInformation = function () {
   function ExifInformation() {
     (0, _classCallCheck3.default)(this, ExifInformation);
 
+    this.id = ++ExifInformation.count;
     this.categories = [];
   }
 
@@ -42916,6 +42923,7 @@ var ExifInformation = function () {
   return ExifInformation;
 }();
 
+ExifInformation.count = 0;
 exports.ExifItem = ExifItem;
 exports.ExifCategory = ExifCategory;
 exports.ExifInformation = ExifInformation;
@@ -42942,14 +42950,16 @@ var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var PropertyItem = function PropertyItem() {
-  var key = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
-  var title = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '';
-  var description = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : '';
-  var value = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : '';
-  var options = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : {};
+var PropertyItem = function PropertyItem(id) {
+  var key = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '';
+  var title = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : '';
+  var description = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : '';
+  var value = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : '';
+  var options = arguments.length > 5 && arguments[5] !== undefined ? arguments[5] : {};
   (0, _classCallCheck3.default)(this, PropertyItem);
 
+  console.log('this.count = ', this.count);
+  this.id = id;
   this.key = key;
   this.title = title;
   this.description = description;
@@ -43094,6 +43104,9 @@ exports.default = {
     },
     orgValue: function orgValue() {
       return JSON.parse(this.initialValue).value;
+    },
+    itemId: function itemId() {
+      return JSON.parse(this.initialValue).id;
     }
   },
 
@@ -43122,12 +43135,12 @@ exports.default = {
 
   methods: {
     setValue: function setValue(value) {
-      this.$emit('change', value);
+      this.$emit('change', this.itemId, value);
     },
     resetValue: function resetValue() {
       if (this.isValueChange) {
         this.itemdata.value = this.orgValue;
-        this.$emit('reset', this.orgValue);
+        this.$emit('reset', this.itemId, this.orgValue);
       }
     },
     onUiTextBoxValueChange: function onUiTextBoxValueChange(value) {},

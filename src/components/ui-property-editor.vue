@@ -101,11 +101,11 @@ export default {
 
     },
 
-    onPropertyValueUpdate(value){
-      console.log('onPropertyValueUpdate = ', value)
+    onPropertyValueUpdate(id, value){
+      console.log('onPropertyValueUpdate = ', id, value)
     },
-    onPropertyValueReset(value){
-      console.log('onPropertyValueReset = ', value)
+    onPropertyValueReset(id, value){
+      console.log('onPropertyValueReset = ', id, value)
     }
   },
 
