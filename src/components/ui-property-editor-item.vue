@@ -4,6 +4,7 @@
 
       @click="toggleEditWidgetOnClick"
       @blur.capture="onBlur"
+      @keydown.esc.stop="onKeydownESC($event)"
     >
       <!-- 显示控件(及编辑状态) -->
       <div 
@@ -79,7 +80,8 @@
           :has-dropdown="btnHasMenu"
 
           @click="onToolBarEditBtnClick"
-         
+          @dropdown-open="onToolBarEditBtnDropdownOpen"
+          @dropdown-close="onToolBarEditBtnDropdownClose"
           >
           <ui-menu
             contain-focus
@@ -90,7 +92,7 @@
             :options="menuOptions"
 
             @close="$refs.dropdownButton.closeDropdown()"
-            
+
             v-if="btnHasMenu"
           >
           </ui-menu>
@@ -146,6 +148,9 @@ export default {
       isActive: false,
       isTouched: false,
       showEditWidget: false,
+
+      isToolBarEditBtnDropdownOpen: false,
+
       initialValue: JSON.stringify(this.itemdata),
 
       vmValue: this.itemdata.value
@@ -196,6 +201,13 @@ export default {
     },
     submittedValue(){
       return this.itemdata.value
+    },
+
+    isValueChange(){
+      return this.itemdata.value != this.orgValue
+    },
+    orgValue(){
+      return JSON.parse(this.initialValue).value
     }
   },
 
@@ -217,10 +229,12 @@ export default {
 
   mounted() {
     document.addEventListener('click', this.onExternalClick)
+    document.addEventListener('keydown', this.onExternalKeydown)
   },
 
   beforeDestroy() {
     document.removeEventListener('click', this.onExternalClick)
+    document.removeEventListener('keydown', this.onExternalKeydown)
   },
 
   methods: {
@@ -230,6 +244,12 @@ export default {
       this.$emit('change', value)
     },
 
+    resetValue(){
+      if (this.isValueChange) {
+        this.itemdata.value = this.orgValue
+        this.$emit('reset', this.orgValue)
+      }
+    },
 
 
     // {}------------------------------------------------------ UiTextbox
@@ -281,8 +301,11 @@ export default {
       console.log('onToolBarEditBtnClick')
     },
 
-    onToolBarEditBtnKeydownESCEnter(e) {
-      console.log('onToolBarEditBtnKeydownESCEnter')
+    onToolBarEditBtnDropdownOpen(e) {
+      this.isToolBarEditBtnDropdownOpen = true
+    },
+    onToolBarEditBtnDropdownClose(e){
+      this.isToolBarEditBtnDropdownOpen = false
     },
 
     // {} ----------------------------------------------------- Self
@@ -291,6 +314,10 @@ export default {
         this.isActive = false
         this.$emit('blur', e)
       }
+    },
+
+    onKeydownESC(e){
+      this.resetValue()
     },
 
     toggleEditWidgetOnClick() {
@@ -335,12 +362,22 @@ export default {
 
     },
 
+    // {} ---------------------------------------------- External Event
     onExternalClick(e) {
       if (!this.$el.contains(e.target)) {
         if (this.showEditWidget) {
           this.closeEditWidget({ autoBlur: true })
         } else if (this.isActive) {
           this.isActive = false
+        }
+      }
+    },
+
+    onExternalKeydown(e) {
+      console.dir(e)
+      if (!this.$el.contains(e.target)) {
+        if (this.isToolBarEditBtnDropdownOpen && e.keyCode===27) {
+          this.$refs.dropdownButton.closeDropdown()
         }
       }
     }
@@ -371,46 +408,54 @@ export default {
 
 $font-size: rem-calc(9px);
 
+// ================================================
+// 整体
+// ================================================
+
 .dovemxui-property-editor-item__container {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
 
   width: 100%;
+}
 
-  // 显示非编辑状态
-  .dovemxui-property-editor-item__container__display {
-    width: 100%;
+// ================================================
+// 显示非编辑状态
+// ================================================
 
-    &.is-not-active {
-      .ui-textbox__input, .ui-textbox__textarea {
-        border-bottom: none;
-      }
+.dovemxui-property-editor-item__container__display {
+  width: 100%;
+
+  &.is-not-active {
+    .ui-textbox__input, .ui-textbox__textarea {
+      border-bottom: none;
     }
-
-    .ui-textbox {
-      margin-bottom: auto;
-      width: 100%;
-
-      .ui-textbox__input, .ui-textbox__textarea {
-        font-size: $font-size;
-        height: auto;
-      }
-    }
-
   }
 
-  // 编辑状态下工具按钮的样式
-  .dovemxui-property-editor-item__container__toolbar{
-      
-      margin-left: rem-calc(4px);
-      .ui-button{
-        margin-right: 0;
-        min-width: rem-calc(4px);
-        width: rem-calc(4px);
-        height: rem-calc(16px);
-      }
+  .ui-textbox {
+    margin-bottom: auto;
+    width: 100%;
+
+    .ui-textbox__input, .ui-textbox__textarea {
+      font-size: $font-size;
+      height: auto;
+    }
   }
 }
 
+// ================================================
+// 编辑状态下工具按钮的样式
+// ================================================
+
+.dovemxui-property-editor-item__container__toolbar{
+    
+    margin-left: rem-calc(4px);
+    .ui-button{
+      margin-right: 0;
+      min-width: rem-calc(4px);
+      width: rem-calc(4px);
+      height: rem-calc(16px);
+    }
+}
 </style>

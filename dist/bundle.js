@@ -32379,7 +32379,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "autofocus": _vm.exifConfigDialog.autofocus,
       "confirm-button-text": _vm.exifConfigDialog.confirmButtonText,
       "deny-button-text": _vm.exifConfigDialog.denyButtonText,
-      "title": _vm.exifConfigDialog.title
+      "title": _vm.exifConfigDialog.title,
+      "dismissOn": "backdrop close-button"
     },
     on: {
       "confirm": _vm.onExifConfigDialogConfirm,
@@ -43036,6 +43037,9 @@ exports.default = {
       isActive: false,
       isTouched: false,
       showEditWidget: false,
+
+      isToolBarEditBtnDropdownOpen: false,
+
       initialValue: (0, _stringify2.default)(this.itemdata),
 
       vmValue: this.itemdata.value
@@ -43080,6 +43084,12 @@ exports.default = {
     },
     submittedValue: function submittedValue() {
       return this.itemdata.value;
+    },
+    isValueChange: function isValueChange() {
+      return this.itemdata.value != this.orgValue;
+    },
+    orgValue: function orgValue() {
+      return JSON.parse(this.initialValue).value;
     }
   },
 
@@ -43098,9 +43108,11 @@ exports.default = {
   created: function created() {},
   mounted: function mounted() {
     document.addEventListener('click', this.onExternalClick);
+    document.addEventListener('keydown', this.onExternalKeydown);
   },
   beforeDestroy: function beforeDestroy() {
     document.removeEventListener('click', this.onExternalClick);
+    document.removeEventListener('keydown', this.onExternalKeydown);
   },
 
 
@@ -43108,6 +43120,12 @@ exports.default = {
     setValue: function setValue(value) {
       this.$emit('input', value);
       this.$emit('change', value);
+    },
+    resetValue: function resetValue() {
+      if (this.isValueChange) {
+        this.itemdata.value = this.orgValue;
+        this.$emit('reset', this.orgValue);
+      }
     },
     onUiTextBoxValueChange: function onUiTextBoxValueChange(value) {},
     onUiTextBoxBlur: function onUiTextBoxBlur(e) {
@@ -43147,14 +43165,20 @@ exports.default = {
     onToolBarEditBtnClick: function onToolBarEditBtnClick(e) {
       console.log('onToolBarEditBtnClick');
     },
-    onToolBarEditBtnKeydownESCEnter: function onToolBarEditBtnKeydownESCEnter(e) {
-      console.log('onToolBarEditBtnKeydownESCEnter');
+    onToolBarEditBtnDropdownOpen: function onToolBarEditBtnDropdownOpen(e) {
+      this.isToolBarEditBtnDropdownOpen = true;
+    },
+    onToolBarEditBtnDropdownClose: function onToolBarEditBtnDropdownClose(e) {
+      this.isToolBarEditBtnDropdownOpen = false;
     },
     onBlur: function onBlur(e) {
       if (!this.showEditWidget) {
         this.isActive = false;
         this.$emit('blur', e);
       }
+    },
+    onKeydownESC: function onKeydownESC(e) {
+      this.resetValue();
     },
     toggleEditWidgetOnClick: function toggleEditWidgetOnClick() {
       if (!this.showEditWidget) {
@@ -43196,6 +43220,14 @@ exports.default = {
           this.closeEditWidget({ autoBlur: true });
         } else if (this.isActive) {
           this.isActive = false;
+        }
+      }
+    },
+    onExternalKeydown: function onExternalKeydown(e) {
+      console.dir(e);
+      if (!this.$el.contains(e.target)) {
+        if (this.isToolBarEditBtnDropdownOpen && e.keyCode === 27) {
+          this.$refs.dropdownButton.closeDropdown();
         }
       }
     }
@@ -43253,6 +43285,11 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "click": _vm.toggleEditWidgetOnClick,
       "!blur": function($event) {
         _vm.onBlur($event)
+      },
+      "keydown": function($event) {
+        if (!('button' in $event) && _vm._k($event.keyCode, "esc", 27)) { return null; }
+        $event.stopPropagation();
+        _vm.onKeydownESC($event)
       }
     }
   }, [_c('div', {
@@ -43335,7 +43372,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "has-dropdown": _vm.btnHasMenu
     },
     on: {
-      "click": _vm.onToolBarEditBtnClick
+      "click": _vm.onToolBarEditBtnClick,
+      "dropdown-open": _vm.onToolBarEditBtnDropdownOpen,
+      "dropdown-close": _vm.onToolBarEditBtnDropdownClose
     }
   }, [(_vm.btnHasMenu) ? _c('ui-menu', {
     attrs: {

@@ -33,6 +33,8 @@
                 :ref="exifConfigDialog.ref"
                 :title="exifConfigDialog.title"
 
+                dismissOn="backdrop close-button"
+
                 @confirm="onExifConfigDialogConfirm"
                 @deny="onExifConfigDialogDeny"
             >
@@ -57,7 +59,7 @@
                 :key="item" 
 
                 removeIcon 
-                
+
                 @dismiss="onRemoveTaskItem(item, index)" 
 
                 v-show="item.style.show"
