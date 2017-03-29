@@ -49,6 +49,8 @@
           :title="formatTip"
           :value="vmValue"
 
+          @change="onUiSliderChange"
+
           v-model="vmValue"
           v-if="ifComponentAsUiSlider"
           >
@@ -58,6 +60,9 @@
         <ui-switch
           :title="formatTip"
           :value="vmValue"
+
+          @input="onUiSwitchInput"
+          @change="onUiSwitchChange"
 
           v-model="vmValue"
           v-if="ifComponentAsUiSwitch"
@@ -242,12 +247,14 @@ export default {
 
   methods: {
     setValue(value) {
+      this.itemdata.value = value
       this.$emit('change', this.itemId, value)
     },
 
     resetValue(){
       if (this.isValueChange) {
         this.itemdata.value = this.orgValue
+        this.vmValue = this.itemdata.value
         this.$emit('reset', this.itemId, this.orgValue)
       }
     },
@@ -255,7 +262,7 @@ export default {
 
     // {}------------------------------------------------------ UiTextbox
     onUiTextBoxValueChange(value){
-      //this.setValue(value)
+      // TODO: 可以加入验证的处理方法
     },
     onUiTextBoxBlur(e){
       if(!this.showEditWidget){
@@ -272,7 +279,6 @@ export default {
       this.$emit('focus', e)
     },
     onUiTextBoxUpdateValue(value) {
-      this.itemdata.value = value
       this.setValue(value)
     },
     onUiTextBoxKeydownEnter(e){
@@ -282,6 +288,21 @@ export default {
     },
     onUiTextBoxKeydown(e){
       this.$emit('keydown', e);
+    },
+
+    // {} --------------------------------------------------- UiSlider
+    onUiSliderChange(value) {
+      this.setValue(value)
+    },
+
+    // {} --------------------------------------------------- UiSwitch
+    onUiSwitchInput(value){
+      console.log('onUiSwitchInput')
+      this.setValue(value)
+    },
+    onUiSwitchChange(value){
+      //console.log('onUiSwitchChange')
+      //this.setValue(value)
     },
 
 

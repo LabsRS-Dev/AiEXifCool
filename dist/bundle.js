@@ -43135,11 +43135,13 @@ exports.default = {
 
   methods: {
     setValue: function setValue(value) {
+      this.itemdata.value = value;
       this.$emit('change', this.itemId, value);
     },
     resetValue: function resetValue() {
       if (this.isValueChange) {
         this.itemdata.value = this.orgValue;
+        this.vmValue = this.itemdata.value;
         this.$emit('reset', this.itemId, this.orgValue);
       }
     },
@@ -43159,7 +43161,6 @@ exports.default = {
       this.$emit('focus', e);
     },
     onUiTextBoxUpdateValue: function onUiTextBoxUpdateValue(value) {
-      this.itemdata.value = value;
       this.setValue(value);
     },
     onUiTextBoxKeydownEnter: function onUiTextBoxKeydownEnter(e) {
@@ -43170,6 +43171,14 @@ exports.default = {
     onUiTextBoxKeydown: function onUiTextBoxKeydown(e) {
       this.$emit('keydown', e);
     },
+    onUiSliderChange: function onUiSliderChange(value) {
+      this.setValue(value);
+    },
+    onUiSwitchInput: function onUiSwitchInput(value) {
+      console.log('onUiSwitchInput');
+      this.setValue(value);
+    },
+    onUiSwitchChange: function onUiSwitchChange(value) {},
     onToolbarBlur: function onToolbarBlur(e) {
       if (this.showEditWidget) {
         this.toggleEditWidget();
@@ -43347,6 +43356,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "title": _vm.formatTip,
       "value": _vm.vmValue
     },
+    on: {
+      "change": _vm.onUiSliderChange
+    },
     model: {
       value: (_vm.vmValue),
       callback: function($$v) {
@@ -43358,6 +43370,10 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "title": _vm.formatTip,
       "value": _vm.vmValue
+    },
+    on: {
+      "input": _vm.onUiSwitchInput,
+      "change": _vm.onUiSwitchChange
     },
     model: {
       value: (_vm.vmValue),
