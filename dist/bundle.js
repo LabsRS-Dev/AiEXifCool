@@ -29174,7 +29174,32 @@ exports.default = {
                     value: 'D:\\TestResource\\exif_sample_images\\Nikon\\corrupted_output\\picture.jpg',
                     extend: {
                         uiDisplayComponent: 'ui-textbox',
-                        showToolbar: true
+                        showToolbar: true,
+                        hasToolBarMenu: true,
+                        toolBarMenus: [{
+                            id: 'edit',
+                            label: 'Edit',
+                            icon: 'edit',
+                            secondaryText: 'Ctrl+E'
+                        }, {
+                            id: 'duplicate',
+                            label: 'Duplicate',
+                            icon: 'content_copy',
+                            secondaryText: 'Ctrl+D'
+                        }, {
+                            id: 'share',
+                            label: 'Share',
+                            icon: 'share',
+                            secondaryText: 'Ctrl+Shift+S',
+                            disabled: true
+                        }, {
+                            type: 'divider'
+                        }, {
+                            id: 'delete',
+                            label: 'Delete',
+                            icon: 'delete',
+                            secondaryText: 'Del'
+                        }]
                     }
                 });
                 cag1.add(_item);
@@ -32389,8 +32414,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       key: item,
       class: _vm.getItemStyleClass(item),
       attrs: {
-        "removeIcon": "",
-        "type": item.style.type
+        "type": item.style.type,
+        "removeIcon": ""
       },
       on: {
         "dismiss": function($event) {
@@ -43048,35 +43073,10 @@ exports.default = {
       return !!this.itemdata.extend.showToolbar;
     },
     btnHasMenu: function btnHasMenu() {
-      return false;
+      return !!this.itemdata.extend.showToolbar && !!this.itemdata.extend.hasToolBarMenu;
     },
     menuOptions: function menuOptions() {
-      var menuOptions = [{
-        id: 'edit',
-        label: 'Edit',
-        icon: 'edit',
-        secondaryText: 'Ctrl+E'
-      }, {
-        id: 'duplicate',
-        label: 'Duplicate',
-        icon: 'content_copy',
-        secondaryText: 'Ctrl+D'
-      }, {
-        id: 'share',
-        label: 'Share',
-        icon: 'share',
-        secondaryText: 'Ctrl+Shift+S',
-        disabled: true
-      }, {
-        type: 'divider'
-      }, {
-        id: 'delete',
-        label: 'Delete',
-        icon: 'delete',
-        secondaryText: 'Del'
-      }];
-
-      return menuOptions;
+      return this.itemdata.extend.toolBarMenus || [];
     },
     submittedValue: function submittedValue() {
       return this.itemdata.value;
@@ -43139,15 +43139,20 @@ exports.default = {
     onToolbarBlur: function onToolbarBlur(e) {
       if (this.showEditWidget) {
         this.toggleEditWidget();
-      } else {
-        this.$emit('blur', e);
       }
+
+      this.isActive = false;
+      this.$emit('blur', e);
     },
     onToolBarEditBtnClick: function onToolBarEditBtnClick(e) {
       console.log('onToolBarEditBtnClick');
     },
+    onToolBarEditBtnKeydownESCEnter: function onToolBarEditBtnKeydownESCEnter(e) {
+      console.log('onToolBarEditBtnKeydownESCEnter');
+    },
     onBlur: function onBlur(e) {
       if (!this.showEditWidget) {
+        this.isActive = false;
         this.$emit('blur', e);
       }
     },
@@ -43336,7 +43341,6 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "contain-focus": "",
       "has-secondary-text": "",
-      "has-icons": "",
       "options": _vm.menuOptions
     },
     on: {
@@ -43345,7 +43349,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     },
     slot: "dropdown"
-  }) : _vm._e(), _vm._v("\n      ...\n      ")], 1)], 1)])
+  }) : _vm._e(), _vm._v(" "), (!_vm.btnHasMenu) ? _c('span', [_vm._v("...")]) : _vm._e()], 1)], 1)])
 },staticRenderFns: []}
 
 /***/ }),

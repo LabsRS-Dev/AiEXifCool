@@ -75,22 +75,26 @@
           size="small" 
           type="primary" 
           ref="dropdownButton"
+
           :has-dropdown="btnHasMenu"
 
-
           @click="onToolBarEditBtnClick"
+         
           >
           <ui-menu
             contain-focus
             has-secondary-text
-            has-icons
+
             slot="dropdown"
+
             :options="menuOptions"
+
             @close="$refs.dropdownButton.closeDropdown()"
+            
             v-if="btnHasMenu"
           >
           </ui-menu>
-          ...
+            <span v-if="!btnHasMenu">...</span>
           </ui-button>
       </div>
 
@@ -185,41 +189,10 @@ export default {
       return !!this.itemdata.extend.showToolbar
     },
     btnHasMenu(){
-      return false
+      return !!this.itemdata.extend.showToolbar && !!this.itemdata.extend.hasToolBarMenu
     },
     menuOptions(){
-      const menuOptions = [
-        {
-            id: 'edit',
-            label: 'Edit',
-            icon: 'edit',
-            secondaryText: 'Ctrl+E'
-        },
-        {
-            id: 'duplicate',
-            label: 'Duplicate',
-            icon: 'content_copy',
-            secondaryText: 'Ctrl+D'
-        },
-        {
-            id: 'share',
-            label: 'Share',
-            icon: 'share',
-            secondaryText: 'Ctrl+Shift+S',
-            disabled: true
-        },
-        {
-            type: 'divider'
-        },
-        {
-            id: 'delete',
-            label: 'Delete',
-            icon: 'delete',
-            secondaryText: 'Del'
-        }
-      ]
-
-      return menuOptions
+      return this.itemdata.extend.toolBarMenus || []
     },
     submittedValue(){
       return this.itemdata.value
@@ -295,9 +268,10 @@ export default {
     onToolbarBlur(e){
       if(this.showEditWidget){
         this.toggleEditWidget()
-      }else {
-        this.$emit('blur', e)
       }
+
+      this.isActive = false
+      this.$emit('blur', e)
     },
 
 
@@ -307,9 +281,14 @@ export default {
       console.log('onToolBarEditBtnClick')
     },
 
+    onToolBarEditBtnKeydownESCEnter(e) {
+      console.log('onToolBarEditBtnKeydownESCEnter')
+    },
+
     // {} ----------------------------------------------------- Self
     onBlur(e){
       if(!this.showEditWidget){
+        this.isActive = false
         this.$emit('blur', e)
       }
     },
@@ -416,7 +395,6 @@ $font-size: rem-calc(9px);
       .ui-textbox__input, .ui-textbox__textarea {
         font-size: $font-size;
         height: auto;
-        
       }
     }
 

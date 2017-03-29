@@ -53,10 +53,14 @@
                 />
             <ui-alert 
                 :class="getItemStyleClass(item)"
-                @dismiss="onRemoveTaskItem(item, index)" removeIcon 
                 :type="item.style.type" 
-                v-show="item.style.show" 
                 :key="item" 
+
+                removeIcon 
+                
+                @dismiss="onRemoveTaskItem(item, index)" 
+
+                v-show="item.style.show"
                 v-for="item, index in taskList">
                 <div class="page__examples-app-doc__item">
                     <div class="ui-toolbar__top">
@@ -668,7 +672,38 @@ export default {
                     value: 'D:\\TestResource\\exif_sample_images\\Nikon\\corrupted_output\\picture.jpg',
                     extend: {
                         uiDisplayComponent:'ui-textbox',
-                        showToolbar: true
+                        showToolbar: true,
+                        hasToolBarMenu: true,
+                        toolBarMenus:[
+                            {
+                                id: 'edit',
+                                label: 'Edit',
+                                icon: 'edit',
+                                secondaryText: 'Ctrl+E'
+                            },
+                            {
+                                id: 'duplicate',
+                                label: 'Duplicate',
+                                icon: 'content_copy',
+                                secondaryText: 'Ctrl+D'
+                            },
+                            {
+                                id: 'share',
+                                label: 'Share',
+                                icon: 'share',
+                                secondaryText: 'Ctrl+Shift+S',
+                                disabled: true
+                            },
+                            {
+                                type: 'divider'
+                            },
+                            {
+                                id: 'delete',
+                                label: 'Delete',
+                                icon: 'delete',
+                                secondaryText: 'Del'
+                            }
+                        ]
                     }
                 })
                 cag1.add(item)
