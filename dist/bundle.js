@@ -28653,6 +28653,9 @@ exports.default = {
     getPropertyValueStyle: function getPropertyValueStyle(item) {},
     onPropertyValueUpdate: function onPropertyValueUpdate(value) {
       console.log('onPropertyValueUpdate = ', value);
+    },
+    onPropertyValueReset: function onPropertyValueReset(value) {
+      console.log('onPropertyValueReset = ', value);
     }
   },
 
@@ -32599,7 +32602,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         "itemdata": keyItem
       },
       on: {
-        "change": _vm.onPropertyValueUpdate
+        "change": _vm.onPropertyValueUpdate,
+        "reset": _vm.onPropertyValueReset
       }
     })], 1)])
   })], 2)])], 1)
@@ -43118,7 +43122,6 @@ exports.default = {
 
   methods: {
     setValue: function setValue(value) {
-      this.$emit('input', value);
       this.$emit('change', value);
     },
     resetValue: function resetValue() {
@@ -43224,7 +43227,6 @@ exports.default = {
       }
     },
     onExternalKeydown: function onExternalKeydown(e) {
-      console.dir(e);
       if (!this.$el.contains(e.target)) {
         if (this.isToolBarEditBtnDropdownOpen && e.keyCode === 27) {
           this.$refs.dropdownButton.closeDropdown();

@@ -239,8 +239,6 @@ export default {
 
   methods: {
     setValue(value) {
-      // TODO: format the value
-      this.$emit('input', value)
       this.$emit('change', value)
     },
 
@@ -374,7 +372,6 @@ export default {
     },
 
     onExternalKeydown(e) {
-      console.dir(e)
       if (!this.$el.contains(e.target)) {
         if (this.isToolBarEditBtnDropdownOpen && e.keyCode===27) {
           this.$refs.dropdownButton.closeDropdown()

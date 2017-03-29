@@ -31,6 +31,7 @@
               :itemdata="keyItem"
 
               @change="onPropertyValueUpdate"
+              @reset="onPropertyValueReset"
             >
             </dovemxui-property-editor-item>
           </td>
@@ -102,6 +103,9 @@ export default {
 
     onPropertyValueUpdate(value){
       console.log('onPropertyValueUpdate = ', value)
+    },
+    onPropertyValueReset(value){
+      console.log('onPropertyValueReset = ', value)
     }
   },
 
@@ -130,63 +134,78 @@ $padding-size: rem-calc(5px)  rem-calc(15px)  rem-calc(5px)  rem-calc(6px);
 $border: 1px solid $md-grey-400;
 $visual-box-height: 48vh;
 $background: #d5d5d5;
+$font-size: rem-calc(9px);
 
+// ================================================
+// 容器
+// ================================================
 .dovemxui-property-editor__container {
   background: #EDEDED;
+}
 
-  
-  .dovemxui-property-editor__search{
-    font-size: rem-calc(9px);
+// ================================================
+// 过滤
+// ================================================
+.dovemxui-property-editor__search{
+  font-size: $font-size;
+
+  .ui-select__display, .ui-select__search-input, .ui-select-option{
+    font-size: $font-size;
+  }
+}
+
+// ================================================
+// 可视化区域
+// ================================================
+.dovemxui-property-editor__container__visual__area {
+  min-width: 100%;
+  width: 100%;
+  max-height: $visual-box-height;
+  height: $visual-box-height;
+  overflow-y: auto;
+}
+
+// ================================================
+// 数据表
+// ================================================
+.dovemxui-property-editor__container__table {
+  min-width: 100%;
+  width: 100%;
+  border: $border;
+
+  .dovemxui-property-editor__container__head {
+    // background: linear-gradient(rgba(233, 233, 233, 1.0), rgba(178, 178, 178, 1.0));
+    text-align: center;
+    padding: $padding-size;
+
+    td{
+      padding: $padding-size;
+      border: $border;
+      background: $background;
+    }
+    
   }
 
-  .dovemxui-property-editor__container__visual__area {
-    min-width: 100%;
-    width: 100%;
-    max-height: $visual-box-height;
-    height: $visual-box-height;
-    overflow-y: auto;
-
-    .dovemxui-property-editor__container__table {
-      min-width: 100%;
-      width: 100%;
+  .dovemxui-property-editor__container__content {
+    .dovemxui-property-editor__container__property{
+      max-width: 24%;
+      width: auto;
+      cursor: default;
       border: $border;
+      padding: $padding-size;
+      background: $background;
+      font-size: rem-calc(10px);
+    }
 
-      .dovemxui-property-editor__container__head {
-        // background: linear-gradient(rgba(233, 233, 233, 1.0), rgba(178, 178, 178, 1.0));
-        text-align: center;
-        padding: $padding-size;
-
-        td{
-          padding: $padding-size;
-          border: $border;
-          background: $background;
-        }
-        
-      }
-
-      .dovemxui-property-editor__container__content {
-        .dovemxui-property-editor__container__property{
-          max-width: 24%;
-          width: auto;
-          cursor: default;
-          border: $border;
-          padding: $padding-size;
-          background: $background;
-          font-size: rem-calc(10px);
-        }
-
-        .dovemxui-property-editor__container__propertyValue{
-          width: 76%;
-          border: $border;
-          background: white;
-          padding: $padding-size;
-          cursor: pointer;
-        }
-      }
-
-
+    .dovemxui-property-editor__container__propertyValue{
+      width: 76%;
+      border: $border;
+      background: white;
+      padding: $padding-size;
+      cursor: pointer;
     }
   }
+
 
 }
 
