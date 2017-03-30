@@ -28921,6 +28921,10 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _map = __webpack_require__(93);
+
+var _map2 = _interopRequireDefault(_map);
+
 var _stringify = __webpack_require__(25);
 
 var _stringify2 = _interopRequireDefault(_stringify);
@@ -28969,7 +28973,22 @@ exports.default = {
 
   computed: {
     classes: function classes() {
-      return [];
+      return [{ 'is-change': this.isChange }];
+    },
+    isChange: function isChange() {
+      return this.items != this.orgItems;
+    },
+    orgItems: function orgItems() {
+      return JSON.parse(this.initialValue);
+    },
+    itemId2OrgValue: function itemId2OrgValue() {
+      var map = new _map2.default();
+      var items = this.orgItems;
+      for (var i = 0; i < items.length; ++i) {
+        var item = items[i];
+        map.set(item.id, item.value);
+      }
+      return map;
     },
     propertyNames: function propertyNames() {
       var that = this;
@@ -28986,6 +29005,10 @@ exports.default = {
 
   methods: {
     getPropertyValueStyle: function getPropertyValueStyle(item) {},
+    itemClasses: function itemClasses(item) {
+      var orgItem = this.itemId2OrgValue.get(item.id);
+      return [{ 'is-item-change': orgItem != item.value }];
+    },
     setValue: function setValue(id, value) {
       for (var i = 0; i < this.items.length; ++i) {
         var item = this.items[i];
@@ -33037,13 +33060,15 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       key: item.id,
       staticClass: "dovemxui-property-editor__container__content"
     }, [_c('td', {
-      staticClass: "dovemxui-property-editor__container__property"
+      staticClass: "dovemxui-property-editor__container__property",
+      class: _vm.itemClasses(item)
     }, [_c('span', {
       attrs: {
         "title": item.description
       }
     }, [_vm._v("\n            " + _vm._s(item.title) + " \n          ")])]), _vm._v(" "), _c('td', {
-      staticClass: "dovemxui-property-editor__container__propertyValue"
+      staticClass: "dovemxui-property-editor__container__propertyValue",
+      class: _vm.itemClasses(item)
     }, [_c('dovemxui-property-editor-item', {
       attrs: {
         "tip": item.description,

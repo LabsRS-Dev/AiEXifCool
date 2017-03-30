@@ -5,6 +5,7 @@
         :placeholder="planPlaceHolder"
         :options="propertyNames"
         hasSearch
+
         v-model="modelSelectProperty"
     ></ui-select>
     <div class="dovemxui-property-editor__container__visual__area">
@@ -21,12 +22,16 @@
 
         v-for="(item, itemIndex) in items"
         >
-          <td class="dovemxui-property-editor__container__property"> 
+          <td class="dovemxui-property-editor__container__property"
+            :class="itemClasses(item)"
+          > 
             <span :title="item.description">
               {{ item.title }} 
             </span>
           </td>
-          <td class="dovemxui-property-editor__container__propertyValue"> 
+          <td class="dovemxui-property-editor__container__propertyValue"
+            :class="itemClasses(item)"
+          > 
             <dovemxui-property-editor-item
               :tip="item.description"
               :itemdata="item"
@@ -83,8 +88,23 @@ export default {
   computed: {
     classes(){
       return [
-        
+        { 'is-change': this.isChange }
       ]
+    },
+    isChange(){
+      return this.items != this.orgItems
+    },
+    orgItems(){
+      return JSON.parse(this.initialValue)
+    },
+    itemId2OrgValue(){
+      var map = new Map()
+      const items = this.orgItems
+      for(let i = 0; i < items.length; ++i) {
+        var item = items[i]
+        map.set(item.id, item.value)
+      }
+      return map
     },
 
     propertyNames(){
@@ -103,6 +123,13 @@ export default {
   methods:{
     getPropertyValueStyle(item){
 
+    },
+
+    itemClasses(item){
+      const orgItem = this.itemId2OrgValue.get(item.id)
+      return [
+        { 'is-item-change': (orgItem != item.value) }
+      ]
     },
 
     setValue(id, value) {
@@ -213,6 +240,11 @@ $font-size: rem-calc(9px);
       padding: $padding-size;
       background: $background;
       font-size: rem-calc(10px);
+
+      &.is-item-change {
+        border-left: 6px solid #8eb6e4;
+        border-radius: 6px;
+      }
     }
 
     .dovemxui-property-editor__container__propertyValue{
@@ -221,6 +253,11 @@ $font-size: rem-calc(9px);
       background: white;
       padding: $padding-size;
       cursor: pointer;
+
+      &.is-item-change {
+        border: 3px solid #8eb6e4;
+        border-radius: 6px;
+      }
     }
   }
 

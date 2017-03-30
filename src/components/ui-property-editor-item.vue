@@ -461,6 +461,7 @@ export default {
 @import '../styles/define/imports.scss';
 
 $font-size: rem-calc(9px);
+$control-height: rem-calc(16px);
 
 // ================================================
 // 整体
@@ -472,6 +473,11 @@ $font-size: rem-calc(9px);
   justify-content: space-between;
 
   width: 100%;
+  height: 100%;
+
+  &.is-change {
+    
+  }
 }
 
 // ================================================
@@ -480,29 +486,27 @@ $font-size: rem-calc(9px);
 
 .dovemxui-property-editor-item__container__display {
   width: 100%;
-  opacity: 0.75;
 
-  &.is-not-active {
+  &.is-not-active, &.is-active {
     .ui-textbox__input, .ui-textbox__textarea {
       border-bottom: none;
-    }
-  }
-
-  &.is-change {
-    opacity: 1;
-    .ui-textbox__input, .ui-textbox__textarea {
-      font-weight: bolder;
     }
   }
 
   .ui-textbox {
     margin-bottom: auto;
     width: 100%;
+    height: 100%;
 
     .ui-textbox__input, .ui-textbox__textarea {
       font-size: $font-size;
-      height: auto;
+      height: $control-height;
     }
+  }
+
+  .ui-switch {
+    width: auto;
+    height: 100%;
   }
 }
 
@@ -517,7 +521,7 @@ $font-size: rem-calc(9px);
       margin-right: 0;
       min-width: rem-calc(4px);
       width: rem-calc(4px);
-      height: rem-calc(16px);
+      height: $control-height;
     }
 }
 
