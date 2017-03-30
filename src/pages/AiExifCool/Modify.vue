@@ -26,6 +26,7 @@
                 {{ confirmDialog.content }}
             </ui-confirm>
 
+
             <ui-confirm
                 :autofocus="exifConfigDialog.autofocus"
                 :confirm-button-text="exifConfigDialog.confirmButtonText"
@@ -41,11 +42,15 @@
                 v-if="enableSettingItemExif"
             >
                 {{ exifConfigDialog.content }}
-                <dovemxui-exif-info
+                <dovemxui-data-info
+                    :key="exifConfigDialog.exifInfo.id"
+
                     :options="exifConfigDialog.propertyEditorConfig"
-                    :exif="exifConfigDialog.exifInfo"
+                    :data="exifConfigDialog.exifInfo"
+
+                    @change="onTaskItemExifInfoChange"
                 >
-                </dovemxui-exif-info>
+                </dovemxui-data-info>
             </ui-confirm>
         </div>
 
@@ -85,7 +90,7 @@
                                 v-model="item.selectPlanModel"
                             ></ui-select>
                             <ui-icon-button 
-                                @click="onSettingPlan(item)"
+                                @click="onSettingTaskItemExifPlan(item)"
                                 type="secondary"
                                 color="black"
                                 size="small"
@@ -153,8 +158,8 @@ import { BS, Util, _ } from 'dovemaxsdk'
 import {UiIcon, UiSelect, UiTabs, UiTab, UiConfirm, UiButton, UiIconButton, UiAlert, UiToolbar, UiProgressLinear} from 'keen-ui'
 import {Transfer} from '../../bridge/transfer'
 
-import DoveMX_UIExifInfo from '../../components/ui-exif-info.vue'
-import { ExifInformation, ExifCategory, ExifItem } from '../../components/def-exif.js'
+import DoveMX_UIDataInfo from '../../components/ui-data-info.vue'
+import { DataInformation, DataCategory, DataItem } from '../../components/def-data.js'
 
 var baseID = "__page__modify__action__"
 var baseIDIndex = -1
@@ -177,7 +182,8 @@ class Task {
 
         /// ----- 自己的方案选择
         this.selectPlanModel = '';  // 所选的处理方案
-        this.exifConfig = {};       // Exif配置信息
+        this.exifConfig = null;     // Exif配置信息
+        this.exifConfigOrgJSON = null; // 原始的Exif配置信息
 
         /// ----- 修改工作的情况
         this.isworking = false;     // 是否正在修改中
@@ -224,6 +230,7 @@ export default {
                 title: '',
                 content: '',
                 exifInfo: {},
+                assTask: {},
                 propertyEditorConfig: {},
                 callbackConfirm: ()=>{},
                 callbackDeny: ()=>{}
@@ -636,100 +643,124 @@ export default {
 
         },
 
-        __getItemExifInfo(item) {
-            let exifInformation = new ExifInformation()
-            let cag1 = new ExifCategory('基本信息')
-            cag1.add(new ExifItem('key$filePath',{
-                title: '路径',
-                description: '获取或设置文件的路径',
-                dataType: String,
-                value: 'D:\\TestResource\\exif_sample_images\\Nikon\\corrupted_output\\picture.jpg',
-                extend: {
-                    uiDisplayComponent:'ui-textbox',
-                    showToolbar: false
-                }
-            }))
-            cag1.add(new ExifItem('key$fileSize',{
-                title: '大小',
-                description: '获取或设置文件的大小',
-                dataType: Number,
-                value: 52.36,
-                readOnly: true,
-                extend: {
-                    uiDisplayComponent:'ui-slider'
-                }
-            }))
-            cag1.add(new ExifItem('key$canRead',{
-                title: '启动开关',
-                description: '获取或设置文件的大小',
-                dataType: Boolean,
-                value: true,
-                extend: {
-                    uiDisplayComponent:'ui-switch',
-                    showToolbar: false
-                }
-            }))            
-
-            let cag2 = new ExifCategory('扩展信息')
-
-            for(let i=0; i< 20; ++i){
-                const item = new ExifItem('key$filePath' + i,{
-                    title: '路径' + i,
+        __getTaskItemExifInfo(item) {
+            if(!item.exifConfig) {
+                let exifInformation = new DataInformation(item.id)
+                let cag1 = new DataCategory('基本信息')
+                cag1.add(new DataItem('key$filePath',{
+                    title: '路径',
                     description: '获取或设置文件的路径',
                     dataType: String,
-                    value: 'D:\\TestResource\\exif_sample_images\\Nikon\\corrupted_output\\picture.jpg',
+                    value: item.path,
+                    readOnly: true
+                }))
+                cag1.add(new DataItem('key$fileSize',{
+                    title: '大小',
+                    description: '获取或设置文件的大小',
+                    dataType: String,
+                    value: item.size,
+                    readOnly: true
+                }))
+                cag1.add(new DataItem('key$canRead',{
+                    title: '启动开关',
+                    description: '获取或设置文件的大小',
+                    dataType: Boolean,
+                    value: true,
                     extend: {
-                        uiDisplayComponent:'ui-textbox',
-                        showToolbar: true,
-                        hasToolBarMenu: true,
-                        toolBarMenus:[
-                            {
-                                id: 'edit',
-                                label: 'Edit',
-                                icon: 'edit',
-                                secondaryText: 'Ctrl+E'
-                            },
-                            {
-                                id: 'duplicate',
-                                label: 'Duplicate',
-                                icon: 'content_copy',
-                                secondaryText: 'Ctrl+D'
-                            },
-                            {
-                                id: 'share',
-                                label: 'Share',
-                                icon: 'share',
-                                secondaryText: 'Ctrl+Shift+S',
-                                disabled: true
-                            },
-                            {
-                                type: 'divider'
-                            },
-                            {
-                                id: 'delete',
-                                label: 'Delete',
-                                icon: 'delete',
-                                secondaryText: 'Del'
-                            }
-                        ]
+                        uiDisplayComponent:'ui-switch',
+                        showToolbar: false
                     }
-                })
-                cag1.add(item)
-                cag2.add(item)
+                }))            
+
+                let cag2 = new DataCategory('扩展信息')
+
+                for(let i=0; i< 20; ++i){
+                    const item = new DataItem('key$filePath' + i,{
+                        title: '路径' + i,
+                        description: '获取或设置文件的路径',
+                        dataType: String,
+                        value: 'D:\\TestResource\\exif_sample_images\\Nikon\\corrupted_output\\picture.jpg',
+                        extend: {
+                            uiDisplayComponent:'ui-textbox',
+                            showToolbar: true,
+                            hasToolBarMenu: true,
+                            toolBarMenus:[
+                                {
+                                    id: 'edit',
+                                    label: 'Edit',
+                                    icon: 'edit',
+                                    secondaryText: 'Ctrl+E'
+                                },
+                                {
+                                    id: 'duplicate',
+                                    label: 'Duplicate',
+                                    icon: 'content_copy',
+                                    secondaryText: 'Ctrl+D'
+                                },
+                                {
+                                    id: 'share',
+                                    label: 'Share',
+                                    icon: 'share',
+                                    secondaryText: 'Ctrl+Shift+S',
+                                    disabled: true
+                                },
+                                {
+                                    type: 'divider'
+                                },
+                                {
+                                    id: 'delete',
+                                    label: 'Delete',
+                                    icon: 'delete',
+                                    secondaryText: 'Del'
+                                }
+                            ]
+                        }
+                    })
+                    cag1.add(item)
+                    cag2.add(item)
+                }
+
+                exifInformation.add(cag1)
+                exifInformation.add(cag2)
+
+                item.exifConfig = exifInformation
+                item.exifConfigOrgJSON = JSON.stringify(exifInformation)
             }
 
-            exifInformation.add(cag1)
-            exifInformation.add(cag2)
-            return exifInformation
-
+            return item.exifConfig
         },
-        onSettingPlan(item){
+
+        __getTaskItemById(itemId) {
+            for(let i=0; i < this.taskList.length; ++i){
+                const task = this.taskList[i];
+                if (task.id === itemId){
+                    return task
+                }
+            }
+            return null
+        },
+
+        onTaskItemExifInfoChange(newExif) {
+            // TODO:
+            // 1. 配置窗体的OK按钮变为可用状态
+            const curItemId = newExif.owner
+            const curTask = this.__getTaskItemById(curItemId)
+
+            const curExifConfigJSON = JSON.stringify(curTask.exifConfig)
+            if (curExifConfigJSON !== curTask.exifConfigOrgJSON){
+                console.log(' !!===')
+            }
+        },
+
+        onSettingTaskItemExifPlan(item){
             var that = this
             const cdg = that.exifConfigDialog
+
             cdg.title = that.$t('pages.modify.dialog-exif-confirm-edit.title')
             cdg.confirmButtonText = that.$t('pages.modify.dialog-exif-confirm-edit.btnConfirm')
             cdg.denyButtonText = that.$t('pages.modify.dialog-exif-confirm-edit.btnDeny')
-            cdg.exifInfo = that.__getItemExifInfo(item)
+            cdg.exifInfo = that.__getTaskItemExifInfo(item)
+            cdg.assTask = item
             cdg.propertyEditorConfig = {
                 propertyCaption: that.$t('_common.propertyEditor.property'),
                 valueCaption: that.$t('_common.propertyEditor.value')
@@ -761,7 +792,7 @@ export default {
         UiSelect,
         UiConfirm,
         UiProgressLinear,
-        'dovemxui-exif-info': DoveMX_UIExifInfo
+        'dovemxui-data-info': DoveMX_UIDataInfo
     }
 }
 

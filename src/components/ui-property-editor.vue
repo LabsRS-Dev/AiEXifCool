@@ -17,8 +17,8 @@
         </tr>
         <tr
         class="dovemxui-property-editor__container__content"
-        :key="'item' + itemIndex"
-        
+        :key="item.id"
+
         v-for="(item, itemIndex) in items"
         >
           <td class="dovemxui-property-editor__container__property"> 

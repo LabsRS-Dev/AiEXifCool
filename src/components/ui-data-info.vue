@@ -1,15 +1,15 @@
 <template>
-  <div class="dovemxui-exif-info__container">
+  <div class="dovemxui-data-info__container">
       <ui-tabs 
         type="text"
 
-        v-if="hasExifInformation"
+        v-if="hasDataInformation"
         >
           <ui-tab 
             :title="category.title"
-            :key="'category' + categoryIndex"
+            :key="category.id"
 
-            v-for="(category, categoryIndex) in exif.categories"
+            v-for="(category, categoryIndex) in data.categories"
           >
             <dovemxui-property-editor
               :property-caption="options.propertyCaption"
@@ -28,7 +28,7 @@
 <script>
 import {UiIcon, UiSelect, UiTabs, UiTab, UiConfirm, UiButton, UiIconButton, UiAlert, UiToolbar, UiProgressLinear} from 'keen-ui'
 import DoveMX_UIPropertyEditor from './ui-property-editor.vue'
-import { ExifInformation } from './def-exif'
+import { DataInformation } from './def-data'
 
 
 class PropertyEditorConfig {
@@ -39,20 +39,20 @@ class PropertyEditorConfig {
 }
 
 export default {
-  name: 'dovemxui-exif-info',
+  name: 'dovemxui-data-info',
   props: {
     options:{
         type: Object,
         default: new PropertyEditorConfig()
     },
-    exif: {
+    data: {
         type: Object,
-        default: new ExifInformation()
+        default: new DataInformation()
     }
   },
   data(){
     return {
-      initialValue: JSON.stringify(this.exif)
+      initialValue: JSON.stringify(this.data)
     }
   },
   computed: {
@@ -62,10 +62,10 @@ export default {
       ]
     },
 
-    hasExifInformation(){
+    hasDataInformation(){
       let has = false
       try{
-        has = this.exif.categories.length > 0
+        has = this.data.categories.length > 0
       }catch(e){}
       return has
     }
@@ -74,15 +74,15 @@ export default {
   methods:{
 
     setValue(categoryId, items) {
-      for(let i=0; i < this.exif.categories.length; ++i) {
-        var category = this.exif.categories[i]
+      for(let i=0; i < this.data.categories.length; ++i) {
+        var category = this.data.categories[i]
         if (category.id === categoryId) {
           // category.items == items is true. 原因是数据传输过程中，使用的都是引用，所以，子 组件中修改会影响到父组件
           category.items = items
         }
       }
 
-      this.$emit('change', this.exif)
+      this.$emit('change', this.data)
     },
     
     onPropertyEditorValueChange(categoryId, items){

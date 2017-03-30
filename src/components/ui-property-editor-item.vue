@@ -25,7 +25,7 @@
           @keydown.enter.prevent="onUiTextBoxKeydownEnter"
           @keydown="onUiTextBoxKeydown"
 
-          v-if="ifComponentAsUiTextBox"
+          v-if="ifComponentAsUiTextBox || ifComponentUseDefault"
           >
         </ui-textbox>
 
@@ -91,7 +91,7 @@
         class="dovemxui-property-editor-item__container__toolbar"
 
         @blur.capture="onToolbarBlur"
-        
+
         v-show="showEditWidget && hasToolbar"
         >
         <ui-button
@@ -205,13 +205,28 @@ export default {
       const hasUiSpec = this.itemdata.extend.uiDisplayComponent === 'ui-switch'
       return this.itemdata.dataType === Boolean && hasUiSpec
     },
+    ifComponentUseDefault(){
+      const list = [
+        this.ifComponentAsUiTextBox,
+        this.ifComponentAsUiProgressLinear,
+        this.ifComponentAsUiSlider,
+        this.ifComponentAsUiSwitch
+      ]
+
+      var hasUiSpec = false
+      for(let i=0; i< list.length; ++i){
+        hasUiSpec = hasUiSpec || list[i]
+      }
+
+      return !hasUiSpec
+    },
 
     // ---------------------------------------
     formatTip(){
       return this.tip + ' : ' + this.vmValue
     },
     isReadOnly(){
-      return !!this.itemdata.readonly
+      return !!this.itemdata.readOnly
     },
     hasToolbar(){
       return !!this.itemdata.extend.showToolbar

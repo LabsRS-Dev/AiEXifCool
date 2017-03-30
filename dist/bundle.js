@@ -26683,100 +26683,7 @@ exports.f = __webpack_require__(1);
 
 
 /***/ }),
-/* 52 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.ExifInformation = exports.ExifCategory = exports.ExifItem = undefined;
-
-var _createClass2 = __webpack_require__(58);
-
-var _createClass3 = _interopRequireDefault(_createClass2);
-
-var _classCallCheck2 = __webpack_require__(13);
-
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var ExifItem = function ExifItem() {
-  var key = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
-  var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-  (0, _classCallCheck3.default)(this, ExifItem);
-
-  this.id = ++ExifItem.count;
-  this.key = key;
-  this.title = options.title || 'title';
-  this.description = options.description || 'description';
-  this.category = options.category || 'base';
-  this.dataType = options.dataType || String;
-  this.value = options.value || 'value';
-  this.readOnly = options.readOnly || false;
-  this.extend = options.extend || {};
-};
-
-ExifItem.count = 0;
-
-var ExifCategory = function () {
-  function ExifCategory() {
-    var title = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
-    var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-    (0, _classCallCheck3.default)(this, ExifCategory);
-
-    this.id = ++ExifCategory.count;
-    this.title = title || '';
-    this.items = [];
-  }
-
-  (0, _createClass3.default)(ExifCategory, [{
-    key: 'add',
-    value: function add(item) {
-      this.items.push(item);
-    }
-  }, {
-    key: 'getItemKeyList',
-    value: function getItemKeyList() {
-      var list = [];
-      for (var i = 0; i < this.items.length; ++i) {
-        var item = this.items[i];
-        list.push(item.key);
-      }
-      return list;
-    }
-  }]);
-  return ExifCategory;
-}();
-
-ExifCategory.count = 0;
-
-var ExifInformation = function () {
-  function ExifInformation() {
-    (0, _classCallCheck3.default)(this, ExifInformation);
-
-    this.id = ++ExifInformation.count;
-    this.categories = [];
-  }
-
-  (0, _createClass3.default)(ExifInformation, [{
-    key: 'add',
-    value: function add(category) {
-      this.categories.push(category);
-    }
-  }]);
-  return ExifInformation;
-}();
-
-ExifInformation.count = 0;
-exports.ExifItem = ExifItem;
-exports.ExifCategory = ExifCategory;
-exports.ExifInformation = ExifInformation;
-
-/***/ }),
+/* 52 */,
 /* 53 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -28722,106 +28629,7 @@ exports.default = {
 };
 
 /***/ }),
-/* 80 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _stringify = __webpack_require__(25);
-
-var _stringify2 = _interopRequireDefault(_stringify);
-
-var _classCallCheck2 = __webpack_require__(13);
-
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
-
-var _keenUi = __webpack_require__(4);
-
-var _uiPropertyEditor = __webpack_require__(172);
-
-var _uiPropertyEditor2 = _interopRequireDefault(_uiPropertyEditor);
-
-var _defExif = __webpack_require__(52);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var PropertyEditorConfig = function PropertyEditorConfig() {
-  var propertyCaption = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'property';
-  var valueCaption = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'value';
-  (0, _classCallCheck3.default)(this, PropertyEditorConfig);
-
-  this.propertyCaption = propertyCaption;
-  this.valueCaption = valueCaption;
-};
-
-exports.default = {
-  name: 'dovemxui-exif-info',
-  props: {
-    options: {
-      type: Object,
-      default: new PropertyEditorConfig()
-    },
-    exif: {
-      type: Object,
-      default: new _defExif.ExifInformation()
-    }
-  },
-  data: function data() {
-    return {
-      initialValue: (0, _stringify2.default)(this.exif)
-    };
-  },
-
-  computed: {
-    classes: function classes() {
-      return [];
-    },
-    hasExifInformation: function hasExifInformation() {
-      var has = false;
-      try {
-        has = this.exif.categories.length > 0;
-      } catch (e) {}
-      return has;
-    }
-  },
-
-  methods: {
-    setValue: function setValue(categoryId, items) {
-      for (var i = 0; i < this.exif.categories.length; ++i) {
-        var category = this.exif.categories[i];
-        if (category.id === categoryId) {
-          category.items = items;
-        }
-      }
-
-      this.$emit('change', this.exif);
-    },
-    onPropertyEditorValueChange: function onPropertyEditorValueChange(categoryId, items) {
-      this.setValue(categoryId, items);
-    }
-  },
-
-  components: {
-    UiIcon: _keenUi.UiIcon,
-    UiTabs: _keenUi.UiTabs,
-    UiTab: _keenUi.UiTab,
-    UiButton: _keenUi.UiButton,
-    UiIconButton: _keenUi.UiIconButton,
-    UiAlert: _keenUi.UiAlert,
-    UiToolbar: _keenUi.UiToolbar,
-    UiSelect: _keenUi.UiSelect,
-    UiConfirm: _keenUi.UiConfirm,
-    UiProgressLinear: _keenUi.UiProgressLinear,
-    'dovemxui-property-editor': _uiPropertyEditor2.default
-  }
-};
-
-/***/ }),
+/* 80 */,
 /* 81 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -28898,11 +28706,21 @@ exports.default = {
       var hasUiSpec = this.itemdata.extend.uiDisplayComponent === 'ui-switch';
       return this.itemdata.dataType === Boolean && hasUiSpec;
     },
+    ifComponentUseDefault: function ifComponentUseDefault() {
+      var list = [this.ifComponentAsUiTextBox, this.ifComponentAsUiProgressLinear, this.ifComponentAsUiSlider, this.ifComponentAsUiSwitch];
+
+      var hasUiSpec = false;
+      for (var i = 0; i < list.length; ++i) {
+        hasUiSpec = hasUiSpec || list[i];
+      }
+
+      return !hasUiSpec;
+    },
     formatTip: function formatTip() {
       return this.tip + ' : ' + this.vmValue;
     },
     isReadOnly: function isReadOnly() {
-      return !!this.itemdata.readonly;
+      return !!this.itemdata.readOnly;
     },
     hasToolbar: function hasToolbar() {
       return !!this.itemdata.extend.showToolbar;
@@ -29226,6 +29044,10 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
+var _stringify = __webpack_require__(25);
+
+var _stringify2 = _interopRequireDefault(_stringify);
+
 var _classCallCheck2 = __webpack_require__(13);
 
 var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
@@ -29236,11 +29058,11 @@ var _keenUi = __webpack_require__(4);
 
 var _transfer = __webpack_require__(24);
 
-var _uiExifInfo = __webpack_require__(170);
+var _uiDataInfo = __webpack_require__(205);
 
-var _uiExifInfo2 = _interopRequireDefault(_uiExifInfo);
+var _uiDataInfo2 = _interopRequireDefault(_uiDataInfo);
 
-var _defExif = __webpack_require__(52);
+var _defData = __webpack_require__(203);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -29264,7 +29086,8 @@ var Task = function Task(thumb, name, path, size) {
     };
 
     this.selectPlanModel = '';
-    this.exifConfig = {};
+    this.exifConfig = null;
+    this.exifConfigOrgJSON = null;
     this.isworking = false;
     this.progress = 0;
     this.fixOutDir = "";
@@ -29303,6 +29126,7 @@ exports.default = {
                 title: '',
                 content: '',
                 exifInfo: {},
+                assTask: {},
                 propertyEditorConfig: {},
                 callbackConfirm: function callbackConfirm() {},
                 callbackDeny: function callbackDeny() {}
@@ -29665,93 +29489,113 @@ exports.default = {
                 that.__removeTaskItem(item, index);
             }
         },
-        __getItemExifInfo: function __getItemExifInfo(item) {
-            var exifInformation = new _defExif.ExifInformation();
-            var cag1 = new _defExif.ExifCategory('基本信息');
-            cag1.add(new _defExif.ExifItem('key$filePath', {
-                title: '路径',
-                description: '获取或设置文件的路径',
-                dataType: String,
-                value: 'D:\\TestResource\\exif_sample_images\\Nikon\\corrupted_output\\picture.jpg',
-                extend: {
-                    uiDisplayComponent: 'ui-textbox',
-                    showToolbar: false
-                }
-            }));
-            cag1.add(new _defExif.ExifItem('key$fileSize', {
-                title: '大小',
-                description: '获取或设置文件的大小',
-                dataType: Number,
-                value: 52.36,
-                readOnly: true,
-                extend: {
-                    uiDisplayComponent: 'ui-slider'
-                }
-            }));
-            cag1.add(new _defExif.ExifItem('key$canRead', {
-                title: '启动开关',
-                description: '获取或设置文件的大小',
-                dataType: Boolean,
-                value: true,
-                extend: {
-                    uiDisplayComponent: 'ui-switch',
-                    showToolbar: false
-                }
-            }));
-
-            var cag2 = new _defExif.ExifCategory('扩展信息');
-
-            for (var i = 0; i < 20; ++i) {
-                var _item = new _defExif.ExifItem('key$filePath' + i, {
-                    title: '路径' + i,
+        __getTaskItemExifInfo: function __getTaskItemExifInfo(item) {
+            if (!item.exifConfig) {
+                var exifInformation = new _defData.DataInformation(item.id);
+                var cag1 = new _defData.DataCategory('基本信息');
+                cag1.add(new _defData.DataItem('key$filePath', {
+                    title: '路径',
                     description: '获取或设置文件的路径',
                     dataType: String,
-                    value: 'D:\\TestResource\\exif_sample_images\\Nikon\\corrupted_output\\picture.jpg',
+                    value: item.path,
+                    readOnly: true
+                }));
+                cag1.add(new _defData.DataItem('key$fileSize', {
+                    title: '大小',
+                    description: '获取或设置文件的大小',
+                    dataType: String,
+                    value: item.size,
+                    readOnly: true
+                }));
+                cag1.add(new _defData.DataItem('key$canRead', {
+                    title: '启动开关',
+                    description: '获取或设置文件的大小',
+                    dataType: Boolean,
+                    value: true,
                     extend: {
-                        uiDisplayComponent: 'ui-textbox',
-                        showToolbar: true,
-                        hasToolBarMenu: true,
-                        toolBarMenus: [{
-                            id: 'edit',
-                            label: 'Edit',
-                            icon: 'edit',
-                            secondaryText: 'Ctrl+E'
-                        }, {
-                            id: 'duplicate',
-                            label: 'Duplicate',
-                            icon: 'content_copy',
-                            secondaryText: 'Ctrl+D'
-                        }, {
-                            id: 'share',
-                            label: 'Share',
-                            icon: 'share',
-                            secondaryText: 'Ctrl+Shift+S',
-                            disabled: true
-                        }, {
-                            type: 'divider'
-                        }, {
-                            id: 'delete',
-                            label: 'Delete',
-                            icon: 'delete',
-                            secondaryText: 'Del'
-                        }]
+                        uiDisplayComponent: 'ui-switch',
+                        showToolbar: false
                     }
-                });
-                cag1.add(_item);
-                cag2.add(_item);
+                }));
+
+                var cag2 = new _defData.DataCategory('扩展信息');
+
+                for (var i = 0; i < 20; ++i) {
+                    var _item = new _defData.DataItem('key$filePath' + i, {
+                        title: '路径' + i,
+                        description: '获取或设置文件的路径',
+                        dataType: String,
+                        value: 'D:\\TestResource\\exif_sample_images\\Nikon\\corrupted_output\\picture.jpg',
+                        extend: {
+                            uiDisplayComponent: 'ui-textbox',
+                            showToolbar: true,
+                            hasToolBarMenu: true,
+                            toolBarMenus: [{
+                                id: 'edit',
+                                label: 'Edit',
+                                icon: 'edit',
+                                secondaryText: 'Ctrl+E'
+                            }, {
+                                id: 'duplicate',
+                                label: 'Duplicate',
+                                icon: 'content_copy',
+                                secondaryText: 'Ctrl+D'
+                            }, {
+                                id: 'share',
+                                label: 'Share',
+                                icon: 'share',
+                                secondaryText: 'Ctrl+Shift+S',
+                                disabled: true
+                            }, {
+                                type: 'divider'
+                            }, {
+                                id: 'delete',
+                                label: 'Delete',
+                                icon: 'delete',
+                                secondaryText: 'Del'
+                            }]
+                        }
+                    });
+                    cag1.add(_item);
+                    cag2.add(_item);
+                }
+
+                exifInformation.add(cag1);
+                exifInformation.add(cag2);
+
+                item.exifConfig = exifInformation;
+                item.exifConfigOrgJSON = (0, _stringify2.default)(exifInformation);
             }
 
-            exifInformation.add(cag1);
-            exifInformation.add(cag2);
-            return exifInformation;
+            return item.exifConfig;
         },
-        onSettingPlan: function onSettingPlan(item) {
+        __getTaskItemById: function __getTaskItemById(itemId) {
+            for (var i = 0; i < this.taskList.length; ++i) {
+                var task = this.taskList[i];
+                if (task.id === itemId) {
+                    return task;
+                }
+            }
+            return null;
+        },
+        onTaskItemExifInfoChange: function onTaskItemExifInfoChange(newExif) {
+            var curItemId = newExif.owner;
+            var curTask = this.__getTaskItemById(curItemId);
+
+            var curExifConfigJSON = (0, _stringify2.default)(curTask.exifConfig);
+            if (curExifConfigJSON !== curTask.exifConfigOrgJSON) {
+                console.log(' !!===');
+            }
+        },
+        onSettingTaskItemExifPlan: function onSettingTaskItemExifPlan(item) {
             var that = this;
             var cdg = that.exifConfigDialog;
+
             cdg.title = that.$t('pages.modify.dialog-exif-confirm-edit.title');
             cdg.confirmButtonText = that.$t('pages.modify.dialog-exif-confirm-edit.btnConfirm');
             cdg.denyButtonText = that.$t('pages.modify.dialog-exif-confirm-edit.btnDeny');
-            cdg.exifInfo = that.__getItemExifInfo(item);
+            cdg.exifInfo = that.__getTaskItemExifInfo(item);
+            cdg.assTask = item;
             cdg.propertyEditorConfig = {
                 propertyCaption: that.$t('_common.propertyEditor.property'),
                 valueCaption: that.$t('_common.propertyEditor.value')
@@ -29780,7 +29624,7 @@ exports.default = {
         UiSelect: _keenUi.UiSelect,
         UiConfirm: _keenUi.UiConfirm,
         UiProgressLinear: _keenUi.UiProgressLinear,
-        'dovemxui-exif-info': _uiExifInfo2.default
+        'dovemxui-data-info': _uiDataInfo2.default
     }
 };
 
@@ -32256,12 +32100,7 @@ __webpack_require__(49)('observable');
 // removed by extract-text-webpack-plugin
 
 /***/ }),
-/* 166 */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
+/* 166 */,
 /* 167 */
 /***/ (function(module, exports) {
 
@@ -32296,28 +32135,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 170 */
-/***/ (function(module, exports, __webpack_require__) {
-
-
-/* styles */
-__webpack_require__(166)
-
-var Component = __webpack_require__(8)(
-  /* script */
-  __webpack_require__(80),
-  /* template */
-  __webpack_require__(180),
-  /* scopeId */
-  null,
-  /* cssModules */
-  null
-)
-
-module.exports = Component.exports
-
-
-/***/ }),
+/* 170 */,
 /* 171 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -32491,7 +32309,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('div', {
     staticClass: "dovemxui-property-editor-item__container__display",
     class: _vm.classes
-  }, [(_vm.ifComponentAsUiTextBox) ? _c('ui-textbox', {
+  }, [(_vm.ifComponentAsUiTextBox || _vm.ifComponentUseDefault) ? _c('ui-textbox', {
     attrs: {
       "title": _vm.formatTip,
       "readonly": _vm.isReadOnly,
@@ -32595,37 +32413,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
 },staticRenderFns: []}
 
 /***/ }),
-/* 180 */
-/***/ (function(module, exports) {
-
-module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "dovemxui-exif-info__container"
-  }, [(_vm.hasExifInformation) ? _c('ui-tabs', {
-    attrs: {
-      "type": "text"
-    }
-  }, _vm._l((_vm.exif.categories), function(category, categoryIndex) {
-    return _c('ui-tab', {
-      key: 'category' + categoryIndex,
-      attrs: {
-        "title": category.title
-      }
-    }, [_c('dovemxui-property-editor', {
-      attrs: {
-        "property-caption": _vm.options.propertyCaption,
-        "value-caption": _vm.options.valueCaption,
-        "category-id": category.id,
-        "items": category.items
-      },
-      on: {
-        "change": _vm.onPropertyEditorValueChange
-      }
-    })], 1)
-  })) : _vm._e()], 1)
-},staticRenderFns: []}
-
-/***/ }),
+/* 180 */,
 /* 181 */
 /***/ (function(module, exports) {
 
@@ -33045,10 +32833,14 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "confirm": _vm.onExifConfigDialogConfirm,
       "deny": _vm.onExifConfigDialogDeny
     }
-  }, [_vm._v("\n            " + _vm._s(_vm.exifConfigDialog.content) + "\n            "), _c('dovemxui-exif-info', {
+  }, [_vm._v("\n            " + _vm._s(_vm.exifConfigDialog.content) + "\n            "), _c('dovemxui-data-info', {
+    key: _vm.exifConfigDialog.exifInfo.id,
     attrs: {
       "options": _vm.exifConfigDialog.propertyEditorConfig,
-      "exif": _vm.exifConfigDialog.exifInfo
+      "data": _vm.exifConfigDialog.exifInfo
+    },
+    on: {
+      "change": _vm.onTaskItemExifInfoChange
     }
   })], 1) : _vm._e()], 2), _vm._v(" "), _c('div', {
     staticClass: "page__examples page__examples-app-doc"
@@ -33128,7 +32920,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       },
       on: {
         "click": function($event) {
-          _vm.onSettingPlan(item)
+          _vm.onSettingTaskItemExifPlan(item)
         }
       }
     }, [_c('span', {
@@ -33242,7 +33034,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "dovemxui-property-editor__container__head"
   }, [_c('td', [_vm._v(" " + _vm._s(_vm.propertyCaption))]), _vm._v(" "), _c('td', [_vm._v(" " + _vm._s(_vm.valueCaption))])]), _vm._v(" "), _vm._l((_vm.items), function(item, itemIndex) {
     return _c('tr', {
-      key: 'item' + itemIndex,
+      key: item.id,
       staticClass: "dovemxui-property-editor__container__content"
     }, [_c('td', {
       staticClass: "dovemxui-property-editor__container__property"
@@ -43475,6 +43267,270 @@ var index_esm = {
 
 module.exports = __webpack_require__(78);
 
+
+/***/ }),
+/* 193 */,
+/* 194 */,
+/* 195 */,
+/* 196 */,
+/* 197 */,
+/* 198 */,
+/* 199 */,
+/* 200 */,
+/* 201 */,
+/* 202 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _stringify = __webpack_require__(25);
+
+var _stringify2 = _interopRequireDefault(_stringify);
+
+var _classCallCheck2 = __webpack_require__(13);
+
+var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+var _keenUi = __webpack_require__(4);
+
+var _uiPropertyEditor = __webpack_require__(172);
+
+var _uiPropertyEditor2 = _interopRequireDefault(_uiPropertyEditor);
+
+var _defData = __webpack_require__(203);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var PropertyEditorConfig = function PropertyEditorConfig() {
+  var propertyCaption = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'property';
+  var valueCaption = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'value';
+  (0, _classCallCheck3.default)(this, PropertyEditorConfig);
+
+  this.propertyCaption = propertyCaption;
+  this.valueCaption = valueCaption;
+};
+
+exports.default = {
+  name: 'dovemxui-data-info',
+  props: {
+    options: {
+      type: Object,
+      default: new PropertyEditorConfig()
+    },
+    data: {
+      type: Object,
+      default: new _defData.DataInformation()
+    }
+  },
+  data: function data() {
+    return {
+      initialValue: (0, _stringify2.default)(this.data)
+    };
+  },
+
+  computed: {
+    classes: function classes() {
+      return [];
+    },
+    hasDataInformation: function hasDataInformation() {
+      var has = false;
+      try {
+        has = this.data.categories.length > 0;
+      } catch (e) {}
+      return has;
+    }
+  },
+
+  methods: {
+    setValue: function setValue(categoryId, items) {
+      for (var i = 0; i < this.data.categories.length; ++i) {
+        var category = this.data.categories[i];
+        if (category.id === categoryId) {
+          category.items = items;
+        }
+      }
+
+      this.$emit('change', this.data);
+    },
+    onPropertyEditorValueChange: function onPropertyEditorValueChange(categoryId, items) {
+      this.setValue(categoryId, items);
+    }
+  },
+
+  components: {
+    UiIcon: _keenUi.UiIcon,
+    UiTabs: _keenUi.UiTabs,
+    UiTab: _keenUi.UiTab,
+    UiButton: _keenUi.UiButton,
+    UiIconButton: _keenUi.UiIconButton,
+    UiAlert: _keenUi.UiAlert,
+    UiToolbar: _keenUi.UiToolbar,
+    UiSelect: _keenUi.UiSelect,
+    UiConfirm: _keenUi.UiConfirm,
+    UiProgressLinear: _keenUi.UiProgressLinear,
+    'dovemxui-property-editor': _uiPropertyEditor2.default
+  }
+};
+
+/***/ }),
+/* 203 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.DataInformation = exports.DataCategory = exports.DataItem = undefined;
+
+var _createClass2 = __webpack_require__(58);
+
+var _createClass3 = _interopRequireDefault(_createClass2);
+
+var _classCallCheck2 = __webpack_require__(13);
+
+var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var DataItem = function DataItem() {
+  var key = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
+  var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+  (0, _classCallCheck3.default)(this, DataItem);
+
+  this.id = ++DataItem.count;
+  this.key = key;
+  this.title = options.title || 'title';
+  this.description = options.description || 'description';
+  this.category = options.category || 'base';
+  this.dataType = options.dataType || String;
+  this.value = options.value || 'value';
+  this.readOnly = options.readOnly || false;
+  this.extend = options.extend || {};
+};
+
+DataItem.count = 0;
+
+var DataCategory = function () {
+  function DataCategory() {
+    var title = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
+    var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+    (0, _classCallCheck3.default)(this, DataCategory);
+
+    this.id = ++DataCategory.count;
+    this.title = title || '';
+    this.items = [];
+  }
+
+  (0, _createClass3.default)(DataCategory, [{
+    key: 'add',
+    value: function add(item) {
+      this.items.push(item);
+    }
+  }, {
+    key: 'getItemKeyList',
+    value: function getItemKeyList() {
+      var list = [];
+      for (var i = 0; i < this.items.length; ++i) {
+        var item = this.items[i];
+        list.push(item.key);
+      }
+      return list;
+    }
+  }]);
+  return DataCategory;
+}();
+
+DataCategory.count = 0;
+
+var DataInformation = function () {
+  function DataInformation() {
+    var owner = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+    (0, _classCallCheck3.default)(this, DataInformation);
+
+    this.id = ++DataInformation.count;
+    this.categories = [];
+    this.owner = owner;
+  }
+
+  (0, _createClass3.default)(DataInformation, [{
+    key: 'add',
+    value: function add(category) {
+      this.categories.push(category);
+    }
+  }]);
+  return DataInformation;
+}();
+
+DataInformation.count = 0;
+exports.DataItem = DataItem;
+exports.DataCategory = DataCategory;
+exports.DataInformation = DataInformation;
+
+/***/ }),
+/* 204 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 205 */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+/* styles */
+__webpack_require__(204)
+
+var Component = __webpack_require__(8)(
+  /* script */
+  __webpack_require__(202),
+  /* template */
+  __webpack_require__(206),
+  /* scopeId */
+  null,
+  /* cssModules */
+  null
+)
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 206 */
+/***/ (function(module, exports) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "dovemxui-data-info__container"
+  }, [(_vm.hasDataInformation) ? _c('ui-tabs', {
+    attrs: {
+      "type": "text"
+    }
+  }, _vm._l((_vm.data.categories), function(category, categoryIndex) {
+    return _c('ui-tab', {
+      key: category.id,
+      attrs: {
+        "title": category.title
+      }
+    }, [_c('dovemxui-property-editor', {
+      attrs: {
+        "property-caption": _vm.options.propertyCaption,
+        "value-caption": _vm.options.valueCaption,
+        "category-id": category.id,
+        "items": category.items
+      },
+      on: {
+        "change": _vm.onPropertyEditorValueChange
+      }
+    })], 1)
+  })) : _vm._e()], 1)
+},staticRenderFns: []}
 
 /***/ })
 /******/ ]);

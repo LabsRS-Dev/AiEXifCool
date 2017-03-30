@@ -1,13 +1,13 @@
 
 /**
- * Exif信息单项
+ * 信息单项
  *
- * @class ExifItem
+ * @class DataItem
  */
-class ExifItem {
+class DataItem {
   static count = 0
   constructor (key = '', options = {}) {
-    this.id = ++ExifItem.count // 唯一ID
+    this.id = ++DataItem.count // 唯一ID
     this.key = key // 关键索引Key
     this.title = options.title || 'title'
     this.description = options.description || 'description'
@@ -20,14 +20,14 @@ class ExifItem {
 }
 
 /**
- * Exif信息归类大类别
+ * 信息归类大类别
  *
- * @class ExifCategory
+ * @class DataCategory
  */
-class ExifCategory {
+class DataCategory {
   static count = 0
   constructor (title = '', options = {}) {
-    this.id = ++ExifCategory.count // 唯一ID
+    this.id = ++DataCategory.count // 唯一ID
     this.title = title || ''
     this.items = []
   }
@@ -47,15 +47,22 @@ class ExifCategory {
 }
 
 /**
- * Exif信息
+ * 信息
  *
- * @class ExifInformation
+ * @class DataInformation
  */
-class ExifInformation {
+class DataInformation {
   static count = 0
-  constructor () {
-    this.id = ++ExifInformation.count // 唯一ID
+
+  /**
+   * Creates an instance of DataInformation.
+   * @param {String, Number} [owner=null] 信息持有者
+   * @memberOf DataInformation
+   */
+  constructor (owner = null) {
+    this.id = ++DataInformation.count // 唯一ID
     this.categories = []
+    this.owner = owner
   }
 
   add (category) {
@@ -63,6 +70,7 @@ class ExifInformation {
   }
 }
 
-export { ExifItem }
-export { ExifCategory }
-export { ExifInformation }
+
+export { DataItem }
+export { DataCategory }
+export { DataInformation }
