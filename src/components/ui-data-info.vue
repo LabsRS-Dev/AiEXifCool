@@ -16,6 +16,7 @@
               :value-caption="options.valueCaption"
               :category-id="category.id"
               :items="category.items"
+              :bus="bus"
 
               @change="onPropertyEditorValueChange"
             >
@@ -48,6 +49,12 @@ export default {
     data: {
         type: Object,
         default: new DataInformation()
+    },
+
+    // MessageBus
+    bus: {
+      type: Object,
+      default: null
     }
   },
   data(){
@@ -71,7 +78,34 @@ export default {
     }
   },
 
+  mounted() {
+    this.bindBus()
+  },
+
   methods:{
+    bindBus(){
+      var that = this
+      if (that.bus) {
+        that.bus.$on('save-data', function(){
+          that.save()
+        })
+
+        that.bus.$on('check-data', function(data){
+          that.check(data)
+        })
+      }
+    },
+    save(){
+      this.initialValue = JSON.stringify(this.data)
+    },
+    check(data){
+      for(let i=0; i < data.categories.length; ++i) {
+        var category = data.categories[i]
+        this.bus.$emit('check-items-data', category.items)
+      }
+
+      this.initialValue = JSON.stringify(this.data)
+    },
 
     setValue(categoryId, items) {
       for(let i=0; i < this.data.categories.length; ++i) {

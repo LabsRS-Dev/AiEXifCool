@@ -20,8 +20,10 @@
                 :ref="confirmDialog.ref"
                 :title="confirmDialog.title"
 
-                @confirm="onConfirmDialogConfirm"
-                @deny="onConfirmDialogDeny"
+                @confirm="confirmDialog.callbackConfirm"
+                @deny="confirmDialog.callbackDeny"
+                @open="confirmDialog.callbackOpen"
+                @close="confirmDialog.callbackClose"
             >
                 {{ confirmDialog.content }}
             </ui-confirm>
@@ -36,8 +38,11 @@
 
                 dismissOn="backdrop close-button"
 
-                @confirm="onExifConfigDialogConfirm"
-                @deny="onExifConfigDialogDeny"
+                @confirm="exifConfigDialog.callbackConfirm"
+                @deny="exifConfigDialog.callbackDeny"
+                @open="exifConfigDialog.callbackOpen"
+                @close="exifConfigDialog.callbackClose"
+    
                 
                 v-if="enableSettingItemExif"
             >
@@ -46,6 +51,7 @@
                     :key="exifConfigDialog.exifInfo.id"
 
                     :options="exifConfigDialog.propertyEditorConfig"
+                    :bus="exifConfigDialog.assTask.vueBus"
                     :data="exifConfigDialog.exifInfo"
 
                     @change="onTaskItemExifInfoChange"
@@ -184,6 +190,7 @@ class Task {
         this.selectPlanModel = '';  // 所选的处理方案
         this.exifConfig = null;     // Exif配置信息
         this.exifConfigOrgJSON = null; // 原始的Exif配置信息
+        this.vueBus = new Vue();         // 使用Vue建立的Bus通讯
 
         /// ----- 修改工作的情况
         this.isworking = false;     // 是否正在修改中
@@ -220,7 +227,9 @@ export default {
                 title: '',
                 content: '',
                 callbackConfirm: ()=>{},
-                callbackDeny: ()=>{}
+                callbackDeny: ()=>{},
+                callbackOpen: ()=>{},
+                callbackClose: ()=>{}
             },
             exifConfigDialog:{
                 ref: 'exifConfigDialog',
@@ -229,11 +238,16 @@ export default {
                 denyButtonText: 'Deny',
                 title: '',
                 content: '',
+                callbackConfirm: ()=>{},
+                callbackDeny: ()=>{},
+                callbackOpen: ()=>{},
+                callbackClose: ()=>{},
+
                 exifInfo: {},
                 assTask: {},
                 propertyEditorConfig: {},
-                callbackConfirm: ()=>{},
-                callbackDeny: ()=>{}
+                isConfirmed: false,
+                isDenyed: false
             },
             curFixTaskID: null       // 当前正在执行修改的整体任务ID
         }
@@ -378,30 +392,6 @@ export default {
 
         getImageProgressShow(item) {
             return item.isworking
-        },
-
-        // ------------------------- Confirm dialog
-        onConfirmDialogConfirm(){
-            var that = this
-            const  fn = that.confirmDialog.callbackConfirm
-            fn && fn()
-        },
-        onConfirmDialogDeny(){
-            var that = this
-            const  fn = that.confirmDialog.callbackDeny
-            fn && fn()
-        },
-
-        // -------------------------- ExifInfo Confirm dialog
-        onExifConfigDialogConfirm(){
-            var that = this
-            const  fn = that.exifConfigDialog.callbackConfirm
-            fn && fn()
-        },
-        onExifConfigDialogDeny(){
-            var that = this
-            const  fn = that.exifConfigDialog.callbackDeny
-            fn && fn()
         },
 
         // -------------------------- Tool bar
@@ -730,6 +720,20 @@ export default {
             return item.exifConfig
         },
 
+        __checkTaskItemExifEditState(item){
+            item.vueBus.$emit('check-data', JSON.parse(item.exifConfigOrgJSON))
+        },
+
+        __saveTaskItemExif(item){
+            item.exifConfigOrgJSON = JSON.stringify(item.exifConfig)
+            item.vueBus.$emit('save-data')
+        },
+
+        __restTaskItemExif(item) {
+            item.exifConfig = _.extend(item.exifConfig, JSON.parse(item.exifConfigOrgJSON))
+            item.vueBus.$emit('reset-data')
+        },
+
         __getTaskItemById(itemId) {
             for(let i=0; i < this.taskList.length; ++i){
                 const task = this.taskList[i];
@@ -756,6 +760,9 @@ export default {
             var that = this
             const cdg = that.exifConfigDialog
 
+            cdg.isConfirmed = false
+            cdg.isDenyed = false
+
             cdg.title = that.$t('pages.modify.dialog-exif-confirm-edit.title')
             cdg.confirmButtonText = that.$t('pages.modify.dialog-exif-confirm-edit.btnConfirm')
             cdg.denyButtonText = that.$t('pages.modify.dialog-exif-confirm-edit.btnDeny')
@@ -766,9 +773,24 @@ export default {
                 valueCaption: that.$t('_common.propertyEditor.value')
             }
             var dialog = that.$refs[cdg.ref]
-            cdg.callbackConfirm = () =>{
 
+            cdg.callbackConfirm = () =>{
+                cdg.isConfirmed = true
+                that.__saveTaskItemExif(item)
             }
+            cdg.callbackDeny = () => {
+                cdg.isDenyed = true
+                console.log('onExifConfigDialogDeny')
+            }
+            cdg.callbackClose = () => {
+                if (!cdg.isConfirmed && !cdg.isDenyed) {
+                    that.__restTaskItemExif(item)
+                }
+            }
+            cdg.callbackOpen = () => {
+                that.__checkTaskItemExifEditState(item)
+            }
+
             dialog.open()
         },
         onOpenParentDir(dir){

@@ -35,6 +35,7 @@
             <dovemxui-property-editor-item
               :tip="item.description"
               :itemdata="item"
+              :bus="bus"
 
               @change="onPropertyValueUpdate"
               @reset="onPropertyValueReset"
@@ -68,6 +69,11 @@ export default {
       type: String,
       default: "Value"
     },
+    // MessageBus
+    bus:{
+      type: Object,
+      default: null
+    },
 
     // Data
     categoryId: {
@@ -82,13 +88,15 @@ export default {
   data(){
     return {
       initialValue: JSON.stringify(this.items),
+      isSaveChange: false,
+
       modelSelectProperty: {}
     }
   },
   computed: {
     classes(){
       return [
-        { 'is-change': this.isChange }
+        { 'is-change': this.isChange}
       ]
     },
     isChange(){
@@ -119,17 +127,49 @@ export default {
       return keyNameList
     }
   },
+  mounted() {
+    this.bindBus()
+  },
 
   methods:{
+    bindBus(){
+      var that = this
+      if(that.bus) {
+        that.bus.$on('save-data', function(){
+          that.save()
+        })
+
+        that.bus.$on('check-items-data', function(items){
+          that.check(items)
+        })
+      }
+    },
     getPropertyValueStyle(item){
 
     },
 
     itemClasses(item){
-      const orgItem = this.itemId2OrgValue.get(item.id)
+      var isChange = false
+
+      const orgItemValue = this.itemId2OrgValue.get(item.id)
+      if (orgItemValue !== undefined) {
+        isChange = ((orgItemValue !== item.value) && !this.isSaveChange)
+      }
       return [
-        { 'is-item-change': (orgItem != item.value) }
+        { 'is-item-change':  isChange }
       ]
+    },
+
+    save(){
+      this.initialValue = JSON.stringify(this.items)
+      this.isSaveChange = true
+    },
+    check(items){
+      for(let i=0; i < items.length; ++i){
+         var item = items[i]
+         this.bus.$emit('check-item-data', item)
+      }
+      this.initialValue = JSON.stringify(items)
     },
 
     setValue(id, value) {
@@ -141,6 +181,7 @@ export default {
         }
       }
 
+      this.isSaveChange = false
       this.$emit('change', this.categoryId, this.items)
     },
 
@@ -208,6 +249,7 @@ $font-size: rem-calc(9px);
   max-height: $visual-box-height;
   height: $visual-box-height;
   overflow-y: auto;
+  overflow-x: hidden;
 }
 
 // ================================================
@@ -217,6 +259,7 @@ $font-size: rem-calc(9px);
   min-width: 100%;
   width: 100%;
   border: $border;
+  padding: rem-calc($padding-size + 4px);
 
   .dovemxui-property-editor__container__head {
     // background: linear-gradient(rgba(233, 233, 233, 1.0), rgba(178, 178, 178, 1.0));

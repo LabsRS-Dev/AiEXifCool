@@ -28654,11 +28654,16 @@ exports.default = {
   name: "dovemxui-property-editor-item",
   props: {
     tip: String,
-    itemdata: Object,
-    default: function _default() {
-      return new _defPropertyEditor.PropertyItem();
+    bus: {
+      type: Object,
+      default: null
     },
-
+    itemdata: {
+      type: Object,
+      default: function _default() {
+        return new _defPropertyEditor.PropertyItem();
+      }
+    },
     options: {
       type: Array,
       default: function _default() {
@@ -28680,6 +28685,7 @@ exports.default = {
       isToolBarEditBtnDropdownOpen: false,
 
       initialValue: (0, _stringify2.default)(this.itemdata),
+      isSaveChange: false,
 
       vmValue: this.itemdata.value
     };
@@ -28731,9 +28737,6 @@ exports.default = {
     menuOptions: function menuOptions() {
       return this.itemdata.extend.toolBarMenus || [];
     },
-    submittedValue: function submittedValue() {
-      return this.itemdata.value;
-    },
     isValueChange: function isValueChange() {
       return this.itemdata.value != this.orgValue;
     },
@@ -28759,6 +28762,7 @@ exports.default = {
 
   created: function created() {},
   mounted: function mounted() {
+    this.bindBus();
     document.addEventListener('click', this.onExternalClick);
     document.addEventListener('keydown', this.onExternalKeydown);
   },
@@ -28769,18 +28773,43 @@ exports.default = {
 
 
   methods: {
+    bindBus: function bindBus() {
+      var that = this;
+      if (that.bus) {
+        that.bus.$on('save-data', function () {
+          that.save();
+        });
+
+        that.bus.$on('check-item-data', function (item) {
+          that.check(item);
+        });
+      }
+    },
+    save: function save() {
+      this.initialValue = (0, _stringify2.default)(this.itemdata);
+      this.isSaveChange = true;
+      this.$emit('save', this.itemId, this.itemdata.value);
+    },
+    check: function check(item) {
+      this.initialValue = (0, _stringify2.default)(item);
+    },
     setValue: function setValue(value) {
       this.itemdata.value = value;
+
+      this.isSaveChange = false;
       this.$emit('change', this.itemId, value);
     },
     resetValue: function resetValue() {
       if (this.isValueChange) {
         this.itemdata.value = this.orgValue;
         this.vmValue = this.itemdata.value;
+
         this.$emit('reset', this.itemId, this.orgValue);
       }
     },
-    onUiTextBoxValueChange: function onUiTextBoxValueChange(value) {},
+    onUiTextBoxValueChange: function onUiTextBoxValueChange(value) {
+      this.setValue(value);
+    },
     onUiTextBoxBlur: function onUiTextBoxBlur(e) {
       if (!this.showEditWidget) {
         this.isActive = false;
@@ -28795,9 +28824,7 @@ exports.default = {
       this.isActive = true;
       this.$emit('focus', e);
     },
-    onUiTextBoxUpdateValue: function onUiTextBoxUpdateValue(value) {
-      this.setValue(value);
-    },
+    onUiTextBoxUpdateValue: function onUiTextBoxUpdateValue(value) {},
     onUiTextBoxKeydownEnter: function onUiTextBoxKeydownEnter(e) {
       console.log('onUiTextBoxKeydownEnter');
       this.toggleEditWidget();
@@ -28809,11 +28836,10 @@ exports.default = {
     onUiSliderChange: function onUiSliderChange(value) {
       this.setValue(value);
     },
-    onUiSwitchInput: function onUiSwitchInput(value) {
-      console.log('onUiSwitchInput');
+    onUiSwitchChange: function onUiSwitchChange(value) {
+      console.log('onUiSwitchChange');
       this.setValue(value);
     },
-    onUiSwitchChange: function onUiSwitchChange(value) {},
     onToolbarBlur: function onToolbarBlur(e) {
       if (this.showEditWidget) {
         this.toggleEditWidget();
@@ -28955,6 +28981,11 @@ exports.default = {
       default: "Value"
     },
 
+    bus: {
+      type: Object,
+      default: null
+    },
+
     categoryId: {
       type: [String, Number],
       require: true
@@ -28967,6 +28998,8 @@ exports.default = {
   data: function data() {
     return {
       initialValue: (0, _stringify2.default)(this.items),
+      isSaveChange: false,
+
       modelSelectProperty: {}
     };
   },
@@ -29002,12 +29035,44 @@ exports.default = {
       return keyNameList;
     }
   },
+  mounted: function mounted() {
+    this.bindBus();
+  },
+
 
   methods: {
+    bindBus: function bindBus() {
+      var that = this;
+      if (that.bus) {
+        that.bus.$on('save-data', function () {
+          that.save();
+        });
+
+        that.bus.$on('check-items-data', function (items) {
+          that.check(items);
+        });
+      }
+    },
     getPropertyValueStyle: function getPropertyValueStyle(item) {},
     itemClasses: function itemClasses(item) {
-      var orgItem = this.itemId2OrgValue.get(item.id);
-      return [{ 'is-item-change': orgItem != item.value }];
+      var isChange = false;
+
+      var orgItemValue = this.itemId2OrgValue.get(item.id);
+      if (orgItemValue !== undefined) {
+        isChange = orgItemValue !== item.value && !this.isSaveChange;
+      }
+      return [{ 'is-item-change': isChange }];
+    },
+    save: function save() {
+      this.initialValue = (0, _stringify2.default)(this.items);
+      this.isSaveChange = true;
+    },
+    check: function check(items) {
+      for (var i = 0; i < items.length; ++i) {
+        var item = items[i];
+        this.bus.$emit('check-item-data', item);
+      }
+      this.initialValue = (0, _stringify2.default)(items);
     },
     setValue: function setValue(id, value) {
       for (var i = 0; i < this.items.length; ++i) {
@@ -29017,6 +29082,7 @@ exports.default = {
         }
       }
 
+      this.isSaveChange = false;
       this.$emit('change', this.categoryId, this.items);
     },
     onPropertyValueUpdate: function onPropertyValueUpdate(id, value) {
@@ -29111,6 +29177,7 @@ var Task = function Task(thumb, name, path, size) {
     this.selectPlanModel = '';
     this.exifConfig = null;
     this.exifConfigOrgJSON = null;
+    this.vueBus = new Vue();
     this.isworking = false;
     this.progress = 0;
     this.fixOutDir = "";
@@ -29139,7 +29206,9 @@ exports.default = {
                 title: '',
                 content: '',
                 callbackConfirm: function callbackConfirm() {},
-                callbackDeny: function callbackDeny() {}
+                callbackDeny: function callbackDeny() {},
+                callbackOpen: function callbackOpen() {},
+                callbackClose: function callbackClose() {}
             },
             exifConfigDialog: {
                 ref: 'exifConfigDialog',
@@ -29148,11 +29217,16 @@ exports.default = {
                 denyButtonText: 'Deny',
                 title: '',
                 content: '',
+                callbackConfirm: function callbackConfirm() {},
+                callbackDeny: function callbackDeny() {},
+                callbackOpen: function callbackOpen() {},
+                callbackClose: function callbackClose() {},
+
                 exifInfo: {},
                 assTask: {},
                 propertyEditorConfig: {},
-                callbackConfirm: function callbackConfirm() {},
-                callbackDeny: function callbackDeny() {}
+                isConfirmed: false,
+                isDenyed: false
             },
             curFixTaskID: null };
     },
@@ -29274,26 +29348,6 @@ exports.default = {
         },
         getImageProgressShow: function getImageProgressShow(item) {
             return item.isworking;
-        },
-        onConfirmDialogConfirm: function onConfirmDialogConfirm() {
-            var that = this;
-            var fn = that.confirmDialog.callbackConfirm;
-            fn && fn();
-        },
-        onConfirmDialogDeny: function onConfirmDialogDeny() {
-            var that = this;
-            var fn = that.confirmDialog.callbackDeny;
-            fn && fn();
-        },
-        onExifConfigDialogConfirm: function onExifConfigDialogConfirm() {
-            var that = this;
-            var fn = that.exifConfigDialog.callbackConfirm;
-            fn && fn();
-        },
-        onExifConfigDialogDeny: function onExifConfigDialogDeny() {
-            var that = this;
-            var fn = that.exifConfigDialog.callbackDeny;
-            fn && fn();
         },
         onToolBtnClick: function onToolBtnClick(index, item) {
             console.log('onToolBtnClick', index);
@@ -29592,6 +29646,17 @@ exports.default = {
 
             return item.exifConfig;
         },
+        __checkTaskItemExifEditState: function __checkTaskItemExifEditState(item) {
+            item.vueBus.$emit('check-data', JSON.parse(item.exifConfigOrgJSON));
+        },
+        __saveTaskItemExif: function __saveTaskItemExif(item) {
+            item.exifConfigOrgJSON = (0, _stringify2.default)(item.exifConfig);
+            item.vueBus.$emit('save-data');
+        },
+        __restTaskItemExif: function __restTaskItemExif(item) {
+            item.exifConfig = _dovemaxsdk._.extend(item.exifConfig, JSON.parse(item.exifConfigOrgJSON));
+            item.vueBus.$emit('reset-data');
+        },
         __getTaskItemById: function __getTaskItemById(itemId) {
             for (var i = 0; i < this.taskList.length; ++i) {
                 var task = this.taskList[i];
@@ -29614,6 +29679,9 @@ exports.default = {
             var that = this;
             var cdg = that.exifConfigDialog;
 
+            cdg.isConfirmed = false;
+            cdg.isDenyed = false;
+
             cdg.title = that.$t('pages.modify.dialog-exif-confirm-edit.title');
             cdg.confirmButtonText = that.$t('pages.modify.dialog-exif-confirm-edit.btnConfirm');
             cdg.denyButtonText = that.$t('pages.modify.dialog-exif-confirm-edit.btnDeny');
@@ -29624,7 +29692,24 @@ exports.default = {
                 valueCaption: that.$t('_common.propertyEditor.value')
             };
             var dialog = that.$refs[cdg.ref];
-            cdg.callbackConfirm = function () {};
+
+            cdg.callbackConfirm = function () {
+                cdg.isConfirmed = true;
+                that.__saveTaskItemExif(item);
+            };
+            cdg.callbackDeny = function () {
+                cdg.isDenyed = true;
+                console.log('onExifConfigDialogDeny');
+            };
+            cdg.callbackClose = function () {
+                if (!cdg.isConfirmed && !cdg.isDenyed) {
+                    that.__restTaskItemExif(item);
+                }
+            };
+            cdg.callbackOpen = function () {
+                that.__checkTaskItemExifEditState(item);
+            };
+
             dialog.open();
         },
         onOpenParentDir: function onOpenParentDir(dir) {
@@ -32336,7 +32421,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "title": _vm.formatTip,
       "readonly": _vm.isReadOnly,
-      "value": _vm.submittedValue
+      "value": _vm.vmValue
     },
     on: {
       "change": _vm.onUiTextBoxValueChange,
@@ -32348,6 +32433,13 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         $event.preventDefault();
         _vm.onUiTextBoxKeydownEnter($event)
       }, _vm.onUiTextBoxKeydown]
+    },
+    model: {
+      value: (_vm.vmValue),
+      callback: function($$v) {
+        _vm.vmValue = $$v
+      },
+      expression: "vmValue"
     }
   }) : _vm._e(), _vm._v(" "), (_vm.ifComponentAsUiSlider) ? _c('ui-slider', {
     attrs: {
@@ -32372,7 +32464,6 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "value": _vm.vmValue
     },
     on: {
-      "input": _vm.onUiSwitchInput,
       "change": _vm.onUiSwitchChange
     },
     model: {
@@ -32840,8 +32931,10 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "title": _vm.confirmDialog.title
     },
     on: {
-      "confirm": _vm.onConfirmDialogConfirm,
-      "deny": _vm.onConfirmDialogDeny
+      "confirm": _vm.confirmDialog.callbackConfirm,
+      "deny": _vm.confirmDialog.callbackDeny,
+      "open": _vm.confirmDialog.callbackOpen,
+      "close": _vm.confirmDialog.callbackClose
     }
   }, [_vm._v("\n            " + _vm._s(_vm.confirmDialog.content) + "\n        ")]), _vm._v(" "), (_vm.enableSettingItemExif) ? _c('ui-confirm', {
     ref: _vm.exifConfigDialog.ref,
@@ -32853,13 +32946,16 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "dismissOn": "backdrop close-button"
     },
     on: {
-      "confirm": _vm.onExifConfigDialogConfirm,
-      "deny": _vm.onExifConfigDialogDeny
+      "confirm": _vm.exifConfigDialog.callbackConfirm,
+      "deny": _vm.exifConfigDialog.callbackDeny,
+      "open": _vm.exifConfigDialog.callbackOpen,
+      "close": _vm.exifConfigDialog.callbackClose
     }
   }, [_vm._v("\n            " + _vm._s(_vm.exifConfigDialog.content) + "\n            "), _c('dovemxui-data-info', {
     key: _vm.exifConfigDialog.exifInfo.id,
     attrs: {
       "options": _vm.exifConfigDialog.propertyEditorConfig,
+      "bus": _vm.exifConfigDialog.assTask.vueBus,
       "data": _vm.exifConfigDialog.exifInfo
     },
     on: {
@@ -33072,7 +33168,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }, [_c('dovemxui-property-editor-item', {
       attrs: {
         "tip": item.description,
-        "itemdata": item
+        "itemdata": item,
+        "bus": _vm.bus
       },
       on: {
         "change": _vm.onPropertyValueUpdate,
@@ -43350,6 +43447,11 @@ exports.default = {
     data: {
       type: Object,
       default: new _defData.DataInformation()
+    },
+
+    bus: {
+      type: Object,
+      default: null
     }
   },
   data: function data() {
@@ -43371,7 +43473,35 @@ exports.default = {
     }
   },
 
+  mounted: function mounted() {
+    this.bindBus();
+  },
+
+
   methods: {
+    bindBus: function bindBus() {
+      var that = this;
+      if (that.bus) {
+        that.bus.$on('save-data', function () {
+          that.save();
+        });
+
+        that.bus.$on('check-data', function (data) {
+          that.check(data);
+        });
+      }
+    },
+    save: function save() {
+      this.initialValue = (0, _stringify2.default)(this.data);
+    },
+    check: function check(data) {
+      for (var i = 0; i < data.categories.length; ++i) {
+        var category = data.categories[i];
+        this.bus.$emit('check-items-data', category.items);
+      }
+
+      this.initialValue = (0, _stringify2.default)(this.data);
+    },
     setValue: function setValue(categoryId, items) {
       for (var i = 0; i < this.data.categories.length; ++i) {
         var category = this.data.categories[i];
@@ -43548,7 +43678,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         "property-caption": _vm.options.propertyCaption,
         "value-caption": _vm.options.valueCaption,
         "category-id": category.id,
-        "items": category.items
+        "items": category.items,
+        "bus": _vm.bus
       },
       on: {
         "change": _vm.onPropertyEditorValueChange

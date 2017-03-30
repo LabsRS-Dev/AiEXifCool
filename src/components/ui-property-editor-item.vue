@@ -16,7 +16,7 @@
         <ui-textbox 
           :title="formatTip"
           :readonly="isReadOnly"
-          :value="submittedValue"
+          :value="vmValue"
 
           @change="onUiTextBoxValueChange"
           @blur="onUiTextBoxBlur"
@@ -25,6 +25,7 @@
           @keydown.enter.prevent="onUiTextBoxKeydownEnter"
           @keydown="onUiTextBoxKeydown"
 
+          v-model="vmValue"
           v-if="ifComponentAsUiTextBox || ifComponentUseDefault"
           >
         </ui-textbox>
@@ -49,7 +50,6 @@
           :title="formatTip"
           :value="vmValue"
 
-          @input="onUiSwitchInput"
           @change="onUiSwitchChange"
 
           v-model="vmValue"
@@ -149,9 +149,15 @@ export default {
   name: "dovemxui-property-editor-item",
   props: {
     tip: String,
-    itemdata: Object,
-    default() {
-      return new PropertyItem()
+    bus:{
+      type: Object,
+      default: null
+    },
+    itemdata:{ 
+      type: Object,
+      default() {
+        return new PropertyItem()
+      }
     },
     options: {
       type: Array,
@@ -174,6 +180,7 @@ export default {
       isToolBarEditBtnDropdownOpen: false,
 
       initialValue: JSON.stringify(this.itemdata),
+      isSaveChange: false,
 
       vmValue: this.itemdata.value
     }
@@ -237,10 +244,6 @@ export default {
     menuOptions(){
       return this.itemdata.extend.toolBarMenus || []
     },
-    submittedValue(){
-      return this.itemdata.value
-    },
-
     isValueChange(){
       return this.itemdata.value != this.orgValue
     },
@@ -269,6 +272,7 @@ export default {
   },
 
   mounted() {
+    this.bindBus()
     document.addEventListener('click', this.onExternalClick)
     document.addEventListener('keydown', this.onExternalKeydown)
   },
@@ -279,8 +283,33 @@ export default {
   },
 
   methods: {
+    bindBus(){
+      var that = this
+      if (that.bus) {
+        that.bus.$on('save-data', function(){
+          that.save()
+        })
+
+        that.bus.$on('check-item-data', function(item){
+          that.check(item)
+        })
+      }
+    },
+
+    save(){
+      this.initialValue = JSON.stringify(this.itemdata)
+      this.isSaveChange = true
+      this.$emit('save', this.itemId, this.itemdata.value)
+    },
+
+    check(item){
+      this.initialValue = JSON.stringify(item)
+    },
+
     setValue(value) {
       this.itemdata.value = value
+
+      this.isSaveChange = false
       this.$emit('change', this.itemId, value)
     },
 
@@ -288,6 +317,7 @@ export default {
       if (this.isValueChange) {
         this.itemdata.value = this.orgValue
         this.vmValue = this.itemdata.value
+
         this.$emit('reset', this.itemId, this.orgValue)
       }
     },
@@ -296,6 +326,7 @@ export default {
     // {}------------------------------------------------------ UiTextbox
     onUiTextBoxValueChange(value){
       // TODO: 可以加入验证的处理方法
+      this.setValue(value)
     },
     onUiTextBoxBlur(e){
       if(!this.showEditWidget){
@@ -312,7 +343,7 @@ export default {
       this.$emit('focus', e)
     },
     onUiTextBoxUpdateValue(value) {
-      this.setValue(value)
+      
     },
     onUiTextBoxKeydownEnter(e){
       console.log('onUiTextBoxKeydownEnter')
@@ -329,13 +360,9 @@ export default {
     },
 
     // {} --------------------------------------------------- UiSwitch
-    onUiSwitchInput(value){
-      console.log('onUiSwitchInput')
-      this.setValue(value)
-    },
     onUiSwitchChange(value){
-      //console.log('onUiSwitchChange')
-      //this.setValue(value)
+      console.log('onUiSwitchChange')
+      this.setValue(value)
     },
 
 
