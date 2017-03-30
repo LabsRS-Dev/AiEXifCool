@@ -17,18 +17,19 @@
         </tr>
         <tr
         class="dovemxui-property-editor__container__content"
-        :key="'item' + keyItemIndex"
-        v-for="(keyItem, keyItemIndex) in items"
+        :key="'item' + itemIndex"
+        
+        v-for="(item, itemIndex) in items"
         >
           <td class="dovemxui-property-editor__container__property"> 
-            <span :title="keyItem.description">
-              {{ keyItem.title }} 
+            <span :title="item.description">
+              {{ item.title }} 
             </span>
           </td>
           <td class="dovemxui-property-editor__container__propertyValue"> 
             <dovemxui-property-editor-item
-              :tip="keyItem.description"
-              :itemdata="keyItem"
+              :tip="item.description"
+              :itemdata="item"
 
               @change="onPropertyValueUpdate"
               @reset="onPropertyValueReset"
@@ -64,6 +65,10 @@ export default {
     },
 
     // Data
+    categoryId: {
+      type: [String, Number],
+      require: true
+    },
     items: {
       type: Array,
       default: [new PropertyItem()]
@@ -71,6 +76,7 @@ export default {
   },
   data(){
     return {
+      initialValue: JSON.stringify(this.items),
       modelSelectProperty: {}
     }
   },
@@ -95,17 +101,29 @@ export default {
   },
 
   methods:{
-    setValue(value) {
-    },
     getPropertyValueStyle(item){
 
     },
 
+    setValue(id, value) {
+      for(let i = 0; i < this.items.length; ++i) {
+        var item = this.items[i]
+        if (item.id === id) {
+          // item.value == value is true. 原因是数据传输过程中，使用的都是引用，所以，子组件中修改会影响到父组件
+          item.value = value
+        }
+      }
+
+      this.$emit('change', this.categoryId, this.items)
+    },
+
     onPropertyValueUpdate(id, value){
       console.log('onPropertyValueUpdate = ', id, value)
+      this.setValue(id, value)
     },
     onPropertyValueReset(id, value){
       console.log('onPropertyValueReset = ', id, value)
+      this.setValue(id, value)
     }
   },
 

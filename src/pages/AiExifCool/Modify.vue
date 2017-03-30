@@ -37,11 +37,13 @@
 
                 @confirm="onExifConfigDialogConfirm"
                 @deny="onExifConfigDialogDeny"
+                
+                v-if="enableSettingItemExif"
             >
                 {{ exifConfigDialog.content }}
                 <dovemxui-exif-info
-                    :propertyEditorConfig="exifConfigDialog.propertyEditorConfig"
-                    :exifInformation="exifConfigDialog.exifInfo"
+                    :options="exifConfigDialog.propertyEditorConfig"
+                    :exif="exifConfigDialog.exifInfo"
                 >
                 </dovemxui-exif-info>
             </ui-confirm>
@@ -283,6 +285,10 @@ export default {
           }
 
           return list
+        },
+
+        enableSettingItemExif(){
+            return this.taskList.length > 0
         }
     },
 

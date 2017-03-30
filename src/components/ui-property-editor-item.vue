@@ -29,18 +29,6 @@
           >
         </ui-textbox>
 
-        <!-- 进度条 -->
-        <ui-progress-linear
-          color="primary"
-          type="determinate"
-
-          :progress="vmValue"
-
-          v-model="vmValue"
-          v-if="ifComponentAsUiProgressLinear"
-          >
-        </ui-progress-linear>
-
         <!-- 滑动条 -->
         <ui-slider
           show-marker
@@ -69,12 +57,41 @@
           >
         </ui-switch>
 
+        <!-- 进度条 -->
+        <ui-progress-linear
+          color="primary"
+          type="determinate"
+
+          :progress="vmValue"
+
+          v-model="vmValue"
+          v-if="ifComponentAsUiProgressLinear"
+          >
+        </ui-progress-linear>
+
+        <!-- UiProgressCircular 圆形进度条 -->
+        <!-- UiAutocomplete 自动完成 -->
+        <!-- UiCheckbox 复选框 -->
+        <!-- UiCheckboxGroup 复选框组 -->
+        <!-- UiDatepicker 日期时间选择 -->
+        <!-- UiFileupload 文件上传 -->
+        <!-- UiIcon 图标 -->
+        <!-- UiButton 按钮 -->
+        <!-- UiIconButton 带图标的按钮 -->
+        <!-- UiMenu 菜单 -->
+        <!-- UiPopover 弹出内容 -->
+        <!-- UiPreloader 预加载 -->
+        <!-- UiRadioGroup 单选组 -->
+        <!-- UiSelect 下拉选择  -->
+        <!-- UiSnackbar 信息弹窗  -->
+
       </div>
 
       <div 
         class="dovemxui-property-editor-item__container__toolbar"
 
         @blur.capture="onToolbarBlur"
+        
         v-show="showEditWidget && hasToolbar"
         >
         <ui-button
@@ -165,6 +182,7 @@ export default {
   computed: {
     classes(){
         return [
+            { 'is-change': this.isValueChange },
             { 'is-active': this.isActive },
             { 'is-not-active': !this.isActive},
             { 'is-touched': this.isTouched }
@@ -447,10 +465,18 @@ $font-size: rem-calc(9px);
 
 .dovemxui-property-editor-item__container__display {
   width: 100%;
+  opacity: 0.75;
 
   &.is-not-active {
     .ui-textbox__input, .ui-textbox__textarea {
       border-bottom: none;
+    }
+  }
+
+  &.is-change {
+    opacity: 1;
+    .ui-textbox__input, .ui-textbox__textarea {
+      font-weight: bolder;
     }
   }
 
