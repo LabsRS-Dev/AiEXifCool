@@ -33,6 +33,7 @@
               :class="itemClasses(item)"
               > 
               <dovemxui-property-editor-item
+                :key="item.id"
                 :tip="item.description"
                 :itemdata="item"
                 :bus="bus"

@@ -59,7 +59,8 @@ export default {
   },
   data(){
     return {
-      initialValue: JSON.stringify(this.data)
+      initialValue: JSON.stringify(this.data),
+      isSaveChange: false
     }
   },
   computed: {
@@ -93,10 +94,18 @@ export default {
         that.bus.$on('check-data', function(data){
           that.check(data)
         })
+
+        that.bus.$on('reset-data', function(data){
+          that.reset()
+        })
       }
     },
     save(){
-      this.initialValue = JSON.stringify(this.data)
+      const curJSON = JSON.stringify(this.data)
+      if (curJSON !== this.initialValue) {
+        this.initialValue = curJSON
+      }
+      this.isSaveChange = true
     },
     check(data){
       for(let i=0; i < data.categories.length; ++i) {
@@ -108,6 +117,9 @@ export default {
         this.initialValue = curJSON
       }
     },
+    reset(data){
+      this.data = data
+    },
 
     setValue(categoryId, items) {
       for(let i=0; i < this.data.categories.length; ++i) {
@@ -118,6 +130,7 @@ export default {
         }
       }
 
+      this.isSaveChange = false
       this.$emit('change', this.data)
     },
     

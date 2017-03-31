@@ -14,6 +14,8 @@
 
         <!-- 文本编辑框 -->
         <ui-textbox 
+          :key="itemdata.id"
+
           :title="formatTip"
           :readonly="isReadOnly"
           :value="vmValue"
@@ -32,6 +34,8 @@
 
         <!-- 滑动条 -->
         <ui-slider
+          :key="itemdata.id"
+
           show-marker
           snap-to-steps
 
@@ -47,6 +51,8 @@
 
         <!-- Switch开关 -->
         <ui-switch
+          :key="itemdata.id"
+
           :title="formatTip"
           :value="vmValue"
 
@@ -59,6 +65,8 @@
 
         <!-- 进度条 -->
         <ui-progress-linear
+          :key="itemdata.id"
+
           color="primary"
           type="determinate"
 
@@ -181,7 +189,7 @@ export default {
 
       isSaveChange: false,
       initialValue: JSON.stringify(this.itemdata),
-      vmValue: this.itemdata.dataType(this.itemdata.value)
+      vmValue: this.itemdata.value
     }
   },
 
@@ -197,19 +205,19 @@ export default {
     // -------------- 检测显示用什么控件
     ifComponentAsUiTextBox(){
       const hasUiSpec = this.itemdata.extend.uiDisplayComponent === 'ui-textbox'
-      return this.itemdata.dataType === String && hasUiSpec
+      return (typeof this.itemdata.value === 'string') && hasUiSpec
     },
     ifComponentAsUiProgressLinear(){
       const hasUiSpec = this.itemdata.extend.uiDisplayComponent === 'ui-progress-linear'
-      return this.itemdata.dataType === Number && hasUiSpec
+      return (typeof this.itemdata.value === 'number') && hasUiSpec
     },
     ifComponentAsUiSlider(){
       const hasUiSpec = this.itemdata.extend.uiDisplayComponent === 'ui-slider'
-      return this.itemdata.dataType === Number && hasUiSpec
+      return (typeof this.itemdata.value === 'number') && hasUiSpec
     },
     ifComponentAsUiSwitch(){
       const hasUiSpec = this.itemdata.extend.uiDisplayComponent === 'ui-switch'
-      return this.itemdata.dataType === Boolean && hasUiSpec
+      return (typeof this.itemdata.value === 'boolean') && hasUiSpec
     },
     ifComponentUseDefault(){
       const list = [
@@ -232,7 +240,7 @@ export default {
       return this.tip + ' : ' + this.vmValue
     },
     isReadOnly(){
-      return !!this.itemdata.readOnly
+      return !!this.itemdata.readonly
     },
     hasToolbar(){
       return !!this.itemdata.extend.showToolbar
@@ -296,7 +304,7 @@ export default {
       const curJSON = JSON.stringify(this.itemdata)
       if (curJSON !== this.initialValue) {
         this.initialValue = curJSON
-      }      
+      }
 
 
       this.isSaveChange = true
@@ -415,7 +423,7 @@ export default {
       this[this.showEditWidget ? 'closeEditWidget' : 'openEditWidget']()
     },
     openEditWidget() {
-      if (this.disabled || this.itemdata.readOnly) {
+      if (this.disabled || this.itemdata.readonly) {
         return
       }
 

@@ -11,8 +11,7 @@ class PropertyItem {
     this.title = title // 标题
     this.description = description // 描述
     this.value = value // 当前值，任意类型
-    this.dataType = options.dataType || String // 数据类型
-    this.readOnly = options.readOnly || false  // 是否只读
+    this.readonly = options.readonly || false  // 是否只读
     this.extend = options.extend || {}         // 扩展信息
   }
 }

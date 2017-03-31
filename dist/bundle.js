@@ -26719,8 +26719,7 @@ var PropertyItem = function PropertyItem(id) {
   this.title = title;
   this.description = description;
   this.value = value;
-  this.dataType = options.dataType || String;
-  this.readOnly = options.readOnly || false;
+  this.readonly = options.readonly || false;
   this.extend = options.extend || {};
 };
 
@@ -28686,7 +28685,7 @@ exports.default = {
 
       isSaveChange: false,
       initialValue: (0, _stringify2.default)(this.itemdata),
-      vmValue: this.itemdata.dataType(this.itemdata.value)
+      vmValue: this.itemdata.value
     };
   },
 
@@ -28697,19 +28696,19 @@ exports.default = {
     },
     ifComponentAsUiTextBox: function ifComponentAsUiTextBox() {
       var hasUiSpec = this.itemdata.extend.uiDisplayComponent === 'ui-textbox';
-      return this.itemdata.dataType === String && hasUiSpec;
+      return typeof this.itemdata.value === 'string' && hasUiSpec;
     },
     ifComponentAsUiProgressLinear: function ifComponentAsUiProgressLinear() {
       var hasUiSpec = this.itemdata.extend.uiDisplayComponent === 'ui-progress-linear';
-      return this.itemdata.dataType === Number && hasUiSpec;
+      return typeof this.itemdata.value === 'number' && hasUiSpec;
     },
     ifComponentAsUiSlider: function ifComponentAsUiSlider() {
       var hasUiSpec = this.itemdata.extend.uiDisplayComponent === 'ui-slider';
-      return this.itemdata.dataType === Number && hasUiSpec;
+      return typeof this.itemdata.value === 'number' && hasUiSpec;
     },
     ifComponentAsUiSwitch: function ifComponentAsUiSwitch() {
       var hasUiSpec = this.itemdata.extend.uiDisplayComponent === 'ui-switch';
-      return this.itemdata.dataType === Boolean && hasUiSpec;
+      return typeof this.itemdata.value === 'boolean' && hasUiSpec;
     },
     ifComponentUseDefault: function ifComponentUseDefault() {
       var list = [this.ifComponentAsUiTextBox, this.ifComponentAsUiProgressLinear, this.ifComponentAsUiSlider, this.ifComponentAsUiSwitch];
@@ -28725,7 +28724,7 @@ exports.default = {
       return this.tip + ' : ' + this.vmValue;
     },
     isReadOnly: function isReadOnly() {
-      return !!this.itemdata.readOnly;
+      return !!this.itemdata.readonly;
     },
     hasToolbar: function hasToolbar() {
       return !!this.itemdata.extend.showToolbar;
@@ -28878,7 +28877,7 @@ exports.default = {
       this[this.showEditWidget ? 'closeEditWidget' : 'openEditWidget']();
     },
     openEditWidget: function openEditWidget() {
-      if (this.disabled || this.itemdata.readOnly) {
+      if (this.disabled || this.itemdata.readonly) {
         return;
       }
 
@@ -29587,21 +29586,18 @@ exports.default = {
                 cag1.add(new _defData.DataItem('key$filePath', {
                     title: '路径',
                     description: '获取或设置文件的路径',
-                    dataType: String,
                     value: item.path,
-                    readOnly: true
+                    readonly: true
                 }));
                 cag1.add(new _defData.DataItem('key$fileSize', {
                     title: '大小',
                     description: '获取或设置文件的大小',
-                    dataType: String,
                     value: item.size,
-                    readOnly: true
+                    readonly: true
                 }));
                 cag1.add(new _defData.DataItem('key$canRead', {
                     title: '启动开关',
                     description: '获取或设置文件的大小',
-                    dataType: Boolean,
                     value: true,
                     extend: {
                         uiDisplayComponent: 'ui-switch',
@@ -29613,7 +29609,6 @@ exports.default = {
                     var _item = new _defData.DataItem('key$filePath' + i, {
                         title: '路径' + i,
                         description: '获取或设置文件的路径',
-                        dataType: String,
                         value: 'D:\\TestResource\\exif_sample_images\\Nikon\\corrupted_output\\picture',
                         extend: {
                             uiDisplayComponent: 'ui-textbox',
@@ -29659,15 +29654,16 @@ exports.default = {
             return item.exifConfig;
         },
         __checkTaskItemExifEditState: function __checkTaskItemExifEditState(item) {
-            item.vueBus.$emit('check-data', JSON.parse(item.exifConfigOrgJSON));
+            var exif = JSON.parse(item.exifConfigOrgJSON);
+            item.vueBus.$emit('check-data', exif);
         },
         __saveTaskItemExif: function __saveTaskItemExif(item) {
             item.exifConfigOrgJSON = (0, _stringify2.default)(item.exifConfig);
             item.vueBus.$emit('save-data');
         },
-        __restTaskItemExif: function __restTaskItemExif(item) {
+        __resetTaskItemExif: function __resetTaskItemExif(item) {
             item.exifConfig = _dovemaxsdk._.extend(item.exifConfig, JSON.parse(item.exifConfigOrgJSON));
-            item.vueBus.$emit('reset-data');
+            item.vueBus.$emit('reset-data', item.exifConfig);
         },
         __getTaskItemById: function __getTaskItemById(itemId) {
             for (var i = 0; i < this.taskList.length; ++i) {
@@ -29714,8 +29710,8 @@ exports.default = {
                 console.log('onExifConfigDialogDeny');
             };
             cdg.callbackClose = function () {
-                if (!isConfirmed && !isDenyed) {
-                    that.__restTaskItemExif(item);
+                if (!isConfirmed && isDenyed) {
+                    that.__resetTaskItemExif(item);
                 }
             };
             cdg.callbackOpen = function () {
@@ -32430,6 +32426,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "dovemxui-property-editor-item__container__display",
     class: _vm.classes
   }, [(_vm.ifComponentAsUiTextBox || _vm.ifComponentUseDefault) ? _c('ui-textbox', {
+    key: _vm.itemdata.id,
     attrs: {
       "title": _vm.formatTip,
       "readonly": _vm.isReadOnly,
@@ -32454,6 +32451,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       expression: "vmValue"
     }
   }) : _vm._e(), _vm._v(" "), (_vm.ifComponentAsUiSlider) ? _c('ui-slider', {
+    key: _vm.itemdata.id,
     attrs: {
       "show-marker": "",
       "snap-to-steps": "",
@@ -32471,6 +32469,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       expression: "vmValue"
     }
   }) : _vm._e(), _vm._v(" "), (_vm.ifComponentAsUiSwitch) ? _c('ui-switch', {
+    key: _vm.itemdata.id,
     attrs: {
       "title": _vm.formatTip,
       "value": _vm.vmValue
@@ -32486,6 +32485,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       expression: "vmValue"
     }
   }) : _vm._e(), _vm._v(" "), (_vm.ifComponentAsUiProgressLinear) ? _c('ui-progress-linear', {
+    key: _vm.itemdata.id,
     attrs: {
       "color": "primary",
       "type": "determinate",
@@ -33186,6 +33186,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       staticClass: "dovemxui-property-editor__container__propertyValue",
       class: _vm.itemClasses(item)
     }, [_c('dovemxui-property-editor-item', {
+      key: item.id,
       attrs: {
         "tip": item.description,
         "itemdata": item,
@@ -43476,7 +43477,8 @@ exports.default = {
   },
   data: function data() {
     return {
-      initialValue: (0, _stringify2.default)(this.data)
+      initialValue: (0, _stringify2.default)(this.data),
+      isSaveChange: false
     };
   },
 
@@ -43509,10 +43511,18 @@ exports.default = {
         that.bus.$on('check-data', function (data) {
           that.check(data);
         });
+
+        that.bus.$on('reset-data', function (data) {
+          that.reset();
+        });
       }
     },
     save: function save() {
-      this.initialValue = (0, _stringify2.default)(this.data);
+      var curJSON = (0, _stringify2.default)(this.data);
+      if (curJSON !== this.initialValue) {
+        this.initialValue = curJSON;
+      }
+      this.isSaveChange = true;
     },
     check: function check(data) {
       for (var i = 0; i < data.categories.length; ++i) {
@@ -43524,6 +43534,9 @@ exports.default = {
         this.initialValue = curJSON;
       }
     },
+    reset: function reset(data) {
+      this.data = data;
+    },
     setValue: function setValue(categoryId, items) {
       for (var i = 0; i < this.data.categories.length; ++i) {
         var category = this.data.categories[i];
@@ -43532,6 +43545,7 @@ exports.default = {
         }
       }
 
+      this.isSaveChange = false;
       this.$emit('change', this.data);
     },
     onPropertyEditorValueChange: function onPropertyEditorValueChange(categoryId, items) {

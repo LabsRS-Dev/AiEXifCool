@@ -6,6 +6,7 @@ $global-titlebar-background:  linear-gradient(rgba(233, 233, 233, 1.0), rgba(178
 $global-background: #EDEDED;
 $global-hover-background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#7793f5), color-stop(50%,#406df2), color-stop(100%,#275af1));
 $global-font-color: black;
+$global-titlebar-font-color: #676767;
 $global-font-size: rem-calc(13px);
 $global-font: $font-stack;
 $global-cursor: default;
@@ -29,7 +30,7 @@ $sidebar-border-right: 1px solid $md-grey-400;
 
 //1. 标题栏
 $sidebar__header-background: $global-titlebar-background;
-$sidebar__header-font-color: $global-font-color;
+$sidebar__header-font-color: $global-titlebar-font-color;
 $sidebar__header-border-bottom: 1px solid $md-grey-400;
 $sidebar__header-border-right: $sidebar-border-right;
 $sidebar__header-height: $global-toolbar-height;
@@ -58,7 +59,7 @@ $page-content__footbar-font-color: $global-font-color;
 $docs-content-background: $global-background;
 $docs-content-font-color: $global-font-color;
 $docs-content__toolbar-background: $global-titlebar-background;
-$docs-content__toolbar-font-color: $global-font-color;
+$docs-content__toolbar-font-color: $global-titlebar-font-color;
 $docs-content__toolbar-border-bottom: 1px solid $md-grey-400;
 $docs-content__toolbar-height: $global-toolbar-height;
 

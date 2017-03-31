@@ -643,21 +643,18 @@ export default {
                 cag1.add(new DataItem('key$filePath',{
                     title: '路径',
                     description: '获取或设置文件的路径',
-                    dataType: String,
                     value: item.path,
-                    readOnly: true
+                    readonly: true
                 }))
                 cag1.add(new DataItem('key$fileSize',{
                     title: '大小',
                     description: '获取或设置文件的大小',
-                    dataType: String,
                     value: item.size,
-                    readOnly: true
+                    readonly: true
                 }))
                 cag1.add(new DataItem('key$canRead',{
                     title: '启动开关',
                     description: '获取或设置文件的大小',
-                    dataType: Boolean,
                     value: true,
                     extend: {
                         uiDisplayComponent:'ui-switch',
@@ -669,7 +666,6 @@ export default {
                     const item = new DataItem('key$filePath' + i,{
                         title: '路径' + i,
                         description: '获取或设置文件的路径',
-                        dataType: String,
                         value: 'D:\\TestResource\\exif_sample_images\\Nikon\\corrupted_output\\picture',
                         extend: {
                             uiDisplayComponent:'ui-textbox',
@@ -722,7 +718,8 @@ export default {
         },
 
         __checkTaskItemExifEditState(item){
-            item.vueBus.$emit('check-data', JSON.parse(item.exifConfigOrgJSON))
+            const exif = JSON.parse(item.exifConfigOrgJSON)
+            item.vueBus.$emit('check-data', exif)
         },
 
         __saveTaskItemExif(item){
@@ -730,9 +727,9 @@ export default {
             item.vueBus.$emit('save-data')
         },
 
-        __restTaskItemExif(item) {
+        __resetTaskItemExif(item) {
             item.exifConfig = _.extend(item.exifConfig, JSON.parse(item.exifConfigOrgJSON))
-            item.vueBus.$emit('reset-data')
+            item.vueBus.$emit('reset-data', item.exifConfig)
         },
 
         __getTaskItemById(itemId) {
@@ -784,8 +781,8 @@ export default {
                 console.log('onExifConfigDialogDeny')
             }
             cdg.callbackClose = () => {
-                if (!isConfirmed && !isDenyed) {
-                    that.__restTaskItemExif(item)
+                if (!isConfirmed && isDenyed) {
+                    that.__resetTaskItemExif(item)
                 }
             }
             cdg.callbackOpen = () => {
