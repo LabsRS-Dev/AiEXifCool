@@ -40,6 +40,9 @@
 
                 @change="onPropertyValueUpdate"
                 @reset="onPropertyValueReset"
+
+                v-if="itemIsValid(item)"
+                v-show="itemIsValid(item)"
               >
               </dovemxui-property-editor-item>
             </td>
@@ -136,15 +139,55 @@ export default {
     bindBus(){
       var that = this
       if(that.bus) {
-        that.bus.$on('save-data', function(){
-          that.save()
+        that.bus.$on('to-save-items-data', function(in_items){
+          that.save(in_items || that.items)
         })
 
-        that.bus.$on('check-items-data', function(items){
-          that.check(items)
+        that.bus.$on('to-check-items-data', function(in_items){
+          that.check(in_items || JSON.parse(that.initialValue))
+        })
+
+        that.bus.$on('to-reset-items-data', function(in_items){
+          that.reset(in_items || JSON.parse(that.initialValue))
         })
       }
     },
+    save(items){
+      this.isSaveChange = true
+      for(let i=0; i < items.length; ++i){
+         var item = items[i]
+         this.bus.$emit('to-save-item-data', item)
+      }
+      this.__updateInitialValueWithItems(items)
+    },
+    check(items){
+      for(let i=0; i < items.length; ++i){
+         var item = items[i]
+         this.bus.$emit('to-check-item-data', item)
+      }
+      this.__updateInitialValueWithItems(items)
+    },
+    reset(items){
+      for(let i=0; i < items.length; ++i){
+         var item = items[i]
+         this.bus.$emit('to-reset-item-data', item)
+      }
+      this.__updateInitialValueWithItems(items)
+    },
+
+    __updateInitialValueWithItems(items){
+      const curJSON = JSON.stringify(items)
+      if (curJSON !== this.initialValue) {
+        this.initialValue = curJSON
+      }
+    },
+
+    // {} ------------------------------------------------------
+
+
+
+
+
     getPropertyValueStyle(item){
 
     },
@@ -165,24 +208,14 @@ export default {
       ]
     },
 
-    save(){
-      const curJSON = JSON.stringify(this.items)
-      if (curJSON !== this.initialValue) {
-        this.initialValue = curJSON
-      }
-      this.isSaveChange = true
+    itemIsValid(item){
+      if (item) return true
+      return false
     },
-    check(items){
-      for(let i=0; i < items.length; ++i){
-         var item = items[i]
-         this.bus.$emit('check-item-data', item)
-      }
 
-      const curJSON = JSON.stringify(items)
-      if (curJSON !== this.initialValue) {
-        this.initialValue = curJSON
-      }
-    },
+    // {} ----------------------------------------------------------
+
+
 
     setValue(id, value) {
       for(let i = 0; i < this.items.length; ++i) {

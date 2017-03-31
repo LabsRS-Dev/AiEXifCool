@@ -287,36 +287,48 @@ export default {
   },
 
   methods: {
+
+    // {} ------------------------------------------
     bindBus(){
       var that = this
       if (that.bus) {
-        that.bus.$on('save-data', function(){
-          that.save()
+        that.bus.$on('to-save-item-data', function(in_item){
+          that.save(in_item || that.itemdata)
         })
 
-        that.bus.$on('check-item-data', function(item){
-          that.check(item)
+        that.bus.$on('to-check-item-data', function(in_item){
+          that.check(in_item || JSON.parse(that.initialValue))
+        })
+
+        that.bus.$on('to-reset-item-data', function(in_item){
+          that.reset(in_item || JSON.parse(that.initialValue))
         })
       }
     },
 
-    save(){
-      const curJSON = JSON.stringify(this.itemdata)
-      if (curJSON !== this.initialValue) {
-        this.initialValue = curJSON
-      }
-
-
+    save(item){
       this.isSaveChange = true
-      this.$emit('save', this.itemdata.id, this.itemdata.value)
+      this.__updateInitialValueWithItem(item)
+    },
+    check(item){
+      this.__updateInitialValueWithItem(item)
+    },
+    reset(item){
+      if (this.itemdata.value !== item.value){
+          this.itemdata.value = item.value
+          this.vmValue = item.value
+      }
+      this.__updateInitialValueWithItem(item)
     },
 
-    check(item){
+    __updateInitialValueWithItem(item){
       const curJSON = JSON.stringify(item)
       if (curJSON !== this.initialValue) {
         this.initialValue = curJSON
       }
     },
+
+    // {} ------------------------------------------
 
     setValue(value) {
       this.itemdata.value = value
@@ -423,7 +435,7 @@ export default {
       this[this.showEditWidget ? 'closeEditWidget' : 'openEditWidget']()
     },
     openEditWidget() {
-      if (this.disabled || this.itemdata.readonly) {
+      if (this.disabled || this.isReadOnly) {
         return
       }
 

@@ -28771,25 +28771,34 @@ exports.default = {
     bindBus: function bindBus() {
       var that = this;
       if (that.bus) {
-        that.bus.$on('save-data', function () {
-          that.save();
+        that.bus.$on('to-save-item-data', function (in_item) {
+          that.save(in_item || that.itemdata);
         });
 
-        that.bus.$on('check-item-data', function (item) {
-          that.check(item);
+        that.bus.$on('to-check-item-data', function (in_item) {
+          that.check(in_item || JSON.parse(that.initialValue));
+        });
+
+        that.bus.$on('to-reset-item-data', function (in_item) {
+          that.reset(in_item || JSON.parse(that.initialValue));
         });
       }
     },
-    save: function save() {
-      var curJSON = (0, _stringify2.default)(this.itemdata);
-      if (curJSON !== this.initialValue) {
-        this.initialValue = curJSON;
-      }
-
+    save: function save(item) {
       this.isSaveChange = true;
-      this.$emit('save', this.itemdata.id, this.itemdata.value);
+      this.__updateInitialValueWithItem(item);
     },
     check: function check(item) {
+      this.__updateInitialValueWithItem(item);
+    },
+    reset: function reset(item) {
+      if (this.itemdata.value !== item.value) {
+        this.itemdata.value = item.value;
+        this.vmValue = item.value;
+      }
+      this.__updateInitialValueWithItem(item);
+    },
+    __updateInitialValueWithItem: function __updateInitialValueWithItem(item) {
       var curJSON = (0, _stringify2.default)(item);
       if (curJSON !== this.initialValue) {
         this.initialValue = curJSON;
@@ -28877,7 +28886,7 @@ exports.default = {
       this[this.showEditWidget ? 'closeEditWidget' : 'openEditWidget']();
     },
     openEditWidget: function openEditWidget() {
-      if (this.disabled || this.itemdata.readonly) {
+      if (this.disabled || this.isReadOnly) {
         return;
       }
 
@@ -29046,13 +29055,45 @@ exports.default = {
     bindBus: function bindBus() {
       var that = this;
       if (that.bus) {
-        that.bus.$on('save-data', function () {
-          that.save();
+        that.bus.$on('to-save-items-data', function (in_items) {
+          that.save(in_items || that.items);
         });
 
-        that.bus.$on('check-items-data', function (items) {
-          that.check(items);
+        that.bus.$on('to-check-items-data', function (in_items) {
+          that.check(in_items || JSON.parse(that.initialValue));
         });
+
+        that.bus.$on('to-reset-items-data', function (in_items) {
+          that.reset(in_items || JSON.parse(that.initialValue));
+        });
+      }
+    },
+    save: function save(items) {
+      this.isSaveChange = true;
+      for (var i = 0; i < items.length; ++i) {
+        var item = items[i];
+        this.bus.$emit('to-save-item-data', item);
+      }
+      this.__updateInitialValueWithItems(items);
+    },
+    check: function check(items) {
+      for (var i = 0; i < items.length; ++i) {
+        var item = items[i];
+        this.bus.$emit('to-check-item-data', item);
+      }
+      this.__updateInitialValueWithItems(items);
+    },
+    reset: function reset(items) {
+      for (var i = 0; i < items.length; ++i) {
+        var item = items[i];
+        this.bus.$emit('to-reset-item-data', item);
+      }
+      this.__updateInitialValueWithItems(items);
+    },
+    __updateInitialValueWithItems: function __updateInitialValueWithItems(items) {
+      var curJSON = (0, _stringify2.default)(items);
+      if (curJSON !== this.initialValue) {
+        this.initialValue = curJSON;
       }
     },
     getPropertyValueStyle: function getPropertyValueStyle(item) {},
@@ -29069,23 +29110,9 @@ exports.default = {
       }
       return [{ 'is-item-change': isChange }];
     },
-    save: function save() {
-      var curJSON = (0, _stringify2.default)(this.items);
-      if (curJSON !== this.initialValue) {
-        this.initialValue = curJSON;
-      }
-      this.isSaveChange = true;
-    },
-    check: function check(items) {
-      for (var i = 0; i < items.length; ++i) {
-        var item = items[i];
-        this.bus.$emit('check-item-data', item);
-      }
-
-      var curJSON = (0, _stringify2.default)(items);
-      if (curJSON !== this.initialValue) {
-        this.initialValue = curJSON;
-      }
+    itemIsValid: function itemIsValid(item) {
+      if (item) return true;
+      return false;
     },
     setValue: function setValue(id, value) {
       for (var i = 0; i < this.items.length; ++i) {
@@ -29605,48 +29632,50 @@ exports.default = {
                     }
                 }));
 
-                for (var i = 0; i < 20; ++i) {
-                    var _item = new _defData.DataItem('key$filePath' + i, {
-                        title: '路径' + i,
-                        description: '获取或设置文件的路径',
-                        value: 'D:\\TestResource\\exif_sample_images\\Nikon\\corrupted_output\\picture',
-                        extend: {
-                            uiDisplayComponent: 'ui-textbox',
-                            showToolbar: true,
-                            hasToolBarMenu: true,
-                            toolBarMenus: [{
-                                id: 'edit',
-                                label: 'Edit',
-                                icon: 'edit',
-                                secondaryText: 'Ctrl+E'
-                            }, {
-                                id: 'duplicate',
-                                label: 'Duplicate',
-                                icon: 'content_copy',
-                                secondaryText: 'Ctrl+D'
-                            }, {
-                                id: 'share',
-                                label: 'Share',
-                                icon: 'share',
-                                secondaryText: 'Ctrl+Shift+S',
-                                disabled: true
-                            }, {
-                                type: 'divider'
-                            }, {
-                                id: 'delete',
-                                label: 'Delete',
-                                icon: 'delete',
-                                secondaryText: 'Del'
-                            }]
-                        }
-                    });
-                    _item.value += _item.id + '.jpg';
+                var addTest = false;
+                if (addTest) {
+                    for (var i = 0; i < 20; ++i) {
+                        var _item = new _defData.DataItem('key$filePath' + i, {
+                            title: '路径' + i,
+                            description: '获取或设置文件的路径',
+                            value: 'D:\\TestResource\\exif_sample_images\\Nikon\\corrupted_output\\picture',
+                            extend: {
+                                uiDisplayComponent: 'ui-textbox',
+                                showToolbar: true,
+                                hasToolBarMenu: true,
+                                toolBarMenus: [{
+                                    id: 'edit',
+                                    label: 'Edit',
+                                    icon: 'edit',
+                                    secondaryText: 'Ctrl+E'
+                                }, {
+                                    id: 'duplicate',
+                                    label: 'Duplicate',
+                                    icon: 'content_copy',
+                                    secondaryText: 'Ctrl+D'
+                                }, {
+                                    id: 'share',
+                                    label: 'Share',
+                                    icon: 'share',
+                                    secondaryText: 'Ctrl+Shift+S',
+                                    disabled: true
+                                }, {
+                                    type: 'divider'
+                                }, {
+                                    id: 'delete',
+                                    label: 'Delete',
+                                    icon: 'delete',
+                                    secondaryText: 'Del'
+                                }]
+                            }
+                        });
+                        _item.value += _item.id + '.jpg';
 
-                    cag1.add(_item);
+                        cag1.add(_item);
+                    }
                 }
 
                 exifInformation.add(cag1);
-
                 item.exifConfig = exifInformation;
                 item.exifConfigOrgJSON = (0, _stringify2.default)(exifInformation);
             }
@@ -29654,16 +29683,19 @@ exports.default = {
             return item.exifConfig;
         },
         __checkTaskItemExifEditState: function __checkTaskItemExifEditState(item) {
-            var exif = JSON.parse(item.exifConfigOrgJSON);
-            item.vueBus.$emit('check-data', exif);
+            var orgExifConfig = JSON.parse(item.exifConfigOrgJSON);
+            item.vueBus.$emit('to-check-data', orgExifConfig);
         },
         __saveTaskItemExif: function __saveTaskItemExif(item) {
+            item.vueBus.$emit('to-save-data', item.exifConfig);
+
             item.exifConfigOrgJSON = (0, _stringify2.default)(item.exifConfig);
-            item.vueBus.$emit('save-data');
         },
         __resetTaskItemExif: function __resetTaskItemExif(item) {
-            item.exifConfig = _dovemaxsdk._.extend(item.exifConfig, JSON.parse(item.exifConfigOrgJSON));
-            item.vueBus.$emit('reset-data', item.exifConfig);
+            var orgExifConfig = JSON.parse(item.exifConfigOrgJSON);
+            item.exifConfig = _dovemaxsdk._.extend(item.exifConfig, orgExifConfig);
+
+            item.vueBus.$emit('to-reset-data', orgExifConfig);
         },
         __getTaskItemById: function __getTaskItemById(itemId) {
             for (var i = 0; i < this.taskList.length; ++i) {
@@ -32964,7 +32996,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "close": _vm.exifConfigDialog.callbackClose
     }
   }, [_vm._v("\n            " + _vm._s(_vm.exifConfigDialog.content) + "\n            "), _vm._l((_vm.taskList), function(item) {
-    return _c('dovemxui-data-info', {
+    return (item.exifConfig) ? _c('dovemxui-data-info', {
       directives: [{
         name: "show",
         rawName: "v-show",
@@ -32975,12 +33007,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       attrs: {
         "options": _vm.exifConfigDialog.propertyEditorConfig,
         "bus": item.vueBus,
-        "data": item.exifConfig
+        "info": item.exifConfig
       },
       on: {
         "change": _vm.onTaskItemExifInfoChange
       }
-    })
+    }) : _vm._e()
   })], 2) : _vm._e()], 2), _vm._v(" "), _c('div', {
     staticClass: "page__examples page__examples-app-doc"
   }, [_c('svg', {
@@ -33185,7 +33217,13 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }, [_vm._v("\n              " + _vm._s(item.title) + " \n            ")])]), _vm._v(" "), _c('td', {
       staticClass: "dovemxui-property-editor__container__propertyValue",
       class: _vm.itemClasses(item)
-    }, [_c('dovemxui-property-editor-item', {
+    }, [(_vm.itemIsValid(item)) ? _c('dovemxui-property-editor-item', {
+      directives: [{
+        name: "show",
+        rawName: "v-show",
+        value: (_vm.itemIsValid(item)),
+        expression: "itemIsValid(item)"
+      }],
       key: item.id,
       attrs: {
         "tip": item.description,
@@ -33196,7 +33234,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         "change": _vm.onPropertyValueUpdate,
         "reset": _vm.onPropertyValueReset
       }
-    })], 1)])
+    }) : _vm._e()], 1)])
   })], 2)])], 1)
 },staticRenderFns: []}
 
@@ -43465,7 +43503,7 @@ exports.default = {
       type: Object,
       default: new PropertyEditorConfig()
     },
-    data: {
+    info: {
       type: Object,
       default: new _defData.DataInformation()
     },
@@ -43475,9 +43513,11 @@ exports.default = {
       default: null
     }
   },
+
   data: function data() {
     return {
-      initialValue: (0, _stringify2.default)(this.data),
+      dataSource: this.info,
+      initialValue: (0, _stringify2.default)(this.info),
       isSaveChange: false
     };
   },
@@ -43489,7 +43529,7 @@ exports.default = {
     hasDataInformation: function hasDataInformation() {
       var has = false;
       try {
-        has = this.data.categories.length > 0;
+        has = this.dataSource.categories.length > 0;
       } catch (e) {}
       return has;
     }
@@ -43504,49 +43544,57 @@ exports.default = {
     bindBus: function bindBus() {
       var that = this;
       if (that.bus) {
-        that.bus.$on('save-data', function () {
-          that.save();
+        that.bus.$on('to-save-data', function (in_data) {
+          that.save(in_data || that.dataSource);
         });
 
-        that.bus.$on('check-data', function (data) {
-          that.check(data);
+        that.bus.$on('to-check-data', function (in_data) {
+          that.check(in_data || JSON.parse(that.initialValue));
         });
 
-        that.bus.$on('reset-data', function (data) {
-          that.reset();
+        that.bus.$on('to-reset-data', function (in_data) {
+          that.reset(in_data || JSON.parse(that.initialValue));
         });
       }
     },
-    save: function save() {
-      var curJSON = (0, _stringify2.default)(this.data);
-      if (curJSON !== this.initialValue) {
-        this.initialValue = curJSON;
-      }
+    save: function save(data) {
       this.isSaveChange = true;
+      for (var i = 0; i < data.categories.length; ++i) {
+        var category = data.categories[i];
+        this.bus.$emit('to-save-items-data', category.items);
+      }
+      this.__updateInitialValueWithData(data);
     },
     check: function check(data) {
       for (var i = 0; i < data.categories.length; ++i) {
         var category = data.categories[i];
-        this.bus.$emit('check-items-data', category.items);
+        this.bus.$emit('to-check-items-data', category.items);
       }
+      this.__updateInitialValueWithData(data);
+    },
+    reset: function reset(data) {
+      for (var i = 0; i < data.categories.length; ++i) {
+        var category = data.categories[i];
+        this.bus.$emit('to-reset-items-data', category.items);
+      }
+      this.__updateInitialValueWithData(data);
+    },
+    __updateInitialValueWithData: function __updateInitialValueWithData(data) {
       var curJSON = (0, _stringify2.default)(data);
       if (curJSON !== this.initialValue) {
         this.initialValue = curJSON;
       }
     },
-    reset: function reset(data) {
-      this.data = data;
-    },
     setValue: function setValue(categoryId, items) {
-      for (var i = 0; i < this.data.categories.length; ++i) {
-        var category = this.data.categories[i];
+      for (var i = 0; i < this.dataSource.categories.length; ++i) {
+        var category = this.dataSource.categories[i];
         if (category.id === categoryId) {
           category.items = items;
         }
       }
 
       this.isSaveChange = false;
-      this.$emit('change', this.data);
+      this.$emit('change', this.dataSource);
     },
     onPropertyEditorValueChange: function onPropertyEditorValueChange(categoryId, items) {
       this.setValue(categoryId, items);
@@ -43591,19 +43639,18 @@ var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var DataItem = function DataItem() {
-  var key = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
+  var key = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'key';
   var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
   (0, _classCallCheck3.default)(this, DataItem);
 
   this.id = ++DataItem.count;
   this.key = key;
-  this.title = options.title || 'title';
-  this.description = options.description || 'description';
-  this.category = options.category || 'base';
-  this.dataType = options.dataType || String;
-  this.value = options.value || 'value';
-  this.readOnly = options.readOnly || false;
-  this.extend = options.extend || {};
+  this.title = options.title || options.Title || 'title';
+  this.description = options.description || options.Description || 'description';
+  this.category = options.category || options.Category || 'base';
+  this.value = options.value || options.Value || 'value';
+  this.readonly = options.readonly || options.readOnly || false;
+  this.extend = options.extend || options.Extend || {};
 };
 
 DataItem.count = 0;
@@ -43703,7 +43750,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "type": "text"
     }
-  }, _vm._l((_vm.data.categories), function(category, categoryIndex) {
+  }, _vm._l((_vm.dataSource.categories), function(category, categoryIndex) {
     return _c('ui-tab', {
       key: category.id,
       attrs: {

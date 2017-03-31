@@ -52,11 +52,12 @@
 
                     :options="exifConfigDialog.propertyEditorConfig"
                     :bus="item.vueBus"
-                    :data="item.exifConfig"
+                    :info="item.exifConfig"
 
                     @change="onTaskItemExifInfoChange"
 
                     v-show="(item === exifConfigDialog.assTask)"
+                    v-if="item.exifConfig"
                     v-for="item in taskList"
                 >
                 </dovemxui-data-info>
@@ -662,54 +663,56 @@ export default {
                     }
                 }))
 
-                for(let i=0; i< 20; ++i){
-                    const item = new DataItem('key$filePath' + i,{
-                        title: '路径' + i,
-                        description: '获取或设置文件的路径',
-                        value: 'D:\\TestResource\\exif_sample_images\\Nikon\\corrupted_output\\picture',
-                        extend: {
-                            uiDisplayComponent:'ui-textbox',
-                            showToolbar: true,
-                            hasToolBarMenu: true,
-                            toolBarMenus:[
-                                {
-                                    id: 'edit',
-                                    label: 'Edit',
-                                    icon: 'edit',
-                                    secondaryText: 'Ctrl+E'
-                                },
-                                {
-                                    id: 'duplicate',
-                                    label: 'Duplicate',
-                                    icon: 'content_copy',
-                                    secondaryText: 'Ctrl+D'
-                                },
-                                {
-                                    id: 'share',
-                                    label: 'Share',
-                                    icon: 'share',
-                                    secondaryText: 'Ctrl+Shift+S',
-                                    disabled: true
-                                },
-                                {
-                                    type: 'divider'
-                                },
-                                {
-                                    id: 'delete',
-                                    label: 'Delete',
-                                    icon: 'delete',
-                                    secondaryText: 'Del'
-                                }
-                            ]
-                        }
-                    })
-                    item.value += item.id + '.jpg'
+                const addTest = false
+                if (addTest) {
+                    for(let i=0; i< 20; ++i){
+                        const item = new DataItem('key$filePath' + i,{
+                            title: '路径' + i,
+                            description: '获取或设置文件的路径',
+                            value: 'D:\\TestResource\\exif_sample_images\\Nikon\\corrupted_output\\picture',
+                            extend: {
+                                uiDisplayComponent:'ui-textbox',
+                                showToolbar: true,
+                                hasToolBarMenu: true,
+                                toolBarMenus:[
+                                    {
+                                        id: 'edit',
+                                        label: 'Edit',
+                                        icon: 'edit',
+                                        secondaryText: 'Ctrl+E'
+                                    },
+                                    {
+                                        id: 'duplicate',
+                                        label: 'Duplicate',
+                                        icon: 'content_copy',
+                                        secondaryText: 'Ctrl+D'
+                                    },
+                                    {
+                                        id: 'share',
+                                        label: 'Share',
+                                        icon: 'share',
+                                        secondaryText: 'Ctrl+Shift+S',
+                                        disabled: true
+                                    },
+                                    {
+                                        type: 'divider'
+                                    },
+                                    {
+                                        id: 'delete',
+                                        label: 'Delete',
+                                        icon: 'delete',
+                                        secondaryText: 'Del'
+                                    }
+                                ]
+                            }
+                        })
+                        item.value += item.id + '.jpg'
 
-                    cag1.add(item)
+                        cag1.add(item)
+                    }
                 }
 
                 exifInformation.add(cag1)
-
                 item.exifConfig = exifInformation
                 item.exifConfigOrgJSON = JSON.stringify(exifInformation)
             }
@@ -718,18 +721,22 @@ export default {
         },
 
         __checkTaskItemExifEditState(item){
-            const exif = JSON.parse(item.exifConfigOrgJSON)
-            item.vueBus.$emit('check-data', exif)
+            const orgExifConfig = JSON.parse(item.exifConfigOrgJSON)
+            item.vueBus.$emit('to-check-data', orgExifConfig)
         },
 
         __saveTaskItemExif(item){
+            item.vueBus.$emit('to-save-data', item.exifConfig)
+            // update org exif config infomations
             item.exifConfigOrgJSON = JSON.stringify(item.exifConfig)
-            item.vueBus.$emit('save-data')
         },
 
         __resetTaskItemExif(item) {
-            item.exifConfig = _.extend(item.exifConfig, JSON.parse(item.exifConfigOrgJSON))
-            item.vueBus.$emit('reset-data', item.exifConfig)
+            // restore exif config from rog exif config
+            const orgExifConfig = JSON.parse(item.exifConfigOrgJSON)
+            item.exifConfig = _.extend(item.exifConfig, orgExifConfig)
+
+            item.vueBus.$emit('to-reset-data', orgExifConfig)
         },
 
         __getTaskItemById(itemId) {

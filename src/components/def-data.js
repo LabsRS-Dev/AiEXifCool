@@ -6,16 +6,15 @@
  */
 class DataItem {
   static count = 0
-  constructor (key = '', options = {}) {
+  constructor (key = 'key', options = {}) {
     this.id = ++DataItem.count // 唯一ID
     this.key = key // 关键索引Key
-    this.title = options.title || 'title'
-    this.description = options.description || 'description'
-    this.category = options.category || 'base'
-    this.dataType = options.dataType || String
-    this.value = options.value || 'value'
-    this.readOnly = options.readOnly || false // 是否只读
-    this.extend = options.extend || {} // 扩展数据信息
+    this.title = options.title || options.Title || 'title'
+    this.description = options.description || options.Description || 'description'
+    this.category = options.category || options.Category || 'base'
+    this.value = options.value || options.Value || 'value'
+    this.readonly = options.readonly || options.readOnly || false // 是否只读
+    this.extend = options.extend || options.Extend || {} // 扩展数据信息
   }
 }
 

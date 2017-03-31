@@ -9,7 +9,7 @@
             :title="category.title"
             :key="category.id"
 
-            v-for="(category, categoryIndex) in data.categories"
+            v-for="(category, categoryIndex) in dataSource.categories"
           >
             <dovemxui-property-editor
               :property-caption="options.propertyCaption"
@@ -46,7 +46,7 @@ export default {
         type: Object,
         default: new PropertyEditorConfig()
     },
-    data: {
+    info: {
         type: Object,
         default: new DataInformation()
     },
@@ -57,9 +57,11 @@ export default {
       default: null
     }
   },
+
   data(){
     return {
-      initialValue: JSON.stringify(this.data),
+      dataSource: this.info,
+      initialValue: JSON.stringify(this.info),
       isSaveChange: false
     }
   },
@@ -71,9 +73,9 @@ export default {
     },
 
     hasDataInformation(){
-      let has = false
+      var has = false
       try{
-        has = this.data.categories.length > 0
+        has = this.dataSource.categories.length > 0
       }catch(e){}
       return has
     }
@@ -87,43 +89,53 @@ export default {
     bindBus(){
       var that = this
       if (that.bus) {
-        that.bus.$on('save-data', function(){
-          that.save()
+        that.bus.$on('to-save-data', function(in_data){
+          that.save(in_data || that.dataSource)
         })
 
-        that.bus.$on('check-data', function(data){
-          that.check(data)
+        that.bus.$on('to-check-data', function(in_data){
+          that.check(in_data || JSON.parse(that.initialValue))
         })
 
-        that.bus.$on('reset-data', function(data){
-          that.reset()
+        that.bus.$on('to-reset-data', function(in_data){
+          that.reset(in_data || JSON.parse(that.initialValue))
         })
       }
     },
-    save(){
-      const curJSON = JSON.stringify(this.data)
-      if (curJSON !== this.initialValue) {
-        this.initialValue = curJSON
-      }
+    save(data){
       this.isSaveChange = true
+      for(let i=0; i < data.categories.length; ++i) {
+        var category = data.categories[i]
+        this.bus.$emit('to-save-items-data', category.items)
+      }      
+      this.__updateInitialValueWithData(data)
     },
     check(data){
       for(let i=0; i < data.categories.length; ++i) {
         var category = data.categories[i]
-        this.bus.$emit('check-items-data', category.items)
+        this.bus.$emit('to-check-items-data', category.items)
       }
+      this.__updateInitialValueWithData(data)
+    },
+    reset(data){
+      for(let i=0; i < data.categories.length; ++i) {
+        var category = data.categories[i]
+        this.bus.$emit('to-reset-items-data', category.items)
+      }
+      this.__updateInitialValueWithData(data)
+    },
+    __updateInitialValueWithData(data){
       const curJSON = JSON.stringify(data)
       if (curJSON !== this.initialValue) {
         this.initialValue = curJSON
       }
     },
-    reset(data){
-      this.data = data
-    },
+
+    // {} -----------------------------------------------------------
 
     setValue(categoryId, items) {
-      for(let i=0; i < this.data.categories.length; ++i) {
-        var category = this.data.categories[i]
+      for(let i=0; i < this.dataSource.categories.length; ++i) {
+        var category = this.dataSource.categories[i]
         if (category.id === categoryId) {
           // category.items == items is true. 原因是数据传输过程中，使用的都是引用，所以，子 组件中修改会影响到父组件
           category.items = items
@@ -131,7 +143,7 @@ export default {
       }
 
       this.isSaveChange = false
-      this.$emit('change', this.data)
+      this.$emit('change', this.dataSource)
     },
     
     onPropertyEditorValueChange(categoryId, items){
