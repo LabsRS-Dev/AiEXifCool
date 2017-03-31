@@ -179,10 +179,9 @@ export default {
 
       isToolBarEditBtnDropdownOpen: false,
 
-      initialValue: JSON.stringify(this.itemdata),
       isSaveChange: false,
-
-      vmValue: this.itemdata.value
+      initialValue: JSON.stringify(this.itemdata),
+      vmValue: this.itemdata.dataType(this.itemdata.value)
     }
   },
 
@@ -249,9 +248,6 @@ export default {
     },
     orgValue(){
       return JSON.parse(this.initialValue).value
-    },
-    itemId(){
-      return JSON.parse(this.initialValue).id
     }
   },
 
@@ -297,20 +293,28 @@ export default {
     },
 
     save(){
-      this.initialValue = JSON.stringify(this.itemdata)
+      const curJSON = JSON.stringify(this.itemdata)
+      if (curJSON !== this.initialValue) {
+        this.initialValue = curJSON
+      }      
+
+
       this.isSaveChange = true
-      this.$emit('save', this.itemId, this.itemdata.value)
+      this.$emit('save', this.itemdata.id, this.itemdata.value)
     },
 
     check(item){
-      this.initialValue = JSON.stringify(item)
+      const curJSON = JSON.stringify(item)
+      if (curJSON !== this.initialValue) {
+        this.initialValue = curJSON
+      }
     },
 
     setValue(value) {
       this.itemdata.value = value
 
       this.isSaveChange = false
-      this.$emit('change', this.itemId, value)
+      this.$emit('change', this.itemdata.id, value)
     },
 
     resetValue(){
@@ -318,7 +322,7 @@ export default {
         this.itemdata.value = this.orgValue
         this.vmValue = this.itemdata.value
 
-        this.$emit('reset', this.itemId, this.orgValue)
+        this.$emit('reset', this.itemdata.id, this.orgValue)
       }
     },
 

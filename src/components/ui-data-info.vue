@@ -103,8 +103,10 @@ export default {
         var category = data.categories[i]
         this.bus.$emit('check-items-data', category.items)
       }
-
-      this.initialValue = JSON.stringify(this.data)
+      const curJSON = JSON.stringify(data)
+      if (curJSON !== this.initialValue) {
+        this.initialValue = curJSON
+      }
     },
 
     setValue(categoryId, items) {

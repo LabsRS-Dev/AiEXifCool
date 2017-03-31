@@ -17,31 +17,31 @@
           <td> {{ valueCaption }}</td>
         </tr>
         <tr
-        class="dovemxui-property-editor__container__content"
-        :key="item.id"
+          class="dovemxui-property-editor__container__content"
+          :key="item.id"
 
-        v-for="(item, itemIndex) in items"
-        >
-          <td class="dovemxui-property-editor__container__property"
-            :class="itemClasses(item)"
-          > 
-            <span :title="item.description">
-              {{ item.title }} 
-            </span>
-          </td>
-          <td class="dovemxui-property-editor__container__propertyValue"
-            :class="itemClasses(item)"
-          > 
-            <dovemxui-property-editor-item
-              :tip="item.description"
-              :itemdata="item"
-              :bus="bus"
+          v-for="(item, itemIndex) in items"
+          >
+            <td class="dovemxui-property-editor__container__property"
+              :class="itemClasses(item)"
+              > 
+              <span :title="item.description">
+                {{ item.title }} 
+              </span>
+            </td>
+            <td class="dovemxui-property-editor__container__propertyValue"
+              :class="itemClasses(item)"
+              > 
+              <dovemxui-property-editor-item
+                :tip="item.description"
+                :itemdata="item"
+                :bus="bus"
 
-              @change="onPropertyValueUpdate"
-              @reset="onPropertyValueReset"
-            >
-            </dovemxui-property-editor-item>
-          </td>
+                @change="onPropertyValueUpdate"
+                @reset="onPropertyValueReset"
+              >
+              </dovemxui-property-editor-item>
+            </td>
         </tr>
       </table>
     </div>
@@ -100,7 +100,7 @@ export default {
       ]
     },
     isChange(){
-      return this.items != this.orgItems
+      return JSON.stringify(this.items) !== JSON.stringify(this.orgItems)
     },
     orgItems(){
       return JSON.parse(this.initialValue)
@@ -154,6 +154,10 @@ export default {
       const orgItemValue = this.itemId2OrgValue.get(item.id)
       if (orgItemValue !== undefined) {
         isChange = ((orgItemValue !== item.value) && !this.isSaveChange)
+
+        if (isChange) {
+          console.log('id=', item.id, ", orgValue=" + orgItemValue, ', curValue=', item.value)
+        }
       }
       return [
         { 'is-item-change':  isChange }
@@ -161,7 +165,10 @@ export default {
     },
 
     save(){
-      this.initialValue = JSON.stringify(this.items)
+      const curJSON = JSON.stringify(this.items)
+      if (curJSON !== this.initialValue) {
+        this.initialValue = curJSON
+      }
       this.isSaveChange = true
     },
     check(items){
@@ -169,7 +176,11 @@ export default {
          var item = items[i]
          this.bus.$emit('check-item-data', item)
       }
-      this.initialValue = JSON.stringify(items)
+
+      const curJSON = JSON.stringify(items)
+      if (curJSON !== this.initialValue) {
+        this.initialValue = curJSON
+      }
     },
 
     setValue(id, value) {

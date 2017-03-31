@@ -28684,10 +28684,9 @@ exports.default = {
 
       isToolBarEditBtnDropdownOpen: false,
 
-      initialValue: (0, _stringify2.default)(this.itemdata),
       isSaveChange: false,
-
-      vmValue: this.itemdata.value
+      initialValue: (0, _stringify2.default)(this.itemdata),
+      vmValue: this.itemdata.dataType(this.itemdata.value)
     };
   },
 
@@ -28742,9 +28741,6 @@ exports.default = {
     },
     orgValue: function orgValue() {
       return JSON.parse(this.initialValue).value;
-    },
-    itemId: function itemId() {
-      return JSON.parse(this.initialValue).id;
     }
   },
 
@@ -28786,25 +28782,32 @@ exports.default = {
       }
     },
     save: function save() {
-      this.initialValue = (0, _stringify2.default)(this.itemdata);
+      var curJSON = (0, _stringify2.default)(this.itemdata);
+      if (curJSON !== this.initialValue) {
+        this.initialValue = curJSON;
+      }
+
       this.isSaveChange = true;
-      this.$emit('save', this.itemId, this.itemdata.value);
+      this.$emit('save', this.itemdata.id, this.itemdata.value);
     },
     check: function check(item) {
-      this.initialValue = (0, _stringify2.default)(item);
+      var curJSON = (0, _stringify2.default)(item);
+      if (curJSON !== this.initialValue) {
+        this.initialValue = curJSON;
+      }
     },
     setValue: function setValue(value) {
       this.itemdata.value = value;
 
       this.isSaveChange = false;
-      this.$emit('change', this.itemId, value);
+      this.$emit('change', this.itemdata.id, value);
     },
     resetValue: function resetValue() {
       if (this.isValueChange) {
         this.itemdata.value = this.orgValue;
         this.vmValue = this.itemdata.value;
 
-        this.$emit('reset', this.itemId, this.orgValue);
+        this.$emit('reset', this.itemdata.id, this.orgValue);
       }
     },
     onUiTextBoxValueChange: function onUiTextBoxValueChange(value) {
@@ -29009,7 +29012,7 @@ exports.default = {
       return [{ 'is-change': this.isChange }];
     },
     isChange: function isChange() {
-      return this.items != this.orgItems;
+      return (0, _stringify2.default)(this.items) !== (0, _stringify2.default)(this.orgItems);
     },
     orgItems: function orgItems() {
       return JSON.parse(this.initialValue);
@@ -29060,11 +29063,18 @@ exports.default = {
       var orgItemValue = this.itemId2OrgValue.get(item.id);
       if (orgItemValue !== undefined) {
         isChange = orgItemValue !== item.value && !this.isSaveChange;
+
+        if (isChange) {
+          console.log('id=', item.id, ", orgValue=" + orgItemValue, ', curValue=', item.value);
+        }
       }
       return [{ 'is-item-change': isChange }];
     },
     save: function save() {
-      this.initialValue = (0, _stringify2.default)(this.items);
+      var curJSON = (0, _stringify2.default)(this.items);
+      if (curJSON !== this.initialValue) {
+        this.initialValue = curJSON;
+      }
       this.isSaveChange = true;
     },
     check: function check(items) {
@@ -29072,7 +29082,11 @@ exports.default = {
         var item = items[i];
         this.bus.$emit('check-item-data', item);
       }
-      this.initialValue = (0, _stringify2.default)(items);
+
+      var curJSON = (0, _stringify2.default)(items);
+      if (curJSON !== this.initialValue) {
+        this.initialValue = curJSON;
+      }
     },
     setValue: function setValue(id, value) {
       for (var i = 0; i < this.items.length; ++i) {
@@ -29222,7 +29236,6 @@ exports.default = {
                 callbackOpen: function callbackOpen() {},
                 callbackClose: function callbackClose() {},
 
-                exifInfo: {},
                 assTask: {},
                 propertyEditorConfig: {},
                 isConfirmed: false,
@@ -29570,6 +29583,7 @@ exports.default = {
             if (!item.exifConfig) {
                 var exifInformation = new _defData.DataInformation(item.id);
                 var cag1 = new _defData.DataCategory('基本信息');
+                cag1.title = cag1.title + cag1.id;
                 cag1.add(new _defData.DataItem('key$filePath', {
                     title: '路径',
                     description: '获取或设置文件的路径',
@@ -29595,14 +29609,12 @@ exports.default = {
                     }
                 }));
 
-                var cag2 = new _defData.DataCategory('扩展信息');
-
                 for (var i = 0; i < 20; ++i) {
                     var _item = new _defData.DataItem('key$filePath' + i, {
                         title: '路径' + i,
                         description: '获取或设置文件的路径',
                         dataType: String,
-                        value: 'D:\\TestResource\\exif_sample_images\\Nikon\\corrupted_output\\picture.jpg',
+                        value: 'D:\\TestResource\\exif_sample_images\\Nikon\\corrupted_output\\picture',
                         extend: {
                             uiDisplayComponent: 'ui-textbox',
                             showToolbar: true,
@@ -29633,12 +29645,12 @@ exports.default = {
                             }]
                         }
                     });
+                    _item.value += _item.id + '.jpg';
+
                     cag1.add(_item);
-                    cag2.add(_item);
                 }
 
                 exifInformation.add(cag1);
-                exifInformation.add(cag2);
 
                 item.exifConfig = exifInformation;
                 item.exifConfigOrgJSON = (0, _stringify2.default)(exifInformation);
@@ -29679,8 +29691,8 @@ exports.default = {
             var that = this;
             var cdg = that.exifConfigDialog;
 
-            cdg.isConfirmed = false;
-            cdg.isDenyed = false;
+            var isConfirmed = false;
+            var isDenyed = false;
 
             cdg.title = that.$t('pages.modify.dialog-exif-confirm-edit.title');
             cdg.confirmButtonText = that.$t('pages.modify.dialog-exif-confirm-edit.btnConfirm');
@@ -29694,15 +29706,15 @@ exports.default = {
             var dialog = that.$refs[cdg.ref];
 
             cdg.callbackConfirm = function () {
-                cdg.isConfirmed = true;
+                isConfirmed = true;
                 that.__saveTaskItemExif(item);
             };
             cdg.callbackDeny = function () {
-                cdg.isDenyed = true;
+                isDenyed = true;
                 console.log('onExifConfigDialogDeny');
             };
             cdg.callbackClose = function () {
-                if (!cdg.isConfirmed && !cdg.isDenyed) {
+                if (!isConfirmed && !isDenyed) {
                     that.__restTaskItemExif(item);
                 }
             };
@@ -32951,17 +32963,25 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "open": _vm.exifConfigDialog.callbackOpen,
       "close": _vm.exifConfigDialog.callbackClose
     }
-  }, [_vm._v("\n            " + _vm._s(_vm.exifConfigDialog.content) + "\n            "), _c('dovemxui-data-info', {
-    key: _vm.exifConfigDialog.exifInfo.id,
-    attrs: {
-      "options": _vm.exifConfigDialog.propertyEditorConfig,
-      "bus": _vm.exifConfigDialog.assTask.vueBus,
-      "data": _vm.exifConfigDialog.exifInfo
-    },
-    on: {
-      "change": _vm.onTaskItemExifInfoChange
-    }
-  })], 1) : _vm._e()], 2), _vm._v(" "), _c('div', {
+  }, [_vm._v("\n            " + _vm._s(_vm.exifConfigDialog.content) + "\n            "), _vm._l((_vm.taskList), function(item) {
+    return _c('dovemxui-data-info', {
+      directives: [{
+        name: "show",
+        rawName: "v-show",
+        value: ((item === _vm.exifConfigDialog.assTask)),
+        expression: "(item === exifConfigDialog.assTask)"
+      }],
+      key: item.id,
+      attrs: {
+        "options": _vm.exifConfigDialog.propertyEditorConfig,
+        "bus": item.vueBus,
+        "data": item.exifConfig
+      },
+      on: {
+        "change": _vm.onTaskItemExifInfoChange
+      }
+    })
+  })], 2) : _vm._e()], 2), _vm._v(" "), _c('div', {
     staticClass: "page__examples page__examples-app-doc"
   }, [_c('svg', {
     directives: [{
@@ -33162,7 +33182,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       attrs: {
         "title": item.description
       }
-    }, [_vm._v("\n            " + _vm._s(item.title) + " \n          ")])]), _vm._v(" "), _c('td', {
+    }, [_vm._v("\n              " + _vm._s(item.title) + " \n            ")])]), _vm._v(" "), _c('td', {
       staticClass: "dovemxui-property-editor__container__propertyValue",
       class: _vm.itemClasses(item)
     }, [_c('dovemxui-property-editor-item', {
@@ -43499,8 +43519,10 @@ exports.default = {
         var category = data.categories[i];
         this.bus.$emit('check-items-data', category.items);
       }
-
-      this.initialValue = (0, _stringify2.default)(this.data);
+      var curJSON = (0, _stringify2.default)(data);
+      if (curJSON !== this.initialValue) {
+        this.initialValue = curJSON;
+      }
     },
     setValue: function setValue(categoryId, items) {
       for (var i = 0; i < this.data.categories.length; ++i) {

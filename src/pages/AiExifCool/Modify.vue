@@ -48,13 +48,16 @@
             >
                 {{ exifConfigDialog.content }}
                 <dovemxui-data-info
-                    :key="exifConfigDialog.exifInfo.id"
+                    :key="item.id"
 
                     :options="exifConfigDialog.propertyEditorConfig"
-                    :bus="exifConfigDialog.assTask.vueBus"
-                    :data="exifConfigDialog.exifInfo"
+                    :bus="item.vueBus"
+                    :data="item.exifConfig"
 
                     @change="onTaskItemExifInfoChange"
+
+                    v-show="(item === exifConfigDialog.assTask)"
+                    v-for="item in taskList"
                 >
                 </dovemxui-data-info>
             </ui-confirm>
@@ -243,7 +246,6 @@ export default {
                 callbackOpen: ()=>{},
                 callbackClose: ()=>{},
 
-                exifInfo: {},
                 assTask: {},
                 propertyEditorConfig: {},
                 isConfirmed: false,
@@ -637,6 +639,7 @@ export default {
             if(!item.exifConfig) {
                 let exifInformation = new DataInformation(item.id)
                 let cag1 = new DataCategory('基本信息')
+                cag1.title = cag1.title + cag1.id
                 cag1.add(new DataItem('key$filePath',{
                     title: '路径',
                     description: '获取或设置文件的路径',
@@ -660,16 +663,14 @@ export default {
                         uiDisplayComponent:'ui-switch',
                         showToolbar: false
                     }
-                }))            
-
-                let cag2 = new DataCategory('扩展信息')
+                }))
 
                 for(let i=0; i< 20; ++i){
                     const item = new DataItem('key$filePath' + i,{
                         title: '路径' + i,
                         description: '获取或设置文件的路径',
                         dataType: String,
-                        value: 'D:\\TestResource\\exif_sample_images\\Nikon\\corrupted_output\\picture.jpg',
+                        value: 'D:\\TestResource\\exif_sample_images\\Nikon\\corrupted_output\\picture',
                         extend: {
                             uiDisplayComponent:'ui-textbox',
                             showToolbar: true,
@@ -706,12 +707,12 @@ export default {
                             ]
                         }
                     })
+                    item.value += item.id + '.jpg'
+
                     cag1.add(item)
-                    cag2.add(item)
                 }
 
                 exifInformation.add(cag1)
-                exifInformation.add(cag2)
 
                 item.exifConfig = exifInformation
                 item.exifConfigOrgJSON = JSON.stringify(exifInformation)
@@ -760,8 +761,8 @@ export default {
             var that = this
             const cdg = that.exifConfigDialog
 
-            cdg.isConfirmed = false
-            cdg.isDenyed = false
+            var isConfirmed = false
+            var isDenyed = false
 
             cdg.title = that.$t('pages.modify.dialog-exif-confirm-edit.title')
             cdg.confirmButtonText = that.$t('pages.modify.dialog-exif-confirm-edit.btnConfirm')
@@ -775,15 +776,15 @@ export default {
             var dialog = that.$refs[cdg.ref]
 
             cdg.callbackConfirm = () =>{
-                cdg.isConfirmed = true
+                isConfirmed = true
                 that.__saveTaskItemExif(item)
             }
             cdg.callbackDeny = () => {
-                cdg.isDenyed = true
+                isDenyed = true
                 console.log('onExifConfigDialogDeny')
             }
             cdg.callbackClose = () => {
-                if (!cdg.isConfirmed && !cdg.isDenyed) {
+                if (!isConfirmed && !isDenyed) {
                     that.__restTaskItemExif(item)
                 }
             }
