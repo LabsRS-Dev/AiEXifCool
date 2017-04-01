@@ -81,8 +81,7 @@ export default {
 
     // Data
     categoryId: {
-      type: [String, Number],
-      require: true
+      type: Number
     },
     items: {
       type: Array,
@@ -139,16 +138,23 @@ export default {
     bindBus(){
       var that = this
       if(that.bus) {
-        that.bus.$on('to-save-items-data', function(in_items){
-          that.save(in_items || that.items)
+        that.bus.$on('to-save-items-data', function(data){
+          if(data.id === that.categoryId) {
+            console.dir(data)
+            that.save(data.items || that.items)
+          }
         })
 
-        that.bus.$on('to-check-items-data', function(in_items){
-          that.check(in_items || JSON.parse(that.initialValue))
+        that.bus.$on('to-check-items-data', function(data){
+          if(data.id === that.categoryId) {
+            that.check(data.items || JSON.parse(that.initialValue))
+          }
         })
 
-        that.bus.$on('to-reset-items-data', function(in_items){
-          that.reset(in_items || JSON.parse(that.initialValue))
+        that.bus.$on('to-reset-items-data', function(data){
+          if(data.id === that.categoryId) {
+            that.reset(data.items || JSON.parse(that.initialValue))
+          }
         })
       }
     },
@@ -158,24 +164,24 @@ export default {
          var item = items[i]
          this.bus.$emit('to-save-item-data', item)
       }
-      this.__updateInitialValueWithItems(items)
+      this.__updateInitialState(items)
     },
     check(items){
       for(let i=0; i < items.length; ++i){
          var item = items[i]
          this.bus.$emit('to-check-item-data', item)
       }
-      this.__updateInitialValueWithItems(items)
+      this.__updateInitialState(items)
     },
     reset(items){
       for(let i=0; i < items.length; ++i){
          var item = items[i]
          this.bus.$emit('to-reset-item-data', item)
       }
-      this.__updateInitialValueWithItems(items)
+      this.__updateInitialState(items)
     },
 
-    __updateInitialValueWithItems(items){
+    __updateInitialState(items){
       const curJSON = JSON.stringify(items)
       if (curJSON !== this.initialValue) {
         this.initialValue = curJSON

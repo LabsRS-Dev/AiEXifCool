@@ -645,23 +645,23 @@ export default {
                     title: '路径',
                     description: '获取或设置文件的路径',
                     value: item.path,
-                    readonly: true
+                    readonly: false
                 }))
-                cag1.add(new DataItem('key$fileSize',{
-                    title: '大小',
-                    description: '获取或设置文件的大小',
-                    value: item.size,
-                    readonly: true
-                }))
-                cag1.add(new DataItem('key$canRead',{
-                    title: '启动开关',
-                    description: '获取或设置文件的大小',
-                    value: true,
-                    extend: {
-                        uiDisplayComponent:'ui-switch',
-                        showToolbar: false
-                    }
-                }))
+                // cag1.add(new DataItem('key$fileSize',{
+                //     title: '大小',
+                //     description: '获取或设置文件的大小',
+                //     value: item.size,
+                //     readonly: true
+                // }))
+                // cag1.add(new DataItem('key$canRead',{
+                //     title: '启动开关',
+                //     description: '获取或设置文件的大小',
+                //     value: true,
+                //     extend: {
+                //         uiDisplayComponent:'ui-switch',
+                //         showToolbar: false
+                //     }
+                // }))
 
                 const addTest = false
                 if (addTest) {
@@ -713,6 +713,8 @@ export default {
                 }
 
                 exifInformation.add(cag1)
+
+                // ass setup
                 item.exifConfig = exifInformation
                 item.exifConfigOrgJSON = JSON.stringify(exifInformation)
             }
@@ -726,17 +728,16 @@ export default {
         },
 
         __saveTaskItemExif(item){
-            item.vueBus.$emit('to-save-data', item.exifConfig)
             // update org exif config infomations
+            item.vueBus.$emit('to-save-data', item.exifConfig)
             item.exifConfigOrgJSON = JSON.stringify(item.exifConfig)
         },
 
         __resetTaskItemExif(item) {
             // restore exif config from rog exif config
             const orgExifConfig = JSON.parse(item.exifConfigOrgJSON)
-            item.exifConfig = _.extend(item.exifConfig, orgExifConfig)
-
             item.vueBus.$emit('to-reset-data', orgExifConfig)
+            item.exifConfig = _.extend(item.exifConfig, orgExifConfig)
         },
 
         __getTaskItemById(itemId) {

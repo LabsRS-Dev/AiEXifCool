@@ -69,7 +69,37 @@ class DataInformation {
   }
 }
 
+/**
+ * 数据信息的状态
+ *
+ * @class DataInformationState
+ */
+class DataInformationState {
+  static count = 0
+  static State = {
+    InitData: 0,  // 初始状态
+    NeedSave: 1,  // 需要保存更改
+    KeepDraft: 2, // 需要保持草稿状态，不保存
+    NeedReset: 3  // 需要重置到初始状态
+  }
+
+  /**
+   * Creates an instance of DataInformationState.
+   * @param {String, Number} [owner=null] 信息持有者
+   * @param {DataInformation} 关联的信息
+   * @memberOf DataInformationState
+   */
+  constructor (owner = null, info = new DataInformation()) {
+    this.id = ++DataInformationState.count // 唯一ID
+    this.assDataInfo = info
+    this.owner = owner
+    this.state = DataInformationState.State.InitData
+  }
+
+}
+
 
 export { DataItem }
 export { DataCategory }
 export { DataInformation }
+export { DataInformationState }

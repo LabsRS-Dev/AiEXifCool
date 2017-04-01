@@ -189,6 +189,7 @@ export default {
 
       isSaveChange: false,
       initialValue: JSON.stringify(this.itemdata),
+
       vmValue: this.itemdata.value
     }
   },
@@ -252,7 +253,9 @@ export default {
       return this.itemdata.extend.toolBarMenus || []
     },
     isValueChange(){
-      return this.itemdata.value != this.orgValue
+      const change = this.itemdata.value !== this.orgValue
+      console.log(change)
+      return change
     },
     orgValue(){
       return JSON.parse(this.initialValue).value
@@ -293,37 +296,47 @@ export default {
       var that = this
       if (that.bus) {
         that.bus.$on('to-save-item-data', function(in_item){
-          that.save(in_item || that.itemdata)
+          console.dir(in_item)
+          if(in_item.id === that.itemdata.id){
+            that.save(in_item || that.itemdata)
+          }
         })
 
         that.bus.$on('to-check-item-data', function(in_item){
-          that.check(in_item || JSON.parse(that.initialValue))
+          if(in_item.id === that.itemdata.id){
+            that.check(in_item || JSON.parse(that.initialValue))
+          }
         })
 
         that.bus.$on('to-reset-item-data', function(in_item){
-          that.reset(in_item || JSON.parse(that.initialValue))
+          if(in_item.id === that.itemdata.id){
+            that.reset(in_item || JSON.parse(that.initialValue))
+          }
         })
       }
     },
 
     save(item){
       this.isSaveChange = true
-      this.__updateInitialValueWithItem(item)
+      this.itemdata.value = item.value
+
+      Vue.set(this, 'vmValue', item.value)
+      this.__updateInitialState(item)
     },
     check(item){
-      this.__updateInitialValueWithItem(item)
+      this.__updateInitialState(item)
     },
     reset(item){
-      if (this.itemdata.value !== item.value){
-          this.itemdata.value = item.value
-          this.vmValue = item.value
-      }
-      this.__updateInitialValueWithItem(item)
+      this.itemdata.value = item.value
+
+      Vue.set(this, 'vmValue', item.value)
+      this.__updateInitialState(item)
     },
 
-    __updateInitialValueWithItem(item){
+    __updateInitialState(item){
       const curJSON = JSON.stringify(item)
       if (curJSON !== this.initialValue) {
+        console.log('update inital value ...')
         this.initialValue = curJSON
       }
     },

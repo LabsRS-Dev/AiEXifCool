@@ -90,15 +90,21 @@ export default {
       var that = this
       if (that.bus) {
         that.bus.$on('to-save-data', function(in_data){
-          that.save(in_data || that.dataSource)
+          if(in_data.id === that.dataSource.id) {
+            that.save(in_data || that.dataSource)
+          }
         })
 
         that.bus.$on('to-check-data', function(in_data){
-          that.check(in_data || JSON.parse(that.initialValue))
+          if(in_data.id === that.dataSource.id) {
+            that.check(in_data || JSON.parse(that.initialValue))
+          }
         })
 
         that.bus.$on('to-reset-data', function(in_data){
-          that.reset(in_data || JSON.parse(that.initialValue))
+          if(in_data.id === that.dataSource.id) {
+            that.reset(in_data || JSON.parse(that.initialValue))
+          }
         })
       }
     },
@@ -106,25 +112,25 @@ export default {
       this.isSaveChange = true
       for(let i=0; i < data.categories.length; ++i) {
         var category = data.categories[i]
-        this.bus.$emit('to-save-items-data', category.items)
+        this.bus.$emit('to-save-items-data', {id: category.id, items: category.items})
       }      
-      this.__updateInitialValueWithData(data)
+      this.__updateInitialState(data)
     },
     check(data){
       for(let i=0; i < data.categories.length; ++i) {
         var category = data.categories[i]
-        this.bus.$emit('to-check-items-data', category.items)
+        this.bus.$emit('to-check-items-data', {id: category.id, items: category.items})
       }
-      this.__updateInitialValueWithData(data)
+      this.__updateInitialState(data)
     },
     reset(data){
       for(let i=0; i < data.categories.length; ++i) {
         var category = data.categories[i]
-        this.bus.$emit('to-reset-items-data', category.items)
+        this.bus.$emit('to-reset-items-data', {id: category.id, items: category.items})
       }
-      this.__updateInitialValueWithData(data)
+      this.__updateInitialState(data)
     },
-    __updateInitialValueWithData(data){
+    __updateInitialState(data){
       const curJSON = JSON.stringify(data)
       if (curJSON !== this.initialValue) {
         this.initialValue = curJSON
