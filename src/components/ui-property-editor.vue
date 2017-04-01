@@ -298,7 +298,7 @@ $font-size: rem-calc(9px);
   min-width: 100%;
   width: 100%;
   max-height: $visual-box-height;
-  height: $visual-box-height;
+  height: auto;
   overflow-y: auto;
   overflow-x: hidden;
 }
