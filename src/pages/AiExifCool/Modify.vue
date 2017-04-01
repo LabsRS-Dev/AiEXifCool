@@ -647,21 +647,21 @@ export default {
                     value: item.path,
                     readonly: false
                 }))
-                // cag1.add(new DataItem('key$fileSize',{
-                //     title: '大小',
-                //     description: '获取或设置文件的大小',
-                //     value: item.size,
-                //     readonly: true
-                // }))
-                // cag1.add(new DataItem('key$canRead',{
-                //     title: '启动开关',
-                //     description: '获取或设置文件的大小',
-                //     value: true,
-                //     extend: {
-                //         uiDisplayComponent:'ui-switch',
-                //         showToolbar: false
-                //     }
-                // }))
+                cag1.add(new DataItem('key$fileSize',{
+                    title: '大小',
+                    description: '获取或设置文件的大小',
+                    value: item.size,
+                    readonly: true
+                }))
+                cag1.add(new DataItem('key$canRead',{
+                    title: '启动开关',
+                    description: '获取或设置文件的大小',
+                    value: true,
+                    extend: {
+                        uiDisplayComponent:'ui-switch',
+                        showToolbar: false
+                    }
+                }))
 
                 const addTest = false
                 if (addTest) {

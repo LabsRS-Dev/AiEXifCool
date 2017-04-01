@@ -29106,12 +29106,9 @@ exports.default = {
       this.$emit('change', this.itemdata.id, value);
     },
     resetValue: function resetValue() {
-      if (this.isValueChange) {
-        this.itemdata.value = this.orgValue;
-        this.vmValue = this.itemdata.value;
-
-        this.$emit('reset', this.itemdata.id, this.orgValue);
-      }
+      this.itemdata.value = this.orgValue;
+      Vue.set(this, 'vmValue', this.orgValue);
+      this.$emit('reset', this.itemdata.id, this.orgValue);
     },
     onUiTextBoxValueChange: function onUiTextBoxValueChange(value) {
       this.setValue(value);
@@ -29917,7 +29914,21 @@ exports.default = {
                     value: item.path,
                     readonly: false
                 }));
-
+                cag1.add(new _defData.DataItem('key$fileSize', {
+                    title: '大小',
+                    description: '获取或设置文件的大小',
+                    value: item.size,
+                    readonly: true
+                }));
+                cag1.add(new _defData.DataItem('key$canRead', {
+                    title: '启动开关',
+                    description: '获取或设置文件的大小',
+                    value: true,
+                    extend: {
+                        uiDisplayComponent: 'ui-switch',
+                        showToolbar: false
+                    }
+                }));
 
                 var addTest = false;
                 if (addTest) {

@@ -351,12 +351,9 @@ export default {
     },
 
     resetValue(){
-      if (this.isValueChange) {
         this.itemdata.value = this.orgValue
-        this.vmValue = this.itemdata.value
-
+        Vue.set(this, 'vmValue', this.orgValue)
         this.$emit('reset', this.itemdata.id, this.orgValue)
-      }
     },
 
 
