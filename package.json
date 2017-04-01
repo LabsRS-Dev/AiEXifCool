@@ -41,13 +41,10 @@
   },
   "homepage": "https://github.com/LabsRS-Dev/AiEXifCool",
   "dependencies": {
-    "babel-eslint": "^7.2.1",
-    "caniuse-db": "^1.0.30000640",
     "dove.max.sdk": "^1.0.0",
-    "node-sass": "^4.5.1",
     "vue": "^2.2.6",
     "vue-i18n": "^6.0.0-beta.1",
-    "vue-router": "^2.3.0",
+    "vue-router": "^2.3.1",
     "vuex": "^2.2.1"
   },
   "devDependencies": {
@@ -55,7 +52,7 @@
     "autoprefixer": "^6.7.7",
     "autosize": "^3.0.20",
     "babel-core": "^6.24.0",
-    "babel-eslint": "^7.1.1",
+    "babel-eslint": "^7.2.1",
     "babel-helpers": "^6.23.0",
     "babel-loader": "^6.4.1",
     "babel-plugin-espower": "^2.3.2",
@@ -82,7 +79,6 @@
     "fuzzysearch": "^1.0.3",
     "html-entities": "^1.2.0",
     "lodash.debounce": "^4.0.8",
-    "node-sass": "^4.5.0",
     "prismjs": "^1.6.0",
     "rimraf": "^2.6.1",
     "sass-loader": "^4.1.1",
