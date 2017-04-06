@@ -43,7 +43,7 @@
   "dependencies": {
     "dove.max.sdk": "^1.0.0",
     "vue": "^2.2.6",
-    "vue-i18n": "^6.0.0-beta.1",
+    "vue-i18n": "^6.0.0",
     "vue-router": "^2.3.1",
     "vuex": "^2.2.1"
   },
@@ -62,7 +62,7 @@
     "babel-preset-es2015-loose": "^8.0.0",
     "babel-preset-stage-2": "^6.22.0",
     "babel-runtime": "^6.23.0",
-    "caniuse-db": "^1.0.30000641",
+    "caniuse-db": "^1.0.30000649",
     "cross-env": "^3.2.4",
     "css-loader": "^0.25.0",
     "deep-assign": "^2.0.0",
@@ -91,7 +91,7 @@
     "vue-loader": "^10.3.0",
     "vue-style-loader": "^2.0.4",
     "vue-template-compiler": "^2.2.6",
-    "webpack": "^2.3.2",
+    "webpack": "^2.3.3",
     "webpack-dev-middleware": "^1.10.1",
     "webpack-dev-server": "^2.4.2"
   }

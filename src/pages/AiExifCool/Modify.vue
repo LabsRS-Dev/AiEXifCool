@@ -640,7 +640,7 @@ export default {
             if(!item.exifConfig) {
                 let exifInformation = new DataInformation(item.id)
                 let cag1 = new DataCategory('基本信息')
-                cag1.title = cag1.title + cag1.id
+                cag1.title = cag1.title
                 cag1.add(new DataItem('key$filePath',{
                     title: '路径',
                     description: '获取或设置文件的路径',
@@ -663,7 +663,7 @@ export default {
                     }
                 }))
 
-                const addTest = false
+                const addTest = true
                 if (addTest) {
                     for(let i=0; i< 20; ++i){
                         const item = new DataItem('key$filePath' + i,{

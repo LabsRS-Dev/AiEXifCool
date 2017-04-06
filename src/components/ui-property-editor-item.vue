@@ -254,7 +254,6 @@ export default {
     },
     isValueChange(){
       const change = this.itemdata.value !== this.orgValue
-      console.log(change)
       return change
     },
     orgValue(){

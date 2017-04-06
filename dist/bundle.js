@@ -27638,16 +27638,15 @@ setToStringTag(global.JSON, 'JSON', true);
 
 /***/ }),
 /* 76 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(process) {/*!
- * vue-i18n v6.0.0-beta.1 
+/* WEBPACK VAR INJECTION */(function(process) {Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/*!
+ * vue-i18n v6.0.0 
  * (c) 2017 kazuya kawaguchi
  * Released under the MIT License.
  */
-
-
 /*  */
 
 /**
@@ -27771,14 +27770,10 @@ var $tc = function (vm) {
 };
 var $te = function (vm) {
   // add dependency tracking !!
-  var locale = vm.$i18n.locale;
+  var _locale = vm.$i18n.locale;
   var messages = vm.$i18n.vm.messages;
-  return function (key) {
-    var args = [], len = arguments.length - 1;
-    while ( len-- > 0 ) args[ len ] = arguments[ len + 1 ];
-
-    return (ref = vm.$i18n)._te.apply(ref, [ key, locale, messages ].concat( args ))
-    var ref;
+  return function (key, locale) {
+    return vm.$i18n._te(key, _locale, messages, [locale])
   }
 };
 
@@ -27792,6 +27787,8 @@ function defineComputed (vm, options) {
 var mixin = {
   beforeCreate: function beforeCreate () {
     var options = this.$options;
+    options.i18n = options.i18n || (options.__i18n ? {} : null);
+
     if (options.i18n) {
       if (options.i18n instanceof VueI18n) {
         this._i18n = options.i18n;
@@ -27801,8 +27798,21 @@ var mixin = {
         if (this.$root && this.$root.$i18n && this.$root.$i18n instanceof VueI18n) {
           options.i18n.root = this.$root.$i18n;
         }
+
+        // init locale messages via custom blocks
+        if (options.__i18n) {
+          try {
+            options.i18n.messages = JSON.parse(options.__i18n);
+          } catch (e) {
+            if (process.env.NODE_ENV !== 'production') {
+              warn("Cannot parse locale messages via custom blocks.");
+            }
+          }
+        }
+
         this._i18n = new VueI18n(options.i18n);
         defineComputed(this, options);
+
         if (options.i18n.sync === undefined || !!options.i18n.sync) {
           this._localeWatcher = this.$i18n.watchLocale();
         }
@@ -28260,7 +28270,7 @@ var VueI18n = function VueI18n (options) {
   var messages = options.messages || {};
   this._vm = null;
   this._formatter = options.formatter || new BaseFormatter();
-  this._missing = options.missing;
+  this._missing = options.missing || null;
   this._root = options.root || null;
   this._sync = options.sync === undefined ? true : !!options.sync;
   this._fallbackRoot = options.fallbackRoot === undefined ? true : !!options.fallbackRoot;
@@ -28427,7 +28437,7 @@ VueI18n.prototype._t = function _t (key, _locale, messages, host) {
   var ret = this._translate(messages, locale, this.fallbackLocale, key, parsedArgs.params);
   if (this._isFallbackRoot(ret)) {
     if (process.env.NODE_ENV !== 'production') {
-        warn(("Fall back to translate the keypath '" + key + "' with root locale."));
+      warn(("Fall back to translate the keypath '" + key + "' with root locale."));
     }
     if (!this._root) { throw Error('unexpected error') }
     return (ref = this._root).t.apply(ref, [ key ].concat( values ))
@@ -28467,20 +28477,16 @@ VueI18n.prototype.tc = function tc (key, choice) {
     var ref;
 };
 
-VueI18n.prototype._te = function _te (key, _locale, messages) {
+VueI18n.prototype._te = function _te (key, locale, messages) {
     var args = [], len = arguments.length - 3;
     while ( len-- > 0 ) args[ len ] = arguments[ len + 3 ];
 
-  var locale = parseArgs.apply(void 0, args).locale || _locale;
-  return this._exist(messages[locale], key)
+  var _locale = parseArgs.apply(void 0, args).locale || locale;
+  return this._exist(messages[_locale], key)
 };
 
-VueI18n.prototype.te = function te (key) {
-    var args = [], len = arguments.length - 1;
-    while ( len-- > 0 ) args[ len ] = arguments[ len + 1 ];
-
-  return (ref = this)._te.apply(ref, [ key, this.locale, this.messages ].concat( args ))
-    var ref;
+VueI18n.prototype.te = function te (key, locale) {
+  return this._te(key, this.locale, this.messages, [locale])
 };
 
 VueI18n.prototype.getLocaleMessage = function getLocaleMessage (locale) {
@@ -28494,15 +28500,15 @@ VueI18n.prototype.setLocaleMessage = function setLocaleMessage (locale, message)
 Object.defineProperties( VueI18n.prototype, prototypeAccessors );
 
 VueI18n.install = install;
-VueI18n.version = '__VERSION__';
+VueI18n.version = '6.0.0';
 
 if (typeof window !== 'undefined' && window.Vue) {
   window.Vue.use(VueI18n);
 }
 
-module.exports = VueI18n;
+/* harmony default export */ __webpack_exports__["default"] = (VueI18n);
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(35)))
+/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(35)))
 
 /***/ }),
 /* 77 */
@@ -29020,7 +29026,6 @@ exports.default = {
     },
     isValueChange: function isValueChange() {
       var change = this.itemdata.value !== this.orgValue;
-      console.log(change);
       return change;
     },
     orgValue: function orgValue() {
@@ -29907,7 +29912,7 @@ exports.default = {
             if (!item.exifConfig) {
                 var exifInformation = new _defData.DataInformation(item.id);
                 var cag1 = new _defData.DataCategory('基本信息');
-                cag1.title = cag1.title + cag1.id;
+                cag1.title = cag1.title;
                 cag1.add(new _defData.DataItem('key$filePath', {
                     title: '路径',
                     description: '获取或设置文件的路径',
@@ -29930,7 +29935,7 @@ exports.default = {
                     }
                 }));
 
-                var addTest = false;
+                var addTest = true;
                 if (addTest) {
                     for (var i = 0; i < 20; ++i) {
                         var _item = new _defData.DataItem('key$filePath' + i, {
