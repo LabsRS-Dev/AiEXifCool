@@ -6,7 +6,7 @@ import Vue from 'vue'
 import VueI18n from 'vue-i18n'
 import VueRouter from 'vue-router'
 import Vuex from 'vuex'
-import { BS, Util, _ } from 'dovemaxsdk'
+import { BS, Util, _ } from 'dove.max.sdk'
 
 // /----------- Components
 import App from './App.vue'

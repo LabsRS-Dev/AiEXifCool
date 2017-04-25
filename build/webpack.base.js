@@ -6,6 +6,7 @@ const autoprefixer = require('autoprefixer')
 const dir_nACommonJS = 'D:/workspace/nACommonJS'
 const dir_sdk = dir_nACommonJS + '/sdk'
 const dir_vue =  dir_nACommonJS + '/common/vue.js'
+const dir_node_modules = options.paths.resolve('node_modules')
 
 module.exports = {
     resolve: {
@@ -20,10 +21,14 @@ module.exports = {
             // helpers: 'src/helpers',
             // mixins: 'src/mixins',
             // styles: 'src/styles',
-            'dovemaxsdk$': options.paths.resolveEx(dir_sdk, '/dist/dovemax-sdk.js'),
 
-            'keen-ui$': options.paths.resolveEx(dir_vue, '/plugins/Keen-UI/git_source/Keen-UI/dist/keen-ui.js'),
-            'keen-ui-css$': options.paths.resolveEx(dir_vue, '/plugins/Keen-UI/git_source/Keen-UI/dist/keen-ui.css'),
+            //'dove.max.sdk$': options.paths.resolveEx(dir_sdk, '/dist/dovemax-sdk.js'),
+            //'keen-ui$': options.paths.resolveEx(dir_vue, '/plugins/Keen-UI/git_source/Keen-UI/dist/keen-ui.js'),
+            //'keen-ui-css$': options.paths.resolveEx(dir_vue, '/plugins/Keen-UI/git_source/Keen-UI/dist/keen-ui.css'),
+
+            'dove.max.sdk$': options.paths.resolveEx(dir_node_modules, '/dove.max.sdk/dist/dovemax-sdk.js'),
+            'keen-ui$': options.paths.resolveEx(dir_node_modules, '/Keen-UI/dist/keen-ui.js'),
+            'keen-ui-css$': options.paths.resolveEx(dir_node_modules, '/Keen-UI/dist/keen-ui.css'),
 
             //'vue-i18n$': options.paths.resolveEx(dir_vue, '/plugins/vue-i18n/git_source/vue-i18n/dist/vue-i18n.js'),
             //'vue$': options.paths.resolveEx(dir_vue, '/git_source/dist/vue.js'),

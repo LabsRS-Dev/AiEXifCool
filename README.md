@@ -1,7 +1,7 @@
 # AiEXifCool
 AiEXifCool  高级图像EXIF处理工具
 
-用Vue.js、Vue-router、Vue-i18n、Keen-ui、Webpack、Webpack-dev-server 和 dovemaxsdk 编写的针对macOS系统(苹果操作系统)的工具类软件。
+用Vue.js、Vue-router、Vue-i18n、Keen-ui、Webpack、Webpack-dev-server 和 dove.max.sdk 编写的针对macOS系统(苹果操作系统)的工具类软件。
 将会像我们其他类产品一样，发布到苹果应用商店中，进行销售！ ^_^
 
 > 如果对您有帮助，您可以点右上角 "Star" 支持一下 谢谢！ ^_^
@@ -26,7 +26,7 @@ AiEXifCool  高级图像EXIF处理工具
 
 > [keen-ui](https://github.com/JosephusPaye/Keen-UI)
 
-> [dovemaxsdk](https://github.com/LabsRS-Dev/sdk)
+> [dove.max.sdk](https://github.com/LabsRS-Dev/sdk)
 
 > [webpack](http://webpack.github.io/docs/)
 

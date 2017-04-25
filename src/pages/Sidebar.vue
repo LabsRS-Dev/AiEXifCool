@@ -72,7 +72,7 @@
 
 
 <script>
-import { BS, Util, _ } from 'dovemaxsdk'
+import { BS, Util, _ } from 'dove.max.sdk'
 import {UiIcon, UiCollapsible} from 'keen-ui'
 import Routes from './../routes.js'
 

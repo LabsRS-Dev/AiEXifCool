@@ -109,7 +109,7 @@
 </template>    
 
 <script>
-import { BS, Util, _ } from 'dovemaxsdk'
+import { BS, Util, _ } from 'dove.max.sdk'
 import {UiIcon, UiTabs, UiTab, UiConfirm, UiButton, UiIconButton, UiAlert, UiToolbar, UiProgressLinear} from 'keen-ui';
 import {Transfer} from '../../bridge/transfer'
 

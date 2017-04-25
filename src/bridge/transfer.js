@@ -1,4 +1,4 @@
-import { BS, Observable, Util, _ } from 'dovemaxsdk'
+import { BS, Observable, Util, _ } from 'dove.max.sdk'
 
 // -----------------------------------------------------------------
 // 交互处理
