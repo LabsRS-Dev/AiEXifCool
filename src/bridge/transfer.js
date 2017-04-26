@@ -21,7 +21,7 @@ const __$p$ = {
     const wsSocketIO = new agent.Chancel()
     wsSocketIO.build({
       type: agent.ChancelType.websocketForNode,
-      ip: '192.168.1.2', // 127.0.0.1
+      ip: '127.0.0.1', // 127.0.0.1
       port: '8888',
       protocol: 'http://',
       reqUrl: '',
@@ -147,6 +147,34 @@ __$p$.Tools = {
       }
 
       __$p$.send(info) // 不需要监视结果
+    }
+  },
+  ModifyExifInfo: {
+    getExifInfo: (options = {}, handler, one = false) => {
+      const debugMode = false
+      if (debugMode === false) {
+        const taskInfo = {
+          task_id: options.taskID,                    // 任务ID
+          cli: 'aiexifcool/edit.image/index',         // 动态调用的模块
+          reload: false,                              // 默认是false, 支持热部署, 是否重新加载动态模块
+          command: [                                  // 命令
+            { action: 'getExifInfoAction', data: options.data, lang: options.lang || 'en' }
+          ]
+        }
+
+        const info = {
+          taskInfo: taskInfo,
+          msg_type: 'c_task_exec'
+        }
+
+        __$p$.send(info, data => {
+          if (data.task_id === options.taskID) { // 只处理本任务的返回数据
+            handler && handler(data)
+          }
+        }, one)
+      } else {
+        handler && handler()
+      }
     }
   }
 

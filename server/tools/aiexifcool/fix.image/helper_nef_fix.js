@@ -20,7 +20,11 @@ const locals = {
     cannotCreateTempDir: '不能正常创建临时输出目录'
   }
 }
+const defaultLanguage = 'en'
 
+/**
+ * 模块部分
+ */
 module.exports = function () {
   return {
     log: (...args) => {
@@ -51,21 +55,22 @@ module.exports = function () {
  */
 const runWithTmp = (options, feedback, done) => {
   const lang = options.lang
-  var args = []
-
+  const localsLng = locals[lang] || locals[defaultLanguage]
   const sourcePath = options.inputPath
   const outDirPath = options.outputDir
 
+  var args = []
+
   // 检查源文件是否存在
   if (!sysFS.existsSync(sourcePath)) {
-    return done(new Error(locals[lang].fileNoExist))
+    return done(new Error(localsLng.fileNoExist))
   }
 
   // TODO: 检查输出目录是否存在，不存在需要创建
   if (!sysFS.existsSync(outDirPath)) {
     nm_fse.mkdirpSync(outDirPath)
     if (!sysFS.existsSync(outDirPath)) {
-      return done(new Error(locals[lang].cannotCreateTempDir))
+      return done(new Error(localsLng.cannotCreateTempDir))
     }
   }
 
@@ -82,7 +87,7 @@ const runWithTmp = (options, feedback, done) => {
   const outBaseTmpDir = sysPath.join(nm_os_tmpDir(), baseDir)
   nm_fse.ensureDirSync(outBaseTmpDir)
   if (!sysFS.existsSync(outBaseTmpDir)) {
-    return done(new Error(locals[lang].fileNoExist))
+    return done(new Error(localsLng.fileNoExist))
   }
 
   nm_temp.dir({ mode: 777, prefix: baseDir + '/_' }, (err, folder) => {
@@ -140,6 +145,7 @@ const runWithTmp = (options, feedback, done) => {
  */
 const runWithNoTmp = (options, feedback, done) => {
   const lang = options.lang
+  const localsLng = locals[lang] || locals[defaultLanguage]
   var args = []
 
   const sourcePath = options.inputPath
@@ -147,14 +153,14 @@ const runWithNoTmp = (options, feedback, done) => {
 
   // 检查源文件是否存在
   if (!sysFS.existsSync(sourcePath)) {
-    return done(new Error(locals[lang].fileNoExist))
+    return done(new Error(localsLng.fileNoExist))
   }
 
   // TODO: 检查输出目录是否存在，不存在需要创建
   if (!sysFS.existsSync(outDirPath)) {
     nm_fse.mkdirpSync(outDirPath)
     if (!sysFS.existsSync(outDirPath)) {
-      return done(new Error(locals[lang].cannotCreateTempDir))
+      return done(new Error(localsLng.cannotCreateTempDir))
     }
   }
 

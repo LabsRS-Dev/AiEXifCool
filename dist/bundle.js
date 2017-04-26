@@ -17197,186 +17197,7 @@ var underscore = {
   _:_$1
 };
 
-var _$2 = underscore._;
-
-// Object functions
-// -------------------------------------------------------------------------
-var $bc_$1 = {};
-
-$bc_$1.pN = $bc_$1.pNative = null; // 调用底层接口
-$bc_$1.pIsUseElectron = false; // 是否使用了Electron引擎,默认是没有使用
-$bc_$1.pIsUseMacCocoEngine = false; // 是否使用了MacOSX本地引擎
-
-// 定义临时回调处理函数定义接口
-$bc_$1._ncb_idx = 0;
-$bc_$1._get_callback = function (func, noDelete) {
-  var that = this;
-  window._nativeCallback = window._nativeCallback || {};
-  var _nativeCallback = window._nativeCallback;
-  var r = 'ncb' + that._ncb_idx++;
-  _nativeCallback[r] = function () {
-    try {
-      if (!noDelete) {
-        delete _nativeCallback[r];
-      }
-    } catch (e) {
-      console.error(e);
-    }
-    func && func.apply(null, arguments);
-  };
-  return '_nativeCallback.' + r
-};
-
-$bc_$1.cb_execTaskUpdateInfo = null; // 执行任务的回调
-$bc_$1.pCorePlugin = { // 核心处理引导插件部分,尽量不要修改
-  useThread: true,
-  passBack: 'BS.b$.cb_execTaskUpdateInfo',
-  packageMode: 'bundle',
-  taskToolPath: '/Plugins/extendLoader.bundle',
-  bundleClassName: 'LibCommonInterface'
-};
-
-$bc_$1.pIAPPlugin = {
-  path: '/plugin.iap.bundle'
-};
-
-// 自动匹配检测
-var __auto = function (ref) {
-  if ((typeof window.maccocojs !== 'undefined') && (typeof window.maccocojs === 'object') && window.maccocojs.hasOwnProperty('app')) {
-    ref.pN = ref.pNative = window.maccocojs; // 原MacOSX本地引擎
-    ref.pIsUseMacCocoEngine = true;
-    ref.pIsUseElectron = false;
-  } else if ((typeof process === 'object') && ("function" === 'function') && (process.hasOwnProperty('pid'))) {
-    try {
-      console.log('============= must first load =================');
-      try {
-        window['eletron_require'] = window.require;
-        window['eletron_module'] = window.module;
-
-        // Electron引擎加载方式，兼容新的及老的版本。支持：最新1.1.3和0.34版本系列
-        try {
-          ref.pN = ref.pNative = window.eval('require("remote").require("./romanysoft/maccocojs")');
-        } catch (error) {
-          ref.pN = ref.pNative = window.eval('require("electron").remote.require("./romanysoft/maccocojs")');
-        }
-
-        // 重新处理require,module的关系
-        window.require = undefined;
-        window.module.exports = undefined;
-        window.module = undefined;
-      } catch (error) {
-        console.error(error);
-      }
-      ref.pIsUseElectron = true;
-      ref.pIsUseMacCocoEngine = false;
-      console.log('============= must first load [end]=================');
-    } catch (error) {
-      console.error(error);
-    }
-  }
-
-  return ref
-};
-
-// Auto install base native Engine
-$bc_$1 = __auto($bc_$1);
-
-// Define some common function for old app
-// 定位文件/目录
-$bc_$1.cb_revealInFinder = null; // 选择定位文件的回调
-$bc_$1.revealInFinder = function (path, cb) {
-  path = path || '';
-  path = path.trim();
-  if ($bc_$1.pN && path !== '') {
-    try {
-      $bc_$1.pN.window.revealInFinder(JSON.stringify({
-        callback: $bc_$1._get_callback(function (obj) {
-          cb && cb(obj);
-        }, false),
-        filePath: path
-      }));
-    } catch (e) {
-      console.error(e);
-    }
-  } else if (!$bc_$1.pN) {
-    alert('启动定位路径功能');
-  }
-};
-
-// 预览文件
-$bc_$1.previewFile = function (paramOptions, cb) {
-  if ($bc_$1.pN) {
-    try {
-      var params = paramOptions || {};
-      // 限制内部属性：
-      params['callback'] = paramOptions['callback'] || $bc_$1._get_callback(function (obj) {
-        cb && cb(obj);
-      }, true);
-      params['filePath'] = paramOptions['filePath'] || '';
-
-      // / 统一向后兼容处理
-      for (var key in paramOptions) {
-        if (paramOptions.hasOwnProperty(key)) {
-          params[key] = paramOptions[key];
-        }
-      }
-
-      $bc_$1.pN.window.preveiwFile(JSON.stringify(params));
-    } catch (e) {
-      console.error(e);
-    }
-  } else {
-    alert('启动内置预览文件功能');
-  }
-};
-
-// 检测是否支持本地存储
-$bc_$1.check_supportHtml5Storage = function () {
-  try {
-    return 'localStorage' in window && window['localStorage'] != null
-  } catch (e) {
-    return false
-  }
-};
-
-// 初始化默认的Manifest文件, callback 必须定义才有效
-$bc_$1.defaultManifest_key = 'js_defaultManifest_key';
-$bc_$1.defaultManifest = {};
-
-// 保存默认Manifest对象
-$bc_$1.saveDefaultManifest = function (newManifest) {
-  if (!$bc_$1.check_supportHtml5Storage()) { return false }
-  var obj = {
-    manifest: newManifest || $bc_$1.defaultManifest
-  };
-  var encoded = JSON.stringify(obj);
-  window.localStorage.setItem($bc_$1.defaultManifest_key, encoded);
-  return true
-};
-
-// 还原默认Manifest对象
-$bc_$1.revertDefaultManifest = function () {
-  if (!$bc_$1.check_supportHtml5Storage()) { return false }
-  var encoded = window.localStorage.getItem($bc_$1.defaultManifest_key);
-  if (encoded != null) {
-    var obj = JSON.parse(encoded);
-    $bc_$1.defaultManifest = obj.manifest;
-  }
-
-  return true
-};
-
-$bc_$1.getJQuery$ = function () {
-  var $ = window.jQuery || window.$ || undefined;
-  console.assert(_$2.isObject($), 'Must be loaded jQuery library first \n');
-  return $
-};
-
-//
-// -----------------------------------------------
-var common = $bc_$1;
-
-var _$4 = underscore._;
+var _ = underscore._;
 
 // -----------------------------------------------------------------
 // extend from kendo.core.js
@@ -17414,8 +17235,8 @@ function deepExtendOne (destination, source) {
       propInit !== Array && propInit !== RegExp) {
       if (propValue instanceof Date) {
         destination[property] = new Date(propValue.getTime());
-      } else if (_$4.isFunction(propValue.clone)) {
-        destination[property] = _$4.clone(propValue);
+      } else if (_.isFunction(propValue.clone)) {
+        destination[property] = _.clone(propValue);
       } else {
         destProp = destination[property];
         if (typeof (destProp) === 'object') {
@@ -17463,7 +17284,7 @@ SelfClass.extend = function (proto) {
     } else {
       fn[member] = proto[member];
 
-      if (_$4.isFunction(proto[member])) {
+      if (_.isFunction(proto[member])) {
         fn[member].bind(subclass);
       }
     }
@@ -17482,7 +17303,7 @@ SelfClass.prototype._initOptions = function (options) {
 var Observable = SelfClass.extend({
   init: function () {
     this._events = {};
-    this._name = _$4.uniqueId('SDK-Observable-');
+    this._name = _.uniqueId('SDK-Observable-');
   },
 
   getInternalName: function () {
@@ -17566,7 +17387,7 @@ var Observable = SelfClass.extend({
       length;
 
     if (events) {
-      if (_$4.isString(e)) {
+      if (_.isString(e)) {
         console.error('e must be {}, not string ');
       }
 
@@ -17617,6 +17438,216 @@ var Observable = SelfClass.extend({
 
 var _$3 = underscore._;
 
+// Object functions
+// -------------------------------------------------------------------------
+var $bc_$1 = {};
+
+$bc_$1.pN = $bc_$1.pNative = null; // 调用底层接口
+$bc_$1.pIsUseElectron = false; // 是否使用了Electron引擎,默认是没有使用
+$bc_$1.pIsUseMacCocoEngine = false; // 是否使用了MacOSX本地引擎
+
+// 定义临时回调处理函数定义接口
+
+$bc_$1._get_callback = function (func, noDelete) {
+  if ( noDelete === void 0 ) noDelete = true;
+
+  var _nativeCallback = {};
+  try {
+    window._nativeCallback = window._nativeCallback || {};
+    _nativeCallback = window._nativeCallback;
+  } catch (error) {
+    console.error(error);
+  }
+
+  var r = _$3.uniqueId('ncb' + _$3.now()) + _$3.uniqueId('n' + _$3.random(0, 99999));
+  var rFnc = r + '_fnc';
+
+  _nativeCallback[rFnc] = func;
+  _nativeCallback[r] = function () {
+    try {
+      if (!noDelete) {
+        delete _nativeCallback[r];
+        delete _nativeCallback[rFnc];
+      }
+    } catch (e) {
+      console.error(e);
+    }
+
+    if (_$3.isFunction(func)) {
+      func.apply(null, arguments);
+    }
+  };
+  return '_nativeCallback.' + r
+};
+
+$bc_$1.cb_execTaskUpdateInfo = null; // 执行任务的回调
+$bc_$1.pCorePlugin = { // 核心处理引导插件部分,尽量不要修改
+  useThread: true,
+  passBack: 'BS.b$.cb_execTaskUpdateInfo',
+  packageMode: 'bundle',
+  taskToolPath: '/Plugins/extendLoader.bundle',
+  bundleClassName: 'LibCommonInterface'
+};
+
+$bc_$1.pIAPPlugin = {
+  path: '/plugin.iap.bundle'
+};
+
+// 自动匹配检测
+var __auto = function (ref) {
+  try {
+    if ((typeof window.maccocojs !== 'undefined') && (typeof window.maccocojs === 'object') && window.maccocojs.hasOwnProperty('app')) {
+      ref.pN = ref.pNative = window.maccocojs; // 原MacOSX本地引擎
+      ref.pIsUseMacCocoEngine = true;
+      ref.pIsUseElectron = false;
+    } else if ((typeof process === 'object') && ("function" === 'function') && (process.hasOwnProperty('pid'))) {
+      try {
+        console.log('============= must first load =================');
+        try {
+          window['eletron_require'] = window.require;
+          window['eletron_module'] = window.module;
+
+          // Electron引擎加载方式，兼容新的及老的版本。支持：最新1.1.3和0.34版本系列
+          try {
+            ref.pN = ref.pNative = window.eval('require("remote").require("./romanysoft/maccocojs")');
+          } catch (error) {
+            ref.pN = ref.pNative = window.eval('require("electron").remote.require("./romanysoft/maccocojs")');
+          }
+
+          // 重新处理require,module的关系
+          window.require = undefined;
+          window.module.exports = undefined;
+          window.module = undefined;
+        } catch (error) {
+          console.error(error);
+        }
+        ref.pIsUseElectron = true;
+        ref.pIsUseMacCocoEngine = false;
+        console.log('============= must first load [end]=================');
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  } catch (error) {
+    console.error(error);
+  }
+
+  return ref
+};
+
+// Auto install base native Engine
+$bc_$1 = __auto($bc_$1);
+
+// Define some common function for old app
+// 定位文件/目录
+$bc_$1.cb_revealInFinder = null; // 选择定位文件的回调
+$bc_$1.revealInFinder = function (path, cb) {
+  path = path || '';
+  path = path.trim();
+  if ($bc_$1.pN && path !== '') {
+    try {
+      $bc_$1.pN.window.revealInFinder(JSON.stringify({
+        callback: $bc_$1._get_callback(function (obj) {
+          cb && cb(obj);
+        }, false),
+        filePath: path
+      }));
+    } catch (e) {
+      console.error(e);
+    }
+  } else if (!$bc_$1.pN) {
+    alert('启动定位路径功能');
+  }
+};
+
+// 预览文件
+$bc_$1.previewFile = function (paramOptions, cb) {
+  if ($bc_$1.pN) {
+    try {
+      var params = paramOptions || {};
+      // 限制内部属性：
+      params['callback'] = paramOptions['callback'] || $bc_$1._get_callback(function (obj) {
+        cb && cb(obj);
+      }, true);
+      params['filePath'] = paramOptions['filePath'] || '';
+
+      // / 统一向后兼容处理
+      for (var key in paramOptions) {
+        if (paramOptions.hasOwnProperty(key)) {
+          params[key] = paramOptions[key];
+        }
+      }
+
+      $bc_$1.pN.window.previewFile(JSON.stringify(params));
+    } catch (e) {
+      console.error(e);
+    }
+  } else {
+    alert('启动内置预览文件功能');
+  }
+};
+
+// 检测是否支持本地存储
+$bc_$1.check_supportHtml5Storage = function () {
+  try {
+    return 'localStorage' in window && window['localStorage'] != null
+  } catch (e) {
+    return false
+  }
+};
+
+// 初始化默认的Manifest文件, callback 必须定义才有效
+$bc_$1.defaultManifest_key = 'js_defaultManifest_key';
+$bc_$1.defaultManifest = {};
+
+// 保存默认Manifest对象
+$bc_$1.saveDefaultManifest = function (newManifest) {
+  if (!$bc_$1.check_supportHtml5Storage()) { return false }
+  var obj = {
+    manifest: newManifest || $bc_$1.defaultManifest
+  };
+  var encoded = JSON.stringify(obj);
+  try {
+    window.localStorage.setItem($bc_$1.defaultManifest_key, encoded);
+  } catch (error) {
+    console.error(error);
+  }
+
+  return true
+};
+
+// 还原默认Manifest对象
+$bc_$1.revertDefaultManifest = function () {
+  try {
+    if (!$bc_$1.check_supportHtml5Storage()) { return false }
+    var encoded = window.localStorage.getItem($bc_$1.defaultManifest_key);
+    if (encoded != null) {
+      var obj = JSON.parse(encoded);
+      $bc_$1.defaultManifest = obj.manifest;
+    }
+  } catch (error) {
+    console.error(error);
+  }
+
+  return true
+};
+
+$bc_$1.getJQuery$ = function () {
+  try {
+    var $ = window.jQuery || window.$ || undefined;
+    console.assert(_$3.isObject($), 'Must be loaded jQuery library first \n');
+    return $
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+//
+// -----------------------------------------------
+var common = $bc_$1;
+
+var _$4 = underscore._;
+
 var $bc_$2 = common;
 // IAP 非本地模拟
 $bc_$2.IAP_SE_KEY = 'RSSDK_SE_SANBOX_IAP';
@@ -17627,7 +17658,7 @@ $bc_$2.IAP_SE_Wrapper = {
   caller: function () { // 消息回调处理
     if (this._caller === 0) {
       var $ = common.getJQuery$();
-      this._caller = _$3.isUndefined($) ? (new Observable()) : $.Callbacks();
+      this._caller = _$4.isUndefined($) ? (new Observable()) : $.Callbacks();
     }
     return this._caller
   }
@@ -17640,7 +17671,7 @@ $bc_$2.IAP = {
   NoticeCenter: function () {
     if (this._pNoticeCenter === 0) {
       var $ = common.getJQuery$();
-      this._pNoticeCenter = _$3.isUndefined($) ? (new Observable()) : $.Callbacks();
+      this._pNoticeCenter = _$4.isUndefined($) ? (new Observable()) : $.Callbacks();
     }
     return this._pNoticeCenter
   }, // 参照Jquery.Callbacks消息回调处理。增加动态注册监控信息的回调处理。是一种扩展
@@ -17729,14 +17760,18 @@ $bc_$2.IAP = {
       }
     } else {
       console.log('Romanysoft SDK simulation environment....');
-      var obj = window.localStorage.getItem($bc_$2.IAP_SE_KEY);
-      if (!obj) {
-        window.localStorage.setItem($bc_$2.IAP_SE_KEY, JSON.stringify($bc_$2.IAP_SE_OBJ));
-      } else {
-        $bc_$2.IAP_SE_OBJ = JSON.parse(obj);
-      }
+      try {
+        var obj = window.localStorage.getItem($bc_$2.IAP_SE_KEY);
+        if (!obj) {
+          window.localStorage.setItem($bc_$2.IAP_SE_KEY, JSON.stringify($bc_$2.IAP_SE_OBJ));
+        } else {
+          $bc_$2.IAP_SE_OBJ = JSON.parse(obj);
+        }
 
-      return true // 非本地环境返回True，方便测试
+        return true // 非本地环境返回True，方便测试
+      } catch (error) {
+        console.error(error);
+      }
     }
     return false
   },
@@ -17749,7 +17784,7 @@ $bc_$2.IAP = {
       params['cb_IAP_js'] = paramOptions['cb_IAP_js'] || $bc_$2._get_callback(function (obj) {
         // ////////////////////////内部处理//////////////////////////////////
         try {
-          if (_$3.isObject(obj)) {
+          if (_$4.isObject(obj)) {
             var info = obj.info;
             var notifyType = obj.notifyType;
 
@@ -17761,7 +17796,7 @@ $bc_$2.IAP = {
               t$.data.productIsRequested = true;
               t$.data.productInfoList = info;
 
-              _$3.each(t$.data.productInfoList, function (product, index, list) {
+              _$4.each(t$.data.productInfoList, function (product, index, list) {
                 t$.data.productInfoMap[product.productIdentifier] = {
                   productIdentifier: product.productIdentifier, // 商品ID
                   description: product.description || '', // 商品描述
@@ -17780,7 +17815,7 @@ $bc_$2.IAP = {
         } catch (e) {}
 
         // /////////////////////////外部处理/////////////////////////////////
-        if (_$3.isFunction($bc_$2.cb_handleIAPCallback)) {
+        if (_$4.isFunction($bc_$2.cb_handleIAPCallback)) {
           $bc_$2.cb_handleIAPCallback && $bc_$2.cb_handleIAPCallback(obj);
         } else {
           cb && cb(obj);
@@ -17790,23 +17825,23 @@ $bc_$2.IAP = {
       }, true);
 
       // / 数据校验
-      console.assert(_$3.isString(params['cb_IAP_js']) === true, 'must be function string');
+      console.assert(_$4.isString(params['cb_IAP_js']) === true, 'must be function string');
 
       // /Ian(原先的方式)
-      if (_$3.isArray(paramOptions['productIds'])) {
+      if (_$4.isArray(paramOptions['productIds'])) {
         params['productIds'] = paramOptions['productIds'] || [];
       }
 
       // /Ian 2016.12.06 现在的方式. 支持更高级的商品属性定义传入
       params['products'] = [];
-      if (_$3.isArray(paramOptions['products'])) { // [{productIdentifier, description, buyUrl, price}]
+      if (_$4.isArray(paramOptions['products'])) { // [{productIdentifier, description, buyUrl, price}]
         try {
           var productIds = [];
-          _$3.each(paramOptions['products'], function (product, index, list) {
+          _$4.each(paramOptions['products'], function (product, index, list) {
             productIds.push(product.productIdentifier);
           });
 
-          if (_$3.isUndefined(params['productIds'] || _$3.isNull(params['productIds']))) {
+          if (_$4.isUndefined(params['productIds'] || _$4.isNull(params['productIds']))) {
             params['productIds'] = productIds;
           }
 
@@ -17849,10 +17884,10 @@ $bc_$2.IAP = {
 
         // /注册模拟IAP回调
         $bc_$2.IAP_SE_Wrapper.caller().add(function (obj) {
-          console.assert(_$3.isString(params.cb_IAP_js) === true, 'must be function string');
+          console.assert(_$4.isString(params.cb_IAP_js) === true, 'must be function string');
 
           var fnc = window.eval(params.cb_IAP_js);
-          if (_$3.isFunction(fnc)) {
+          if (_$4.isFunction(fnc)) {
             fnc && fnc(obj);
           }
         });
@@ -17861,7 +17896,7 @@ $bc_$2.IAP = {
         $bc_$2.IAP_SE_Wrapper.productIdentifiers = params.productIds || [];
 
         var productsInfo = [];
-        _$3.each(params.productIds, function (id, index, list) {
+        _$4.each(params.productIds, function (id, index, list) {
           var productObj = {
             productIdentifier: id,
             description: 'Plugin Description and price demo for ' + id,
@@ -17899,7 +17934,7 @@ $bc_$2.IAP = {
   _check: function (productIdentifier) { // 验证数据
     var t$ = this;
 
-    var checkFalse = _$3.isUndefined(productIdentifier) || _$3.isNull(productIdentifier);
+    var checkFalse = _$4.isUndefined(productIdentifier) || _$4.isNull(productIdentifier);
     // 检测必须的参数
     console.assert(checkFalse === false, 'productIdentifier 必须赋值');
     // 产品必须已经注册过
@@ -17926,7 +17961,7 @@ $bc_$2.IAP = {
     var _cb = function (obj) {
       try {
         $bc_$2.IAP.NoticeCenter().remove(_cb);
-        if (_$3.isObject(obj)) {
+        if (_$4.isObject(obj)) {
           var info = obj.info;
           var notifyType = obj.notifyType;
 
@@ -17957,7 +17992,7 @@ $bc_$2.IAP = {
       var purchasedItemList = []; // 声明原先已经购买的商品列表
 
       // /检测所有已经注册的ID
-      _$3.each($bc_$2.IAP_SE_Wrapper.productIdentifiers, function (productID, index, list) {
+      _$4.each($bc_$2.IAP_SE_Wrapper.productIdentifiers, function (productID, index, list) {
         if ($bc_$2.IAP_SE_OBJ.hasOwnProperty(productID)) {
           var quantity = $bc_$2.IAP_SE_OBJ[productID];
           if (quantity > 0) {
@@ -17993,7 +18028,7 @@ $bc_$2.IAP = {
     var _cb = function (obj) {
       try {
         $bc_$2.IAP.NoticeCenter().remove(_cb);
-        if (_$3.isObject(obj)) {
+        if (_$4.isObject(obj)) {
           var info = obj.info;
           var notifyType = obj.notifyType;
 
@@ -20467,6 +20502,7 @@ $bc_$7.SystemMenus = {
       var params = {};
       // 限制内部属性：
       params['callback'] = paramOptions['callback'] || $bc_$7._get_callback(function (obj) {
+        console.log('call callback.cb ...');
         cb && cb(obj);
       }, true);
       params['menuTag'] = paramOptions['menuTag'] || 999;
@@ -20474,6 +20510,7 @@ $bc_$7.SystemMenus = {
       params['isSeparatorItem'] = paramOptions['isSeparatorItem'] || false; // 是否为分割线，用来创建新的Item
       params['title'] = paramOptions['title'] || '##**'; // "MenuTitle";
       params['action'] = paramOptions['action'] || $bc_$7._get_callback(function (obj) {
+        console.log('call actionCB ...');
         actionCB && actionCB(obj);
       }, true);
 
@@ -20974,6 +21011,9 @@ var TypeNativeMessageType = {
 
 };
 
+/**
+ * 调用Task的方法
+ */
 var TaskMethodWay = {
   InitCore: 'initCore',
   Task: 'task',
@@ -21588,15 +21628,18 @@ var Tool = {
           args.length ? (args[0] = callback) : (args = [callback]);
           return next.apply(null, args)
         }
+        return _done.apply(null, arguments)
       }
     };
 
     var r = {
       next: function (fn) {
         _next.push(fn);
+        return r
       },
       done: function (fn) {
         _done = fn;
+        r.start();
       },
       start: function () {
         callback(null, callback);
@@ -21714,9 +21757,24 @@ var Tool = {
 
     return fmt
   },
-  // 比较两个版本号
+
+  /**
+   * 比较两个版本号
+   * @param version1 {String} || {Number} 版本号1
+   * @param version2 {String} || {Number} 版本号2
+   * @return {Number} 1, 大于；0 等于；-1 小于
+   */
   compareVersion: function (version1, version2) {
     try {
+      if (_$12.isNumber(version1) && _$12.isNumber(version2)) {
+        if (version1 > version2) { return 1 }
+        if (version1 === version2) { return 0 }
+        if (version1 < version2) { return -1 }
+      } else if (_$12.isNumber(version1) || _$12.isNumber(version2)) {
+        version1 += '';
+        version2 += '';
+      }
+
       var version1Array = version1.split('.');
       var version2Array = version2.split('.');
 
@@ -21731,26 +21789,25 @@ var Tool = {
         ver2IntList.push(parseInt(value));
       });
 
-      var i = 0;
       // format
       if (ver1IntList.length < ver2IntList.length) {
-        i = 0;
+        var i = 0;
         for (; i < (ver2IntList.length - ver1IntList.length); ++i) {
           ver1IntList.push(0);
         }
       }
 
       if (ver1IntList.length > ver2IntList.length) {
-        i = 0;
-        for (; i < (ver1IntList.length - ver2IntList.length); ++i) {
+        var i$1 = 0;
+        for (; i$1 < (ver1IntList.length - ver2IntList.length); ++i$1) {
           ver2IntList.push(0);
         }
       }
 
-      i = 0;
-      for (; i < ver1IntList.length; ++i) {
-        var cVer1 = ver1IntList[i];
-        var cVer2 = ver2IntList[i];
+      var i$2 = 0;
+      for (; i$2 < ver1IntList.length; ++i$2) {
+        var cVer1 = ver1IntList[i$2];
+        var cVer2 = ver2IntList[i$2];
 
         if (cVer1 > cVer2) { return 1 }
         if (cVer1 < cVer2) { return -1 }
@@ -22637,7 +22694,6 @@ _$9.each(TypeMsg, function (eventType, key, list) {
 
 var AgentClient = SelfClass.extend(__$p$);
 
-var this$1$1 = undefined;
 var _$16 = underscore._;
 
 var $bc_$16 = task;
@@ -22688,7 +22744,7 @@ var __$p$$6 = {
   },
 
   __startNodeWebServer: function (cg) {
-    var that = this$1$1;
+    var that = this;
     that.log(logCord$5, 'start node web server');
 
     var taskID = __key$5 + _$16.now();
@@ -23142,7 +23198,6 @@ var __$p$$5 = {
 
 var ProxyServer = SelfClass.extend(__$p$$5);
 
-var this$1 = undefined;
 var _$14 = underscore._;
 
 // -----------------------------------------------------------------------
@@ -23159,7 +23214,7 @@ var __$p$$4 = {
   name: __key$3,
   mc: new ProxyMessageCenter(),
   getMsgHelper: function () {
-    var that = this$1;
+    var that = this;
     return that.mc
   },
   getInternalMessageType: function () {
@@ -23203,27 +23258,27 @@ _$14.each(TypeMsg$3, function (eventType, key, list) {
 
 var AgentServer = SelfClass.extend(__$p$$4);
 
-var _ = underscore._;
+var _$2 = underscore._;
 
 // ---------------------------
 // Interface outside
 var $bc_ = {};
-$bc_ = _.extend($bc_, common);
-$bc_ = _.extend($bc_, iap);
-$bc_ = _.extend($bc_, notice);
-$bc_ = _.extend($bc_, app);
-$bc_ = _.extend($bc_, xpc);
-$bc_ = _.extend($bc_, window$1);
-$bc_ = _.extend($bc_, menu);
-$bc_ = _.extend($bc_, clipboard);
-$bc_ = _.extend($bc_, dock);
-$bc_ = _.extend($bc_, binary);
-$bc_ = _.extend($bc_, plugin);
-$bc_ = _.extend($bc_, dragdrop);
-$bc_ = _.extend($bc_, task);
-$bc_ = _.extend($bc_, filedialog);
-$bc_ = _.extend($bc_, { AgentClient: AgentClient });
-$bc_ = _.extend($bc_, { AgentServer: AgentServer });
+$bc_ = _$2.extend($bc_, common);
+$bc_ = _$2.extend($bc_, iap);
+$bc_ = _$2.extend($bc_, notice);
+$bc_ = _$2.extend($bc_, app);
+$bc_ = _$2.extend($bc_, xpc);
+$bc_ = _$2.extend($bc_, window$1);
+$bc_ = _$2.extend($bc_, menu);
+$bc_ = _$2.extend($bc_, clipboard);
+$bc_ = _$2.extend($bc_, dock);
+$bc_ = _$2.extend($bc_, binary);
+$bc_ = _$2.extend($bc_, plugin);
+$bc_ = _$2.extend($bc_, dragdrop);
+$bc_ = _$2.extend($bc_, task);
+$bc_ = _$2.extend($bc_, filedialog);
+$bc_ = _$2.extend($bc_, { AgentClient: AgentClient });
+$bc_ = _$2.extend($bc_, { AgentServer: AgentServer });
 
 var BS = {
   version: '1.0.0',
@@ -23249,6 +23304,14 @@ uu$.RTYUtils = {
   isUndefinedOrNull: Tool.isUndefinedOrNull,
   isUndefinedOrNullOrFalse: Tool.isUndefinedOrNullOrFalse,
   isObject: Tool.isObject,
+  isError: Tool.isError,
+  isNaN: Tool.isNaN,
+  isFinite: Tool.isFinite,
+  isArguments: Tool.isArguments,
+  isElement: Tool.isElement,
+  isEmpty: Tool.isEmpty,
+  isMatch: Tool.isMatch,
+  isEqual: Tool.isEqual,
   isPromise: Tool.isPromise,
   isArray: Tool.isArray,
   isBoolean: Tool.isBoolean,
@@ -23303,10 +23366,26 @@ uu$.getBSb$ = function () {
   return BS.b$
 };
 
+/**
+ * 获取Jquery的接口
+ */
 uu$.getJQuery$ = function () {
   var $ = window.jQuery || window.$ || undefined;
   console.assert(_$19.isObject($), 'Must be loaded jQuery library first \n');
   return $
+};
+
+/**
+ * 获取SnapSVG的接口
+ * @see https://www.npmjs.com/package/snapsvg
+ * @see http://snapsvg.io
+ */
+uu$.getSnapSVG$ = function () {
+  if (window) {
+    var ref = window.Snap || undefined;
+    return ref
+  }
+  return undefined
 };
 
 uu$.RSTestUnit = {};
@@ -23317,17 +23396,22 @@ uu$.RSTestUnit = {};
 
 function autoForJquery (ref) {
   var t$ = ref;
-  if (window.jQuery && window.$) {
-    window.$['objClone'] = t$.objClone;
-    window.$['getMyDateStr'] = t$.getMyDateStr;
-    window.$['getFormatDateStr'] = t$.getFormatDateStr;
-    window.$['obj2string'] = t$.obj2string;
-    window.$['stringFormat'] = t$.stringFormat;
-    window.$['compareVersion'] = t$.compareVersion;
-    window.$['testObjectType'] = t$.testObjectType;
-    window.$['RSTestUnit'] = t$.RSTestUnit;
 
-    window.$ = window.$.extend(window.$, t$);
+  try {
+    if (window.jQuery && window.$) {
+      window.$['objClone'] = t$.objClone;
+      window.$['getMyDateStr'] = t$.getMyDateStr;
+      window.$['getFormatDateStr'] = t$.getFormatDateStr;
+      window.$['obj2string'] = t$.obj2string;
+      window.$['stringFormat'] = t$.stringFormat;
+      window.$['compareVersion'] = t$.compareVersion;
+      window.$['testObjectType'] = t$.testObjectType;
+      window.$['RSTestUnit'] = t$.RSTestUnit;
+
+      window.$ = window.$.extend(window.$, t$);
+    }
+  } catch (error) {
+    // console.warn(error)
   }
 }
 
@@ -23394,6 +23478,7 @@ autoForJquery$2(uu$$2);
 /**
  * 依赖Jquery的信息交互
  */
+
 var _$20 = underscore._;
 
 var uu$$1 = {};
@@ -23599,18 +23684,23 @@ uu$$1.feedbackInfoEx = function (subject, want2Email, info, cb) {
 
 function autoForJquery$1 (ref) {
   var t$ = ref;
-  if (window.jQuery && window.$) {
-    window.$['tmpl'] = t$.tmpl;
-    window.$['flush_cache'] = t$['flush_cache'];
-    window.$['setp'] = t$.setp;
-    window.$['getp'] = t$.getp;
 
-    window.$['reportInfo'] = t$.reportInfo;
-    window.$['reportErrorInfo'] = t$.reportErrorInfo;
-    window.$['feedbackInfo'] = t$.feedbackInfo;
-    window.$['feedbackInfoEx'] = t$.feedbackInfoEx;
+  try {
+    if (window.jQuery && window.$) {
+      window.$['tmpl'] = t$.tmpl;
+      window.$['flush_cache'] = t$['flush_cache'];
+      window.$['setp'] = t$.setp;
+      window.$['getp'] = t$.getp;
 
-    window.$ = window.$.extend(window.$, t$);
+      window.$['reportInfo'] = t$.reportInfo;
+      window.$['reportErrorInfo'] = t$.reportErrorInfo;
+      window.$['feedbackInfo'] = t$.feedbackInfo;
+      window.$['feedbackInfoEx'] = t$.feedbackInfoEx;
+
+      window.$ = window.$.extend(window.$, t$);
+    }
+  } catch (error) {
+    // console.warn(error)
   }
 }
 
@@ -24274,92 +24364,118 @@ if (typeof RTYCompatibilityWrapper === 'undefined') {
 
 }).call(window);
 
+/// Polyfill
+(function checkArrayPolyFill(){
+  if (!Array.from) {
+      Array.from = (function () {
+          var toStr = Object.prototype.toString;
+          var isCallable = function (fn) {
+              return typeof fn === 'function' || toStr.call(fn) === '[object Function]';
+          };
+          var toInteger = function (value) {
+              var number = Number(value);
+              if (isNaN(number)) {
+                  return 0;
+              }
+              if (number === 0 || !isFinite(number)) {
+                  return number;
+              }
+              return (number > 0 ? 1 : -1) * Math.floor(Math.abs(number));
+          };
+          var maxSafeInteger = Math.pow(2, 53) - 1;
+          var toLength = function (value) {
+              var len = toInteger(value);
+              return Math.min(Math.max(len, 0), maxSafeInteger);
+          };
 
-if (!Array.from) {
-    Array.from = (function () {
-        var toStr = Object.prototype.toString;
-        var isCallable = function (fn) {
-            return typeof fn === 'function' || toStr.call(fn) === '[object Function]';
-        };
-        var toInteger = function (value) {
-            var number = Number(value);
-            if (isNaN(number)) {
-                return 0;
-            }
-            if (number === 0 || !isFinite(number)) {
-                return number;
-            }
-            return (number > 0 ? 1 : -1) * Math.floor(Math.abs(number));
-        };
-        var maxSafeInteger = Math.pow(2, 53) - 1;
-        var toLength = function (value) {
-            var len = toInteger(value);
-            return Math.min(Math.max(len, 0), maxSafeInteger);
-        };
+          // The length property of the from method is 1.
+          return function from(arrayLike /*, mapFn, thisArg */) {
+              // 1. Let C be the this value.
+              var C = this;
 
-        // The length property of the from method is 1.
-        return function from(arrayLike /*, mapFn, thisArg */) {
-            // 1. Let C be the this value.
-            var C = this;
+              // 2. Let items be ToObject(arrayLike).
+              var items = Object(arrayLike);
 
-            // 2. Let items be ToObject(arrayLike).
-            var items = Object(arrayLike);
+              // 3. ReturnIfAbrupt(items).
+              if (arrayLike == null) {
+                  throw new TypeError(
+                      "Array.from requires an array-like object - not null or undefined"
+                  );
+              }
 
-            // 3. ReturnIfAbrupt(items).
-            if (arrayLike == null) {
-                throw new TypeError(
-                    "Array.from requires an array-like object - not null or undefined"
-                );
-            }
+              // 4. If mapfn is undefined, then let mapping be false.
+              var mapFn = arguments.length > 1 ? arguments[1] : void undefined;
+              var T;
+              if (typeof mapFn !== 'undefined') {
+                  // 5. else
+                  // 5. a If IsCallable(mapfn) is false, throw a TypeError exception.
+                  if (!isCallable(mapFn)) {
+                      throw new TypeError(
+                          'Array.from: when provided, the second argument must be a function'
+                      );
+                  }
 
-            // 4. If mapfn is undefined, then let mapping be false.
-            var mapFn = arguments.length > 1 ? arguments[1] : void undefined;
-            var T;
-            if (typeof mapFn !== 'undefined') {
-                // 5. else
-                // 5. a If IsCallable(mapfn) is false, throw a TypeError exception.
-                if (!isCallable(mapFn)) {
-                    throw new TypeError(
-                        'Array.from: when provided, the second argument must be a function'
-                    );
-                }
+                  // 5. b. If thisArg was supplied, let T be thisArg; else let T be undefined.
+                  if (arguments.length > 2) {
+                      T = arguments[2];
+                  }
+              }
 
-                // 5. b. If thisArg was supplied, let T be thisArg; else let T be undefined.
-                if (arguments.length > 2) {
-                    T = arguments[2];
-                }
-            }
+              // 10. Let lenValue be Get(items, "length").
+              // 11. Let len be ToLength(lenValue).
+              var len = toLength(items.length);
 
-            // 10. Let lenValue be Get(items, "length").
-            // 11. Let len be ToLength(lenValue).
-            var len = toLength(items.length);
+              // 13. If IsConstructor(C) is true, then
+              // 13. a. Let A be the result of calling the [[Construct]] internal method of C with an argument list containing the single item len.
+              // 14. a. Else, Let A be ArrayCreate(len).
+              var A = isCallable(C) ? Object(new C(len)) : new Array(len);
 
-            // 13. If IsConstructor(C) is true, then
-            // 13. a. Let A be the result of calling the [[Construct]] internal method of C with an argument list containing the single item len.
-            // 14. a. Else, Let A be ArrayCreate(len).
-            var A = isCallable(C) ? Object(new C(len)) : new Array(len);
+              // 16. Let k be 0.
+              var k = 0;
+              // 17. Repeat, while k < len… (also steps a - h)
+              var kValue;
+              while (k < len) {
+                  kValue = items[k];
+                  if (mapFn) {
+                      A[k] = typeof T === 'undefined' ? mapFn(kValue, k) : mapFn.call(T,
+                          kValue, k);
+                  } else {
+                      A[k] = kValue;
+                  }
+                  k += 1;
+              }
+              // 18. Let putStatus be Put(A, "length", len, true).
+              A.length = len;
+              // 20. Return A.
+              return A;
+          };
+      }());
+  }
 
-            // 16. Let k be 0.
-            var k = 0;
-            // 17. Repeat, while k < len… (also steps a - h)
-            var kValue;
-            while (k < len) {
-                kValue = items[k];
-                if (mapFn) {
-                    A[k] = typeof T === 'undefined' ? mapFn(kValue, k) : mapFn.call(T,
-                        kValue, k);
-                } else {
-                    A[k] = kValue;
-                }
-                k += 1;
-            }
-            // 18. Let putStatus be Put(A, "length", len, true).
-            A.length = len;
-            // 20. Return A.
-            return A;
-        };
-    }());
-}
+  if (!Array.prototype.findIndex) {
+    Array.prototype.findIndex = function(predicate) {
+      if (this === null) {
+        throw new TypeError('Array.prototype.findIndex called on null or undefined');
+      }
+      if (typeof predicate !== 'function') {
+        throw new TypeError('predicate must be a function');
+      }
+      var list = Object(this);
+      var length = list.length >>> 0;
+      var thisArg = arguments[1];
+      var value;
+
+      for (var i = 0; i < length; i++) {
+        value = list[i];
+        if (predicate.call(thisArg, value, i, list)) {
+          return i;
+        }
+      }
+      return -1;
+    };
+  }
+})();
+
 
 var compatibilityWrapper = {};
 
@@ -24562,7 +24678,7 @@ var uu$$3 = {
       englishName: 'English',
       localName: 'English',
       zhName: '英语',
-      compatible: ['en', 'en-US', 'en__us'],
+      compatible: ['en', 'en-US', 'en_us'],
       compatibleForKendoUI: {
         culture: 'en-US',
         message: 'en-US'
@@ -25300,11 +25416,15 @@ var uu$$3 = {
 /**
  * 检测全局变量JQuery是否存在, 兼容以前代码
  */
-
 function autoForJquery$3 (ref) {
   var t$ = ref;
-  if (window.jQuery && window.$) {
-    window.$ = window.$.extend(window.$, t$);
+  try {
+    if (window.jQuery && window.$) {
+      window.$.RTYUtils = window.$.extend(window.$.RTYUtils, uu$$3);
+      window.$ = window.$.extend(window.$, t$);
+    }
+  } catch (error) {
+    console.warn(error);
   }
 }
 
@@ -25553,21 +25673,26 @@ uu$$6.RTYWebHelper = {
 
     /** 各版本对照关系
      * 可以通过 http://www.51.la/report/3_Client.asp?t=soft&id=2812271 获取现在机器的配置
+     * AppleWebKit 602.4.6,Safari 10.0
+     * AppleWebKit 602.3.12,Safari 10.0
+     * AppleWebKit 602.1.50,Safari 10.0
      * AppleWebKit/601.6.17    MacOSX 10.11.5
      * AppleWebKit 601.5.17
-     * AppleWebKit 601.1.46
+     * AppleWebKit 601.1.46,Safari 9.0
      * AppleWebKit/600.8.9     MacSOX 10.10.5
-     * AppleWebKit 600.1.4
+     * AppleWebKit 600.1.4,Safari 8.0
 
       * AppleWebKit/537.75.14   MacSOX 10.9.3
-      * AppleWebKit/534.57      ====================windows机器上测试环境
+      * AppleWebKit/537.71      MacOSX 10.9
+      * AppleWebKit 537.36,Safari 4.0
+      * AppleWebKit/534.57      ==================== Windows机器上测试环境, Safari Windows最高版本
       * AppleWebKit/534.55      MacSOX 10.7.3
       * AppleWebKit/534.46
       * AppleWebKit 534.34
       * AppleWebKit/537.13      MacSOX 10.6.8
-      * AppleWebKit 534.30
+      * AppleWebKit 534.30,Safari 4.0
       * AppleWebKit/534.15      MacSOX 10.6.5
-      * AppleWebKit/533.1
+      * AppleWebKit 533.1,Safari 4.0
       */
     return isSafari && ua.indexOf('webkit/' + version) !== -1 // Mac 10.10.5
   },
@@ -25643,7 +25768,7 @@ uu$$5.templateLoader = (function ($, host) {
       }
 
       // Use jQuery Ajax to fetch the template file
-      var tmplLoader = $.get(path)
+      var _templateLoader = $.get(path)
         .success(function (result) {
           if ($.inArray(path, t$.cache) === -1) {
             t$.cache.push(path);
@@ -25655,7 +25780,7 @@ uu$$5.templateLoader = (function ($, host) {
           alert('Error Loading Templates -- TODO: Better Error Handling');
         });
 
-      tmplLoader.complete(function () {
+      _templateLoader.complete(function () {
         // Publish an event that indicates when a template is done loading
         $(host).trigger('TEMPLATE_LOADED', [path]);
         next && next();
@@ -26347,6 +26472,7 @@ try {
 }
 
 var util = {};
+util = _$18.extend(util, compatibilityWrapper);
 util = _$18.extend(util, common$1);
 util = _$18.extend(util, config);
 util = _$18.extend(util, webHelper);
@@ -26354,7 +26480,6 @@ util = _$18.extend(util, communication);
 util = _$18.extend(util, googleLangIDMaps);
 util = _$18.extend(util, loadLanguage);
 util = _$18.extend(util, loaderWrapper);
-util = _$18.extend(util, compatibilityWrapper);
 util = _$18.extend(util, update);
 
 var util$1 = {
@@ -26362,15 +26487,21 @@ var util$1 = {
   util: util
 };
 
-window.BS = BS;
-window.Romanysoft = {
-  _: underscore._,
-  Util: util$1,
-  Observable: Observable,
-  SelfClass: SelfClass,
-  BS: BS
-};
-window.DoveMax = window.Romanysoft;
+try {
+  if (window) {
+    window.BS = BS;
+    window.Romanysoft = {
+      _: underscore._,
+      Util: util$1,
+      Observable: Observable,
+      SelfClass: SelfClass,
+      BS: BS
+    };
+    window.DoveMax = window.Romanysoft;
+  }
+} catch (error) {
+  console.warn(error);
+}
 
 var index = {
   _: underscore._,
@@ -26557,7 +26688,7 @@ var __$p$ = {
     var wsSocketIO = new agent.Chancel();
     wsSocketIO.build({
       type: agent.ChancelType.websocketForNode,
-      ip: '192.168.1.2',
+      ip: '127.0.0.1',
       port: '8888',
       protocol: 'http://',
       reqUrl: '',
@@ -26692,6 +26823,36 @@ __$p$.Tools = {
       };
 
       __$p$.send(info);
+    }
+  },
+  ModifyExifInfo: {
+    getExifInfo: function getExifInfo() {
+      var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+      var handler = arguments[1];
+      var one = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
+
+      var debugMode = false;
+      if (debugMode === false) {
+        var taskInfo = {
+          task_id: options.taskID,
+          cli: 'aiexifcool/edit.image/index',
+          reload: false,
+          command: [{ action: 'getExifInfoAction', data: options.data, lang: options.lang || 'en' }]
+        };
+
+        var info = {
+          taskInfo: taskInfo,
+          msg_type: 'c_task_exec'
+        };
+
+        __$p$.send(info, function (data) {
+          if (data.task_id === options.taskID) {
+            handler && handler(data);
+          }
+        }, one);
+      } else {
+        handler && handler();
+      }
     }
   }
 
