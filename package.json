@@ -80,6 +80,7 @@
     "fuzzysearch": "^1.0.3",
     "html-entities": "^1.2.1",
     "lodash.debounce": "^4.0.8",
+    "node-sass": "^4.5.2",
     "prismjs": "^1.6.0",
     "rimraf": "^2.6.1",
     "sass-loader": "^4.1.1",
