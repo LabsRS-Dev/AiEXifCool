@@ -8,6 +8,8 @@
 import 'keen-ui-css'
 
 // /JS
+import './test/bridge/test_transfer.js'
+
 const obj = {}
 export default {
   obj

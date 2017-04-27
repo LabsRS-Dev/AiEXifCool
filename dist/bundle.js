@@ -26685,6 +26685,8 @@ var __$p$ = {
   startFrontAgent: function startFrontAgent() {
     var that = this;
     var agent = that.frontAgent;
+    agent.debug = false;
+
     var wsSocketIO = new agent.Chancel();
     wsSocketIO.build({
       type: agent.ChancelType.websocketForNode,
@@ -26692,8 +26694,8 @@ var __$p$ = {
       port: '8888',
       protocol: 'http://',
       reqUrl: '',
-      clientIOType: 'Socket.io.client'
-    });
+      clientIOType: 'Socket.io.client',
+      debug: false });
     agent.registerOnFinishBuildChannel(function () {
       console.log('frontAgent is finish build');
       that.isRunning = true;
@@ -30254,6 +30256,39 @@ exports.default = {
                 dialog.open();
             }
         },
+        startGetExifInfomation: function startGetExifInfomation() {
+            var that = this;
+
+            var srcImagesMap = {};
+            _doveMax._.each(that.taskList, function (taskObj, index) {
+                srcImagesMap[taskObj.id] = taskObj.path;
+            });
+
+            that.curFixTaskID = _doveMax._.uniqueId(taskPrefix + 'task-');
+            _transfer.Transfer.Tools.ModifyExifInfo.getExifInfo({
+                taskID: that.curFixTaskID,
+                data: {
+                    src: srcImagesMap
+                },
+                lang: Vue.config.lang
+            }, function (data) {
+                if (data.msg_type === 's_task_exec_running') {
+                    that.isModifyWorking = true;
+                } else if (data.msg_type === 's_task_exec_feedback') {
+                    var dataList = data.content;
+                    that.isModifyWorking = dataList.length > 0;
+                    _doveMax._.each(dataList, function (ele) {
+                        var curImageTaskObj = that.taskID2taskObj[ele.id];
+                        if (curImageTaskObj) {
+                            curImageTaskObj.isworking = ele.progress >= 100 ? false : true;
+                            curImageTaskObj.progress = ele.progress >= 100 ? 100 : ele.progress;
+                            curImageTaskObj.stateInfo.state = ele.state;
+                            curImageTaskObj.stateInfo.message = ele.message || '';
+                        }
+                    });
+                } else if (data.msg_type === 's_task_exec_result') {}
+            });
+        },
         startDo: function startDo(outDir) {
             var that = this;
 
@@ -31528,6 +31563,8 @@ Object.defineProperty(exports, "__esModule", {
 });
 
 __webpack_require__(113);
+
+__webpack_require__(152);
 
 var obj = {};
 exports.default = {
@@ -44180,6 +44217,58 @@ module.exports = function(module) {
 
 module.exports = __webpack_require__(58);
 
+
+/***/ }),
+/* 143 */,
+/* 144 */,
+/* 145 */,
+/* 146 */,
+/* 147 */,
+/* 148 */,
+/* 149 */,
+/* 150 */,
+/* 151 */,
+/* 152 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _doveMax = __webpack_require__(10);
+
+var _transfer = __webpack_require__(18);
+
+window.$TS = {
+  getExifInfo: function getExifInfo() {
+    var taskList = [{ id: '001', fileName: 'RAW_NIKON_D7100.NEF', filePath: 'D:\\TestResource\\exif_sample_images\\Nikon\\corrupted\\RAW_NIKON_D7100.NEF', fileSize: '27.5MB' }, { id: '002', fileName: 'YDSC_0021.NEF', filePath: 'D:\\TestResource\\exif_sample_images\\Nikon\\corrupted\\YDSC_0021.NEF', fileSize: '10.7MB' }];
+
+    var srcImagesMap = {};
+    _doveMax._.each(taskList, function (taskObj, index) {
+      srcImagesMap[taskObj.id] = taskObj.filePath;
+    });
+
+    var curFixTaskID = _doveMax._.uniqueId('test-get-exif-task-');
+    _transfer.Transfer.Tools.ModifyExifInfo.getExifInfo({
+      taskID: curFixTaskID,
+      data: {
+        src: srcImagesMap
+      },
+      lang: 'en'
+    }, function (data) {
+      if (data.msg_type === 's_task_exec_running') {
+        console.log('test_transfer.js running');
+      } else if (data.msg_type === 's_task_exec_feedback') {
+        var dataList = data.content;
+        console.log('test_transfer.js s_task_exec_feedback');
+        console.dir(dataList);
+      } else if (data.msg_type === 's_task_exec_result') {
+        var _dataList = data.content;
+        console.log('test_transfer.js s_task_exec_result');
+        console.dir(_dataList);
+      }
+    });
+  }
+};
 
 /***/ })
 /******/ ]);

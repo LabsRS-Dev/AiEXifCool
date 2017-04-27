@@ -18,6 +18,8 @@ const __$p$ = {
   startFrontAgent: function () {
     var that = this
     const agent = that.frontAgent
+    agent.debug = false
+
     const wsSocketIO = new agent.Chancel()
     wsSocketIO.build({
       type: agent.ChancelType.websocketForNode,
@@ -25,7 +27,8 @@ const __$p$ = {
       port: '8888',
       protocol: 'http://',
       reqUrl: '',
-      clientIOType: 'Socket.io.client'
+      clientIOType: 'Socket.io.client',
+      debug: false // 是否开启日志功能
     })
     agent.registerOnFinishBuildChannel(function () {
       console.log('frontAgent is finish build')

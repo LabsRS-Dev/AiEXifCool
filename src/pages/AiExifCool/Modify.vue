@@ -438,7 +438,7 @@ export default {
                 return
 
                 // Test[2]: 测试很多的情况下的列表展示
-                for(let i =0; i < 50; ++i){
+                for (let i =0; i < 50; ++i){
                     let taskObj = new Task("images/picture.svg", "Images" + i, "/url/image" + i, i + '.2MB')
                     that.taskList.push(taskObj)
                     that.taskID2taskObj[taskObj.id] = taskObj
@@ -541,6 +541,44 @@ export default {
                 }
                 dialog.open()
             }            
+        },
+
+        /// 获得图片EXIF信息
+        startGetExifInfomation(){
+            var that = this
+
+            var srcImagesMap = {}
+            _.each(that.taskList, (taskObj, index) => {
+                srcImagesMap[taskObj.id] = taskObj.path
+            })
+
+            that.curFixTaskID = _.uniqueId(taskPrefix + 'task-')
+            Transfer.Tools.ModifyExifInfo.getExifInfo({
+                taskID: that.curFixTaskID,
+                data:{
+                    src: srcImagesMap
+                },
+                lang: Vue.config.lang
+            }, (data) =>{
+                if (data.msg_type === 's_task_exec_running') {
+                    that.isModifyWorking = true
+                }else if (data.msg_type === 's_task_exec_feedback') {
+                    let dataList = data.content
+                    that.isModifyWorking = (dataList.length > 0)
+                    _.each(dataList, (ele) => {
+                        let curImageTaskObj = that.taskID2taskObj[ele.id]
+                        if (curImageTaskObj) {
+                            curImageTaskObj.isworking = ele.progress >= 100 ? false : true
+                            curImageTaskObj.progress = ele.progress >= 100 ? 100: ele.progress
+                            curImageTaskObj.stateInfo.state = ele.state
+                            curImageTaskObj.stateInfo.message = ele.message || ''
+                        }
+                    })
+                }else if (data.msg_type === 's_task_exec_result') {
+
+                }
+            })
+
         },
 
         startDo(outDir){

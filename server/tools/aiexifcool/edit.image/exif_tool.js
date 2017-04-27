@@ -125,9 +125,5 @@ const streamResults = (toolPath, args = [], feedbackCallback, doneCallback) => {
       stderr: stderrString
     })
   })
-
-  // 向执行命令输入参数
-  child.stdin.write('14')
-  child.stdin.end()
 }
 

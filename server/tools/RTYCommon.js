@@ -27,6 +27,8 @@ const sysBuffer = require('buffer')
 const sysCrypto = require('crypto')
 const sysPath = require('path')
 
+const Q = require('q')
+
 // 服务器传回到客户端的消息类型
 const ServerTaskMsgTypes = {
   Running: 's_task_exec_running',
@@ -251,7 +253,7 @@ function Singleton () {
 
       // /////////////////////////////////////////////
       const fnSendMessageToClient = self.cb
-      let data = null,
+      let result_data = null,
         cli = null,
         command = null,
         reload = false
@@ -275,17 +277,28 @@ function Singleton () {
         fnSendMessageToClient(self.user_id, self.event, jsonStr)
 
         // / 定义反馈函数
-        function sendFeedback (user_id, baseInfo, content) {
+        function sendFeedback (user_id, baseInfo, content, msg_type, injectedFunc) {
           const info = self.service.clone(baseInfo)
-          info.msg_type = ServerTaskMsgTypes.RealTimeFeedback
+          info.msg_type = msg_type || ServerTaskMsgTypes.RealTimeFeedback
           info.content = content
+          injectedFunc && injectedFunc(info) // 注入其他信息
+
           const jsonStr = self.service.getJSONMessage(info)
           fnSendMessageToClient(self.user_id, self.event, jsonStr) // 返回调用的信息
         }
 
-        function fncSendFeedbackMessage (content) {
-          sendFeedback(self.user_id, self.baseInfo, content)
+        function fncSendFeedbackMessage (content, injectedFunc) {
+          sendFeedback(self.user_id, self.baseInfo, content, ServerTaskMsgTypes.RealTimeFeedback, injectedFunc)
         }
+
+        function fncSendResultMessage (content, injectedFunc) {
+          sendFeedback(self.user_id, self.baseInfo, content, ServerTaskMsgTypes.Complete, injectedFunc)
+        }
+
+        function fncSendErrorMessage (content, injectedFunc) {
+          sendFeedback(self.user_id, self.baseInfo, content, ServerTaskMsgTypes.Err, injectedFunc)
+        }
+
 
         /**
          # CLI 执行
@@ -299,15 +312,41 @@ function Singleton () {
 
         const cliMain = self.service.getFunc(cli, 'MainRTYCLI', reload)
         if (cliMain) {
-          data = cliMain(fncSendFeedbackMessage, command, self.baseInfo)
+          result_data = cliMain(fncSendFeedbackMessage, command, self.baseInfo)
         } else {
           console.log('no found cliMain.......')
         }
 
-        if (data) {
+        // 判断result_data的对象类型
+        if (result_data && typeof result_data.then === 'function') {
+          const promise = result_data
+
+          // promise
+          promise.then(function (deferredListOrDeferred) {
+            var tmpList = []
+            if (Array.isArray(deferredListOrDeferred)) {
+              tmpList = deferredListOrDeferred
+            } else {
+              tmpList.push(deferredListOrDeferred)
+            }
+
+            tmpList.forEach((oneDeferred) => {
+              oneDeferred.promise.then(function (dataInfo) {
+                fncSendResultMessage(dataInfo, function (info) {
+                })
+              })
+            })
+          }, function (err) {
+            fncSendErrorMessage(err.message, function (info) {
+              info.traceback = err.stack || ''
+              info.tracebackMsg = err.stack || ''
+            })
+          })
+          // promise end
+        } else if (result_data) {
           const info = self.baseInfo
           info.msg_type = ServerTaskMsgTypes.Complete
-          info.result = data
+          info.result = result_data || {}
 
           const jsonStr = self.service.getJSONMessage(info)
           fnSendMessageToClient(self.user_id, jsonStr)
