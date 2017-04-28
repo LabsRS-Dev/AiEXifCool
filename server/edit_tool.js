@@ -75,7 +75,7 @@ const getExifInfo = (options, feedback, done) => {
   }
 
   // Call
-  args.push('-j')
+  args.push('-j') // Export/import tags in JSON format
   args.push(sourcePath)
 
   streamResults(toolPath, args, feedback, (infoOrErr) => {
