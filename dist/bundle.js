@@ -26637,6 +26637,19 @@ var AgentClient = _doveMax.BS.b$.AgentClient;
 var AgentServer = _doveMax.BS.b$.AgentServer;
 
 var __$p$ = {
+  serverConfig: {
+    ip: '127.0.0.1',
+    port: '8888',
+    protocol: 'http://'
+  },
+
+  getWWWAssetsUrlPrefix: function getWWWAssetsUrlPrefix() {
+    var that = this;
+    var sr = that.serverConfig;
+
+    return sr.protocol + sr.ip + ':' + sr.port + '/tmp_assets/';
+  },
+
   backAgent: new AgentServer(),
   startBackAgent: function startBackAgent() {
     var agent = this.backAgent;
@@ -26653,9 +26666,9 @@ var __$p$ = {
     var wsSocketIO = new agent.Chancel();
     wsSocketIO.build({
       type: agent.ChancelType.websocketForNode,
-      ip: '127.0.0.1',
-      port: '8888',
-      protocol: 'http://',
+      ip: that.serverConfig.ip,
+      port: that.serverConfig.port,
+      protocol: that.serverConfig.protocol,
       reqUrl: '',
       clientIOType: 'Socket.io.client',
       debug: false });
@@ -31181,6 +31194,7 @@ exports.default = {
         onBtnImportFilesClick: function onBtnImportFilesClick() {
             var that = this;
 
+            var wwwPrefix = _transfer.Transfer.getWWWAssetsUrlPrefix();
             console.log("-------------------- call import files");
 
             _doveMax.BS.b$.importFiles({
@@ -31189,8 +31203,7 @@ exports.default = {
                 allowMulSelection: true,
                 types: [] }, function () {
                 _doveMax._.each([{ fileName: 'RAW_NIKON_D7100.NEF', filePath: 'D:\\TestResource\\exif_sample_images\\Nikon\\corrupted\\RAW_NIKON_D7100.NEF', fileSize: '27.5MB' }, { fileName: 'YDSC_0021.NEF', filePath: 'D:\\TestResource\\exif_sample_images\\Nikon\\corrupted\\YDSC_0021.NEF', fileSize: '10.7MB' }], function (ele) {
-                    var taskObj = new Task("images/picture.svg", ele.fileName, ele.filePath, ele.fileSize);
-
+                    var taskObj = new Task(wwwPrefix + "f6c4a7ea-0d48-4cbb-9d45-9e452c9fb0cd.jpg", ele.fileName, ele.filePath, ele.fileSize);
                     that.taskList.push(taskObj);
                     that.taskID2taskObj[taskObj.id] = taskObj;
                 });

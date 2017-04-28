@@ -318,6 +318,7 @@ export default {
         onBtnImportFilesClick(){
             var that = this
 
+            const wwwPrefix = Transfer.getWWWAssetsUrlPrefix()
             console.log("-------------------- call import files")
             // call bs 
             BS.b$.importFiles({
@@ -331,8 +332,8 @@ export default {
                     {fileName: 'RAW_NIKON_D7100.NEF', filePath:'D:\\TestResource\\exif_sample_images\\Nikon\\corrupted\\RAW_NIKON_D7100.NEF', fileSize: '27.5MB'},
                     {fileName: 'YDSC_0021.NEF', filePath:'D:\\TestResource\\exif_sample_images\\Nikon\\corrupted\\YDSC_0021.NEF', fileSize: '10.7MB'}
                 ], function(ele){
-                    let taskObj = new Task("images/picture.svg", ele.fileName, ele.filePath, ele.fileSize)
-                    // let taskObj = new Task("http://127.0.0.1:8888/tmp_assets/f6c4a7ea-0d48-4cbb-9d45-9e452c9fb0cd.jpg", ele.fileName, ele.filePath, ele.fileSize)
+                    // let taskObj = new Task("images/picture.svg", ele.fileName, ele.filePath, ele.fileSize)
+                    let taskObj = new Task(wwwPrefix + "f6c4a7ea-0d48-4cbb-9d45-9e452c9fb0cd.jpg", ele.fileName, ele.filePath, ele.fileSize)
                     that.taskList.push(taskObj)
                     that.taskID2taskObj[taskObj.id] = taskObj
                 })

@@ -6,12 +6,28 @@ const AgentClient = BS.b$.AgentClient
 const AgentServer = BS.b$.AgentServer
 
 const __$p$ = {
+  // 通用方式来配置单一的服务器模式, 你可以在后端服务覆盖已有的配置信息
+  serverConfig: {
+    ip: '127.0.0.1', // 127.0.0.1
+    port: '8888',
+    protocol: 'http://'
+  },
+
+  // 获取WWW指定的动态文件的方式
+  getWWWAssetsUrlPrefix: function () {
+    var that = this
+    const sr = that.serverConfig
+    // eg. http://127.0.0.1:8888/tmp_assets/f6c4a7ea-0d48-4cbb-9d45-9e452c9fb0cd.jpg
+    return sr.protocol + sr.ip + ':' + sr.port + '/tmp_assets/'
+  },
+
   // 针对前端使用者，我要启动后端服务 {启动后，所有数据信息都转向后端服务编码来处理}
   backAgent: new AgentServer(),
   startBackAgent: function () {
     const agent = this.backAgent
     agent.active({})
   },
+
   // 针对前端使用者，我要启动前端服务，{启动后，可以根据发送信息、接收信息方式与后端服务来交互}
   isRunning: false,
   frontAgent: new AgentClient(),
@@ -23,9 +39,9 @@ const __$p$ = {
     const wsSocketIO = new agent.Chancel()
     wsSocketIO.build({
       type: agent.ChancelType.websocketForNode,
-      ip: '127.0.0.1', // 127.0.0.1
-      port: '8888',
-      protocol: 'http://',
+      ip: that.serverConfig.ip,
+      port: that.serverConfig.port,
+      protocol: that.serverConfig.protocol,
       reqUrl: '',
       clientIOType: 'Socket.io.client',
       debug: false // 是否开启日志功能
