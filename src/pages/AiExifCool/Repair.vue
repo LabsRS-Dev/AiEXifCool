@@ -332,10 +332,38 @@ export default {
                     {fileName: 'RAW_NIKON_D7100.NEF', filePath:'D:\\TestResource\\exif_sample_images\\Nikon\\corrupted\\RAW_NIKON_D7100.NEF', fileSize: '27.5MB'},
                     {fileName: 'YDSC_0021.NEF', filePath:'D:\\TestResource\\exif_sample_images\\Nikon\\corrupted\\YDSC_0021.NEF', fileSize: '10.7MB'}
                 ], function(ele){
-                    // let taskObj = new Task("images/picture.svg", ele.fileName, ele.filePath, ele.fileSize)
-                    let taskObj = new Task(wwwPrefix + "f6c4a7ea-0d48-4cbb-9d45-9e452c9fb0cd.jpg", ele.fileName, ele.filePath, ele.fileSize)
+                    let taskObj = new Task("images/picture.svg", ele.fileName, ele.filePath, ele.fileSize)
+                    // let taskObj = new Task(wwwPrefix + "f6c4a7ea-0d48-4cbb-9d45-9e452c9fb0cd.jpg", ele.fileName, ele.filePath, ele.fileSize)
                     that.taskList.push(taskObj)
                     that.taskID2taskObj[taskObj.id] = taskObj
+
+                    // get thubm from 
+                    var srcImagesMap = {}
+                    srcImagesMap[taskObj.id] = taskObj.path
+                    Transfer.Tools.call('get.image.thumb', {
+                        taskID: _.uniqueId('get-thumb-task-'),
+                        data: {
+                            src: srcImagesMap
+                        },
+                        lang: 'en'
+                    }, (data) => {
+                        if (data.msg_type === 's_task_exec_running') {
+                            console.log('test_transfer.js getExifImageThumb running')
+                        } else if (data.msg_type === 's_task_exec_feedback') {
+                            const dataList = data.content
+                            console.log('test_transfer.js  getExifImageThumb s_task_exec_feedback')
+                            console.dir(dataList)
+                        } else if (data.msg_type === 's_task_exec_result') {
+                            const dataList = data.content
+                            console.log('test_transfer.js getExifImageThumb s_task_exec_result')
+                            console.dir(dataList)
+
+                            // 分解获取到的数据
+                            _.each(dataList, (ele) => {
+                                taskObj.thumb = wwwPrefix + ele.message.thumb
+                            })
+                        }
+                    })
                 })
 
                 return

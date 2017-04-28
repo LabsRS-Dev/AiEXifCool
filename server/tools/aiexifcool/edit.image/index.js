@@ -28,7 +28,6 @@ function Singleton () {
   var t$ = this
 
   t$.feedbackCallback = null
-  t$.feedbackIntervalHandler = null
   t$.feedbackIntervalSec = 2
   t$.taskMap = {
     '___eg.taskID': {}   // 任务对应数据
@@ -47,7 +46,7 @@ function Singleton () {
     var doing_resultDataMap = {}
 
     // 以下是模拟数据处理方式
-    t$.feedbackIntervalHandler = setInterval(() => {
+    const timeHandler = setInterval(() => {
       const dataList = []
       Object.keys(doing_resultDataMap).forEach((imgId) => {
         var obj = doing_resultDataMap[imgId]
@@ -59,8 +58,7 @@ function Singleton () {
 
       console.log('processing image data count: ', dataList.length)
       if (dataList.length === 0) {
-        clearInterval(t$.feedbackIntervalHandler)
-        t$.feedbackIntervalHandler = null
+        clearInterval(timeHandler)
       }
       t$.feedbackCallback(dataList)
     }, t$.feedbackIntervalSec * 1000)
@@ -136,7 +134,7 @@ function Singleton () {
     var done_resultDataMap = {}  // 最终处理完成的数据
 
     // 以下是模拟数据处理方式
-    t$.feedbackIntervalHandler = setInterval(() => {
+    const timeHandler = setInterval(() => {
       const dataList = []
       Object.keys(doing_resultDataMap).forEach((imgId) => {
         var obj = doing_resultDataMap[imgId]
@@ -150,9 +148,8 @@ function Singleton () {
 
       console.log('processing image data count: ', dataList.length)
       if (dataList.length === 0) {
-        clearInterval(t$.feedbackIntervalHandler)
-        t$.feedbackIntervalHandler = null
-
+        clearInterval(timeHandler)
+        
         const done_dataList = []
         Object.keys(done_resultDataMap).forEach((imgId) => {
           var obj = done_resultDataMap[imgId]

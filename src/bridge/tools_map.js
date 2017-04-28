@@ -4,7 +4,7 @@
  */
 const ToolsMap = {
   // common
-  'get.image.thumb': { cli: 'aiexifcool/common/index', action: 'getImageThumbAction' },
+  'get.image.thumb': { cli: 'aiexifcool/common/index', action: 'getImageThumb' },
 
   // fix
   'start.fix.image': { cli: 'aiexifcool/fix.image/index', action: 'startFix' },

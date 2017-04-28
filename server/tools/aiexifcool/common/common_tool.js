@@ -101,7 +101,8 @@ const getImageThumb = (options, feedback, done) => {
         sysFS.writeFileSync(tmpThumbFilePath, buf)
         done({
           src: sourcePath,
-          thumb: sysPath.resolve(tmpThumbFilePath),
+          thumbRealPath: sysPath.resolve(tmpThumbFilePath),
+          thumb: sysPath.basename(tmpThumbFilePath),
           thumbSize: size
         })
       })

@@ -37,7 +37,7 @@ function Singleton () {
   /**
    * 获取EXIF图像的缩略图
    */
-  t$.getImageThumbAction = (taskID, data, options = {}) => {
+  t$.getImageThumb = (taskID, data, options = {}) => {
     var deferred = Q.defer()
     var toolHelper = nmEditTool()
     // 获取数据包
@@ -48,7 +48,7 @@ function Singleton () {
     var done_resultDataMap = {}  // 最终处理完成的数据
 
     // 以下是模拟数据处理方式
-    t$.feedbackIntervalHandler = setInterval(() => {
+    const timeHandler = setInterval(() => {
       const dataList = []
       Object.keys(doing_resultDataMap).forEach((imgId) => {
         var obj = doing_resultDataMap[imgId]
@@ -62,8 +62,7 @@ function Singleton () {
 
       console.log('processing image data count: ', dataList.length)
       if (dataList.length === 0) {
-        clearInterval(t$.feedbackIntervalHandler)
-        t$.feedbackIntervalHandler = null
+        clearInterval(timeHandler)
 
         const done_dataList = []
         Object.keys(done_resultDataMap).forEach((imgId) => {

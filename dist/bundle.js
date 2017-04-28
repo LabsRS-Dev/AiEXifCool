@@ -31096,9 +31096,36 @@ exports.default = {
                 allowMulSelection: true,
                 types: [] }, function () {
                 _doveMax._.each([{ fileName: 'RAW_NIKON_D7100.NEF', filePath: 'D:\\TestResource\\exif_sample_images\\Nikon\\corrupted\\RAW_NIKON_D7100.NEF', fileSize: '27.5MB' }, { fileName: 'YDSC_0021.NEF', filePath: 'D:\\TestResource\\exif_sample_images\\Nikon\\corrupted\\YDSC_0021.NEF', fileSize: '10.7MB' }], function (ele) {
-                    var taskObj = new Task(wwwPrefix + "f6c4a7ea-0d48-4cbb-9d45-9e452c9fb0cd.jpg", ele.fileName, ele.filePath, ele.fileSize);
+                    var taskObj = new Task("images/picture.svg", ele.fileName, ele.filePath, ele.fileSize);
+
                     that.taskList.push(taskObj);
                     that.taskID2taskObj[taskObj.id] = taskObj;
+
+                    var srcImagesMap = {};
+                    srcImagesMap[taskObj.id] = taskObj.path;
+                    _transfer.Transfer.Tools.call('get.image.thumb', {
+                        taskID: _doveMax._.uniqueId('get-thumb-task-'),
+                        data: {
+                            src: srcImagesMap
+                        },
+                        lang: 'en'
+                    }, function (data) {
+                        if (data.msg_type === 's_task_exec_running') {
+                            console.log('test_transfer.js getExifImageThumb running');
+                        } else if (data.msg_type === 's_task_exec_feedback') {
+                            var dataList = data.content;
+                            console.log('test_transfer.js  getExifImageThumb s_task_exec_feedback');
+                            console.dir(dataList);
+                        } else if (data.msg_type === 's_task_exec_result') {
+                            var _dataList = data.content;
+                            console.log('test_transfer.js getExifImageThumb s_task_exec_result');
+                            console.dir(_dataList);
+
+                            _doveMax._.each(_dataList, function (ele) {
+                                taskObj.thumb = wwwPrefix + ele.message.thumb;
+                            });
+                        }
+                    });
                 });
 
                 return;
@@ -31529,7 +31556,7 @@ window.$TS = {
     });
 
     var curFixTaskID = _doveMax._.uniqueId('test-get-thumb-task-');
-    _transfer.Transfer.Tools.Common.getImageThumb({
+    _transfer.Transfer.Tools.call('get.image.thumb', {
       taskID: curFixTaskID,
       data: {
         src: srcImagesMap
@@ -31559,7 +31586,7 @@ window.$TS = {
     });
 
     var curFixTaskID = _doveMax._.uniqueId('test-get-exif-task-');
-    _transfer.Transfer.Tools.ModifyExifInfo.getExifInfo({
+    _transfer.Transfer.Tools.call('get.exif', {
       taskID: curFixTaskID,
       data: {
         src: srcImagesMap
@@ -44503,7 +44530,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 
 var ToolsMap = {
-  'get.image.thumb': { cli: 'aiexifcool/common/index', action: 'getImageThumbAction' },
+  'get.image.thumb': { cli: 'aiexifcool/common/index', action: 'getImageThumb' },
 
   'start.fix.image': { cli: 'aiexifcool/fix.image/index', action: 'startFix' },
   'stop.fix.image': { cli: 'aiexifcool/fix.image/index', action: 'stopFix' },

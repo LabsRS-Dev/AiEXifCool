@@ -16,7 +16,7 @@ window.$TS = {
     })
 
     var curFixTaskID = _.uniqueId('test-get-thumb-task-')
-    Transfer.Tools.Common.getImageThumb({
+    Transfer.Tools.call('get.image.thumb', {
       taskID: curFixTaskID,
       data: {
         src: srcImagesMap
@@ -54,7 +54,7 @@ window.$TS = {
     })
 
     var curFixTaskID = _.uniqueId('test-get-exif-task-')
-    Transfer.Tools.ModifyExifInfo.getExifInfo({
+    Transfer.Tools.call('get.exif', {
       taskID: curFixTaskID,
       data: {
         src: srcImagesMap
