@@ -332,6 +332,7 @@ export default {
                     {fileName: 'YDSC_0021.NEF', filePath:'D:\\TestResource\\exif_sample_images\\Nikon\\corrupted\\YDSC_0021.NEF', fileSize: '10.7MB'}
                 ], function(ele){
                     let taskObj = new Task("images/picture.svg", ele.fileName, ele.filePath, ele.fileSize)
+                    // let taskObj = new Task("http://127.0.0.1:8888/tmp_assets/f6c4a7ea-0d48-4cbb-9d45-9e452c9fb0cd.jpg", ele.fileName, ele.filePath, ele.fileSize)
                     that.taskList.push(taskObj)
                     that.taskID2taskObj[taskObj.id] = taskObj
                 })
@@ -339,7 +340,7 @@ export default {
                 return
 
                 // Test[2]: 测试很多的情况下的列表展示
-                for(let i =0; i < 50; ++i){
+                for (let i =0; i < 50; ++i){
                     let taskObj = new Task("images/picture.svg", "Images" + i, "/url/image" + i, i + '.2MB')
                     that.taskList.push(taskObj)
                     that.taskID2taskObj[taskObj.id] = taskObj

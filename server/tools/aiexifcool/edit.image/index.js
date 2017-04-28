@@ -9,7 +9,7 @@ const sysPath = require('path')
 // / 来源于安装的node_module
 const Q = require('q')
 
-const nmEditTool = require('./exif_tool')
+const nmEditTool = require('./edit_tool')
 
 
 function _toStr (obj) {

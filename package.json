@@ -43,7 +43,7 @@
   "dependencies": {
     "dove.max.sdk": "^1.0.1",
     "keen-ui": "^1.0.0",
-    "vue": "^2.2.6",
+    "vue": "^2.3.0",
     "vue-i18n": "^6.1.1",
     "vue-router": "^2.5.2",
     "vuex": "^2.3.1"

@@ -14,10 +14,18 @@
   "dependencies": {
     "babel-runtime": "^6.23.0",
     "commander": "^2.9.0",
+    "corser": "^2.0.1",
+    "ecstatic": "^2.1.0",
+    "exiftool-vendored": "^2.16.1",
     "fs-extra": "^2.1.2",
+    "http-proxy": "^1.16.2",
+    "mime-types": "^2.1.15",
     "q": "^1.5.0",
+    "resize-img": "^1.1.2",
     "socket.io": "^1.7.3",
     "spawncommand": "^1.1.0",
-    "tmp": "0.0.31"
+    "tempfile": "^2.0.0",
+    "tmp": "0.0.31",
+    "union": "^0.4.6"
   }
 }
