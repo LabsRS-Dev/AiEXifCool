@@ -452,7 +452,7 @@ export default {
             })
 
             that.curFixTaskID = _.uniqueId(taskPrefix + 'task-')
-            Transfer.Tools.RemoveExifInfo.run({
+            Transfer.Tools.call('start.remove.exif', {
                 taskID: that.curFixTaskID,
                 data:{
                     src: srcImagesMap,
@@ -493,7 +493,7 @@ export default {
 
             if(!notice) return
             if(_.keys(srcImagesMap).length > 0 && that.isRemoveWorking) {
-                Transfer.Tools.RemoveExifInfo.stop({
+                Transfer.Tools.call('stop.remove.exif', {
                     taskID: that.curFixTaskID,
                     data:{
                         src: srcImagesMap
@@ -523,7 +523,7 @@ export default {
                 // notice to server 
                 let srcImagesMap = {}
                 srcImagesMap[item.id] = item.path
-                Transfer.Tools.RemoveExifInfo.stop({
+                Transfer.Tools.call('stop.remove.exif', {
                     taskID: that.curFixTaskID,
                     data:{
                         src: srcImagesMap

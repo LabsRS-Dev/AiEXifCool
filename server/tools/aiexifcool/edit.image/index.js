@@ -125,7 +125,7 @@ function Singleton () {
   /**
    * 获取EXIF信息
    */
-  t$.getExifInfoAction = (taskID, data, options = {}) => {
+  t$.getExifInfo = (taskID, data, options = {}) => {
     var deferred = Q.defer()
     var toolHelper = nmEditTool()
     // 获取数据包
@@ -221,8 +221,11 @@ function Singleton () {
   /**
    * 修改EXIF信息
    */
-  t$.modifyExifInfoAction = (taskID, data, options = {}) => {
+  t$.modifyExifInfo = (taskID, data, options = {}) => {
 
+  }
+
+  t$.stopModify = (taskID, data, options = {}) => {
   }
 
 

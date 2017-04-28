@@ -455,7 +455,7 @@ export default {
             })
 
             that.curFixTaskID = _.uniqueId(taskPrefix + 'task-')
-            Transfer.Tools.Fix.Image.run({
+            Transfer.Tools.call('start.fix.image', {
                 taskID: that.curFixTaskID,
                 data:{
                     src: srcImagesMap,
@@ -496,7 +496,7 @@ export default {
 
             if(!notice) return
             if(_.keys(srcImagesMap).length > 0 && that.isFixworking) {
-                Transfer.Tools.Fix.Image.stop({
+                Transfer.Tools.call('stop.fix.image',{
                     taskID: that.curFixTaskID,
                     data:{
                         src: srcImagesMap
@@ -526,7 +526,7 @@ export default {
                 // notice to server 
                 let srcImagesMap = {}
                 srcImagesMap[item.id] = item.path
-                Transfer.Tools.Fix.Image.stop({
+                Transfer.Tools.call('stop.fix.image',{
                     taskID: that.curFixTaskID,
                     data:{
                         src: srcImagesMap

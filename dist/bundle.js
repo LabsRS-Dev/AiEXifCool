@@ -26633,6 +26633,8 @@ exports.Transfer = undefined;
 
 var _doveMax = __webpack_require__(7);
 
+var _tools_map = __webpack_require__(154);
+
 var AgentClient = _doveMax.BS.b$.AgentClient;
 var AgentServer = _doveMax.BS.b$.AgentServer;
 
@@ -26699,130 +26701,30 @@ var __$p$ = {
   }
 };
 
-__$p$.Tools = {
-  Hello: function Hello(handler) {
-    var one = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+__$p$.Common = {
+  sendMessage: function sendMessage() {
+    var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+    var handler = arguments[1];
+    var one = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
 
     __$p$.send({ data: 'Hello' }, function (data) {
-      handler(data);
+      handler && handler(data);
     }, one);
   },
-  Common: {
-    getImageThumb: function getImageThumb() {
-      var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-      var handler = arguments[1];
-      var one = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
+  runTask: function runTask() {
+    var cli = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
+    var action = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '';
+    var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+    var handler = arguments[3];
+    var one = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : false;
 
-      var debugMode = false;
-      if (debugMode === false) {
-        var taskInfo = {
-          task_id: options.taskID,
-          cli: 'aiexifcool/common/index',
-          reload: false,
-          command: [{ action: 'getImageThumbAction', data: options.data, lang: options.lang || 'en' }]
-        };
-
-        var info = {
-          taskInfo: taskInfo,
-          msg_type: 'c_task_exec'
-        };
-
-        __$p$.send(info, function (data) {
-          if (data.task_id === options.taskID) {
-            handler && handler(data);
-          }
-        }, one);
-      } else {
-        handler && handler();
-      }
-    }
-  },
-  Fix: {
-    Image: {
-      run: function run() {
-        var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-        var handler = arguments[1];
-        var one = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
-
-        var debugMode = false;
-        if (debugMode === false) {
-          var taskInfo = {
-            task_id: options.taskID,
-            cli: 'aiexifcool/fix.image/index',
-            reload: false,
-            command: [{ action: 'startFix', data: options.data, lang: options.lang || 'en' }]
-          };
-
-          var info = {
-            taskInfo: taskInfo,
-            msg_type: 'c_task_exec'
-          };
-
-          __$p$.send(info, function (data) {
-            if (data.task_id === options.taskID) {
-              handler && handler(data);
-            }
-          }, one);
-        } else {
-          handler && handler();
-        }
-      },
-      chancel: function chancel() {
-        var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-
-        var taskInfo = {
-          task_id: options.taskID,
-          cli: 'aiexifcool/fix.image/index',
-          reload: false,
-          command: [{ action: 'stopFix', data: options.data, lang: options.lang || 'en' }]
-        };
-
-        var info = {
-          taskInfo: taskInfo,
-          msg_type: 'c_task_exec'
-        };
-
-        __$p$.send(info);
-      }
-    }
-  },
-  RemoveExifInfo: {
-    run: function run() {
-      var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-      var handler = arguments[1];
-      var one = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
-
-      var debugMode = false;
-      if (debugMode === false) {
-        var taskInfo = {
-          task_id: options.taskID,
-          cli: 'aiexifcool/remove.exif/index',
-          reload: false,
-          command: [{ action: 'startRemoveExifInfoAction', data: options.data, lang: options.lang || 'en' }]
-        };
-
-        var info = {
-          taskInfo: taskInfo,
-          msg_type: 'c_task_exec'
-        };
-
-        __$p$.send(info, function (data) {
-          if (data.task_id === options.taskID) {
-            handler && handler(data);
-          }
-        }, one);
-      } else {
-        handler && handler();
-      }
-    },
-    stop: function stop() {
-      var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-
+    var debugMode = false;
+    if (debugMode === false) {
       var taskInfo = {
         task_id: options.taskID,
-        cli: 'aiexifcool/remove.exif/index',
+        cli: cli,
         reload: false,
-        command: [{ action: 'stopRemoveExifInfoAction', data: options.data, lang: options.lang || 'en' }]
+        command: [{ action: action, data: options.data, lang: options.lang || 'en' }]
       };
 
       var info = {
@@ -26830,37 +26732,28 @@ __$p$.Tools = {
         msg_type: 'c_task_exec'
       };
 
-      __$p$.send(info);
+      __$p$.send(info, function (data) {
+        if (data.task_id === options.taskID) {
+          handler && handler(data);
+        }
+      }, one);
+    } else {
+      handler && handler();
     }
-  },
-  ModifyExifInfo: {
-    getExifInfo: function getExifInfo() {
-      var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-      var handler = arguments[1];
-      var one = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
+  }
+};
 
-      var debugMode = false;
-      if (debugMode === false) {
-        var taskInfo = {
-          task_id: options.taskID,
-          cli: 'aiexifcool/edit.image/index',
-          reload: false,
-          command: [{ action: 'getExifInfoAction', data: options.data, lang: options.lang || 'en' }]
-        };
+__$p$.Tools = {
+  call: function call(toolKey) {
+    var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+    var handler = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : function () {};
+    var one = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : false;
 
-        var info = {
-          taskInfo: taskInfo,
-          msg_type: 'c_task_exec'
-        };
-
-        __$p$.send(info, function (data) {
-          if (data.task_id === options.taskID) {
-            handler && handler(data);
-          }
-        }, one);
-      } else {
-        handler && handler();
-      }
+    var cfg = _tools_map.ToolsMap[toolKey];
+    if (cfg) {
+      __$p$.Common.runTask(cfg.cli, cfg.action, options, handler, one);
+    } else {
+      console.warn('Error: Not found the \'' + toolKey + '\' config tool...');
     }
   }
 };
@@ -30307,7 +30200,7 @@ exports.default = {
             });
 
             that.curFixTaskID = _doveMax._.uniqueId(taskPrefix + 'task-');
-            _transfer.Transfer.Tools.ModifyExifInfo.getExifInfo({
+            _transfer.Transfer.Tools.call('get.image.thumb', {
                 taskID: that.curFixTaskID,
                 data: {
                     src: srcImagesMap
@@ -30340,7 +30233,7 @@ exports.default = {
             });
 
             that.curFixTaskID = _doveMax._.uniqueId(taskPrefix + 'task-');
-            _transfer.Transfer.Tools.RemoveExifInfo.run({
+            _transfer.Transfer.Tools.call('start.modify.exif', {
                 taskID: that.curFixTaskID,
                 data: {
                     src: srcImagesMap,
@@ -30379,7 +30272,7 @@ exports.default = {
 
             if (!notice) return;
             if (_doveMax._.keys(srcImagesMap).length > 0 && that.isModifyWorking) {
-                _transfer.Transfer.Tools.RemoveExifInfo.stop({
+                _transfer.Transfer.Tools.call('stop.modify.exif', {
                     taskID: that.curFixTaskID,
                     data: {
                         src: srcImagesMap
@@ -30404,7 +30297,7 @@ exports.default = {
             if (item.isworking) {
                 var srcImagesMap = {};
                 srcImagesMap[item.id] = item.path;
-                _transfer.Transfer.Tools.RemoveExifInfo.stop({
+                _transfer.Transfer.Tools.call('stop.modify.exif', {
                     taskID: that.curFixTaskID,
                     data: {
                         src: srcImagesMap
@@ -30903,7 +30796,7 @@ exports.default = {
             });
 
             that.curFixTaskID = _doveMax._.uniqueId(taskPrefix + 'task-');
-            _transfer.Transfer.Tools.RemoveExifInfo.run({
+            _transfer.Transfer.Tools.call('start.remove.exif', {
                 taskID: that.curFixTaskID,
                 data: {
                     src: srcImagesMap,
@@ -30942,7 +30835,7 @@ exports.default = {
 
             if (!notice) return;
             if (_doveMax._.keys(srcImagesMap).length > 0 && that.isRemoveWorking) {
-                _transfer.Transfer.Tools.RemoveExifInfo.stop({
+                _transfer.Transfer.Tools.call('stop.remove.exif', {
                     taskID: that.curFixTaskID,
                     data: {
                         src: srcImagesMap
@@ -30967,7 +30860,7 @@ exports.default = {
             if (item.isworking) {
                 var srcImagesMap = {};
                 srcImagesMap[item.id] = item.path;
-                _transfer.Transfer.Tools.RemoveExifInfo.stop({
+                _transfer.Transfer.Tools.call('stop.remove.exif', {
                     taskID: that.curFixTaskID,
                     data: {
                         src: srcImagesMap
@@ -31319,7 +31212,7 @@ exports.default = {
             });
 
             that.curFixTaskID = _doveMax._.uniqueId(taskPrefix + 'task-');
-            _transfer.Transfer.Tools.Fix.Image.run({
+            _transfer.Transfer.Tools.call('start.fix.image', {
                 taskID: that.curFixTaskID,
                 data: {
                     src: srcImagesMap,
@@ -31358,7 +31251,7 @@ exports.default = {
 
             if (!notice) return;
             if (_doveMax._.keys(srcImagesMap).length > 0 && that.isFixworking) {
-                _transfer.Transfer.Tools.Fix.Image.stop({
+                _transfer.Transfer.Tools.call('stop.fix.image', {
                     taskID: that.curFixTaskID,
                     data: {
                         src: srcImagesMap
@@ -31383,7 +31276,7 @@ exports.default = {
             if (item.isworking) {
                 var srcImagesMap = {};
                 srcImagesMap[item.id] = item.path;
-                _transfer.Transfer.Tools.Fix.Image.stop({
+                _transfer.Transfer.Tools.call('stop.fix.image', {
                     taskID: that.curFixTaskID,
                     data: {
                         src: srcImagesMap
@@ -44587,6 +44480,43 @@ module.exports = function(module) {
 
 module.exports = __webpack_require__(58);
 
+
+/***/ }),
+/* 144 */,
+/* 145 */,
+/* 146 */,
+/* 147 */,
+/* 148 */,
+/* 149 */,
+/* 150 */,
+/* 151 */,
+/* 152 */,
+/* 153 */,
+/* 154 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var ToolsMap = {
+  'get.image.thumb': { cli: 'aiexifcool/common/index', action: 'getImageThumbAction' },
+
+  'start.fix.image': { cli: 'aiexifcool/fix.image/index', action: 'startFix' },
+  'stop.fix.image': { cli: 'aiexifcool/fix.image/index', action: 'stopFix' },
+
+  'start.remove.exif': { cli: 'aiexifcool/remove.exif/index', action: 'removeExif' },
+  'stop.remove.exif': { cli: 'aiexifcool/remove.exif/index', action: 'stopRemove' },
+
+  'get.exif': { cli: 'aiexifcool/edit.image/index', action: 'getExifInfo' },
+  'start.modify.exif': { cli: 'aiexifcool/edit.image/index', action: 'modifyExifInfo' },
+  'stop.modify.exif': { cli: 'aiexifcool/edit.image/index', action: 'stopModify' }
+};
+
+exports.ToolsMap = ToolsMap;
 
 /***/ })
 /******/ ]);

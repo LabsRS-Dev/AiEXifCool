@@ -128,13 +128,13 @@ function Singleton () {
       const data = oneCommand.data
       const lang = oneCommand.lang
 
-      if (action === 'startRemoveExifInfoAction') {
+      if (action === 'removeExif') {
         const taskID = baseInfo.task_id
         t$.taskMap[taskID] = data
 
         // 以下可以派发到真正运行的处理程序中，进行轮询汇报
         t$.callExifRemove(taskID, { lang: lang })
-      } else if (action === 'stopRemoveExifInfoAction') {
+      } else if (action === 'stopRemove') {
         const taskID = baseInfo.task_id
 
         // 以下派发给自己，要清除这些运行的数据

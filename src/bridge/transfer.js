@@ -1,4 +1,5 @@
 import { BS, Observable, Util, _ } from 'dove.max.sdk'
+import { ToolsMap } from './tools_map.js'
 
 // -----------------------------------------------------------------
 // 交互处理
@@ -70,121 +71,21 @@ const __$p$ = {
 }
 
 //  绑定工具
-__$p$.Tools = {
-  Hello: function (handler, one = true) {
+__$p$.Common = {
+  sendMessage: (options = {}, handler, one = false) => {
     __$p$.send({ data: 'Hello' }, function (data) {
-      handler(data)
+      handler && handler(data)
     }, one)
   },
-  Common: {
-    getImageThumb: (options = {}, handler, one = false) => {
-      const debugMode = false
-      if (debugMode === false) {
-        const taskInfo = {
-          task_id: options.taskID,                    // 任务ID
-          cli: 'aiexifcool/common/index',             // 动态调用的模块
-          reload: false,                              // 默认是false, 支持热部署, 是否重新加载动态模块
-          command: [                                  // 命令
-            { action: 'getImageThumbAction', data: options.data, lang: options.lang || 'en' }
-          ]
-        }
-
-        const info = {
-          taskInfo: taskInfo,
-          msg_type: 'c_task_exec'
-        }
-
-        __$p$.send(info, data => {
-          if (data.task_id === options.taskID) { // 只处理本任务的返回数据
-            handler && handler(data)
-          }
-        }, one)
-      } else {
-        handler && handler()
-      }
-    }
-  },
-  Fix: {
-    Image: {
-      run: (options = {}, handler, one = false) => {
-        const debugMode = false
-        if (debugMode === false) {
-          const taskInfo = {
-            task_id: options.taskID,                    // 任务ID
-            cli: 'aiexifcool/fix.image/index',          // 动态调用的模块
-            reload: false,                              // 默认是false, 支持热部署, 是否重新加载动态模块
-            command: [                                  // 命令
-              { action: 'startFix', data: options.data, lang: options.lang || 'en' }
-            ]
-          }
-
-          const info = {
-            taskInfo: taskInfo,
-            msg_type: 'c_task_exec'
-          }
-
-          __$p$.send(info, data => {
-            if (data.task_id === options.taskID) { // 只处理本任务的返回数据
-              handler && handler(data)
-            }
-          }, one)
-        } else {
-          handler && handler()
-        }
-      },
-      chancel: (options = {}) => {
-        const taskInfo = {
-          task_id: options.taskID,                    // 任务ID
-          cli: 'aiexifcool/fix.image/index',          // 动态调用的模块
-          reload: false,                              // 默认是false, 支持热部署, 是否重新加载动态模块
-          command: [                                  // 命令
-            { action: 'stopFix', data: options.data, lang: options.lang || 'en' }
-          ]
-        }
-
-        const info = {
-          taskInfo: taskInfo,
-          msg_type: 'c_task_exec'
-        }
-
-        __$p$.send(info) // 不需要监视结果
-      }
-    }
-  },
-  RemoveExifInfo: {
-    run: (options = {}, handler, one = false) => {
-      const debugMode = false
-      if (debugMode === false) {
-        const taskInfo = {
-          task_id: options.taskID,                    // 任务ID
-          cli: 'aiexifcool/remove.exif/index',         // 动态调用的模块
-          reload: false,                              // 默认是false, 支持热部署, 是否重新加载动态模块
-          command: [                                  // 命令
-            { action: 'startRemoveExifInfoAction', data: options.data, lang: options.lang || 'en' }
-          ]
-        }
-
-        const info = {
-          taskInfo: taskInfo,
-          msg_type: 'c_task_exec'
-        }
-
-        __$p$.send(info, data => {
-          if (data.task_id === options.taskID) { // 只处理本任务的返回数据
-            handler && handler(data)
-          }
-        }, one)
-      } else {
-        handler && handler()
-      }
-    },
-    stop: (options = {}) => {
+  runTask: (cli = '', action = '', options = {}, handler, one = false) => {
+    const debugMode = false
+    if (debugMode === false) {
       const taskInfo = {
         task_id: options.taskID,                    // 任务ID
-        cli: 'aiexifcool/remove.exif/index',         // 动态调用的模块
+        cli: cli,                                   // 动态调用的模块
         reload: false,                              // 默认是false, 支持热部署, 是否重新加载动态模块
         command: [                                  // 命令
-          { action: 'stopRemoveExifInfoAction', data: options.data, lang: options.lang || 'en' }
+          { action: action, data: options.data, lang: options.lang || 'en' }
         ]
       }
 
@@ -193,35 +94,24 @@ __$p$.Tools = {
         msg_type: 'c_task_exec'
       }
 
-      __$p$.send(info) // 不需要监视结果
+      __$p$.send(info, data => {
+        if (data.task_id === options.taskID) { // 只处理本任务的返回数据
+          handler && handler(data)
+        }
+      }, one)
+    } else {
+      handler && handler()
     }
-  },
-  ModifyExifInfo: {
-    getExifInfo: (options = {}, handler, one = false) => {
-      const debugMode = false
-      if (debugMode === false) {
-        const taskInfo = {
-          task_id: options.taskID,                    // 任务ID
-          cli: 'aiexifcool/edit.image/index',         // 动态调用的模块
-          reload: false,                              // 默认是false, 支持热部署, 是否重新加载动态模块
-          command: [                                  // 命令
-            { action: 'getExifInfoAction', data: options.data, lang: options.lang || 'en' }
-          ]
-        }
+  }
+}
 
-        const info = {
-          taskInfo: taskInfo,
-          msg_type: 'c_task_exec'
-        }
-
-        __$p$.send(info, data => {
-          if (data.task_id === options.taskID) { // 只处理本任务的返回数据
-            handler && handler(data)
-          }
-        }, one)
-      } else {
-        handler && handler()
-      }
+__$p$.Tools = {
+  call: (toolKey, options = {}, handler = () => {}, one = false) => {
+    const cfg = ToolsMap[toolKey]
+    if (cfg) {
+      __$p$.Common.runTask(cfg.cli, cfg.action, options, handler, one)
+    } else {
+      console.warn('Error: Not found the \'' + toolKey + '\' config tool...')
     }
   }
 }
