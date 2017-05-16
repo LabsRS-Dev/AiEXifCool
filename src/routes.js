@@ -77,6 +77,22 @@ const menu = [{
   }]
 },
 {
+  title: 'routes.set.title',
+  isExpand: true,
+  enableExpand: false,
+  visible: true,
+  menu: [{
+    path: '/about',
+    show: true,
+    component: AboutPage,
+    title: 'routes.set.menu.about.title',
+    tip: 'routes.set.menu.about.tip',
+    tipAsSubTitle: false,
+    icon: icons.discover,
+    sourceUrl: ''
+  }]
+},
+{
   title: '我的应用',
   isExpand: true,
   enableExpand: false,

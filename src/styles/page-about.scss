@@ -1,0 +1,47 @@
+.page-app-doc{
+  .dove-docs-content__page-content__body{
+    min-height: 80%;
+    padding:rem-calc(16px);
+    fill:none;
+    .dove-docs-content__page-content__feedback{
+        display: flex;
+        margin-bottom: rem-calc(10px);
+        .page-content__title__matter{
+          margin-left: rem-calc(10px);
+          font-size: rem-calc(18px);
+        }
+    }
+    .dove-docs-content__page-content__updata{
+        margin-top: rem-calc(20px);
+        font-size: rem-calc(14px);
+        .page-content__release__space{
+          padding-left: rem-calc(4px);
+        }
+        .ui-radio__label-text{
+          font-size: rem-calc(14px);
+        }
+    }
+  }
+  .dove-docs-content__page-content__licenses{
+    padding: rem-calc(10px);
+    display: flex;
+    min-height: 10%;
+    font-size: rem-calc(14px);
+    align-items: center;
+    .page-content__licenses__space{
+      padding-left: rem-calc(6px);
+    }
+    .dove-docs-content__page-content__licenses__service{
+      margin-left:20px;
+      .page-content__terms__service{
+        text-decoration:underline;
+        font-size: rem-calc(12px);
+        color:$md-grey-800;
+      }
+    }
+  }
+}
+
+
+
+
