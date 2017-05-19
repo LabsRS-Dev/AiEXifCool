@@ -1,0 +1,49 @@
+.page-app-doc{
+  .page__about__body{
+    min-height: 80%;
+    padding:rem-calc(16px);
+    fill:none;
+    .page__about__feedback{
+        display: flex;
+        align-items: center;
+        margin-bottom: rem-calc(10px);
+        .page__about__title__matter{
+          margin-left: rem-calc(6px);
+          font-size: rem-calc(18px);
+        }
+    }
+    .page__about__content__updata{
+        margin-top: rem-calc(20px);
+        font-size: rem-calc(14px);
+        .page-about__release__space{
+          padding-left: rem-calc(4px);
+        }
+        .ui-switch__label-text{
+          font-size: rem-calc(14px);
+          margin-left: rem-calc(5px);
+        }
+    }
+  }
+  .page__about__content__licenses{
+    padding: rem-calc(10px);
+    display: flex;
+    min-height: 10%;
+    font-size: rem-calc(14px);
+    align-items: center;
+    .page-about__licenses__space{
+      padding-left: rem-calc(2px);
+    }
+    .page__about__content__licenses__service{
+      margin-left:rem-calc(20px);
+      .page-content__terms__service{
+        text-decoration:underline;
+        font-size: rem-calc(12px);
+        color:$md-grey-800;
+      }
+    }
+  }
+}
+
+
+
+

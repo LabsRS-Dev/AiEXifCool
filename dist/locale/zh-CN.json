@@ -28,6 +28,15 @@
           "tip": "输出图像EXIF信息报告，方便存档"
         }
       }
+    },
+    "set":{
+      "title":"关于",
+      "menu":{
+        "about":{
+          "title": "关于我们",
+          "tip": "关于我们的一些信息"
+        }
+      }
     }
   },
   "pages": {
@@ -74,7 +83,7 @@
       "dialog-import-dir-images":{
         "title":"请选择要导入的图像文件目录",
         "prompt":"导入"
-      },      
+      },
       "dialog-select-outdir":{
         "title":"请选择输出目录",
         "prompt":"选择"
@@ -133,7 +142,7 @@
       "dialog-import-dir-images":{
         "title":"请选择要导入的图像文件目录",
         "prompt":"导入"
-      },      
+      },
       "dialog-select-outdir":{
         "title":"请选择输出目录",
         "prompt":"选择"
@@ -158,7 +167,7 @@
         "step1":"Step1: 导入图像文件或者图像目录（支持拖拽）",
         "step2":"Step2: 点击执行移除按钮进行移除",
         "step3":"Step3: 查看移除结果"
-      }      
+      }
     },
     "modify":{
       "toolbar":{
@@ -197,7 +206,7 @@
       "dialog-import-dir-images":{
         "title":"请选择要导入的图像文件目录",
         "prompt":"导入"
-      },      
+      },
       "dialog-select-outdir":{
         "title":"请选择输出目录",
         "prompt":"选择"
@@ -228,8 +237,31 @@
         "step2":"Step2: 可以直接一对一的修改，也可以通过选择修改方案来设置",
         "step3":"Step3: 执行修改",
         "step4":"Step4: 查看修改结果"
-      }      
-    }            
+      }
+    },
+    "abouts":{
+      "header":{
+        "title":"关于"
+      },
+      "licenses":{
+        "title":"许可授权",
+        "content":"版权所有",
+        "service":"服务条款"
+      },
+      "releases":{
+        "title":"发布信息",
+        "notes":"版本信息",
+        "versions":"当前版本:"
+      },
+      "buttons":{
+        "title":"获取使用帮助",
+        "matter":"报告问题"
+      },
+      "updata":{
+        "auto":"自动更新",
+        "remind":"有新版本时提醒我"
+      }
+    }
   },
   "_common":{
     "propertyEditor":{
