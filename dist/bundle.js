@@ -26640,7 +26640,7 @@ var AgentServer = _doveMax.BS.b$.AgentServer;
 
 var __$p$ = {
   serverConfig: {
-    ip: '127.0.0.1',
+    ip: '192.168.3.6',
     port: '8888',
     protocol: 'http://'
   },
@@ -27493,7 +27493,7 @@ var DataItem = function DataItem() {
   this.title = options.title || options.Title || 'title';
   this.description = options.description || options.Description || 'description';
   this.category = options.category || options.Category || 'base';
-  this.value = options.value || options.Value || 'value';
+  this.value = options.value || options.Value || '';
   this.readonly = options.readonly || options.readOnly || false;
   this.extend = options.extend || options.Extend || {};
 };
@@ -29347,6 +29347,10 @@ exports.default = {
     }
   },
   data: function data() {
+    var bindValue = this.itemdata.value;
+    if (this.itemdata.extend.valueDataType === 'Date') {
+      bindValue = new Date(this.itemdata.value);
+    }
     return {
       query: '',
       isActive: false,
@@ -29358,7 +29362,20 @@ exports.default = {
       isSaveChange: false,
       initialValue: (0, _stringify2.default)(this.itemdata),
 
-      vmValue: this.itemdata.value
+      vmValue: bindValue,
+      categoryString: ["Auto", "Manual", "Auto bracket"],
+      category: {
+        title: '图片基本信息',
+        id: ''
+      },
+      popoverDialog: {
+        title: '',
+        autofocus: 'none',
+        confirmButtonText: 'Confirm',
+        denyButtonText: 'Deny',
+        callbackOnOpen: function callbackOnOpen() {},
+        calbackOnClose: function calbackOnClose() {}
+      }
     };
   },
 
@@ -29383,8 +29400,16 @@ exports.default = {
       var hasUiSpec = this.itemdata.extend.uiDisplayComponent === 'ui-switch';
       return typeof this.itemdata.value === 'boolean' && hasUiSpec;
     },
+    ifComponentAsUiDatepicker: function ifComponentAsUiDatepicker() {
+      var hasUiSpec = this.itemdata.extend.uiDisplayComponent === 'ui-datepicker';
+      return this.itemdata.extend.valueDataType === 'Date' && hasUiSpec;
+    },
+    ifComponentAsUiSelect: function ifComponentAsUiSelect() {
+      var hasUiSpec = this.itemdata.extend.uiDisplayComponent === 'ui-select';
+      return typeof this.itemdata.value === 'string' && hasUiSpec;
+    },
     ifComponentUseDefault: function ifComponentUseDefault() {
-      var list = [this.ifComponentAsUiTextBox, this.ifComponentAsUiProgressLinear, this.ifComponentAsUiSlider, this.ifComponentAsUiSwitch];
+      var list = [this.ifComponentAsUiTextBox, this.ifComponentAsUiProgressLinear, this.ifComponentAsUiSlider, this.ifComponentAsUiSwitch, this.ifComponentAsUiDatepicker, this.ifComponentAsUiSelect];
 
       var hasUiSpec = false;
       for (var i = 0; i < list.length; ++i) {
@@ -29398,6 +29423,15 @@ exports.default = {
     },
     isReadOnly: function isReadOnly() {
       return !!this.itemdata.readonly;
+    },
+    isDisabled: function isDisabled() {
+      return !!this.itemdata.extend.showDisabled;
+    },
+    isMultiLine: function isMultiLine() {
+      return !!this.itemdata.extend.showMultiLine;
+    },
+    hasPopover: function hasPopover() {
+      return !!this.itemdata.extend.showPopover;
     },
     hasToolbar: function hasToolbar() {
       return !!this.itemdata.extend.showToolbar;
@@ -29532,6 +29566,17 @@ exports.default = {
       console.log('onUiSwitchChange');
       this.setValue(value);
     },
+    onUiDatepickerChange: function onUiDatepickerChange(value) {
+      console.log('onUiDatepickerChange');
+      this.setValue(value);
+    },
+    onUiSelectChange: function onUiSelectChange(value) {
+      console.log('onUiSelectChange');
+      this.setValue(value);
+    },
+    openModal: function openModal(ref) {
+      this.$refs[ref].open();
+    },
     onToolbarBlur: function onToolbarBlur(e) {
       if (this.showEditWidget) {
         this.toggleEditWidget();
@@ -29558,7 +29603,7 @@ exports.default = {
     onKeydownESC: function onKeydownESC(e) {
       this.resetValue();
     },
-    toggleEditWidgetOnClick: function toggleEditWidgetOnClick() {
+    toggleEditWidgetOnClick: function toggleEditWidgetOnClick(e) {
       if (!this.showEditWidget) {
         this.toggleEditWidget(false);
       }
@@ -29593,11 +29638,30 @@ exports.default = {
     onEdit: function onEdit() {},
     onCloseEdit: function onCloseEdit() {},
     onExternalClick: function onExternalClick(e) {
-      if (!this.$el.contains(e.target)) {
-        if (this.showEditWidget) {
-          this.closeEditWidget({ autoBlur: true });
-        } else if (this.isActive) {
-          this.isActive = false;
+      var that = this;
+      if (!that.$el.contains(e.target)) {
+        if (that.showEditWidget) {
+          that.closeEditWidget({ autoBlur: true });
+        } else if (that.isActive) {
+          that.isActive = false;
+        }
+      } else {
+        if (!that.$refs['popoverButton'].$el.contains(e.target)) {
+          if (that.ifComponentAsUiTextBox && that.hasPopover && !that.popoverDialog.isOpen) {
+            that.popoverDialog.title = that.$t('pages.modify.dialog-popover-confirm-edit.title');
+            that.popoverDialog.confirmButtonText = that.$t('pages.modify.dialog-popover-confirm-edit.btnConfirm');
+            that.popoverDialog.denyButtonText = that.$t('pages.modify.dialog-popover-confirm-edit.btnDeny');
+
+            that.popoverDialog.callbackOnOpen = function () {
+              that.popoverDialog.isOpen = true;
+            };
+            that.popoverDialog.calbackOnClose = function () {
+              that.popoverDialog.isOpen = false;
+            };
+            that.openModal('popoverButton');
+          } else {
+            that.toggleEditWidgetOnClick(e);
+          }
         }
       }
     },
@@ -29624,7 +29688,9 @@ exports.default = {
     UiToolbar: _keenUi.UiToolbar,
     UiSlider: _keenUi.UiSlider,
     UiSwitch: _keenUi.UiSwitch,
-    UiProgressLinear: _keenUi.UiProgressLinear
+    UiProgressLinear: _keenUi.UiProgressLinear,
+    UiDatepicker: _keenUi.UiDatepicker,
+    UiModal: _keenUi.UiModal
   }
 };
 
@@ -30375,6 +30441,58 @@ exports.default = {
                     value: true,
                     extend: {
                         uiDisplayComponent: 'ui-switch',
+                        showToolbar: false
+                    }
+                }));
+                cag1.add(new _defData.DataItem('key$lensMake', {
+                    title: '镜头厂商',
+                    description: '输入镜头厂商的名称',
+                    value: '',
+                    readonly: false
+                }));
+                cag1.add(new _defData.DataItem('key$softWare', {
+                    title: '软件厂商',
+                    description: '输入软件厂商的名称',
+                    value: 'Adobe Photoshop CS5 Windows',
+                    readonly: false
+                }));
+                cag1.add(new _defData.DataItem('key$imageDescription', {
+                    title: '图片描述',
+                    description: '输入图片的具体描述',
+                    value: '',
+                    readonly: false,
+                    extend: {
+                        uiDisplayComponent: 'ui-textbox',
+                        showMultiLine: true,
+                        showPopover: true,
+                        showPointerEvents: true
+                    }
+                }));
+                cag1.add(new _defData.DataItem('key$remarkColumn', {
+                    title: '备注信息',
+                    description: '关于Exif信息的一些备注',
+                    value: '*This setting will not affect TIFF Files',
+                    readonly: false,
+                    extend: {
+                        showDisabled: true
+                    }
+                }));
+                cag1.add(new _defData.DataItem('key$createDate', {
+                    title: '创建时间',
+                    description: '输入图片创建的时间',
+                    value: 'October 13, 2014 11:13:00',
+                    extend: {
+                        valueDataType: 'Date',
+                        uiDisplayComponent: 'ui-datepicker',
+                        showToolbar: false
+                    }
+                }));
+                cag1.add(new _defData.DataItem('key$exposureMode', {
+                    title: '曝光模式',
+                    description: '输入图片曝光的模式',
+                    value: 'Please select a value',
+                    extend: {
+                        uiDisplayComponent: 'ui-select',
                         showToolbar: false
                     }
                 }));
@@ -33081,7 +33199,6 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "dovemxui-property-editor-item__container",
     class: _vm.classes,
     on: {
-      "click": _vm.toggleEditWidgetOnClick,
       "!blur": function($event) {
         _vm.onBlur($event)
       },
@@ -33097,6 +33214,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [(_vm.ifComponentAsUiTextBox || _vm.ifComponentUseDefault) ? _c('ui-textbox', {
     key: _vm.itemdata.id,
     attrs: {
+      "disabled": _vm.isDisabled,
+      "multi-line": _vm.isMultiLine,
       "title": _vm.formatTip,
       "readonly": _vm.isReadOnly,
       "value": _vm.vmValue
@@ -33167,7 +33286,90 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       },
       expression: "vmValue"
     }
-  }) : _vm._e()], 1), _vm._v(" "), _c('div', {
+  }) : _vm._e(), _vm._v(" "), (_vm.ifComponentAsUiDatepicker) ? _c('ui-datepicker', {
+    key: _vm.itemdata.id,
+    attrs: {
+      "orientation": "landscape",
+      "picker-type": "modal",
+      "custom-formatter": _vm.pickerFormatter,
+      "title": _vm.formatTip,
+      "value": _vm.vmValue
+    },
+    on: {
+      "change": _vm.onUiDatepickerChange
+    },
+    model: {
+      value: (_vm.vmValue),
+      callback: function($$v) {
+        _vm.vmValue = $$v
+      },
+      expression: "vmValue"
+    }
+  }) : _vm._e(), _vm._v(" "), (_vm.ifComponentAsUiSelect) ? _c('ui-select', {
+    key: _vm.itemdata.id,
+    attrs: {
+      "title": _vm.formatTip,
+      "value": _vm.vmValue,
+      "options": _vm.categoryString
+    },
+    on: {
+      "change": _vm.onUiSelectChange
+    },
+    model: {
+      value: (_vm.vmValue),
+      callback: function($$v) {
+        _vm.vmValue = $$v
+      },
+      expression: "vmValue"
+    }
+  }) : _vm._e()], 1), _vm._v(" "), _c('ui-confirm', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.hasPopover),
+      expression: "hasPopover"
+    }],
+    ref: "popoverButton",
+    attrs: {
+      "autofocus": _vm.popoverDialog.autofocus,
+      "title": _vm.popoverDialog.title,
+      "confirm-button-text": _vm.popoverDialog.confirmButtonText,
+      "deny-button-text": _vm.popoverDialog.denyButtonText
+    },
+    on: {
+      "open": _vm.popoverDialog.callbackOnOpen,
+      "close": _vm.popoverDialog.calbackOnClose
+    }
+  }, [_c('div', {
+    staticClass: "dovemxui-property-editor-item__container__info"
+  }, [_c('ui-tabs', {
+    attrs: {
+      "type": "text"
+    }
+  }, [_c('ui-tab', {
+    key: _vm.category.id,
+    attrs: {
+      "title": _vm.category.title
+    }
+  }, [_c('div', {
+    staticClass: "dovemxui-property-editor-item__container__info__contents"
+  }, [(_vm.ifComponentAsUiTextBox) ? _c('ui-textbox', {
+    attrs: {
+      "value": _vm.vmValue,
+      "multi-line": true,
+      "autofocus": true
+    },
+    on: {
+      "change": _vm.onUiTextBoxValueChange
+    },
+    model: {
+      value: (_vm.vmValue),
+      callback: function($$v) {
+        _vm.vmValue = $$v
+      },
+      expression: "vmValue"
+    }
+  }) : _vm._e()], 1)])], 1)], 1)]), _vm._v(" "), _c('div', {
     directives: [{
       name: "show",
       rawName: "v-show",
@@ -33204,7 +33406,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     },
     slot: "dropdown"
-  }) : _vm._e(), _vm._v(" "), (!_vm.btnHasMenu) ? _c('span', [_vm._v("...")]) : _vm._e()], 1)], 1)])
+  }) : _vm._e(), _vm._v(" "), (!_vm.btnHasMenu) ? _c('span', [_vm._v("...")]) : _vm._e()], 1)], 1)], 1)
 },staticRenderFns: []}
 
 /***/ }),
@@ -33731,7 +33933,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       attrs: {
         "title": _vm.$t('pages.modify.task-item.file-name') + item.name
       }
-    }, [_vm._v(" \n                            " + _vm._s(item.name) + " \n                            "), _c('sup', {
+    }, [_vm._v("\n                            " + _vm._s(item.name) + "\n                            "), _c('sup', {
       staticClass: "ui-toolbar__top__fileSize",
       attrs: {
         "title": _vm.$t('pages.modify.task-item.file-size') + item.size
@@ -33882,7 +34084,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       attrs: {
         "title": item.description
       }
-    }, [_vm._v("\n              " + _vm._s(item.title) + " \n            ")])]), _vm._v(" "), _c('td', {
+    }, [_vm._v("\n              " + _vm._s(item.title) + "\n            ")])]), _vm._v(" "), _c('td', {
       staticClass: "dovemxui-property-editor__container__propertyValue",
       class: _vm.itemClasses(item)
     }, [(_vm.itemIsValid(item)) ? _c('dovemxui-property-editor-item', {

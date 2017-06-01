@@ -237,6 +237,11 @@
         "step2":"Step2: 可以直接一对一的修改，也可以通过选择修改方案来设置",
         "step3":"Step3: 执行修改",
         "step4":"Step4: 查看修改结果"
+      },
+      "dialog-popover-confirm-edit":{
+        "title":"图片信息描述",
+        "btnConfirm": "确定",
+        "btnDeny": "取消"
       }
     },
     "abouts":{

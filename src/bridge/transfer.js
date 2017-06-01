@@ -9,7 +9,7 @@ const AgentServer = BS.b$.AgentServer
 const __$p$ = {
   // 通用方式来配置单一的服务器模式, 你可以在后端服务覆盖已有的配置信息
   serverConfig: {
-    ip: '127.0.0.1', // 127.0.0.1
+    ip: '192.168.3.6', // 127.0.0.1
     port: '8888',
     protocol: 'http://'
   },

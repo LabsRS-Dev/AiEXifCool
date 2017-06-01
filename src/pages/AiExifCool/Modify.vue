@@ -1,10 +1,10 @@
 <template>
     <section class="page page-app-doc">
         <div class="page__toolbar page__toolbar-app-doc">
-            <ui-icon-button 
+            <ui-icon-button
                 @click="onToolBtnClick(index, item)"
                 :type="item.type"
-                :size="item.size" 
+                :size="item.size"
                 :color="item.color"
                 :key="item.id"
                 v-if="item.visiable"
@@ -42,8 +42,8 @@
                 @deny="exifConfigDialog.callbackDeny"
                 @open="exifConfigDialog.callbackOpen"
                 @close="exifConfigDialog.callbackClose"
-    
-                
+
+
                 v-if="enableSettingItemExif"
             >
                 {{ exifConfigDialog.content }}
@@ -65,28 +65,28 @@
         </div>
 
         <div class="page__examples page__examples-app-doc">
-            <svg 
+            <svg
                 :id="welcomeContentID"
                 class="page__examples-app-doc__welcome"
                 v-show="taskList.length <= 0"
                 />
-            <ui-alert 
+            <ui-alert
                 :class="getItemStyleClass(item)"
-                :type="item.style.type" 
-                :key="item" 
+                :type="item.style.type"
+                :key="item"
 
-                removeIcon 
+                removeIcon
 
-                @dismiss="onRemoveTaskItem(item, index)" 
+                @dismiss="onRemoveTaskItem(item, index)"
 
                 v-show="item.style.show"
                 v-for="item, index in taskList">
                 <div class="page__examples-app-doc__item">
                     <div class="ui-toolbar__top">
                         <div class="ui-toolbar__top__metainfo">
-                            <img :src="item.thumb" width="48" height="48" viewBox="0 0 48 48" /> 
-                            <strong class="ui-toolbar__top__fileName" :title=" $t('pages.modify.task-item.file-name') +  item.name"> 
-                                {{ item.name }} 
+                            <img :src="item.thumb" width="48" height="48" viewBox="0 0 48 48" />
+                            <strong class="ui-toolbar__top__fileName" :title=" $t('pages.modify.task-item.file-name') +  item.name">
+                                {{ item.name }}
                                 <sup class="ui-toolbar__top__fileSize" :title=" $t('pages.modify.task-item.file-size') +  item.size ">
                                 ({{ item.size }})
                                 </sup>
@@ -99,7 +99,7 @@
                                 hasSearch
                                 v-model="item.selectPlanModel"
                             ></ui-select>
-                            <ui-icon-button 
+                            <ui-icon-button
                                 @click="onSettingTaskItemExifPlan(item)"
                                 type="secondary"
                                 color="black"
@@ -107,7 +107,7 @@
                                 >
                                 <span class="fa fa-pencil fa-lg fa-fw" :title=" $t('pages.modify.task-item.setting-plan') "></span>
                             </ui-icon-button>
-                            <ui-icon-button 
+                            <ui-icon-button
                                 @click="onOpenParentDir(item.fixOutDir)"
                                 type="secondary"
                                 color="white"
@@ -117,7 +117,7 @@
                                 <span class="fa fa-folder-open-o fa-lg fa-fw" :title=" $t('pages.modify.task-item.open-parent-dir') "></span>
                             </ui-icon-button>
 
-                            <ui-icon-button 
+                            <ui-icon-button
                                 @click="onPreviewFile(item.fixpath)"
                                 type="secondary"
                                 color="white"
@@ -150,7 +150,7 @@
                         ></ui-progress-linear>
                     </div>
                 </div>
-                
+
             </ui-alert>
         </div>
 
@@ -161,7 +161,7 @@
             <span>{{ $t('pages.modify.footbar.transferState') }} : {{ transferIsNormal ? $t('pages.modify.footbar.transferIsNormal') : $t('pages.modify.footbar.transferIsFault') }} </span>
         </div>
     </section>
-</template>    
+</template>
 
 <script>
 import { BS, Util, _ } from 'dove.max.sdk'
@@ -185,8 +185,8 @@ class Task {
         this.size = size;     // 图像文件的存储大小
 
         /// ----- 展示样式相关
-        this.style = {         
-            show: true, 
+        this.style = {
+            show: true,
             type: "success"
         };
 
@@ -212,7 +212,7 @@ class Task {
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
 export default {
-    
+
     data() {
         console.log("Modify.vue call data()")
         return {
@@ -364,13 +364,13 @@ export default {
                 })
 
             }
-        },        
+        },
 
         // ------------------------- Style
         getItemStyleClass(item){
             var _styleClass = ['page__modify__task__item']
             if (item.stateInfo) {
-                
+
                 if (item.stateInfo.state < 0) {
                     _styleClass.push('isFixFailed')
                 }
@@ -418,7 +418,7 @@ export default {
             var that = this
 
             console.log("-------------------- call import files")
-            // call bs 
+            // call bs
             BS.b$.importFiles({
                 title: this.$t('pages.modify.dialog-import-images.title'),
                 prompt: this.$t('pages.modify.dialog-import-images.prompt'),
@@ -442,7 +442,7 @@ export default {
                     let taskObj = new Task("images/picture.svg", "Images" + i, "/url/image" + i, i + '.2MB')
                     that.taskList.push(taskObj)
                     that.taskID2taskObj[taskObj.id] = taskObj
-                }  
+                }
             }, function(data){ // Normal code
                 if(data.success) {
                     var imageFiles = data.filesArray
@@ -459,7 +459,7 @@ export default {
             var that = this
 
             console.log("-------------------- call import dir")
-            // call bs 
+            // call bs
             BS.b$.selectDir({
                 title: this.$t('pages.modify.dialog-import-dir-images.title'),
                 prompt: this.$t('pages.modify.dialog-import-dir-images.prompt'),
@@ -469,7 +469,7 @@ export default {
                     var taskObj = new Task("images/folder.svg", "ImagesDir" + i, "/url/imageDir" + i, i + '22.2MB')
                     that.taskList.push(taskObj)
                     that.taskID2taskObj[taskObj.id] = taskObj
-                }  
+                }
             }, function(data){
                 if(data.success) {
                     var imageFiles = data.filesArray
@@ -503,7 +503,7 @@ export default {
 
         onBtnDoClick(){
             var that = this
-            
+
             if(that.taskList.length === 0) {
                 return BS.b$.Notice.alert({
                     message: that.$t('pages.modify.notice-no-items.message')
@@ -540,7 +540,7 @@ export default {
                     that.stopDo()
                 }
                 dialog.open()
-            }            
+            }
         },
 
         /// 获得图片EXIF信息
@@ -656,9 +656,9 @@ export default {
         onRemoveTaskItem(item, index) {
             console.log('item: ', item, 'index: ', index)
             var that = this
-            
+
             if(item.isworking) {
-                // notice to server 
+                // notice to server
                 let srcImagesMap = {}
                 srcImagesMap[item.id] = item.path
                 Transfer.Tools.call('stop.modify.exif', {
@@ -697,6 +697,58 @@ export default {
                     value: true,
                     extend: {
                         uiDisplayComponent:'ui-switch',
+                        showToolbar: false
+                    }
+                }))
+                cag1.add(new DataItem('key$lensMake',{
+                    title:'镜头厂商',
+                    description:'输入镜头厂商的名称',
+                    value:'',
+                    readonly: false
+                }))
+                cag1.add(new DataItem('key$softWare',{
+                    title:'软件厂商',
+                    description:'输入软件厂商的名称',
+                    value:'Adobe Photoshop CS5 Windows',
+                    readonly: false
+                }))
+                cag1.add(new DataItem('key$imageDescription',{
+                    title:'图片描述',
+                    description:'输入图片的具体描述',
+                    value:'',
+                    readonly: false,
+                    extend: {
+                        uiDisplayComponent:'ui-textbox',
+                        showMultiLine: true,
+                        showPopover: true,
+                        showPointerEvents:true
+                    }
+                }))
+                cag1.add(new DataItem('key$remarkColumn',{
+                    title:'备注信息',
+                    description:'关于Exif信息的一些备注',
+                    value:'*This setting will not affect TIFF Files',
+                    readonly: false,
+                    extend: {
+                        showDisabled:true
+                    }
+                }))
+                cag1.add(new DataItem('key$createDate',{
+                    title:'创建时间',
+                    description:'输入图片创建的时间',
+                    value: 'October 13, 2014 11:13:00',
+                    extend: {
+                        valueDataType: 'Date',
+                        uiDisplayComponent:'ui-datepicker',
+                        showToolbar: false
+                    }
+                }))
+                cag1.add(new DataItem('key$exposureMode',{
+                    title:'曝光模式',
+                    description:'输入图片曝光的模式',
+                    value:'Please select a value',
+                    extend: {
+                        uiDisplayComponent:'ui-select',
                         showToolbar: false
                     }
                 }))

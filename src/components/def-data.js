@@ -12,7 +12,7 @@ class DataItem {
     this.title = options.title || options.Title || 'title'
     this.description = options.description || options.Description || 'description'
     this.category = options.category || options.Category || 'base'
-    this.value = options.value || options.Value || 'value'
+    this.value = options.value || options.Value || ''
     this.readonly = options.readonly || options.readOnly || false // 是否只读
     this.extend = options.extend || options.Extend || {} // 扩展数据信息
   }

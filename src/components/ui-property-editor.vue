@@ -24,14 +24,14 @@
           >
             <td class="dovemxui-property-editor__container__property"
               :class="itemClasses(item)"
-              > 
+              >
               <span :title="item.description">
-                {{ item.title }} 
+                {{ item.title }}
               </span>
             </td>
             <td class="dovemxui-property-editor__container__propertyValue"
               :class="itemClasses(item)"
-              > 
+              >
               <dovemxui-property-editor-item
                 :key="item.id"
                 :tip="item.description"
@@ -322,7 +322,7 @@ $font-size: rem-calc(9px);
       border: $border;
       background: $background;
     }
-    
+
   }
 
   .dovemxui-property-editor__container__content {
